@@ -975,7 +975,8 @@ BAR_LEFT, BAR_RIGHT = SAFE_X + 52 + 24, 1920 - SAFE_X - 64 - 16
 
 def custom_button_max():
     """A custom item's widest: the bar's spare room shared between the slots."""
-    widths = [60] + [tab_width(page) for page in TABBED] + [60 + 17 * 2, 60 + 17 * 7, 60, 60]
+    # Search, the tabs (TV and YouTube among them), Settings and Power.
+    widths = [60] + [tab_width(page) for page in TABBED] + [60, 60]
     built_in = sum(widths) + BAR_GAP * len(widths)
     return (BAR_RIGHT - BAR_LEFT - built_in) // CUSTOM_SLOTS - BAR_GAP
 

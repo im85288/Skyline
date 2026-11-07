@@ -8731,7 +8731,7 @@
             </control>
                 <control type="button" id="9031">
                     <visible>!String.IsEmpty(Container(9100).ListItemAbsolute(0).Label)</visible>
-                    <width max="55">auto</width><height>60</height>
+                    <width max="199">auto</width><height>60</height>
                     <label>$INFO[Container(9100).ListItemAbsolute(0).Label]</label>
                     <font>silo_tab</font>
                     <textoffsetx>24</textoffsetx>
@@ -8821,7 +8821,7 @@
                 </control>
                 <control type="button" id="9032">
                     <visible>!String.IsEmpty(Container(9100).ListItemAbsolute(1).Label)</visible>
-                    <width max="55">auto</width><height>60</height>
+                    <width max="199">auto</width><height>60</height>
                     <label>$INFO[Container(9100).ListItemAbsolute(1).Label]</label>
                     <font>silo_tab</font>
                     <textoffsetx>24</textoffsetx>
