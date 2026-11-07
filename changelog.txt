@@ -1,3 +1,10 @@
+[B]0.9.0[/B]
+• Now needs KodiConnectForSilo 0.15.0
+• TV: its own page, with rows of My teams, On now and Live sport now
+• TV: the channel playing fills the hero's backdrop (the last watched starts as the page opens), and follows the card you rest on
+• TV: Watch (full screen) and Guide where Play and More info sit on the other pages
+• TV: OK on a card plays the channel, offers a match's channels or sets a reminder; Back from it goes to the guide
+
 [B]0.8.1[/B]
 • Now needs KodiConnectForSilo 0.14.2
 • TV guide: Back returns to what's playing; Back twice leaves Live TV
