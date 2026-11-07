@@ -460,11 +460,15 @@ PAUSE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
      (leave the video for the menus), unless Showcase's pause screen has shown
      since the video paused, which Back only dismisses. Leaving Live TV for the
      guide, it says so (silo.guide.fromplayer): Back there then leaves the
-     guide, rather than returning to the video (build_tv.py, window 1189). -->
+     guide, rather than returning to the video (build_tv.py, window 1189). A
+     channel played from the TV page's cards (silo.tv.fromcard) opens the
+     guide, as one played from the guide comes back to it. -->
 <window type="dialog" id="%(id)d">
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown)">Dialog.Close(%(id)d,true)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV)">SetProperty(silo.guide.fromplayer,1,home)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown)">Action(Back)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + ![VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(silo.tv.fromcard))]">Action(Back)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(silo.tv.fromcard))">ActivateWindow(TVGuide)</onload>
+    <onload>ClearProperty(silo.tv.fromcard,home)</onload>
     <onload condition="Skin.TimerIsRunning(silo_pause_shown)">Skin.TimerStop(silo_pause_shown)</onload>
     <onload>Dialog.Close(%(id)d,true)</onload>
     <controls />

@@ -64,6 +64,9 @@ def hero_mask(width=640, height=400):
         from_bottom = min(1.0, max(0.0, (height - y) / (height * 0.42)))
         return from_left * from_bottom
     write_png('hero_mask.png', width, height, alpha)
+    # A video can't take a mask: the TV page's preview, as the backdrop, is
+    # covered by the page's colour where the mask is clear (hero_cover).
+    write_png('hero_cover.png', width, height, lambda x, y: 1.0 - alpha(x, y))
 
 
 def tint_wash(width=192, height=108):

@@ -48,6 +48,8 @@
                 <property name="home.request.logo">$INFO[Window(Home).Property($PARAM[p].request.logo)]</property>
                 <property name="home.request.from">$INFO[Window(Home).Property($PARAM[p].request.from)]</property>
                 <property name="home.request.to">$INFO[Window(Home).Property($PARAM[p].request.to)]</property>
+                <property name="home.tv.play">$INFO[Window(Home).Property($PARAM[p].tv.play)]</property>
+                <property name="home.tv.logo">$INFO[Window(Home).Property($PARAM[p].tv.logo)]</property>
                 <visible>!String.IsEmpty(Window(Home).Property($PARAM[p].type))</visible>
             </item>
         </definition>
@@ -386,7 +388,20 @@
                             <width>360</width><height>202</height>
                             <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$VAR[SiloLandscapeArt]</texture>
                             <aspectratio>scale</aspectratio>
-                            <visible>$PARAM[near]</visible>
+                            <visible>$PARAM[near] + [String.IsEmpty(ListItem.Property(home.tv.logo)) | !String.IsEmpty(ListItem.Property(home.art.landscape))]</visible>
+                        </control>
+                        <control type="image">
+                            <left>6</left><top>6</top>
+                            <width>360</width><height>202</height>
+                            <texture diffuse="silo/card_landscape_mask.png" colordiffuse="FF24262B">colors/white.png</texture>
+                            <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
+                        </control>
+                        <control type="image">
+                            <left>96</left><top>46</top>
+                            <width>180</width><height>121</height>
+                            <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
+                            <aspectratio>keep</aspectratio>
+                            <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
                         </control>
                         <control type="image">
                             <left>6</left><top>6</top>
@@ -484,7 +499,20 @@
                             <width>360</width><height>202</height>
                             <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$VAR[SiloLandscapeArt]</texture>
                             <aspectratio>scale</aspectratio>
-                            <visible>$PARAM[near]</visible>
+                            <visible>$PARAM[near] + [String.IsEmpty(ListItem.Property(home.tv.logo)) | !String.IsEmpty(ListItem.Property(home.art.landscape))]</visible>
+                        </control>
+                        <control type="image">
+                            <left>6</left><top>6</top>
+                            <width>360</width><height>202</height>
+                            <texture diffuse="silo/card_landscape_mask.png" colordiffuse="FF24262B">colors/white.png</texture>
+                            <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
+                        </control>
+                        <control type="image">
+                            <left>96</left><top>46</top>
+                            <width>180</width><height>121</height>
+                            <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
+                            <aspectratio>keep</aspectratio>
+                            <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
                         </control>
                         <control type="image">
                             <left>6</left><top>6</top>
