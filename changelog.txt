@@ -1,3 +1,6 @@
+[B]0.10.1[/B]
+• Menu bar: custom items are no longer squashed to their first letter
+
 [B]0.10.0[/B]
 • Now needs KodiConnectForSilo 0.16.0
 • YouTube: a Home page like TV, the focused video as the hero's backdrop, Play above the rows, Home-sized cards
