@@ -1626,7 +1626,10 @@ def tab(control_id, page, page_index):
             </control>''' % {'width': tab_width(page), 'visible': visible, 'group': control_id + 300,
                             # Requests opens on Discover.
                             'reset': '\n                    <onclick>ClearProperty(silo.requests.view,home)</onclick>'
-                            if page == 'requests' else '',
+                            if page == 'requests' else
+                            # YouTube: KodiConnectForSilo fetches its rows again if they're old.
+                            '\n                    <onclick>SetProperty(silokodi.youtube.refresh,1,home)</onclick>'
+                            if page == 'youtube' else '',
                             'selected': page_visible(page), 'id': control_id,
                             # While focus is in its dropdown the tab keeps the
                             # faint "selected" pill, as Silo's Apple TV app.

@@ -8664,6 +8664,7 @@
                     <onclick condition="VideoPlayer.Content(LiveTV) + String.IsEqual(Window(Home).Property(silo.page),tv)">PlayerControl(Stop)</onclick>
                     <onclick>SetProperty(silo.page,youtube,home)</onclick>
                     <onclick>ClearProperty(silo.row,home)</onclick>
+                    <onclick>SetProperty(silokodi.youtube.refresh,1,home)</onclick>
                     <onleft>ClearProperty(silo.drop.closed,home)</onleft>
                     <onright>ClearProperty(silo.drop.closed,home)</onright>
                     <ondown condition="$EXP[SiloRow5001]">SetFocus(5001)</ondown>
