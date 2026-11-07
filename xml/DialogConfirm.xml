@@ -4,6 +4,9 @@
 	<depth>DepthDialog+</depth>
 	<controls>
 		<control type="group">
+			<!-- Silo Skyline: not while KodiConnectForSilo fetches the YouTube page's rows in the
+			     background (Kodi's "Loading directory" for each list it waits on). -->
+			<visible>String.IsEmpty(Window(Home).Property(silokodi.youtube.fetching))</visible>
 			<height>400</height>
 			<centertop>50%</centertop>
 			<centerleft>50%</centerleft>

@@ -5,6 +5,8 @@
 	<controls>
 		<control type="group">
 			<visible>String.IsEmpty(Window(Home).Property(script.cinemavision.running))</visible>
+			<!-- Silo Skyline: not while KodiConnectForSilo fetches the YouTube page's rows in the background. -->
+			<visible>String.IsEmpty(Window(Home).Property(silokodi.youtube.fetching))</visible>
 			<animation effect="fade" time="400">VisibleChange</animation>
 			<visible>!Window.IsActive(startup) + !Player.Caching</visible>
 			<control type="image">

@@ -17,9 +17,9 @@ import re
 ROOT =os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Pages with a tab in the bar, then 'custom': the rows of a custom menu item
 # (Skin Shortcuts) the user opened.
-TABBED = ('home', 'movies', 'series', 'requests', 'tv')
+TABBED = ('home', 'movies', 'series', 'requests', 'tv', 'youtube')
 PAGES = TABBED + ('custom',)
-TAB_LABELS = {'home': 'Home', 'movies': 'Movies', 'series': 'Series', 'requests': 'Requests', 'tv': 'TV'}
+TAB_LABELS = {'home': 'Home', 'movies': 'Movies', 'series': 'Series', 'requests': 'Requests', 'tv': 'TV', 'youtube': 'YouTube'}
 MAX_ROWS = 12
 # Custom menu items (Skin Shortcuts): bar slots, and widgets per item.
 # Two fit beside the built-in buttons (measured: 425 px spare between the
@@ -29,7 +29,9 @@ WIDGETS = 6
 CUSTOM_IDS = list(range(9031, 9031 + CUSTOM_SLOTS))
 TV_TAB = 9006  # Live TV's page (the fifth tab), when Kodi has TV channels
 assert TV_TAB == 9002 + TABBED.index('tv')  # the bar's order (BAR_ORDER) names it
-YOUTUBE_TAB = 9007  # the YouTube page (tools/build_youtube.py), when the YouTube add-on is installed
+YOUTUBE_TAB = 9007  # the YouTube page (KodiConnectForSilo's ytrows.py), when the YouTube add-on is installed
+assert YOUTUBE_TAB == 9002 + TABBED.index('youtube')
+# Its Subscriptions, Library and Search: the YouTube window (tools/build_youtube.py).
 YOUTUBE_PAGE = 1198
 YOUTUBE_SHOWN = 'System.HasAddon(plugin.video.youtube) + System.AddonIsEnabled(plugin.video.youtube)'
 # Tabs the viewer can hide in Skyline's settings, giving their room to the custom items.
@@ -39,7 +41,7 @@ SUBMENU = 9240    # the dropdown of a custom item's submenu
 HOME_CARDS = 20   # cards in a published row (KodiConnectForSilo rows.CARDS): each adds ~9 ms to Home's load
 # Pages whose rows are KodiConnectForSilo's published cards (Movies' and
 # Series' rows are native Kodi lists where they can be, plugin rows otherwise).
-PUBLISHED_PAGES = ('home', 'requests', 'tv')
+PUBLISHED_PAGES = ('home', 'requests', 'tv', 'youtube')
 # Home's first rows only are published cards (at hand the moment Home opens);
 # the rest load from KodiConnectForSilo's rows as Movies' do, filling while the
 # first are looked at. Each published card costs Home about 9 ms to load.
@@ -56,23 +58,26 @@ HOME_CARD_FIELDS = ('type', 'dbid', 'card.title', 'card.sub', 'card.wide_sub', '
                     'new', 'left', 'dismiss', 'rank', 'place', 'art.poster', 'art.landscape', 'art.fanart', 'art.clearlogo', 'request.type', 'request.tmdb',
                     'status.tint', 'status.seg1', 'status.seg2', 'status.seg3', 'status.seg4',
                     'request.library', 'request.state', 'request.more', 'request.logo', 'request.from', 'request.to',
-                    'tv.play', 'tv.logo')
+                    'tv.play', 'tv.logo', 'yt.play')
 # The fields a page's cards can have, written into Home.xml for every slot:
 # only Requests' cards carry a request or its status, and Requests' rows are
 # all posters (no wide caption or art). Each unused field cost every Home card.
 PAGE_FIELDS = {
-    'home': tuple(f for f in HOME_CARD_FIELDS if not f.startswith(('request.', 'status.'))),
-    'requests': tuple(f for f in HOME_CARD_FIELDS if f not in ('card.wide_sub', 'art.landscape', 'new', 'left', 'dismiss', 'rank', 'place')),
+    'home': tuple(f for f in HOME_CARD_FIELDS if not f.startswith(('request.', 'status.', 'yt.'))),
+    'requests': tuple(f for f in HOME_CARD_FIELDS if f not in ('card.wide_sub', 'art.landscape', 'new', 'left', 'dismiss', 'rank', 'place', 'yt.play')),
     # The TV page's cards (KodiConnectForSilo's tvrows.py): a match or a
     # channel, what OK does (tv.play), and how far through it is.
     'tv': ('type', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta', 'hero.facts', 'hero.detail', 'plot',
            'percent',
            'art.landscape', 'art.fanart', 'tv.play', 'tv.logo'),
+    # The YouTube page's (KodiConnectForSilo's ytrows.py): a video, and its play path.
+    'youtube': ('type', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.facts', 'plot', 'percent',
+                'art.landscape', 'art.fanart', 'yt.play'),
 }
 # Rows a page can show; Requests has Silo's Discover rows (six title rows,
 # then Studios, Networks and Genres), and every slot costs Home.xml size.
 # Silo's libraries have 6 rows each: fewer slots keep Home.xml quick to load.
-PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 3, 'custom': WIDGETS}
+PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 3, 'youtube': 6, 'custom': WIDGETS}
 
 
 def published(page, slot):
@@ -709,6 +714,9 @@ def moves(page_index, slot):
         # The hero's Play and More info, then the page's pills above them.
         ups = [(' + '.join(c for c in (above, '$EXP[HasSiloHeroTitle]') if c), '%d' % HERO_PLAY),
                (' + '.join(c for c in (above, '!$EXP[HasSiloHeroTitle]') if c), '%d' % pills_id(page_index))]
+    elif PAGES[page_index] == 'youtube':
+        # Its hero's Play (youtube_hero), then the pills above it.
+        ups = [(above, '%d' % YT_PLAY)]
     elif PAGES[page_index] == 'tv':
         # Watch and Guide (tv_hero), then the TV tab above them.
         ups = [(above, '%d' % TV_WATCH)]
@@ -734,6 +742,8 @@ ROW_CLICKS = '''
                          channel, choose among a match's channels, or set its reminder. -->
                     <onclick condition="!String.IsEmpty(ListItem.Property(home.tv.play))">SetProperty(silo.tv.fromcard,1,home)</onclick>
                     <onclick condition="!String.IsEmpty(ListItem.Property(home.tv.play))">RunPlugin($INFO[ListItem.Property(home.tv.play)])</onclick>
+                    <!-- A YouTube page card (KodiConnectForSilo's ytrows.py): play the video. -->
+                    <onclick condition="!String.IsEmpty(ListItem.Property(home.yt.play))">PlayMedia($INFO[ListItem.Property(home.yt.play)])</onclick>
                     <!-- A title Silo can request opens with Silo's full details. -->
                     <onclick condition="!String.IsEmpty(ListItem.Property(silo.request.tmdb)) + System.AddonIsEnabled(plugin.video.kodiconnectforsilo)">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=request_info&amp;type=$INFO[ListItem.Property(silo.request.type)]&amp;tmdb=$INFO[ListItem.Property(silo.request.tmdb)])</onclick>
                     <!-- A published card opens its info page through KodiConnectForSilo:
@@ -743,7 +753,7 @@ ROW_CLICKS = '''
                     <onclick condition="!String.IsEmpty(ListItem.Property(home.request.more))">SetProperty(silo.rbrowse.row,$INFO[ListItem.Property(home.request.more)],home)</onclick>
                     <onclick condition="!String.IsEmpty(ListItem.Property(home.request.more))">SetProperty(silo.rbrowse.title,$INFO[ListItem.Property(home.hero.title)],home)</onclick>
                     <onclick condition="!String.IsEmpty(ListItem.Property(home.request.more))">ActivateWindow(1197)</onclick>
-                    <onclick condition="!String.IsEmpty(ListItem.Property(home.type)) + String.IsEmpty(ListItem.Property(home.tv.play)) + String.IsEmpty(ListItem.Property(home.request.tmdb)) + String.IsEmpty(ListItem.Property(home.request.more))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=info&amp;type=$INFO[ListItem.Property(home.type)]&amp;dbid=$INFO[ListItem.Property(home.dbid)])</onclick>
+                    <onclick condition="!String.IsEmpty(ListItem.Property(home.type)) + String.IsEmpty(ListItem.Property(home.tv.play)) + String.IsEmpty(ListItem.Property(home.yt.play)) + String.IsEmpty(ListItem.Property(home.request.tmdb)) + String.IsEmpty(ListItem.Property(home.request.more))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=info&amp;type=$INFO[ListItem.Property(home.type)]&amp;dbid=$INFO[ListItem.Property(home.dbid)])</onclick>
                     <!-- A library title from one of Kodi's own lists (Movies' and Series'
                          Recently Added...) opens through KodiConnectForSilo too, so its page
                          has the same facts, badges, trailers and More Like This. -->
@@ -931,6 +941,8 @@ YOURS = 'Yours$INFO[Window(Home).Property(silokodi.requests_mine),   ,]'
 # under the same hero, as Silo's two pills.
 YOURS_SHOWN = 'String.IsEqual(Window(Home).Property(silo.requests.view),yours)'
 SECTIONS = {
+    # YouTube's other screens, as the app's: the YouTube window (tools/build_youtube.py).
+    'youtube': [('Subscriptions', None), ('Search', None)],  # Library's lists are the page's rows
     # As Silo's Apple TV app: Browse, its newest-first Recently Added, Genres
     # (Kodi's genre list) and Collections.
     'movies': [('Recommended', None), ('Browse', 'videodb://movies/titles/'), ('Recently Added', None),
@@ -971,8 +983,8 @@ def custom_button_max():
 def bar_positions():
     """Each bar button's left edge: the bar is a centred grouplist."""
     # TV's and YouTube's widths too (each shows only when it can), so the bar keeps room for them.
-    widths = [60] + [tab_width(page) for page in TABBED] + [60 + 17 * 7, 60, 60]
-    ids = [9001] + [9002 + index for index in range(len(TABBED))] + [YOUTUBE_TAB, 9009, 9010]
+    widths = [60] + [tab_width(page) for page in TABBED] + [60, 60]
+    ids = [9001] + [9002 + index for index in range(len(TABBED))] + [9009, 9010]
     total = sum(widths) + BAR_GAP * (len(widths) - 1)
     x, out = (1920 - total) // 2, {}
     for control_id, width in zip(ids, widths):
@@ -1147,6 +1159,8 @@ def collection_actions(path, title):
 
 def section_actions(page, label, path):
     """What choosing one of a tab's sections does (its dropdown entry or pill)."""
+    if page == 'youtube':
+        return ['SetProperty(silo.youtube.open,%s,home)' % label.lower(), 'ActivateWindow(%d)' % YOUTUBE_PAGE]
     if label in ('Browse', 'Recently Added'):
         # Silo's Browse: Silo Skyline's own grid (tools/build_library.py);
         # Recently Added is the same grid sorted newest first (Browse's
@@ -1201,7 +1215,7 @@ def section_actions(page, label, path):
 # the page itself, selected) in place of a dropdown under its tab: Movies,
 # Series and Requests, and a custom item's submenu (CUSTOM_PILLS). Movies and
 # Series end with a Collections row of fan cards, the biggest eight then See all.
-PILL_PAGES = ('movies', 'series', 'requests')  # TV's Guide is a hero button (tv_hero)
+PILL_PAGES = ('movies', 'series', 'requests', 'youtube')  # TV's Guide is a hero button (tv_hero)
 REQUEST_BROWSE = 1197  # Silo's request browse page: a studio's, network's or genre's titles
 COLLECTION_PAGES = ('movies', 'series')
 CUSTOM_PILLS = 4699
@@ -1226,7 +1240,7 @@ def page_pills():
         gid = pills_id(index)
         buttons = ''
         for number, (label, path) in enumerate(SECTIONS[page]):
-            selected = number == 0  # Recommended: this page
+            selected = number == 0 and page != 'youtube'  # Recommended: this page (YouTube's open other screens)
             clicks = ''.join('\n                    <onclick>%s</onclick>' % a
                              for a in section_actions(page, label, path) if not a.startswith('SetFocus(4000)'))
             colour, rest = (TEXT, '33FFFFFF') if selected else (TAB_DIM, '12FFFFFF')
@@ -1583,6 +1597,8 @@ def tab(control_id, page, page_index):
             prop('silo.pages'), page, ' + !Skin.HasSetting(%s)' % HIDE_REQUESTS if page == 'requests' else '')
     if page == 'tv':  # Live TV's page: when Kodi has TV channels, not one of Silo's pages
         visible = '\n                <visible>PVR.HasTVChannels + !Skin.HasSetting(%s)</visible>' % HIDE_TV
+    if page == 'youtube':  # while the YouTube add-on is installed
+        visible = '\n                <visible>%s + !Skin.HasSetting(%s)</visible>' % (YOUTUBE_SHOWN, HIDE_YOUTUBE)
     # The group has an id (the button's + 300) so the grouplist can point the
     # custom buttons beside it here.
     return '''
@@ -1666,26 +1682,19 @@ def tv_backdrop():
         </control>''' % {'playing': TV_PLAYING, 'background': BACKGROUND}
 
 
-def tv_hero():
-    """The TV page's hero buttons, where the other pages' Play and More info
-    sit: Watch (what's playing, full screen; else the last channel watched)
-    and Guide."""
-    down = first_visible('ondown', page_rows(PAGES.index('tv'), range(1, rows_of('tv') + 1)), '                        ')
-    on_now = 'Window(Home).Property(silo.tv.2.1.tv.play)'
-
-    def button(control_id, label, icon, clicks, width, left, right):
-        lit = 'Control.HasFocus(%d)' % control_id
-        return '''
+def hero_pill(control_id, label, icon, clicks, width, moves):
+    """A hero button as Play and More info: an icon and a label in a pill,
+    lit when focused. clicks: [(condition or None, action)]; moves: its
+    <onup>... tags."""
+    lit = 'Control.HasFocus(%d)' % control_id
+    return '''
                 <control type="group">
                     <width>%(w)d</width><height>56</height>
                     <control type="button" id="%(id)d">
                         <width>%(w)d</width><height>56</height>
                         <label />
                         <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>%(clicks)s
-                        <onup>SetFocus(%(tab)d)</onup>%(down)s
-                        <onleft>%(left)s</onleft><onright>%(right)s</onright>
-                        <onback>SetFocus(%(tab)d)</onback>
+                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>%(clicks)s%(moves)s
                     </control>
                     <control type="image">
                         <left>26</left><top>15</top><width>26</width><height>26</height>
@@ -1714,16 +1723,30 @@ def tv_hero():
                         <visible>!%(lit)s</visible>
                     </control>
                 </control>''' % {'id': control_id, 'w': width, 'lw': width - 80, 'text': TEXT, 'icon': icon,
-                                 'label': label, 'lit': lit, 'down': down, 'left': left, 'right': right,
-                                 'tab': TV_TAB,
-                                 'clicks': ''.join('\n                        <onclick%s>%s</onclick>' % (
-                                     ' condition="%s"' % c if c else '', a) for c, a in clicks)}
-    watch = button(TV_WATCH, 'Watch', 'silo/icon_play.png',
-                   [('Player.HasVideo', 'ActivateWindow(fullscreenvideo)'),
-                    ('!Player.HasVideo + !String.IsEmpty(%s)' % on_now, 'RunPlugin($INFO[%s])' % on_now)],
-                   190, 'noop', 'SetFocus(%d)' % TV_GUIDE)
-    guide = button(TV_GUIDE, 'Guide', 'silo/menu_browse.png', [(None, 'ActivateWindow(TVGuide)')],
-                   190, 'SetFocus(%d)' % TV_WATCH, 'noop')
+                             'label': label, 'lit': lit, 'moves': moves,
+                             'clicks': ''.join('\n                        <onclick%s>%s</onclick>' % (
+                                 ' condition="%s"' % c if c else '', a) for c, a in clicks)}
+
+
+def hero_pill_moves(up, down_page, left, right, back):
+    down = first_visible('ondown', page_rows(PAGES.index(down_page), range(1, rows_of(down_page) + 1)),
+                         '                        ')
+    return ('\n                        <onup>SetFocus(%d)</onup>%s'
+            '\n                        <onleft>%s</onleft><onright>%s</onright>'
+            '\n                        <onback>SetFocus(%d)</onback>' % (up, down, left, right, back))
+
+
+def tv_hero():
+    """The TV page's hero buttons, where the other pages' Play and More info
+    sit: Watch (what's playing, full screen; else the last channel watched)
+    and Guide."""
+    on_now = 'Window(Home).Property(silo.tv.2.1.tv.play)'
+    watch = hero_pill(TV_WATCH, 'Watch', 'silo/icon_play.png',
+                      [('Player.HasVideo', 'ActivateWindow(fullscreenvideo)'),
+                       ('!Player.HasVideo + !String.IsEmpty(%s)' % on_now, 'RunPlugin($INFO[%s])' % on_now)],
+                      190, hero_pill_moves(TV_TAB, 'tv', 'noop', 'SetFocus(%d)' % TV_GUIDE, TV_TAB))
+    guide = hero_pill(TV_GUIDE, 'Guide', 'silo/menu_browse.png', [(None, 'ActivateWindow(TVGuide)')],
+                      190, hero_pill_moves(TV_TAB, 'tv', 'SetFocus(%d)' % TV_WATCH, 'noop', TV_TAB))
     return '''
         <!-- The TV page's Watch and Guide (Up from its top row), where the other
              pages' Play and More info sit. -->
@@ -1734,6 +1757,26 @@ def tv_hero():
             <itemgap>14</itemgap>
             <visible>%(tv)s</visible>%(watch)s%(guide)s
         </control>''' % {'id': TV_BUTTONS, 'x': SAFE_X, 'tv': TV_PAGE, 'watch': watch, 'guide': guide}
+
+
+YT_PAGE = 'String.IsEqual(Window(Home).Property(silo.page),youtube)'
+YT_BUTTONS, YT_PLAY = 4840, 4841
+
+
+def youtube_hero():
+    """The YouTube page's Play (Up from its top row), as the other pages':
+    the video the hero shows. Shown only while it has focus, as theirs."""
+    play = hero_pill(YT_PLAY, 'Play', 'silo/icon_play.png', [(None, 'PlayMedia($VAR[SiloHeroYtPlay])')], 180,
+                     hero_pill_moves(pills_id(PAGES.index('youtube')), 'youtube', 'noop', 'noop', YOUTUBE_TAB))
+    return '''
+        <!-- The YouTube page's Play, where the other pages' Play and More info sit. -->
+        <control type="grouplist" id="%(id)d">
+            <left>%(x)d</left><top>540</top>
+            <width>1000</width><height>56</height>
+            <orientation>horizontal</orientation>
+            <itemgap>14</itemgap>
+            <visible allowhiddenfocus="true">%(page)s + ControlGroup(%(id)d).HasFocus()</visible>%(play)s
+        </control>''' % {'id': YT_BUTTONS, 'x': SAFE_X, 'page': YT_PAGE, 'play': play}
 
 
 def hero_buttons():
@@ -1810,27 +1853,6 @@ def hero_buttons():
                                         'RunPlugin(%s?mode=playitem&amp;%s)' % (plugin, item), 180),
                          'info': button(HERO_INFO, 'More info', 'silo/icon_info.png',
                                         'RunPlugin(%s?mode=info&amp;%s)' % (plugin, item), 230)}
-
-
-def youtube_tab():
-    """YouTube, after TV while the YouTube add-on is installed: the YouTube
-    app's Home, Subscriptions and Library in Silo's look (tools/build_youtube.py)."""
-    return '''
-                <control type="button" id="%(id)d">
-                    <visible>%(shown)s</visible>
-                    <width>auto</width><height>60</height>
-                    <label>YouTube</label>
-                    <font>silo_tab</font>
-                    <textoffsetx>24</textoffsetx>
-                    <align>center</align><aligny>center</aligny>
-                    <textcolor>%(dim)s</textcolor>
-                    <focusedcolor>FF000000</focusedcolor>
-                    <texturefocus border="30" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-                    <texturenofocus />%(moves)s
-                    <onclick>ActivateWindow(%(page)d)</onclick>
-                </control>''' % {'id': YOUTUBE_TAB, 'shown': YOUTUBE_SHOWN + ' + !Skin.HasSetting(%s)' % HIDE_YOUTUBE,
-                         'dim': TAB_DIM, 'text': TEXT,
-                         'moves': bar_down('                    '), 'page': YOUTUBE_PAGE}
 
 
 def icon_tab(control_id, icon, action):
@@ -2047,7 +2069,6 @@ def build():
     tabs = icon_tab(9001, 'icons/search.png', 'ClearProperty(silo.search.mode,home)</onclick>\n'
                     '                    <onclick>ActivateWindow(1190)')
     tabs += ''.join(tab(9002 + index, page, index) for index, page in enumerate(TABBED))
-    tabs += youtube_tab()
     shortcuts_list, custom_tabs = custom_items()
     tabs += custom_tabs
     tabs += icon_tab(9009, 'icons/settings.png', 'ActivateWindow(Settings)')
@@ -2334,8 +2355,8 @@ def build():
        # The age rating as Silo draws it: the quality badges' size, centred on the info line.
        'splash': splash(), 'mpaa_badge': badge('$VAR[SiloMpaa]', 34, 'silo_badge').replace(
            '<width>auto</width><height>34</height>', '<top>3</top><width>auto</width><height>34</height>', 1),
-       'hero_buttons': HERO_BUTTONS, 'hero_buttons_xml': hero_buttons(), 'tv_hero': tv_hero(),
-       'tv_backdrop': tv_backdrop(), 'tv_playing': TV_PLAYING, 'tv_page': TV_PAGE,
+       'hero_buttons': HERO_BUTTONS, 'hero_buttons_xml': hero_buttons(), 'tv_hero': tv_hero() + youtube_hero(),
+       'tv_backdrop': tv_backdrop(), 'tv_playing': TV_PLAYING, 'tv_page': '[%s | %s]' % (TV_PAGE, YT_PAGE),
        'quality_badges': ''.join(badge('$VAR[SiloBadge%d]' % n, 36, 'silo_badge') for n in (1, 2, 3)),
        # Silo's request stage track: four short bars, empty for anything else.
        'status_track': ''.join('''
@@ -2351,9 +2372,11 @@ def build():
 # A Home card: an item KodiConnectForSilo published as properties (rows.py).
 HOME_CARD = '!String.IsEmpty(LI.Property(home.type))'
 HERO_TITLE_TERM = '[!String.IsEmpty(Container(%(r)d).ListItem.Property(home.dbid)) + String.IsEmpty(Container(%(r)d).ListItem.Property(home.request.tmdb))] | [Integer.IsGreater(Container(%(r)d).ListItem.DBID,0) + [String.IsEqual(Container(%(r)d).ListItem.DBType,movie) | String.IsEqual(Container(%(r)d).ListItem.DBType,tvshow) | String.IsEqual(Container(%(r)d).ListItem.DBType,episode)]]'
-HERO_STATIC = {'SiloHeroType': 'home.type', 'SiloHeroDbid': 'home.dbid', 'SiloHeroArt': 'home.art.fanart', 'SiloLogoArt': 'home.art.clearlogo', 'SiloTitle': 'home.hero.title', 'SiloMetaLine': 'home.hero.meta', 'SiloHeroFacts': 'home.hero.facts', 'SiloHeroImdb': 'home.rating.imdb', 'SiloHeroTmdb': 'home.rating.tmdb', 'SiloHeroRtCritic': 'home.rating.rtcritic', 'SiloPlot': 'home.plot', 'SiloDetail': 'home.hero.detail', 'SiloMpaa': 'home.mpaa', 'SiloHeroTint': 'home.tint', 'SiloBadge1': 'home.badge1', 'SiloBadge2': 'home.badge2', 'SiloBadge3': 'home.badge3'}
+HERO_STATIC = {'SiloHeroType': 'home.type', 'SiloHeroDbid': 'home.dbid', 'SiloHeroArt': 'home.art.fanart', 'SiloLogoArt': 'home.art.clearlogo', 'SiloTitle': 'home.hero.title', 'SiloMetaLine': 'home.hero.meta', 'SiloHeroFacts': 'home.hero.facts', 'SiloHeroImdb': 'home.rating.imdb', 'SiloHeroTmdb': 'home.rating.tmdb', 'SiloHeroRtCritic': 'home.rating.rtcritic', 'SiloPlot': 'home.plot', 'SiloDetail': 'home.hero.detail', 'SiloMpaa': 'home.mpaa', 'SiloHeroTint': 'home.tint', 'SiloBadge1': 'home.badge1', 'SiloBadge2': 'home.badge2', 'SiloBadge3': 'home.badge3', 'SiloHeroYtPlay': 'home.yt.play'}
 
 HERO = [
+    # The YouTube page's hero: its video, for Play (youtube_hero).
+    ('SiloHeroYtPlay', [(None, '')]),
     # The hero's title for its Play and More info buttons (a library title's).
     ('SiloHeroType', [(None, '$INFO[LI.DBType]')]),
     ('SiloHeroDbid', [(None, '$INFO[LI.DBID]')]),
