@@ -316,11 +316,17 @@ def waiting_rows():
     for index, page in enumerate(PAGES):
         if page == 'home':
             continue
+        # Each stands aside for the page's rows before it: an expression ORs
+        # them all (HasSiloHeroTmdb showed a later row's rating mark beside an
+        # episode's empty one), while a variable takes the first that holds.
+        before = []
         for slot in range(1, (LOOKAHEAD if page == 'requests' else 2) + 1):
             for landscape in styles(page):
                 target = list_id(index, slot, landscape)
-                out.append(('String.IsEmpty(%s) + %s + %s + Integer.IsGreater(Container(%d).NumItems,0)'
-                            % (prop('silo.row'), page_visible(page), shown(target), target), target))
+                ready = '%s + Integer.IsGreater(Container(%d).NumItems,0)' % (shown(target), target)
+                out.append(('String.IsEmpty(%s) + %s + %s%s' % (
+                    prop('silo.row'), page_visible(page), ready, ''.join(' + ![%s]' % b for b in before)), target))
+                before.append(ready)
     return out
 
 
