@@ -74,7 +74,7 @@ screen, as Arctic Zephyr does.
 Install it from the **im85288 Kodi add-ons** repository, so Kodi keeps it up to date:
 
 1. Kodi: **Settings -> System -> Add-ons**: turn on **Unknown sources**.
-2. **Settings -> File manager -> Add source**: `https://im85288.github.io/kodi-repository/`, named, say, `im85288`.
+2. **Settings -> File manager -> Add source**: `https://kodi.im85288.uk/`, named, say, `im85288`.
 3. **Add-ons -> Install from zip file**: `im85288`, then `repository.im85288.kodi.zip`.
 4. **Add-ons -> Install from repository -> im85288 Kodi add-ons**: first **Video add-ons ->
    [KodiConnectForSilo](https://github.com/im85288/KodiConnectForSilo)**, and sign in to Silo with it; then
