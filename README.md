@@ -34,7 +34,8 @@ Community project: not made or endorsed by the Silo team.
 - **Showcase player** (the default): a richer overlay with Episodes (the season over the buttons) and Next
   Episode, the focused button's name, a Netflix-style pause screen after 10 seconds, and Up Next to match. Silo's own player style is the other choice.
 - **Live TV** laid out as TiviMate, in Silo's look: guide, quick guide (its channel groups on Left), OK screen, catch-up and recent channels.
-- **YouTube** (with the YouTube add-on) as the YouTube app: Home, Subscriptions and Library, the focused row big at the top.
+- **TV page** (with Live TV channels): On now, Live sport now and My teams as rows, with the channel you last
+  watched playing behind the page and following the card you rest on; Watch and Guide where Play sits.
 - Silo-style menus, dialogs, keyboard, notifications and settings; **Inter** throughout, as the Silo apps use.
 
 | Movies | Series | Film |
@@ -70,14 +71,19 @@ screen, as Arctic Zephyr does.
 
 ## Install
 
-Install and sign in to KodiConnectForSilo 0.13.0 or newer first, then build a zip and use Kodi's
-**Add-ons -> Install from zip file**:
+Install it from the **im85288 Kodi add-ons** repository, so Kodi keeps it up to date:
 
-```bash
-git archive --format=zip --prefix=skin.silo.skyline/ -o skin.silo.skyline.zip HEAD
-```
+1. Kodi: **Settings -> System -> Add-ons**: turn on **Unknown sources**.
+2. **Settings -> File manager -> Add source**: `https://im85288.github.io/kodi-repository/`, named, say, `im85288`.
+3. **Add-ons -> Install from zip file**: `im85288`, then `repository.im85288.kodi.zip`.
+4. **Add-ons -> Install from repository -> im85288 Kodi add-ons**: first **Video add-ons ->
+   [KodiConnectForSilo](https://github.com/im85288/KodiConnectForSilo)**, and sign in to Silo with it; then
+   **Look and feel -> Skin -> Skyline**.
 
 Switch to it under **Settings -> Interface -> Skin**. Without KodiConnectForSilo, Home asks you to install it.
+
+To try a change before it's released, build a zip and use **Install from zip file** instead:
+`git archive --format=zip --prefix=skin.silo.skyline/ -o skin.silo.skyline.zip HEAD`.
 
 ## Development
 
@@ -99,7 +105,6 @@ python3 tools/build_all.py
 - `build_showcase.py`, `build_options.py`, `build_upnext.py`: the player's styles, its Options sheet and Up
   Next's windows.
 - `build_tv.py`: Live TV's guide and programme information.
-- `build_youtube.py`: the YouTube page.
 - `build_shortcuts.py`: the menu editor for your own menu items. Skin Shortcuts writes
   `xml/script-skinshortcuts-includes.xml` on the device, over the placeholder here.
 - `build_colours.py` runs last: it turns the colours a theme changes into the names `colors/defaults.xml`,
@@ -109,7 +114,8 @@ python3 tools/build_all.py
 Kodi reads a `$VAR` in a list's content path only once, when the window opens, so content paths stay `$INFO`;
 and it keeps a list item's layout once picked, so marks follow item properties, not layouts. Check changes
 with a cold Kodi start, not only `ReloadSkin()`. On a 2 GB SHIELD, measure Kodi's native heap on Home before
-adding rows or pictures (`adb shell dumpsys meminfo org.xbmc.kodi`): it is about 225 MB now.
+adding rows or pictures (`adb shell dumpsys meminfo org.xbmc.kodi`): it is about 240 MB now, and a 4K
+Dolby Vision start needs the room.
 
 Skyline began as Estuary from Kodi 21; the few screens not yet redrawn are still Estuary's.
 
