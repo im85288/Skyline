@@ -414,7 +414,7 @@
                         <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
                         <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
                         <onclick condition="Player.HasVideo">ActivateWindow(fullscreenvideo)</onclick>
-                        <onclick condition="!Player.HasVideo + !String.IsEmpty(Window(Home).Property(silo.tv.2.1.tv.play))">RunPlugin($INFO[Window(Home).Property(silo.tv.2.1.tv.play)])</onclick>
+                        <onclick condition="!Player.HasVideo + !String.IsEmpty(Window(Home).Property(silo.tv.1.1.tv.play))">RunPlugin($INFO[Window(Home).Property(silo.tv.1.1.tv.play)])</onclick>
                         <onup>SetFocus(9006)</onup>
                         <ondown condition="$EXP[SiloRow5401]">SetFocus(5401)</ondown>
                         <ondown condition="$EXP[SiloRow5402] + !$EXP[SiloRow5401]">SetFocus(5402)</ondown>

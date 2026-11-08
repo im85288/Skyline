@@ -1722,7 +1722,7 @@ def tv_hero():
     """The TV page's hero buttons, where the other pages' Play and More info
     sit: Watch (what's playing, full screen; else the last channel watched)
     and Guide."""
-    on_now = 'Window(Home).Property(silo.tv.2.1.tv.play)'
+    on_now = 'Window(Home).Property(silo.tv.1.1.tv.play)'  # On now's first: the last channel watched (tvrows.ROWS)
     watch = hero_pill(TV_WATCH, 'Watch', 'silo/icon_play.png',
                       [('Player.HasVideo', 'ActivateWindow(fullscreenvideo)'),
                        ('!Player.HasVideo + !String.IsEmpty(%s)' % on_now, 'RunPlugin($INFO[%s])' % on_now)],
