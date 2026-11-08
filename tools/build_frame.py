@@ -630,13 +630,6 @@ def skin_settings(text):
 \t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineHideTvTab)</onclick>
 \t\t\t\t\t<visible>PVR.HasTVChannels</visible>
 \t\t\t\t</control>
-\t\t\t\t<control type="radiobutton" id="782">
-\t\t\t\t\t<label>YouTube tab</label>
-\t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<selected>!Skin.HasSetting(SkylineHideYouTubeTab)</selected>
-\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineHideYouTubeTab)</onclick>
-\t\t\t\t\t<visible>System.HasAddon(plugin.video.youtube) + System.AddonIsEnabled(plugin.video.youtube)</visible>
-\t\t\t\t</control>
 \t\t\t\t<control type="radiobutton" id="701">''' % look, 1)
     # The settings: in the right pane.
     text = text.replace('<control type="group" id="10000">\n\t\t\t<left>470</left>',

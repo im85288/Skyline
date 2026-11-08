@@ -101,13 +101,6 @@
 					<onclick>Skin.ToggleSetting(SkylineHideTvTab)</onclick>
 					<visible>PVR.HasTVChannels</visible>
 				</control>
-				<control type="radiobutton" id="782">
-					<label>YouTube tab</label>
-					<include>DefaultSettingButton</include>
-					<selected>!Skin.HasSetting(SkylineHideYouTubeTab)</selected>
-					<onclick>Skin.ToggleSetting(SkylineHideYouTubeTab)</onclick>
-					<visible>System.HasAddon(plugin.video.youtube) + System.AddonIsEnabled(plugin.video.youtube)</visible>
-				</control>
 				<control type="radiobutton" id="701">
 					<label>$LOCALIZE[31095]</label>
 					<include>DefaultSettingButton</include>

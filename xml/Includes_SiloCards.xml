@@ -50,7 +50,6 @@
                 <property name="home.request.to">$INFO[Window(Home).Property($PARAM[p].request.to)]</property>
                 <property name="home.tv.play">$INFO[Window(Home).Property($PARAM[p].tv.play)]</property>
                 <property name="home.tv.logo">$INFO[Window(Home).Property($PARAM[p].tv.logo)]</property>
-                <property name="home.yt.play">$INFO[Window(Home).Property($PARAM[p].yt.play)]</property>
                 <visible>!String.IsEmpty(Window(Home).Property($PARAM[p].type))</visible>
             </item>
         </definition>

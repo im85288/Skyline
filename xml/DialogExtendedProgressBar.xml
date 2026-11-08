@@ -8,9 +8,6 @@
 	<animation effect="fade" start="100" end="0" time="200">WindowClose</animation>
 	<controls>
 		<control type="group">
-			<!-- Not the YouTube add-on's ("My Subscriptions") while KodiConnectForSilo
-			     fetches the YouTube page's rows in the background. -->
-			<visible>String.IsEmpty(Window(Home).Property(silokodi.youtube.fetching))</visible>
 			<depth>DepthBars</depth>
 			<top>136</top>
 			<right>96</right>
