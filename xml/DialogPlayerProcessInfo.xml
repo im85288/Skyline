@@ -6,9 +6,19 @@
     <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
     <animation effect="fade" start="100" end="0" time="150">WindowClose</animation>
     <controls>
+        <!-- Up while HDR plays, so the taller panel fits the screen. -->
+        <control type="group">
+        <animation effect="slide" end="0,-110" time="0" condition="!String.IsEmpty(VideoPlayer.HdrType)">Conditional</animation>
         <control type="image">
             <left>180</left><top>150</top><width>1560</width><height>572</height>
             <texture border="24" colordiffuse="SkylineDialog">silo/card_landscape_mask.png</texture>
+            <visible>String.IsEmpty(VideoPlayer.HdrType)</visible>
+        </control>
+        <!-- Taller while HDR plays, for the Dolby Vision and HDR band. -->
+        <control type="image">
+            <left>180</left><top>150</top><width>1560</width><height>984</height>
+            <texture border="24" colordiffuse="SkylineDialog">silo/card_landscape_mask.png</texture>
+            <visible>!String.IsEmpty(VideoPlayer.HdrType)</visible>
         </control>
         <control type="group">
             <left>240</left><top>194</top><width>442</width>
@@ -342,6 +352,44 @@
                         <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
                     </control>
                 </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(audiodecoder))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Sent as</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$VAR[SiloAudioSentAs]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>Player.Passthrough + !String.IsEmpty(Player.Process(audio.object.layout))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Layout</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[Player.Process(audio.object.layout)]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
             </control>
         </control>
         <control type="group">
@@ -601,6 +649,284 @@
                     </control>
                 </control>
             </control>
+        </control>
+        <control type="group">
+            <left>240</left><top>702</top><width>442</width>
+            <visible>!String.IsEmpty(VideoPlayer.HdrType) + !String.IsEmpty(Player.Process(video.dovi.profile))</visible>
+            <control type="label">
+                <width>442</width><height>52</height>
+                <font>silo_badge</font>
+                <textcolor>99EDEDED</textcolor>
+                <label>DOLBY VISION</label>
+            </control>
+            <control type="grouplist">
+                <top>52</top><width>442</width><height>336</height>
+                <orientation>vertical</orientation>
+                <usecontrolcoords>true</usecontrolcoords>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(video.dovi.profile))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Profile</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$VAR[SiloDVProfile]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(video.dovi.profile))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Layers</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$VAR[SiloDVLayers]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(amlogic.vs10.mode))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Sent as</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$VAR[SiloDVSentAs]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(amlogic.vs10.mode))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>VS10</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[Player.Process(amlogic.vs10.mode)]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(video.dovi.meta.version))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Metadata</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[Player.Process(video.dovi.meta.version)]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(video.dovi.l5.detect.state))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Picture area</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$VAR[SiloDVArea]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(amlogic.dv.backend))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Module</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[Player.Process(amlogic.dv.backend)]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+            </control>
+        </control>
+        <control type="group">
+            <left>738</left><top>702</top><width>442</width>
+            <visible>!String.IsEmpty(VideoPlayer.HdrType)</visible>
+            <control type="label">
+                <width>442</width><height>52</height>
+                <font>silo_badge</font>
+                <textcolor>99EDEDED</textcolor>
+                <label>HDR</label>
+            </control>
+            <control type="grouplist">
+                <top>52</top><width>442</width><height>336</height>
+                <orientation>vertical</orientation>
+                <usecontrolcoords>true</usecontrolcoords>
+                <control type="group">
+                    <height>48</height>
+                    <visible>true</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Format</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$VAR[SiloHDRFormat]$INFO[Player.Process(video.source.additional.hdr.type), + ,]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(video.hdr.max.lum))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Peak</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[Player.Process(video.hdr.max.lum),, nits]$INFO[Player.Process(video.hdr.min.lum), · black ,]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(video.hdr.max.cll))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>MaxCLL</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[Player.Process(video.hdr.max.cll),, nits]$INFO[Player.Process(video.hdr.max.fall), · MaxFALL , nits]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(video.color.primaries))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Colours</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$VAR[SiloColourPrimaries]$INFO[Player.Process(video.bit.depth), · , bit]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>String.IsEqual(Player.Process(video.color.range),tv) | String.IsEqual(Player.Process(video.color.range),pc)</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Range</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$VAR[SiloColourRange]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+                <control type="group">
+                    <height>48</height>
+                    <visible>!String.IsEmpty(Player.Process(amlogic.eoft_gamut))</visible>
+                    <control type="label">
+                        <width>150</width><height>48</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>BFEDEDED</textcolor>
+                        <label>Output</label>
+                    </control>
+                    <control type="label">
+                        <left>150</left><width>292</width><height>48</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[Player.Process(amlogic.eoft_gamut)]</label>
+                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix><scrollspeed>30</scrollspeed>
+                    </control>
+                </control>
+            </control>
+        </control>
         </control>
         <!-- Nothing to choose here: any key closes it. -->
         <control type="button" id="5550">

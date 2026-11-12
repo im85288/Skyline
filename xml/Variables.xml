@@ -9007,5 +9007,61 @@
         <value condition="Control.HasFocus(11)">99000000</value>
         <value>BFEDEDED</value>
     </variable>
+    <!-- Player details' Dolby Vision and HDR rows, from CoreELEC's own details. -->
+    <variable name="SiloDVProfile">
+        <value condition="!String.IsEmpty(Player.Process(video.dovi.bl.signal.compatibility))">$INFO[Player.Process(video.dovi.profile)].$INFO[Player.Process(video.dovi.bl.signal.compatibility)]</value>
+        <value>$INFO[Player.Process(video.dovi.profile)]</value>
+    </variable>
+    <!-- Full or minimal enhancement layer, and what it was in the file when
+         CoreELEC converted it (a profile 7 FEL sent as MEL or 8.1). -->
+    <variable name="SiloDVLayers">
+        <value condition="String.IsEqual(Player.Process(video.dovi.el.type),full)">Full enhancement layer (FEL)$VAR[SiloDVLayersFrom]</value>
+        <value condition="String.IsEqual(Player.Process(video.dovi.el.type),minimum)">Minimal enhancement layer (MEL)$VAR[SiloDVLayersFrom]</value>
+        <value condition="!String.IsEmpty(Player.Process(video.dovi.dual.track))">$INFO[Player.Process(video.dovi.dual.track)]</value>
+        <value condition="Integer.IsEqual(Player.Process(video.dovi.el.present),0)">Single layer$VAR[SiloDVLayersFrom]</value>
+    </variable>
+    <variable name="SiloDVLayersFrom">
+        <value condition="!String.IsEmpty(Player.Process(video.source.dovi.el.type)) + !String.IsEqual(Player.Process(video.source.dovi.el.type),$INFO[Player.Process(video.dovi.el.type)]) + String.IsEqual(Player.Process(video.source.dovi.el.type),full)"> · from FEL</value>
+        <value condition="!String.IsEmpty(Player.Process(video.source.dovi.el.type)) + !String.IsEqual(Player.Process(video.source.dovi.el.type),$INFO[Player.Process(video.dovi.el.type)]) + String.IsEqual(Player.Process(video.source.dovi.el.type),minimum)"> · from MEL</value>
+    </variable>
+    <!-- How the box sends it: the TV's own DV processing (display-led), the
+         box's (player-led, DV-LL), or HDR10. -->
+    <variable name="SiloDVSentAs">
+        <value condition="Integer.IsEqual(Player.Process(amlogic.vs10.mode.raw),1)">Dolby Vision · display-led</value>
+        <value condition="Integer.IsEqual(Player.Process(amlogic.vs10.mode.raw),0) + String.Contains(Player.Process(amlogic.eoft_gamut),DV-LL)">Dolby Vision · player-led (DV-LL)$INFO[Player.Process(video.dovi.vsvdb.max.lum), · , nits]</value>
+        <value condition="Integer.IsEqual(Player.Process(amlogic.vs10.mode.raw),0)">HDR10$INFO[Player.Process(video.dovi.vsvdb.max.lum), · , nits]</value>
+    </variable>
+    <!-- The film's picture area inside its black bars (DV level 5). -->
+    <variable name="SiloDVArea">
+        <value condition="Integer.IsEqual(Player.Process(video.dovi.l5.auto),1)">Auto (letterbox)</value>
+        <value condition="Integer.IsEqual(Player.Process(video.dovi.l5.detect.state),3)">Detected</value>
+        <value condition="Integer.IsEqual(Player.Process(video.dovi.l5.detect.state),6)">Detecting</value>
+        <value condition="Integer.IsEqual(Player.Process(video.dovi.l5.detect.state),0)">Not found</value>
+        <value condition="Integer.IsEqual(Player.Process(video.dovi.l5.detect.state),1)">Skipped (not 16:9)</value>
+        <value condition="Integer.IsEqual(Player.Process(video.dovi.l5.detect.state),2)">Skipped (varies)</value>
+        <value condition="Integer.IsEqual(Player.Process(video.dovi.l5.detect.state),4)">Skipped</value>
+        <value condition="Integer.IsEqual(Player.Process(video.dovi.l5.detect.state),5)">Off</value>
+    </variable>
+    <variable name="SiloHDRFormat">
+        <value condition="!String.IsEmpty(Player.Process(video.source.hdr.type))">$INFO[Player.Process(video.source.hdr.type)]</value>
+        <value condition="String.Contains(VideoPlayer.HdrType,dolbyvision)">Dolby Vision</value>
+        <value condition="String.Contains(VideoPlayer.HdrType,hdr10)">HDR10</value>
+        <value condition="String.Contains(VideoPlayer.HdrType,hlg)">HLG</value>
+        <value>[UPPERCASE]$INFO[VideoPlayer.HdrType][/UPPERCASE]</value>
+    </variable>
+    <variable name="SiloColourPrimaries">
+        <value condition="String.IsEqual(Player.Process(video.color.primaries),bt2020)">BT.2020</value>
+        <value condition="String.IsEqual(Player.Process(video.color.primaries),bt709)">BT.709</value>
+        <value condition="String.IsEqual(Player.Process(video.color.primaries),unknown) + Integer.IsEqual(Player.Process(video.dovi.profile),5)">IPTPQc2 (profile 5)</value>
+        <value>[UPPERCASE]$INFO[Player.Process(video.color.primaries)][/UPPERCASE]</value>
+    </variable>
+    <variable name="SiloColourRange">
+        <value condition="String.IsEqual(Player.Process(video.color.range),tv)">Limited</value>
+        <value condition="String.IsEqual(Player.Process(video.color.range),pc)">Full</value>
+    </variable>
+    <variable name="SiloAudioSentAs">
+        <value condition="String.StartsWith(Player.Process(audiodecoder),pt)">Passthrough (bitstream)</value>
+        <value>Decoded (PCM)</value>
+    </variable>
     <!-- end Silo Skyline playback -->
 </includes>

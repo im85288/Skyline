@@ -165,6 +165,13 @@
 					<property name="description">LibreELEC system settings</property>
 					<visible>System.AddonIsEnabled(service.libreelec.settings)</visible>
 				</item>
+				<item>
+					<label>CoreELEC</label>
+					<onclick>RunAddon(service.coreelec.settings)</onclick>
+					<icon>icons/settings/coreelec.png</icon>
+					<property name="description">Network, Bluetooth, SSH, updates and storage</property>
+					<visible>System.AddonIsEnabled(service.coreelec.settings)</visible>
+				</item>
 			</content>
 		</control>
 		<!-- What the focused tile holds. -->

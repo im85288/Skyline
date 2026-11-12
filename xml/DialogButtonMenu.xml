@@ -214,6 +214,21 @@
 						<onclick>Reset()</onclick>
 						<visible>System.CanReboot</visible>
 					</item>
+					<!-- Silo Skyline: CoreELEC dual boot (Android on the box's own storage):
+					     its script makes the next start Android's, once. -->
+					<item>
+						<label>Reboot to Android</label>
+						<icon>icons/infodialogs/update.png</icon>
+						<onclick>System.ExecWait("/usr/sbin/rebootfromnand")</onclick>
+						<onclick>Reset()</onclick>
+						<visible>System.CanReboot + System.HasAddon(service.coreelec.settings) + System.PathExist(/dev/system)</visible>
+					</item>
+					<item>
+						<label>Restart Kodi</label>
+						<icon>icons/infodialogs/update.png</icon>
+						<onclick>RestartApp()</onclick>
+						<visible>System.Platform.Linux + !System.Platform.Android</visible>
+					</item>
 					<item>
 						<label>$LOCALIZE[20126] $INFO[system.profilename]</label>
 						<icon>silo/menu_profile.png</icon>

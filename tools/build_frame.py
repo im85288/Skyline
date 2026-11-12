@@ -253,6 +253,10 @@ TILES = [
      'System.GetBool(gamesgeneral.enable)'),
     ('LibreELEC', 'RunAddon(service.libreelec.settings)', 'icons/settings/libreelec.png', 'LibreELEC system settings',
      'System.AddonIsEnabled(service.libreelec.settings)'),
+    # CoreELEC's own window (network, Bluetooth, SSH, updates, eMMC). Its
+    # Dolby Vision and audio settings are Kodi's, under System.
+    ('CoreELEC', 'RunAddon(service.coreelec.settings)', 'icons/settings/coreelec.png',
+     'Network, Bluetooth, SSH, updates and storage', 'System.AddonIsEnabled(service.coreelec.settings)'),
 ]
 TILE_W, TILE_H, TILE_COLS = 300, 216, 4
 
