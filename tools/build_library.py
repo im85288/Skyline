@@ -918,11 +918,115 @@ COLLECTION_WINDOW = 1193
 JUMP_LETTERS = ['#'] + [chr(c) for c in range(ord('A'), ord('Z') + 1)]
 
 
+# One collection's page, as Silo's from 2026-11: its backdrop edge to edge
+# behind a "Collection" eyebrow, the name in the hero's type, its size and
+# Shuffle as the primary pill. The posters sit under it while their first
+# row has focus, and rise to the top (the hero fading) from the second on.
+# The backdrop follows the focused poster, as the page's does below the hero.
+COLLECTION_SHUFFLE_ID = 77
+COLLECTION_HERO_DROP = 300
+
+
+def collection_hero(is_one):
+    on_top = '[Control.HasFocus(%d) | !Integer.IsGreater(Container(%d).CurrentItem,%d)]' % (
+        COLLECTION_SHUFFLE_ID, COLLECTION_ID, COLS)
+    shown = '%s + %s' % (is_one, on_top)
+    backdrop = '''        <!-- HERO BACKDROP -->
+        <control type="group">
+            <visible>%(shown)s</visible>
+            <animation effect="fade" start="0" end="100" time="320">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="200">Hidden</animation>
+            <control type="image">
+                <left>0</left><top>0</top><width>1920</width><height>1080</height>
+                <aspectratio>scale</aspectratio>
+                <fadetime>240</fadetime>
+                <!-- The focused poster's (the last focused while Shuffle has focus). -->
+                <texture background="true" diffuse="silo/hero_mask.png">$INFO[Container(%(grid)d).ListItem.Art(fanart)]</texture>
+                <!-- Silo's slow pan: a gentle zoom from the top right, there and back. -->
+                <animation effect="zoom" start="100" end="106" time="18000" center="1920,0" tween="sine" easing="inout"
+                           pulse="true" condition="true">Conditional</animation>
+            </control>
+            <control type="image">
+                <left>0</left><top>0</top><width>1920</width><height>320</height>
+                <texture flipy="true" colordiffuse="CCFFFFFF">silo/scrim_bottom.png</texture>
+            </control>
+        </control>
+        <!-- END HERO BACKDROP -->
+''' % {'shown': shown, 'grid': COLLECTION_ID}
+    pill = ''
+    for lit in (True, False):
+        state = ('' if lit else '!') + 'Control.HasFocus(%d)' % COLLECTION_SHUFFLE_ID
+        colour = 'FF000000' if lit else TEXT
+        pill += '''
+                <control type="image">
+                    <left>22</left><top>14</top><width>28</width><height>28</height>
+                    <texture colordiffuse="%(c)s">silo/icon_shuffle.png</texture>
+                    <visible>%(state)s</visible>
+                </control>
+                <control type="label">
+                    <left>62</left><width>120</width><height>56</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>%(c)s</textcolor>
+                    <label>Shuffle</label>
+                    <visible>%(state)s</visible>
+                </control>''' % {'c': colour, 'state': state}
+    text = '''        <!-- One collection's hero: eyebrow, name, size and Shuffle. -->
+        <control type="group">
+            <visible>%(shown)s</visible>
+            <animation effect="fade" start="0" end="100" time="320">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="200">Hidden</animation>
+            <control type="label">
+                <left>%(x)d</left><top>250</top><width>1200</width><height>30</height>
+                <font>silo_detail</font>
+                <textcolor>%(dim)s</textcolor>
+                <label>COLLECTION</label>
+            </control>
+            <control type="label">
+                <left>%(x)d</left><top>278</top><width>1500</width><height>100</height>
+                <aligny>center</aligny>
+                <font>silo_title</font>
+                <textcolor>%(text)s</textcolor>
+                <label>$INFO[Window(Home).Property(silo.browse.title)]</label>
+            </control>
+            <control type="label">
+                <left>%(x)d</left><top>382</top><width>1200</width><height>40</height>
+                <font>silo_meta</font>
+                <textcolor>%(dim)s</textcolor>
+                <label>$INFO[Container(%(grid)d).NumItems,, titles]</label>
+            </control>
+            <control type="group">
+                <left>%(x)d</left><top>442</top>
+                <visible>System.AddonIsEnabled(plugin.video.kodiconnectforsilo)</visible>
+                <control type="button" id="%(id)d">
+                    <width>200</width><height>56</height>
+                    <label></label>
+                    <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
+                    <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=shuffle&amp;scope=collection)</onclick>
+                    <ondown>%(grid)d</ondown>
+                    <onup>noop</onup><onleft>noop</onleft><onright>noop</onright>
+                </control>%(pill)s
+            </control>
+        </control>
+''' % {'shown': shown, 'x': SAFE_X, 'dim': TEXT_DIM, 'text': TEXT, 'grid': COLLECTION_ID,
+       'id': COLLECTION_SHUFFLE_ID, 'pill': pill}
+    slide = ('\n            <!-- Under the hero while on its first row. -->'
+             '\n            <animation effect="slide" end="0,%d" time="280" tween="cubic" easing="out" '
+             'condition="%s">Conditional</animation>' % (COLLECTION_HERO_DROP, shown))
+    return backdrop + text, slide
+
+
 def collection_controls():
     from build_browse import fan_card, FAN_W, FAN_H, FAN_GAP
     is_fans, is_one = is_list('collections'), is_list('collection')
     grid = panel(COLLECTION_ID, '<content target="videos" sortby="title" sortorder="ascending">'
-                 '$INFO[Window(Home).Property(silo.browse.list.collection)]</content>', str(COLLECTION_AZ), is_one)
+                 '$INFO[Window(Home).Property(silo.browse.list.collection)]</content>', str(COLLECTION_AZ), is_one,
+                 up=str(COLLECTION_SHUFFLE_ID))
+    hero, slide = collection_hero(is_one)
+    marker = '<visible>%s</visible>' % is_one
+    assert marker in grid
+    grid = hero + grid.replace(marker, marker + slide, 1)
     current = 'String.IsEqual(ListItem.Label,Container(%d).ListItem.SortLetter)' % COLLECTION_ID
     items = ''.join('''
                 <item>
@@ -1257,11 +1361,14 @@ FOCUS_WHEN_LOADED = ([('collections', 56), ('collection', 55), ('genres', GENRES
                      + [(key, list_id) for key, (_, list_id) in PERSONAL.items()])
 TIMERS += ''.join('''    <timer>
         <name>silo_focus_%(key)s</name>
-        <start reset="true">[Window.IsActive(%(window)d) | Window.IsActive(%(other)d)] + !System.HasModalDialog + !Window.IsActive(movieinformation) + String.IsEqual(Window(Home).Property(silo.browse.type),%(key)s) + !String.IsEmpty(Window(Home).Property(silo.browse.list)) + Integer.IsGreater(Container(%(id)d).NumItems,0) + !Control.HasFocus(%(id)d) + !Control.HasFocus(61)</start>
+        <start reset="true">[Window.IsActive(%(window)d) | Window.IsActive(%(other)d)] + !System.HasModalDialog + !Window.IsActive(movieinformation) + String.IsEqual(Window(Home).Property(silo.browse.type),%(key)s) + !String.IsEmpty(Window(Home).Property(silo.browse.list)) + Integer.IsGreater(Container(%(id)d).NumItems,0) + !Control.HasFocus(%(id)d) + !Control.HasFocus(61)%(also)s</start>
         <stop>true</stop>
-        <onstop condition="[Window.IsActive(%(window)d) | Window.IsActive(%(other)d)] + !System.HasModalDialog + !Window.IsActive(movieinformation) + !Control.HasFocus(%(id)d)">SetFocus(%(id)d)</onstop>
+        <onstop condition="[Window.IsActive(%(window)d) | Window.IsActive(%(other)d)] + !System.HasModalDialog + !Window.IsActive(movieinformation) + !Control.HasFocus(%(id)d)%(also)s">SetFocus(%(id)d)</onstop>
     </timer>
-''' % {'key': key, 'id': list_id, 'window': WINDOW_ID, 'other': COLLECTION_WINDOW} for key, list_id in FOCUS_WHEN_LOADED)
+''' % {'key': key, 'id': list_id, 'window': WINDOW_ID, 'other': COLLECTION_WINDOW,
+       # A collection's hero has its Shuffle, which keeps the focus it's given.
+       'also': ' + !Control.HasFocus(%d)' % COLLECTION_SHUFFLE_ID if key == 'collection' else ''}
+                  for key, list_id in FOCUS_WHEN_LOADED)
 
 
 def add_timers():

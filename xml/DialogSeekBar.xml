@@ -937,6 +937,17 @@
 				<righttexture />
 				<info>Window(Home).Property(silokodi.markers.preview)</info>
 			</control>
+			<!-- Chapters: as Silo's player (2026-11), the bar in segments, a short
+			     dark cut where each chapter ends. Kodi draws the right texture at
+			     its own width (4 px), so each cut is a gap, not a band. -->
+			<control type="ranges">
+				<left>96</left><top>862</top><width>1728</width><height>8</height>
+				<texturebg colordiffuse="00FFFFFF">colors/white.png</texturebg>
+				<lefttexture />
+				<midtexture colordiffuse="00FFFFFF">colors/white.png</midtexture>
+				<righttexture colordiffuse="E6000000">colors/white.png</righttexture>
+				<info>Player.Chapters</info>
+			</control>
 			<!-- The handle: where playback is, or where a seek will land. -->
 			<control type="slider">
 				<left>81</left><top>851</top><width>1758</width><height>30</height>

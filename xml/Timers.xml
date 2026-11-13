@@ -337,9 +337,9 @@
     </timer>
     <timer>
         <name>silo_focus_collection</name>
-        <start reset="true">[Window.IsActive(1191) | Window.IsActive(1193)] + !System.HasModalDialog + !Window.IsActive(movieinformation) + String.IsEqual(Window(Home).Property(silo.browse.type),collection) + !String.IsEmpty(Window(Home).Property(silo.browse.list)) + Integer.IsGreater(Container(55).NumItems,0) + !Control.HasFocus(55) + !Control.HasFocus(61)</start>
+        <start reset="true">[Window.IsActive(1191) | Window.IsActive(1193)] + !System.HasModalDialog + !Window.IsActive(movieinformation) + String.IsEqual(Window(Home).Property(silo.browse.type),collection) + !String.IsEmpty(Window(Home).Property(silo.browse.list)) + Integer.IsGreater(Container(55).NumItems,0) + !Control.HasFocus(55) + !Control.HasFocus(61) + !Control.HasFocus(77)</start>
         <stop>true</stop>
-        <onstop condition="[Window.IsActive(1191) | Window.IsActive(1193)] + !System.HasModalDialog + !Window.IsActive(movieinformation) + !Control.HasFocus(55)">SetFocus(55)</onstop>
+        <onstop condition="[Window.IsActive(1191) | Window.IsActive(1193)] + !System.HasModalDialog + !Window.IsActive(movieinformation) + !Control.HasFocus(55) + !Control.HasFocus(77)">SetFocus(55)</onstop>
     </timer>
     <timer>
         <name>silo_focus_genres</name>

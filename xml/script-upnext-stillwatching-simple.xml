@@ -71,6 +71,46 @@
                 <aspectratio>scale</aspectratio>
                 <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloUpNextArt]</texture>
             </control>
+            <!-- As Silo's Playing Next (2026-11): the episode finishing beside the
+                 next one. Its picture, title, how far it is and the time left. -->
+            <control type="group">
+                <left>1160</left><top>592</top>
+                <visible>VideoPlayer.Content(episodes)</visible>
+                <control type="image">
+                    <width>192</width><height>108</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloFinishingArt]</texture>
+                </control>
+                <control type="label">
+                    <left>216</left><top>0</top><width>424</width><height>30</height>
+                    <font>silo_detail</font>
+                    <textcolor>87EDEDED</textcolor>
+                    <label>NOW FINISHING</label>
+                </control>
+                <control type="label">
+                    <left>216</left><top>32</top><width>424</width><height>36</height>
+                    <font>silo_meta</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode, E,]$INFO[VideoPlayer.Title, · ,]</label>
+                </control>
+                <control type="image">
+                    <left>216</left><top>84</top><width>300</width><height>4</height>
+                    <texture colordiffuse="33FFFFFF">colors/white.png</texture>
+                </control>
+                <control type="progress">
+                    <left>216</left><top>84</top><width>300</width><height>4</height>
+                    <info>Player.Progress</info>
+                    <texturebg colordiffuse="00FFFFFF">colors/white.png</texturebg>
+                    <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
+                </control>
+                <control type="label">
+                    <left>530</left><top>68</top><width>110</width><height>36</height>
+                    <align>right</align>
+                    <font>silo_detail</font>
+                    <textcolor>87EDEDED</textcolor>
+                    <label>$INFO[Player.TimeRemaining(mm:ss),,  left]</label>
+                </control>
+            </control>
         </control>
         <control type="group">
             <animation effect="fade" start="0" end="100" time="300">WindowOpen</animation>

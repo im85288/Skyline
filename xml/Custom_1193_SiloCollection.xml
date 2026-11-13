@@ -61,6 +61,25 @@
                 <texture flipy="true" colordiffuse="CCFFFFFF">silo/scrim_bottom.png</texture>
             </control>
         </control>
+        <control type="group">
+            <visible>String.IsEqual(Window(Home).Property(silo.browse.type),collection) + !String.IsEmpty(Window(Home).Property(silo.browse.list)) + [Control.HasFocus(77) | !Integer.IsGreater(Container(55).CurrentItem,6)]</visible>
+            <animation effect="fade" start="0" end="100" time="320">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="200">Hidden</animation>
+            <control type="image">
+                <left>0</left><top>0</top><width>1920</width><height>1080</height>
+                <aspectratio>scale</aspectratio>
+                <fadetime>240</fadetime>
+                <!-- The focused poster's (the last focused while Shuffle has focus). -->
+                <texture background="true" diffuse="silo/hero_mask.png">$INFO[Container(55).ListItem.Art(fanart)]</texture>
+                <!-- Silo's slow pan: a gentle zoom from the top right, there and back. -->
+                <animation effect="zoom" start="100" end="106" time="18000" center="1920,0" tween="sine" easing="inout"
+                           pulse="true" condition="true">Conditional</animation>
+            </control>
+            <control type="image">
+                <left>0</left><top>0</top><width>1920</width><height>320</height>
+                <texture flipy="true" colordiffuse="CCFFFFFF">silo/scrim_bottom.png</texture>
+            </control>
+        </control>
         <include content="SiloFrame">
             <param name="title">$VAR[SiloLibraryTitle]</param>
             <param name="sub">$VAR[SiloLibrarySub]</param>
@@ -1685,14 +1704,80 @@
             </focusedlayout>
             <content target="videos">$INFO[Window(Home).Property(silo.browse.list.genres)]</content>
         </control>
+        <!-- One collection's hero: eyebrow, name, size and Shuffle. -->
+        <control type="group">
+            <visible>String.IsEqual(Window(Home).Property(silo.browse.type),collection) + !String.IsEmpty(Window(Home).Property(silo.browse.list)) + [Control.HasFocus(77) | !Integer.IsGreater(Container(55).CurrentItem,6)]</visible>
+            <animation effect="fade" start="0" end="100" time="320">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="200">Hidden</animation>
+            <control type="label">
+                <left>88</left><top>250</top><width>1200</width><height>30</height>
+                <font>silo_detail</font>
+                <textcolor>BFEDEDED</textcolor>
+                <label>COLLECTION</label>
+            </control>
+            <control type="label">
+                <left>88</left><top>278</top><width>1500</width><height>100</height>
+                <aligny>center</aligny>
+                <font>silo_title</font>
+                <textcolor>FFEDEDED</textcolor>
+                <label>$INFO[Window(Home).Property(silo.browse.title)]</label>
+            </control>
+            <control type="label">
+                <left>88</left><top>382</top><width>1200</width><height>40</height>
+                <font>silo_meta</font>
+                <textcolor>BFEDEDED</textcolor>
+                <label>$INFO[Container(55).NumItems,, titles]</label>
+            </control>
+            <control type="group">
+                <left>88</left><top>442</top>
+                <visible>System.AddonIsEnabled(plugin.video.kodiconnectforsilo)</visible>
+                <control type="button" id="77">
+                    <width>200</width><height>56</height>
+                    <label></label>
+                    <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
+                    <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=shuffle&amp;scope=collection)</onclick>
+                    <ondown>55</ondown>
+                    <onup>noop</onup><onleft>noop</onleft><onright>noop</onright>
+                </control>
+                <control type="image">
+                    <left>22</left><top>14</top><width>28</width><height>28</height>
+                    <texture colordiffuse="SkylineFocusText">silo/icon_shuffle.png</texture>
+                    <visible>Control.HasFocus(77)</visible>
+                </control>
+                <control type="label">
+                    <left>62</left><width>120</width><height>56</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>SkylineFocusText</textcolor>
+                    <label>Shuffle</label>
+                    <visible>Control.HasFocus(77)</visible>
+                </control>
+                <control type="image">
+                    <left>22</left><top>14</top><width>28</width><height>28</height>
+                    <texture colordiffuse="FFEDEDED">silo/icon_shuffle.png</texture>
+                    <visible>!Control.HasFocus(77)</visible>
+                </control>
+                <control type="label">
+                    <left>62</left><width>120</width><height>56</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>Shuffle</label>
+                    <visible>!Control.HasFocus(77)</visible>
+                </control>
+            </control>
+        </control>
         <control type="panel" id="55">
             <left>82</left><top>252</top>
             <width>1620</width><height>828</height>
             <orientation>vertical</orientation>
             <visible>String.IsEqual(Window(Home).Property(silo.browse.type),collection) + !String.IsEmpty(Window(Home).Property(silo.browse.list))</visible>
+            <!-- Under the hero while on its first row. -->
+            <animation effect="slide" end="0,300" time="280" tween="cubic" easing="out" condition="String.IsEqual(Window(Home).Property(silo.browse.type),collection) + !String.IsEmpty(Window(Home).Property(silo.browse.list)) + [Control.HasFocus(77) | !Integer.IsGreater(Container(55).CurrentItem,6)]">Conditional</animation>
             <onright>61</onright>
             <onleft>noop</onleft>
-            <onup>noop</onup>
+            <onup>77</onup>
             <scrolltime tween="cubic" easing="out">280</scrolltime>
             <!-- Details, not Kodi's play or open (KodiConnectForSilo's info page, else Kodi's). -->
             <!-- A box set's card opens the box set (KodiConnectForSilo's page for Kodi's movie set). -->

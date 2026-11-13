@@ -137,8 +137,48 @@ def showcase():
                 <aspectratio>scale</aspectratio>
                 <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloUpNextArt]</texture>
             </control>
+            <!-- As Silo's Playing Next (2026-11): the episode finishing beside the
+                 next one. Its picture, title, how far it is and the time left. -->
+            <control type="group">
+                <left>%(sx)d</left><top>%(fy)d</top>
+                <visible>VideoPlayer.Content(episodes)</visible>
+                <control type="image">
+                    <width>192</width><height>108</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloFinishingArt]</texture>
+                </control>
+                <control type="label">
+                    <left>216</left><top>0</top><width>424</width><height>30</height>
+                    <font>silo_detail</font>
+                    <textcolor>%(dim)s</textcolor>
+                    <label>NOW FINISHING</label>
+                </control>
+                <control type="label">
+                    <left>216</left><top>32</top><width>424</width><height>36</height>
+                    <font>silo_meta</font>
+                    <textcolor>%(text)s</textcolor>
+                    <label>$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode, E,]$INFO[VideoPlayer.Title, · ,]</label>
+                </control>
+                <control type="image">
+                    <left>216</left><top>84</top><width>300</width><height>4</height>
+                    <texture colordiffuse="33FFFFFF">colors/white.png</texture>
+                </control>
+                <control type="progress">
+                    <left>216</left><top>84</top><width>300</width><height>4</height>
+                    <info>Player.Progress</info>
+                    <texturebg colordiffuse="00FFFFFF">colors/white.png</texturebg>
+                    <midtexture colordiffuse="%(text)s">colors/white.png</midtexture>
+                </control>
+                <control type="label">
+                    <left>530</left><top>68</top><width>110</width><height>36</height>
+                    <align>right</align>
+                    <font>silo_detail</font>
+                    <textcolor>%(dim)s</textcolor>
+                    <label>$INFO[Player.TimeRemaining(mm:ss),,  left]</label>
+                </control>
+            </control>
         </control>''' % {'on': SHOWCASE, 'x': SHOWCASE_X, 'text': TEXT, 'dim': DIM, 'sx': SHOWCASE_STILL_X,
-                         'sy': SHOWCASE_STILL_TOP}
+                         'sy': SHOWCASE_STILL_TOP, 'fy': SHOWCASE_STILL_TOP + 360 + 72}
 
 
 def label(top, height, font, color, text, visible='', extra='', shared=False):
@@ -379,6 +419,11 @@ VARIABLES = '''    <variable name="SiloUpNextBackdrop">
         <value condition="!String.IsEmpty(Window.Property(thumb))">$INFO[Window.Property(thumb)]</value>
         <value condition="!String.IsEmpty(Window.Property(landscape))">$INFO[Window.Property(landscape)]</value>
         <value>$INFO[Window.Property(fanart)]</value>
+    </variable>
+    <variable name="SiloFinishingArt">
+        <value condition="!String.IsEmpty(Player.Art(thumb))">$INFO[Player.Art(thumb)]</value>
+        <value condition="!String.IsEmpty(Player.Art(tvshow.landscape))">$INFO[Player.Art(tvshow.landscape)]</value>
+        <value>$INFO[Player.Art(fanart)]</value>
     </variable>
 '''
 START, END = '    <!-- Silo Up Next variables (tools/build_upnext.py) -->\n', '    <!-- end Silo Up Next variables -->\n'
