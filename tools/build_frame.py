@@ -1022,6 +1022,19 @@ def silo_dialog(text):
     return text
 
 
+def numeric_message(text):
+    """The number pad's message (control 1) in a smaller font with room for
+    four lines. CoreELEC's "dangerous" settings put the code to type back
+    on the second of two lines; Inter wraps the first, and in Estuary's
+    90 px at font13 the code fell out of sight."""
+    old = ('<control type="textbox" id="1">\n\t\t\t\t<left>20</left>\n\t\t\t\t<top>80</top>\n'
+           '\t\t\t\t<width>505</width>\n\t\t\t\t<height>90</height>\n')
+    assert old in text, 'DialogNumeric: the message box moved in tools/source'
+    return text.replace(old, '<control type="textbox" id="1">\n\t\t\t\t<left>20</left>\n\t\t\t\t<top>66</top>\n'
+                             '\t\t\t\t<width>505</width>\n\t\t\t\t<height>108</height>\n'
+                             '\t\t\t\t<font>silo_detail</font>\n')
+
+
 CARD_TEXTURE = '<texture border="24" colordiffuse="%s">silo/card_landscape_mask.png</texture>' % CARD
 
 
@@ -1580,7 +1593,10 @@ def main():
     for name in DIALOGS:
         source = os.path.join(ROOT, 'tools', 'source', name + '.xml')
         with open(xml_path(name + '.xml'), 'w', encoding='utf-8') as handle:
-            handle.write(silo_dialog(open(source, encoding='utf-8').read()))
+            text = silo_dialog(open(source, encoding='utf-8').read())
+            if name == 'DialogNumeric':
+                text = numeric_message(text)
+            handle.write(text)
     with open(xml_path('LoginScreen.xml'), 'w', encoding='utf-8') as handle:
         handle.write(login_screen_window())
     with open(xml_path('SettingsProfile.xml'), 'w', encoding='utf-8') as handle:

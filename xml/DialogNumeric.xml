@@ -34,9 +34,10 @@
 			</control>
 			<control type="textbox" id="1">
 				<left>20</left>
-				<top>80</top>
+				<top>66</top>
 				<width>505</width>
-				<height>90</height>
+				<height>108</height>
+				<font>silo_detail</font>
 				<textcolor>BFEDEDED</textcolor>
 				<align>center</align>
 				<aligny>center</aligny>

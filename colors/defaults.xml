@@ -12,7 +12,10 @@
 	<color name="white">FFF0F0F0</color>
 	<color name="grey">FFA0A0A0</color>
 	<color name="blue">FFBFC3C9</color>
-	<color name="red">FFCE4421</color>
+	<!-- Neutral, as blue: Skyline itself never uses red, but add-on windows
+	     take it from the skin, and CoreELEC's settings drew its headings and
+	     labels in it (29 of them). -->
+	<color name="red">FFBFC3C9</color>
 	<color name="button_focus">FF4A5059</color>
 	<color name="button_alt_focus">804A5059</color>
 	<color name="text_shadow">22000000</color>

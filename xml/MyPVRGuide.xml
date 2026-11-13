@@ -153,7 +153,7 @@
 
         <!-- The timeline: channels down the left, programmes across. -->
         <control type="epggrid" id="51">
-            <left>0</left><top>412</top><width>1920</width><height>668</height>
+            <left>0</left><top>412</top><width>1920</width><height>670</height>
             <!-- Kodi's "vertical": channels down, time across (TiviMate's timeline). -->
             <orientation>vertical</orientation>
             <viewtype label="19298">list</viewtype>
