@@ -1,3 +1,13 @@
+[B]0.12.0[/B]
+• Now needs KodiConnectForSilo 0.19.0
+• Collections: a collection's page opens with a hero, as Silo's: the backdrop, its name and size, and Shuffle
+• Up Next: the episode finishing beside the next one, with its progress and time left
+• Player (Silo style): the seek bar in chapter segments
+• Settings: a CoreELEC tile; the power menu adds Reboot to Android and Restart Kodi on CoreELEC
+• Player details: Dolby Vision profile, layers and how it is sent, on CoreELEC
+• CoreELEC settings in Skyline's colours, not CoreELEC red; confirmation codes readable
+• TV guide: the bottom row shows its channel logo
+
 [B]0.11.1[/B]
 • Series and Movies: the hero no longer shows a rating mark with no rating before a row has focus
 • New screenshots: Home, Movies, Series and a film's page
