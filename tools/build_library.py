@@ -1312,7 +1312,10 @@ def filter_variables():
                  ('movies', [UNWATCHED], True, False)]
         for kind, conditions, unwatched, grouped in cases:
             for joiner, has_query in (('&amp;', True), ('?', False)):
-                parts = conditions + [('' if has_query else '!') + 'String.Contains(%s,?)' % path]
+                # Not before the page has its path: Kodi would ask for a bare
+                # "?filter=..." and log GetDirectory errors (seen on a 89,000-film library).
+                parts = conditions + ['!String.IsEmpty(%s)' % path,
+                                      ('' if has_query else '!') + 'String.Contains(%s,?)' % path]
                 out += '        <value condition="%s">%sfilter=%s</value>\n' % (
                     ' + '.join(parts), joiner, library_filter(kind, unwatched, grouped))
         out += '    </variable>\n'
