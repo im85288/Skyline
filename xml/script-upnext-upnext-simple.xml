@@ -99,26 +99,27 @@
                     <scrollspeed>40</scrollspeed>
                     <label>$VAR[SiloFinishingTitle]</label>
                 </control>
+                <!-- Bar 240 wide, so the time left ("12:34  left", ~140 px) fits beside it. -->
                 <control type="image">
-                    <left>216</left><top>84</top><width>300</width><height>4</height>
+                    <left>216</left><top>84</top><width>240</width><height>4</height>
                     <texture colordiffuse="33FFFFFF">colors/white.png</texture>
                 </control>
                 <!-- The preview's played part: Up Next's preview_finishing_progress
                      (96%) of the bar, fixed, since Kodi sizes no control from a property. -->
                 <control type="image">
-                    <left>216</left><top>84</top><width>288</width><height>4</height>
+                    <left>216</left><top>84</top><width>230</width><height>4</height>
                     <texture colordiffuse="FFEDEDED">colors/white.png</texture>
                     <visible>!String.IsEmpty(Window.Property(preview_finishing_title))</visible>
                 </control>
                 <control type="progress">
-                    <left>216</left><top>84</top><width>300</width><height>4</height>
+                    <left>216</left><top>84</top><width>240</width><height>4</height>
                     <info>Player.Progress</info>
                     <visible>String.IsEmpty(Window.Property(preview_finishing_title))</visible>
                     <texturebg colordiffuse="00FFFFFF">colors/white.png</texturebg>
                     <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                 </control>
                 <control type="label">
-                    <left>530</left><top>68</top><width>110</width><height>36</height>
+                    <left>466</left><top>68</top><width>174</width><height>36</height>
                     <align>right</align>
                     <font>silo_detail</font>
                     <textcolor>87EDEDED</textcolor>
