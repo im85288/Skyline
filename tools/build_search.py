@@ -41,9 +41,10 @@ ROWS_TOP = 236
 ROW_H = (1080 - ROWS_TOP) // 2
 
 
-def search_path(path, kind):
-    """The library folder filtered to titles containing the search words. The
-    filter is URL-encoded around a marker that becomes the words."""
+def search_path(path, kind, query=QUERY):
+    """The library folder filtered to titles containing the search words
+    (query: the infolabel holding them). The filter is URL-encoded around a
+    marker that becomes the words."""
     if kind is None:
         return path + '&amp;search=$INFO[%s]&amp;refresh=$INFO[Window(Home).Property(silokodi.library_updated)]' % QUERY
     marker = 'SILOQUERY'
@@ -55,7 +56,66 @@ def search_path(path, kind):
         rules = {'type': kind, 'order': {'method': 'sorttitle', 'direction': 'ascending'},
                  'rules': {'and': [{'field': 'title', 'operator': 'contains', 'value': [marker]}]}}
     encoded = quote(json.dumps(rules, separators=(',', ':')), safe='')
-    return path + '?xsp=' + encoded.replace(marker, '$INFO[%s]' % QUERY)
+    return path + '?xsp=' + encoded.replace(marker, '$INFO[%s]' % query)
+
+
+# Search as you type, in the keyboard (DialogKeyboard.xml) while the search
+# screen opened it: Kodi's keyboard tells only its own windows the words as they
+# are typed (GUI_MSG_SEARCH_UPDATE), but shows them in its text field (312) as it
+# goes, so rows filtered by that field follow each letter. Films and shows, half
+# the width each, between the field and the keys; display only (the keyboard
+# keeps focus). OK then searches the screen's full rows (box sets, requests too).
+TYPED = 'Control.GetLabel(312).index(1)'
+LIVE_START = '\t\t<!-- Silo live search (tools/build_search.py) -->\n'
+LIVE_END = '\t\t<!-- end Silo live search -->\n'
+LIVE_POSTER = (120, 180)
+LIVE_ROWS = (('Movies', 'videodb://movies/titles/', 'movies', 120),
+             ('Shows', 'videodb://tvshows/titles/', 'tvshows', 990))
+
+
+def live_rows():
+    width, height = LIVE_POSTER
+    out = [LIVE_START, '\t\t<control type="group">\n'
+           '\t\t\t<visible>Window.IsVisible(%d) + !String.IsEmpty(%s)</visible>\n' % (WINDOW_ID, TYPED)]
+    for index, (title, path, kind, x) in enumerate(LIVE_ROWS):
+        list_id = 1201 + index
+        card = '''\t\t\t\t\t<control type="image">
+\t\t\t\t\t\t<width>%(w)d</width><height>%(h)d</height>
+\t\t\t\t\t\t<aspectratio>scale</aspectratio>
+\t\t\t\t\t\t<texture background="true" diffuse="silo/card_poster_mask.png">$INFO[ListItem.Art(poster)]</texture>
+\t\t\t\t\t</control>
+''' % {'w': width, 'h': height}
+        out.append('''\t\t\t<control type="label">
+\t\t\t\t<left>%(x)d</left><top>300</top><width>810</width><height>36</height>
+\t\t\t\t<font>silo_meta</font>
+\t\t\t\t<textcolor>%(text)s</textcolor>
+\t\t\t\t<label>%(title)s$INFO[Container(%(id)d).NumItems,  ·  ,]</label>
+\t\t\t\t<visible>Integer.IsGreater(Container(%(id)d).NumItems,0) | Container(%(id)d).IsUpdating</visible>
+\t\t\t</control>
+\t\t\t<control type="list" id="%(id)d">
+\t\t\t\t<left>%(x)d</left><top>346</top><width>810</width><height>%(h)d</height>
+\t\t\t\t<orientation>horizontal</orientation>
+\t\t\t\t<scrolltime>0</scrolltime>
+\t\t\t\t<itemlayout width="%(step)d" height="%(h)d">
+%(card)s\t\t\t\t</itemlayout>
+\t\t\t\t<focusedlayout width="%(step)d" height="%(h)d">
+%(card)s\t\t\t\t</focusedlayout>
+\t\t\t\t<content target="videos" limit="12">%(path)s</content>
+\t\t\t</control>
+''' % {'x': x, 'id': list_id, 'title': title, 'text': TEXT, 'h': height, 'step': width + 16, 'card': card,
+       'path': search_path(path, kind, TYPED)})
+    out.append('\t\t</control>\n' + LIVE_END)
+    return ''.join(out)
+
+
+def add_live_rows():
+    path = os.path.join(ROOT, 'xml', 'DialogKeyboard.xml')
+    text = open(path, encoding='utf-8').read()
+    if LIVE_START in text:
+        text = text[:text.index(LIVE_START)] + text[text.index(LIVE_END) + len(LIVE_END):]
+    last = text.rindex('\t</controls>')
+    text = text[:last] + live_rows() + text[last:]
+    open(path, 'w', encoding='utf-8').write(text)
 
 
 def box_set_card(focused, list_id):
@@ -300,4 +360,6 @@ if __name__ == '__main__':
     with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloSearch.xml' % WINDOW_ID), 'w', encoding='utf-8') as handle:
         handle.write(build())
     add_variables()
-    print('Wrote xml/Custom_%d_SiloSearch.xml and its variables in xml/Variables.xml' % WINDOW_ID)
+    add_live_rows()
+    print('Wrote xml/Custom_%d_SiloSearch.xml, its variables in xml/Variables.xml and the keyboard\'s '
+          'live rows in xml/DialogKeyboard.xml' % WINDOW_ID)

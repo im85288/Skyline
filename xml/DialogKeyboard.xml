@@ -693,5 +693,64 @@
 				</control>
 			</control>
 		</control>
+		<!-- Silo live search (tools/build_search.py) -->
+		<control type="group">
+			<visible>Window.IsVisible(1190) + !String.IsEmpty(Control.GetLabel(312).index(1))</visible>
+			<control type="label">
+				<left>120</left><top>300</top><width>810</width><height>36</height>
+				<font>silo_meta</font>
+				<textcolor>FFEDEDED</textcolor>
+				<label>Movies$INFO[Container(1201).NumItems,  ·  ,]</label>
+				<visible>Integer.IsGreater(Container(1201).NumItems,0) | Container(1201).IsUpdating</visible>
+			</control>
+			<control type="list" id="1201">
+				<left>120</left><top>346</top><width>810</width><height>180</height>
+				<orientation>horizontal</orientation>
+				<scrolltime>0</scrolltime>
+				<itemlayout width="136" height="180">
+					<control type="image">
+						<width>120</width><height>180</height>
+						<aspectratio>scale</aspectratio>
+						<texture background="true" diffuse="silo/card_poster_mask.png">$INFO[ListItem.Art(poster)]</texture>
+					</control>
+				</itemlayout>
+				<focusedlayout width="136" height="180">
+					<control type="image">
+						<width>120</width><height>180</height>
+						<aspectratio>scale</aspectratio>
+						<texture background="true" diffuse="silo/card_poster_mask.png">$INFO[ListItem.Art(poster)]</texture>
+					</control>
+				</focusedlayout>
+				<content target="videos" limit="12">videodb://movies/titles/?xsp=%7B%22type%22%3A%22movies%22%2C%22order%22%3A%7B%22method%22%3A%22sorttitle%22%2C%22direction%22%3A%22ascending%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22contains%22%2C%22value%22%3A%5B%22$INFO[Control.GetLabel(312).index(1)]%22%5D%7D%5D%7D%7D</content>
+			</control>
+			<control type="label">
+				<left>990</left><top>300</top><width>810</width><height>36</height>
+				<font>silo_meta</font>
+				<textcolor>FFEDEDED</textcolor>
+				<label>Shows$INFO[Container(1202).NumItems,  ·  ,]</label>
+				<visible>Integer.IsGreater(Container(1202).NumItems,0) | Container(1202).IsUpdating</visible>
+			</control>
+			<control type="list" id="1202">
+				<left>990</left><top>346</top><width>810</width><height>180</height>
+				<orientation>horizontal</orientation>
+				<scrolltime>0</scrolltime>
+				<itemlayout width="136" height="180">
+					<control type="image">
+						<width>120</width><height>180</height>
+						<aspectratio>scale</aspectratio>
+						<texture background="true" diffuse="silo/card_poster_mask.png">$INFO[ListItem.Art(poster)]</texture>
+					</control>
+				</itemlayout>
+				<focusedlayout width="136" height="180">
+					<control type="image">
+						<width>120</width><height>180</height>
+						<aspectratio>scale</aspectratio>
+						<texture background="true" diffuse="silo/card_poster_mask.png">$INFO[ListItem.Art(poster)]</texture>
+					</control>
+				</focusedlayout>
+				<content target="videos" limit="12">videodb://tvshows/titles/?xsp=%7B%22type%22%3A%22tvshows%22%2C%22order%22%3A%7B%22method%22%3A%22sorttitle%22%2C%22direction%22%3A%22ascending%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22contains%22%2C%22value%22%3A%5B%22$INFO[Control.GetLabel(312).index(1)]%22%5D%7D%5D%7D%7D</content>
+			</control>
+		</control>
+		<!-- end Silo live search -->
 	</controls>
 </window>
