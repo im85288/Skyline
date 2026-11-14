@@ -1,3 +1,6 @@
+[B]0.12.2[/B]
+• Info page: the Dolby Vision pill names the profile (DOLBY VISION 7.6, 8.1), with KodiConnectForSilo 0.21.3
+
 [B]0.12.1[/B]
 • Up Next: the finishing episode's title has its own line and scrolls when long; its episode number moves to the heading
 • Up Next's preview (in its developer settings) shows the Now finishing card, from Up Next's next release
