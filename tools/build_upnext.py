@@ -141,7 +141,9 @@ def showcase():
                  next one. Its picture, title, how far it is and the time left. -->
             <control type="group">
                 <left>%(sx)d</left><top>%(fy)d</top>
-                <visible>VideoPlayer.Content(episodes)</visible>
+                <!-- Or Up Next's developer preview, where nothing plays: it
+                     passes the episode before as preview_finishing_*. -->
+                <visible>VideoPlayer.Content(episodes) | !String.IsEmpty(Window.Property(preview_finishing_title))</visible>
                 <control type="image">
                     <width>192</width><height>108</height>
                     <aspectratio>scale</aspectratio>
@@ -151,21 +153,33 @@ def showcase():
                     <left>216</left><top>0</top><width>424</width><height>30</height>
                     <font>silo_detail</font>
                     <textcolor>%(dim)s</textcolor>
-                    <label>NOW FINISHING</label>
+                    <label>NOW FINISHING$VAR[SiloFinishingCode]</label>
                 </control>
+                <!-- The title alone on its line, scrolling when longer: with the
+                     episode code before it, most titles were cut off at 424. -->
                 <control type="label">
                     <left>216</left><top>32</top><width>424</width><height>36</height>
                     <font>silo_meta</font>
                     <textcolor>%(text)s</textcolor>
-                    <label>$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode, E,]$INFO[VideoPlayer.Title, · ,]</label>
+                    <scroll>true</scroll>
+                    <scrollspeed>40</scrollspeed>
+                    <label>$VAR[SiloFinishingTitle]</label>
                 </control>
                 <control type="image">
                     <left>216</left><top>84</top><width>300</width><height>4</height>
                     <texture colordiffuse="33FFFFFF">colors/white.png</texture>
                 </control>
+                <!-- The preview's played part: Up Next's preview_finishing_progress
+                     (96%%) of the bar, fixed, since Kodi sizes no control from a property. -->
+                <control type="image">
+                    <left>216</left><top>84</top><width>288</width><height>4</height>
+                    <texture colordiffuse="%(text)s">colors/white.png</texture>
+                    <visible>!String.IsEmpty(Window.Property(preview_finishing_title))</visible>
+                </control>
                 <control type="progress">
                     <left>216</left><top>84</top><width>300</width><height>4</height>
                     <info>Player.Progress</info>
+                    <visible>String.IsEmpty(Window.Property(preview_finishing_title))</visible>
                     <texturebg colordiffuse="00FFFFFF">colors/white.png</texturebg>
                     <midtexture colordiffuse="%(text)s">colors/white.png</midtexture>
                 </control>
@@ -174,7 +188,7 @@ def showcase():
                     <align>right</align>
                     <font>silo_detail</font>
                     <textcolor>%(dim)s</textcolor>
-                    <label>$INFO[Player.TimeRemaining(mm:ss),,  left]</label>
+                    <label>$VAR[SiloFinishingLeft]</label>
                 </control>
             </control>
         </control>''' % {'on': SHOWCASE, 'x': SHOWCASE_X, 'text': TEXT, 'dim': DIM, 'sx': SHOWCASE_STILL_X,
@@ -421,9 +435,22 @@ VARIABLES = '''    <variable name="SiloUpNextBackdrop">
         <value>$INFO[Window.Property(fanart)]</value>
     </variable>
     <variable name="SiloFinishingArt">
+        <value condition="!String.IsEmpty(Window.Property(preview_finishing_art))">$INFO[Window.Property(preview_finishing_art)]</value>
         <value condition="!String.IsEmpty(Player.Art(thumb))">$INFO[Player.Art(thumb)]</value>
         <value condition="!String.IsEmpty(Player.Art(tvshow.landscape))">$INFO[Player.Art(tvshow.landscape)]</value>
         <value>$INFO[Player.Art(fanart)]</value>
+    </variable>
+    <variable name="SiloFinishingCode">
+        <value condition="!String.IsEmpty(Window.Property(preview_finishing_title))">$INFO[Window.Property(preview_finishing_season),  ·  S,]$INFO[Window.Property(preview_finishing_episode), E,]</value>
+        <value>$INFO[VideoPlayer.Season,  ·  S,]$INFO[VideoPlayer.Episode, E,]</value>
+    </variable>
+    <variable name="SiloFinishingTitle">
+        <value condition="!String.IsEmpty(Window.Property(preview_finishing_title))">$INFO[Window.Property(preview_finishing_title)]</value>
+        <value>$INFO[VideoPlayer.Title]</value>
+    </variable>
+    <variable name="SiloFinishingLeft">
+        <value condition="!String.IsEmpty(Window.Property(preview_finishing_title))">$INFO[Window.Property(preview_finishing_remaining),,  left]</value>
+        <value>$INFO[Player.TimeRemaining(mm:ss),,  left]</value>
     </variable>
 '''
 START, END = '    <!-- Silo Up Next variables (tools/build_upnext.py) -->\n', '    <!-- end Silo Up Next variables -->\n'

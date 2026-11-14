@@ -8440,9 +8440,22 @@
         <value>$INFO[Window.Property(fanart)]</value>
     </variable>
     <variable name="SiloFinishingArt">
+        <value condition="!String.IsEmpty(Window.Property(preview_finishing_art))">$INFO[Window.Property(preview_finishing_art)]</value>
         <value condition="!String.IsEmpty(Player.Art(thumb))">$INFO[Player.Art(thumb)]</value>
         <value condition="!String.IsEmpty(Player.Art(tvshow.landscape))">$INFO[Player.Art(tvshow.landscape)]</value>
         <value>$INFO[Player.Art(fanart)]</value>
+    </variable>
+    <variable name="SiloFinishingCode">
+        <value condition="!String.IsEmpty(Window.Property(preview_finishing_title))">$INFO[Window.Property(preview_finishing_season),  ·  S,]$INFO[Window.Property(preview_finishing_episode), E,]</value>
+        <value>$INFO[VideoPlayer.Season,  ·  S,]$INFO[VideoPlayer.Episode, E,]</value>
+    </variable>
+    <variable name="SiloFinishingTitle">
+        <value condition="!String.IsEmpty(Window.Property(preview_finishing_title))">$INFO[Window.Property(preview_finishing_title)]</value>
+        <value>$INFO[VideoPlayer.Title]</value>
+    </variable>
+    <variable name="SiloFinishingLeft">
+        <value condition="!String.IsEmpty(Window.Property(preview_finishing_title))">$INFO[Window.Property(preview_finishing_remaining),,  left]</value>
+        <value>$INFO[Player.TimeRemaining(mm:ss),,  left]</value>
     </variable>
     <!-- end Silo Up Next variables -->
     <!-- Silo Skyline menu editor (tools/build_shortcuts.py) -->

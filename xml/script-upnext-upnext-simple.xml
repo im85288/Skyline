@@ -75,7 +75,9 @@
                  next one. Its picture, title, how far it is and the time left. -->
             <control type="group">
                 <left>1160</left><top>592</top>
-                <visible>VideoPlayer.Content(episodes)</visible>
+                <!-- Or Up Next's developer preview, where nothing plays: it
+                     passes the episode before as preview_finishing_*. -->
+                <visible>VideoPlayer.Content(episodes) | !String.IsEmpty(Window.Property(preview_finishing_title))</visible>
                 <control type="image">
                     <width>192</width><height>108</height>
                     <aspectratio>scale</aspectratio>
@@ -85,21 +87,33 @@
                     <left>216</left><top>0</top><width>424</width><height>30</height>
                     <font>silo_detail</font>
                     <textcolor>87EDEDED</textcolor>
-                    <label>NOW FINISHING</label>
+                    <label>NOW FINISHING$VAR[SiloFinishingCode]</label>
                 </control>
+                <!-- The title alone on its line, scrolling when longer: with the
+                     episode code before it, most titles were cut off at 424. -->
                 <control type="label">
                     <left>216</left><top>32</top><width>424</width><height>36</height>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor>
-                    <label>$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode, E,]$INFO[VideoPlayer.Title, · ,]</label>
+                    <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix>
+                    <scrollspeed>40</scrollspeed>
+                    <label>$VAR[SiloFinishingTitle]</label>
                 </control>
                 <control type="image">
                     <left>216</left><top>84</top><width>300</width><height>4</height>
                     <texture colordiffuse="33FFFFFF">colors/white.png</texture>
                 </control>
+                <!-- The preview's played part: Up Next's preview_finishing_progress
+                     (96%) of the bar, fixed, since Kodi sizes no control from a property. -->
+                <control type="image">
+                    <left>216</left><top>84</top><width>288</width><height>4</height>
+                    <texture colordiffuse="FFEDEDED">colors/white.png</texture>
+                    <visible>!String.IsEmpty(Window.Property(preview_finishing_title))</visible>
+                </control>
                 <control type="progress">
                     <left>216</left><top>84</top><width>300</width><height>4</height>
                     <info>Player.Progress</info>
+                    <visible>String.IsEmpty(Window.Property(preview_finishing_title))</visible>
                     <texturebg colordiffuse="00FFFFFF">colors/white.png</texturebg>
                     <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                 </control>
@@ -108,7 +122,7 @@
                     <align>right</align>
                     <font>silo_detail</font>
                     <textcolor>87EDEDED</textcolor>
-                    <label>$INFO[Player.TimeRemaining(mm:ss),,  left]</label>
+                    <label>$VAR[SiloFinishingLeft]</label>
                 </control>
             </control>
         </control>
