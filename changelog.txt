@@ -1,3 +1,6 @@
+[B]0.12.3[/B]
+• Up Next: the time left beside the progress bar is no longer cut off
+
 [B]0.12.2[/B]
 • Info page: the Dolby Vision pill names the profile (DOLBY VISION 7.6, 8.1), with KodiConnectForSilo 0.21.3
 
