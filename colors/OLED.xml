@@ -5,6 +5,7 @@
 	<color name="SkylineBackground">FF000000</color>
 	<color name="SkylinePanel">F20E0E0F</color>
 	<color name="SkylineDialog">FF0A0A0B</color>
+	<color name="SkylineGlass">FF2E2E32</color>
 	<color name="SkylineCard">FF121213</color>
 	<color name="SkylineCardEmpty">FF1A1A1C</color>
 	<!-- Live TV's panels (tools/build_colours.py). -->

@@ -673,14 +673,14 @@
 					<top>290</top>
 					<width>1560</width>
 					<height>90</height>
-					<texture border="40">buttons/dialogbutton-nofo.png</texture>
+					<texture border="20" colordiffuse="14FFFFFF">silo/card_landscape_mask.png</texture>
 				</control>
 				<control type="image">
 					<centerleft>50%</centerleft>
 					<top>370</top>
 					<width>1560</width>
 					<height>90</height>
-					<texture border="40">buttons/dialogbutton-nofo.png</texture>
+					<texture border="20" colordiffuse="14FFFFFF">silo/card_landscape_mask.png</texture>
 				</control>
 				<control type="label" id="314">
 					<centerleft>50%</centerleft>

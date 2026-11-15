@@ -22,7 +22,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from build_home import ROOT, TEXT, TEXT_DIM  # noqa: E402
 
-CARD = 'FF131417'  # Silo's dialog card, as the Options panel
 DARK = 'FF000000'
 PANEL_X, PANEL_W = 180, 1560
 PANEL_TOP = 150
@@ -173,13 +172,13 @@ def player_details():
         <animation effect="slide" end="0,-%(lift)d" time="0" condition="%(hdr)s">Conditional</animation>
         <control type="image">
             <left>%(x)d</left><top>%(top)d</top><width>%(w)d</width><height>%(h)d</height>
-            <texture border="24" colordiffuse="%(card)s">silo/card_landscape_mask.png</texture>
+            <texture border="28">silo/menu_panel.png</texture>
             <visible>!%(hdr)s</visible>
         </control>
         <!-- Taller while HDR plays, for the Dolby Vision and HDR band. -->
         <control type="image">
             <left>%(x)d</left><top>%(top)d</top><width>%(w)d</width><height>%(hh)d</height>
-            <texture border="24" colordiffuse="%(card)s">silo/card_landscape_mask.png</texture>
+            <texture border="28">silo/menu_panel.png</texture>
             <visible>%(hdr)s</visible>
         </control>%(video)s%(audio)s%(system)s%(channel)s%(dolby)s%(hdrcol)s
         </control>
@@ -193,7 +192,7 @@ def player_details():
         </control>
     </controls>
 </window>
-""" % {'x': PANEL_X, 'top': PANEL_TOP, 'w': PANEL_W, 'h': DETAILS_H, 'hh': HDR_DETAILS_H, 'card': CARD, 'lift': HDR_LIFT,
+""" % {'x': PANEL_X, 'top': PANEL_TOP, 'w': PANEL_W, 'h': DETAILS_H, 'hh': HDR_DETAILS_H, 'lift': HDR_LIFT,
        'hdr': HDR_PLAYING, 'video': column(0, 'VIDEO', VIDEO),
        'audio': column(1, 'AUDIO', AUDIO), 'system': column(2, 'SYSTEM', SYSTEM, '!' + live),
        'channel': column(2, 'CHANNEL', CHANNEL, live),
@@ -267,7 +266,7 @@ def chapters():
     <controls>
         <control type="image">
             <left>%(x)d</left><top>%(top)d</top><width>%(w)d</width><height>%(h)d</height>
-            <texture border="24" colordiffuse="%(card)s">silo/card_landscape_mask.png</texture>
+            <texture border="28">silo/menu_panel.png</texture>
         </control>
         <control type="label">
             <left>%(hx)d</left><top>%(ht)d</top><width>%(lw)d</width><height>%(hh)d</height>
@@ -301,7 +300,7 @@ def chapters():
         </control>
     </controls>
 </window>
-""" % {'list': LIST_ID, 'buttons': BUTTONS_ID, 'x': PANEL_X, 'top': PANEL_TOP, 'w': PANEL_W, 'h': CHAPTERS_H, 'card': CARD,
+""" % {'list': LIST_ID, 'buttons': BUTTONS_ID, 'x': PANEL_X, 'top': PANEL_TOP, 'w': PANEL_W, 'h': CHAPTERS_H,
        'hx': LIST_X + 32, 'ht': PANEL_TOP + 44, 'hh': HEADING_H, 'lw': LIST_W, 'lx': LIST_X, 'lt': LIST_TOP, 'row': CHAPTER_ROW,
        'lh': PANEL_TOP + CHAPTERS_H - LIST_TOP - 28, 'dim': TEXT_DIM, 'item': chapter_row(False), 'item_focused': chapter_row(True),
        'bx': LIST_X + LIST_W + 40, 'bw': BUTTON_W,

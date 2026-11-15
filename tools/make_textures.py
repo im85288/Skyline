@@ -124,18 +124,23 @@ def badge_solid(name='badge_solid.png', size=32, radius=6):
     write_png(name, size, size, lambda x, y: rounded_rect_coverage(x, y, size, size, radius))
 
 
+GLASS_FILL = 0x8F  # the panel's share of SkylineGlass (56%); its rim shows it in full
+
+
 def menu_panel(name='menu_panel.png', size=96, radius=24, rim=1.5):
-    """Silo's Apple TV menus: a near-black glass panel (#272A30 at 95%) with a
-    faint light rim, stretched with border="28"."""
+    """Silo's Apple TV menus: a glass panel at 95% with a faint light rim,
+    stretched with border="28" (glass_pill.png: the same as a pill, border="36").
+    Drawn in greys and tinted by the theme's SkylineGlass (build_colours.py), so
+    the panel is 56% of that colour (Silo's #272A30 in its theme) and the rim
+    all of it."""
     def pixel(x, y):
         outer = rounded_rect_coverage(x, y, size, size, radius)
         inner = rounded_rect_coverage(x, y, size, size, radius, inset=rim)
         edge = outer - inner
-        # The rim: white at 14% over the panel, mixed into one colour.
         alpha = inner * 0.95 + edge * 0.97
-        mix = edge / alpha if alpha else 0
-        colour = tuple(int(base + (255 - base) * 0.14 * mix) for base in (0x27, 0x2A, 0x30))
-        return alpha, colour
+        mix = min(1.0, edge / alpha) if alpha else 0
+        grey = int(GLASS_FILL + (255 - GLASS_FILL) * mix + 0.5)
+        return alpha, (grey, grey, grey)
     write_png(name, size, size, pixel)
 
 
@@ -293,6 +298,7 @@ if __name__ == '__main__':
     badge_fill()
     badge_solid()
     menu_panel()
+    menu_panel('glass_pill.png', 72, 36)
     epg_now()
     play_circle()
     # Silo's skip pill outline (Up Next's Skip intro), stretched with border="48".

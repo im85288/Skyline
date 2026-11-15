@@ -11,6 +11,9 @@ Interface -> Skin -> Colours):
   SkylineCardEmpty: the page, panels and dropdowns, dialogs and cards;
 - SkylineLivePanel, SkylineLiveCard, SkylineLiveVeil, SkylineLiveBar: Live
   TV's quick guide, OK screen tiles, schedule veil and title bars;
+- SkylineGlass: the glass the dialogs and menus sit on (silo/menu_panel.png,
+  silo/glass_pill.png), drawn in greys so the panel shows 56% of it and its
+  rim all of it;
 - SkylineFocus: the focus pill, focus cards and rings (Silo's white);
 - SkylineFocusText, SkylineFocusTextDim: text and icons drawn on it (black).
 
@@ -43,12 +46,16 @@ FOCUS_TEXTURES = ('silo/pill.png', 'silo/dialog_button.png', 'silo/card_landscap
                   'silo/avatar_ring.png', 'silo/person_ring.png', 'buttons/thumbnail_focused.png',
                   'silo/round_button.png')
 KEEP_BLACK = ('OverlayWatched.png',)  # the watched tick on its white disc
+GLASS_TEXTURES = ('silo/menu_panel.png', 'silo/glass_pill.png')
 
 
 def themed(text):
     for value, name in THEMED.items():
         text = text.replace('colordiffuse="%s"' % value, 'colordiffuse="%s"' % name)
         text = re.sub(r'<(textcolor|backgroundcolor)>%s<' % value, r'<\1>%s<' % name, text)
+    # The glass: every dialog's panel in the theme's colour.
+    text = re.sub(r'<(texture\w*)((?: (?!colordiffuse)\w+="[^"]*")*)>(%s)<' % '|'.join(map(re.escape, GLASS_TEXTURES)),
+                  r'<\1\2 colordiffuse="SkylineGlass">\3<', text)
     # The focus: Silo's white on the shapes that show it.
     text = re.sub(r'(<((?:alt)?texture\w*)( [^>]*)?) colordiffuse="FFEDEDED"([^>]*>)(%s)<' % '|'.join(map(re.escape, FOCUS_TEXTURES)),
                   r'\1 colordiffuse="SkylineFocus"\4\5<', text)

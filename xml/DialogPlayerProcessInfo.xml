@@ -11,13 +11,13 @@
         <animation effect="slide" end="0,-110" time="0" condition="!String.IsEmpty(VideoPlayer.HdrType)">Conditional</animation>
         <control type="image">
             <left>180</left><top>150</top><width>1560</width><height>572</height>
-            <texture border="24" colordiffuse="SkylineDialog">silo/card_landscape_mask.png</texture>
+            <texture border="28" colordiffuse="SkylineGlass">silo/menu_panel.png</texture>
             <visible>String.IsEmpty(VideoPlayer.HdrType)</visible>
         </control>
         <!-- Taller while HDR plays, for the Dolby Vision and HDR band. -->
         <control type="image">
             <left>180</left><top>150</top><width>1560</width><height>984</height>
-            <texture border="24" colordiffuse="SkylineDialog">silo/card_landscape_mask.png</texture>
+            <texture border="28" colordiffuse="SkylineGlass">silo/menu_panel.png</texture>
             <visible>!String.IsEmpty(VideoPlayer.HdrType)</visible>
         </control>
         <control type="group">

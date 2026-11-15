@@ -81,7 +81,7 @@
 								<top>-100</top>
 								<width>1210</width>
 								<height>350</height>
-								<texture border="40">buttons/dialogbutton-nofo.png</texture>
+								<texture border="20" colordiffuse="14FFFFFF">silo/card_landscape_mask.png</texture>
 							</control>
 							<control type="image">
 								<left>805</left>

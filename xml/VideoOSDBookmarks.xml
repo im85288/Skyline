@@ -7,7 +7,7 @@
     <controls>
         <control type="image">
             <left>180</left><top>150</top><width>1560</width><height>870</height>
-            <texture border="24" colordiffuse="SkylineDialog">silo/card_landscape_mask.png</texture>
+            <texture border="28" colordiffuse="SkylineGlass">silo/menu_panel.png</texture>
         </control>
         <control type="label">
             <left>240</left><top>194</top><width>1040</width><height>52</height>

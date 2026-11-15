@@ -41,7 +41,7 @@
 				<width>520</width>
 				<height>780</height>
 				<!-- Silo's Apple TV menu: a dark glass panel with a faint rim. -->
-				<texture border="28">silo/menu_panel.png</texture>
+				<texture border="28" colordiffuse="SkylineGlass">silo/menu_panel.png</texture>
 			</control>
 			<control type="grouplist" id="996">
 				<description>grouplist for context buttons</description>

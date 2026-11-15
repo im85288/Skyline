@@ -1545,7 +1545,7 @@
             <animation effect="fade" start="100" end="0" time="120">WindowClose</animation>
             <control type="image">
                 <width>600</width><height>260</height>
-                <texture border="28">silo/menu_panel.png</texture>
+                <texture border="28" colordiffuse="SkylineGlass">silo/menu_panel.png</texture>
             </control>
             <control type="textbox">
                 <left>30</left><top>22</top><width>540</width><height>96</height>
@@ -1585,7 +1585,7 @@
             <animation effect="fade" start="100" end="0" time="120">WindowClose</animation>
             <control type="image">
                 <width>600</width><height>260</height>
-                <texture border="28">silo/menu_panel.png</texture>
+                <texture border="28" colordiffuse="SkylineGlass">silo/menu_panel.png</texture>
             </control>
             <control type="textbox">
                 <left>30</left><top>22</top><width>540</width><height>96</height>

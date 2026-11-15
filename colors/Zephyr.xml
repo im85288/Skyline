@@ -5,6 +5,7 @@
 	<color name="SkylineBackground">FF1A1B1D</color>
 	<color name="SkylinePanel">F22A2B2E</color>
 	<color name="SkylineDialog">FF232427</color>
+	<color name="SkylineGlass">FF575960</color>
 	<color name="SkylineCard">FF2A2B2E</color>
 	<color name="SkylineCardEmpty">FF333438</color>
 	<color name="SkylineFocus">FF0385B5</color>

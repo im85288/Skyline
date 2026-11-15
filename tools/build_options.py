@@ -22,7 +22,6 @@ PANEL_X, PANEL_W = 180, 1560
 PANEL_TOP, PANEL_H = 150, 520
 TABS_TOP = 48
 ROW_H = 68
-CARD = 'FF131417'  # Silo's dialog card
 
 # (key, title, rows, facts): rows are (label, value, actions), facts (label, value).
 TABS = [
@@ -306,10 +305,10 @@ def build():
             <left>0</left><top>0</top><width>1920</width><height>1080</height>
             <texture colordiffuse="66000000">colors/white.png</texture>
         </control>
-        <!-- The tab pills, centred, on a darker pill track. -->
+        <!-- The tab pills, centred, on a glass pill track. -->
         <control type="image">
             <left>%(track_x)d</left><top>%(tabs_top)d</top><width>%(track_w)d</width><height>72</height>
-            <texture border="36" colordiffuse="%(card)s">silo/pill.png</texture>
+            <texture border="36">silo/glass_pill.png</texture>
         </control>
         <control type="grouplist" id="100">
             <left>%(track_x)d</left><top>%(tabs_inner)d</top><width>%(track_w)d</width><height>56</height>
@@ -319,11 +318,11 @@ def build():
         </control>
         <control type="image">
             <left>%(px)d</left><top>%(pt)d</top><width>%(pw)d</width><height>%(ph)d</height>
-            <texture border="14" colordiffuse="%(card)s">silo/card_landscape_mask.png</texture>
+            <texture border="28">silo/menu_panel.png</texture>
         </control>%(panels)s
     </controls>
 </window>
-''' % {'window': WINDOW_ID, 'tabs': tabs, 'panels': panels, 'card': CARD, 'px': PANEL_X, 'pt': PANEL_TOP,
+''' % {'window': WINDOW_ID, 'tabs': tabs, 'panels': panels, 'px': PANEL_X, 'pt': PANEL_TOP,
        'pw': PANEL_W, 'ph': PANEL_H, 'tabs_top': TABS_TOP, 'tabs_inner': TABS_TOP + 8,
        'track_x': (1920 - 900) // 2, 'track_w': 900}
 
