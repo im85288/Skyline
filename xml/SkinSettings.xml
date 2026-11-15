@@ -190,8 +190,8 @@
 				<control type="radiobutton" id="799">
 					<label>Dolby Vision profile on badges</label>
 					<include>DefaultSettingButton</include>
-					<selected>Skin.HasSetting(SkylineDVProfile)</selected>
-					<onclick>Skin.ToggleSetting(SkylineDVProfile)</onclick>
+					<selected>!Skin.HasSetting(SkylineHideDVProfile)</selected>
+					<onclick>Skin.ToggleSetting(SkylineHideDVProfile)</onclick>
 					<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
 				</control>
 				<control type="radiobutton" id="795">

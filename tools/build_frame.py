@@ -707,8 +707,8 @@ TITLE_SETTINGS = (
               selected='!Skin.HasSetting(SkylineHideTmdb)')
     + setting('radiobutton', 798, 'Rotten Tomatoes ratings', 'Skin.ToggleSetting(SkylineHideRt)',
               selected='!Skin.HasSetting(SkylineHideRt)')
-    + setting('radiobutton', 799, 'Dolby Vision profile on badges', 'Skin.ToggleSetting(SkylineDVProfile)',
-              selected='Skin.HasSetting(SkylineDVProfile)', visible=SILO,
+    + setting('radiobutton', 799, 'Dolby Vision profile on badges', 'Skin.ToggleSetting(SkylineHideDVProfile)',
+              selected='!Skin.HasSetting(SkylineHideDVProfile)', visible=SILO,
               comment='Off unless chosen: DOLBY VISION 7.6 rather than DOLBY VISION (KodiConnectForSilo 0.22.0+).')
     + setting('radiobutton', 795, 'Theme music on show pages', 'Skin.ToggleSetting(SkylineNoThemeMusic)',
               selected='!Skin.HasSetting(SkylineNoThemeMusic)', visible=SILO)

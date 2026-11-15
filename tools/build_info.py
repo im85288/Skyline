@@ -1192,11 +1192,11 @@ VARIABLES = '''
         <value>silo/menu_rate.png</value>
     </variable>
     <!-- Dolby Vision with its profile (KodiConnectForSilo 0.21.3+), when the skin
-         setting SkylineDVProfile is on: silo.dv from the add-on's own lists, the
+         setting SkylineHideDVProfile is off (the default): silo.dv from the add-on's own lists, the
          silodv extra from Kodi's library ("DOLBY VISION 7"). -->
     <variable name="SiloDetailHdr">
-        <value condition="String.IsEqual(ListItem.HdrType,dolbyvision) + Skin.HasSetting(SkylineDVProfile) + !String.IsEmpty(ListItem.Property(silo.dv))">DOLBY VISION $INFO[ListItem.Property(silo.dv)]</value>
-        <value condition="String.IsEqual(ListItem.HdrType,dolbyvision) + Skin.HasSetting(SkylineDVProfile) + !String.IsEmpty(ListItem.Art(silodv))">DOLBY VISION $INFO[ListItem.Art(silodv)]</value>
+        <value condition="String.IsEqual(ListItem.HdrType,dolbyvision) + !Skin.HasSetting(SkylineHideDVProfile) + !String.IsEmpty(ListItem.Property(silo.dv))">DOLBY VISION $INFO[ListItem.Property(silo.dv)]</value>
+        <value condition="String.IsEqual(ListItem.HdrType,dolbyvision) + !Skin.HasSetting(SkylineHideDVProfile) + !String.IsEmpty(ListItem.Art(silodv))">DOLBY VISION $INFO[ListItem.Art(silodv)]</value>
         <value condition="String.IsEqual(ListItem.HdrType,dolbyvision)">DOLBY VISION</value>
         <value condition="String.IsEqual(ListItem.HdrType,hdr10plus)">HDR10+</value>
         <value condition="String.IsEqual(ListItem.HdrType,hdr10)">HDR10</value>

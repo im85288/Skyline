@@ -2356,7 +2356,7 @@ HERO_TITLE_TERM = '[!String.IsEmpty(Container(%(r)d).ListItem.Property(home.dbid
 # name: DOLBY VISION 7.6. KodiConnectForSilo (0.22.0+) sends badges without it
 # and the profile apart (silo.dv, home.dv, the silodv extra), so the skin
 # joins them here, and the setting changes every screen at once.
-DV_PROFILE = 'Skin.HasSetting(SkylineDVProfile)'
+DV_PROFILE = '!Skin.HasSetting(SkylineHideDVProfile)'  # on unless turned off
 
 
 def dv_values(badge, dv, plain=None):

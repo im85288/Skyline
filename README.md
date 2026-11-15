@@ -70,7 +70,7 @@ Each setting explains itself in the line under the tab's name when it has focus.
   groups and My teams); Episode pictures on Home
   (an episode's own picture instead of its show's artwork).
 - **Titles:** IMDb, TMDB and Rotten Tomatoes ratings, each shown or hidden everywhere (all on by default);
-  Dolby Vision profile on badges (DOLBY VISION 7.6, off by default); Theme music on show pages and its volume; Hide spoilers for
+  Dolby Vision profile on badges (DOLBY VISION 7.6, on by default); Theme music on show pages and its volume; Hide spoilers for
   unwatched episodes (Kodi's own setting, switched through KodiConnectForSilo).
 - **Player:** Player style (Showcase or Silo's), the overlay's auto-close, and Rewind a little when unpausing.
 
