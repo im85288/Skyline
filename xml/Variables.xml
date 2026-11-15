@@ -369,7 +369,7 @@
 		<value condition="Control.HasFocus(781)">Show the TV tab in Home's bar, with live channels and the guide.</value>
 		<value condition="Control.HasFocus(772)">The TV tab's Live sport now row shows matches only on channels in the playlist groups ticked here.</value>
 		<value condition="Control.HasFocus(773)">Teams whose matches the TV tab's My teams row looks for, in any group. Several: separate them with commas.</value>
-		<value condition="Control.HasFocus(786)">Episodes on Home's rows, such as Continue Watching, show their own picture instead of their show's artwork.</value>
+		<value condition="Control.HasFocus(786)">Episodes in the rows on Home, Movies and Series, such as Continue Watching, show their own picture instead of their show's artwork.</value>
 		<value condition="Control.HasFocus(796)">Show IMDb's rating on Home, info pages and lists.</value>
 		<value condition="Control.HasFocus(797)">Show TMDB's rating on Home, info pages and lists.</value>
 		<value condition="Control.HasFocus(798)">Show Rotten Tomatoes' critics' score on Home, info pages and lists.</value>
@@ -893,6 +893,10 @@
     <variable name="SiloLandscapeArt">
         <value condition="!String.IsEmpty(ListItem.Property(home.type)) + Skin.HasSetting(SkylineEpisodeStills) + !String.IsEmpty(ListItem.Property(home.art.still))">$INFO[ListItem.Property(home.art.still)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(home.type))">$INFO[ListItem.Property(home.art.landscape)]</value>
+        <!-- An episode Kodi lists itself on Home's pages (Series' Continue Watching): its show's
+             artwork, as KodiConnectForSilo's own rows, unless Episode pictures on Home is on. Up Next's
+             windows (not Home) keep the episode's picture. -->
+        <value condition="Window.IsActive(home) + !Skin.HasSetting(SkylineEpisodeStills) + String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Art(tvshow.fanart))">$INFO[ListItem.Art(tvshow.fanart)]</value>
         <value condition="String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Art(thumb))">$INFO[ListItem.Art(thumb)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(landscape))">$INFO[ListItem.Art(landscape)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>

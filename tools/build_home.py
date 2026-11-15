@@ -2509,6 +2509,10 @@ CARDS = '''
     <variable name="SiloLandscapeArt">
         <value condition="!String.IsEmpty(ListItem.Property(home.type)) + Skin.HasSetting(SkylineEpisodeStills) + !String.IsEmpty(ListItem.Property(home.art.still))">$INFO[ListItem.Property(home.art.still)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(home.type))">$INFO[ListItem.Property(home.art.landscape)]</value>
+        <!-- An episode Kodi lists itself on Home's pages (Series' Continue Watching): its show's
+             artwork, as KodiConnectForSilo's own rows, unless Episode pictures on Home is on. Up Next's
+             windows (not Home) keep the episode's picture. -->
+        <value condition="Window.IsActive(home) + !Skin.HasSetting(SkylineEpisodeStills) + String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Art(tvshow.fanart))">$INFO[ListItem.Art(tvshow.fanart)]</value>
         <value condition="String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Art(thumb))">$INFO[ListItem.Art(thumb)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(landscape))">$INFO[ListItem.Art(landscape)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>

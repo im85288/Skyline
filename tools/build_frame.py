@@ -739,7 +739,7 @@ SETTING_HELP = (
     (781, "Show the TV tab in Home's bar, with live channels and the guide."),
     (772, "The TV tab's Live sport now row shows matches only on channels in the playlist groups ticked here."),
     (773, "Teams whose matches the TV tab's My teams row looks for, in any group. Several: separate them with commas."),
-    (786, "Episodes on Home's rows, such as Continue Watching, show their own picture instead of their show's artwork."),
+    (786, "Episodes in the rows on Home, Movies and Series, such as Continue Watching, show their own picture instead of their show's artwork."),
     (796, "Show IMDb's rating on Home, info pages and lists."),
     (797, "Show TMDB's rating on Home, info pages and lists."),
     (798, "Show Rotten Tomatoes' critics' score on Home, info pages and lists."),
