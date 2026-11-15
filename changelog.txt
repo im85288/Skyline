@@ -1,3 +1,6 @@
+[B]0.14.1[/B]
+• Dolby Vision profile on badges (DOLBY VISION 7.6) is on by default; turn it off in Skin settings > Titles
+
 [B]0.14.0[/B]
 • Every dialog sits on the same glass panel: Options, Bookmarks, Player details, notifications and the progress bar now match Subtitles, menus and the OSD
 • The glass follows the colour theme (OLED darker, Zephyr lighter; the default theme as before)
