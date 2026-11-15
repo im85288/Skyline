@@ -1,3 +1,9 @@
+[B]0.14.0[/B]
+• Every dialog sits on the same glass panel: Options, Bookmarks, Player details, notifications and the progress bar now match Subtitles, menus and the OSD
+• The glass follows the colour theme (OLED darker, Zephyr lighter; the default theme as before)
+• Settings rows, PVR managers, smart playlists and text boxes focus with the same white bar and dark text everywhere
+• Lists and the keyboard's text line inside dialogs use a faint light field instead of a dark well
+
 [B]0.13.1[/B]
 • Series' Continue Watching shows the show's artwork, as Home does, unless Episode pictures on Home is on
 
