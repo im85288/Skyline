@@ -354,10 +354,30 @@
 		<value condition="Control.HasFocus(70055)">$LOCALIZE[24013]</value>
 	</variable>
 	<variable name="SkinSettingsHelpTextVar">
-		<value condition="Container(9000).HasFocus(1)">$LOCALIZE[31129]</value>
-		<value condition="Container(9000).HasFocus(2)">$LOCALIZE[31130]</value>
-		<value condition="Container(9000).HasFocus(3)">$LOCALIZE[31169]</value>
-		<value condition="Container(9000).HasFocus(4)">$LOCALIZE[31171]</value>
+		<value condition="Control.HasFocus(790)">Skyline's colour theme. Opens Kodi's Interface settings, where the skin's colours are chosen.</value>
+		<value condition="Control.HasFocus(792)">Add-ons Skyline works with, such as Up Next and YouTube, and what each one adds.</value>
+		<value condition="Control.HasFocus(701)">Pages slide in and out as they open and close. Off: they appear at once.</value>
+		<value condition="Control.HasFocus(783)">Use KodiConnectForSilo's screensaver: your films' and shows' backdrops, one after another. Off: the one you had before.</value>
+		<value condition="Control.HasFocus(784)">Show each title's logo over its backdrop in the screensaver. Off: the backdrops alone.</value>
+		<value condition="Control.HasFocus(787)">With 4K menus, Kodi keeps posters and backgrounds smaller than it draws them, so they look soft. Raises the sizes (or puts them back). Kodi restarts to use them.</value>
+		<value condition="Control.HasFocus(782)">Choose Home's menu items, the rows each one shows and their sub-menus.</value>
+		<value condition="Control.HasFocus(794)">Choose which Home rows show big numbers beside their first ten posters, as a chart does.</value>
+		<value condition="Control.HasFocus(780)">Show the Requests tab in Home's bar, to find and request films and shows through Silo.</value>
+		<value condition="Control.HasFocus(781)">Show the TV tab in Home's bar, with live channels and the guide.</value>
+		<value condition="Control.HasFocus(786)">Episodes on Home's rows, such as Continue Watching, show their own picture instead of their show's artwork.</value>
+		<value condition="Control.HasFocus(796)">Show IMDb's rating on Home, info pages and lists.</value>
+		<value condition="Control.HasFocus(797)">Show TMDB's rating on Home, info pages and lists.</value>
+		<value condition="Control.HasFocus(798)">Show Rotten Tomatoes' critics' score on Home, info pages and lists.</value>
+		<value condition="Control.HasFocus(799)">Name the Dolby Vision profile on its badge: DOLBY VISION 7.6 instead of DOLBY VISION.</value>
+		<value condition="Control.HasFocus(795)">Play a show's theme tune while its page is open, when Silo has one.</value>
+		<value condition="Control.HasFocus(785)">Hide the plot and picture of episodes you haven't watched, everywhere in Kodi. Films are not affected.</value>
+		<value condition="Control.HasFocus(793)">How the player looks. Showcase: the title's logo over the bar and a pause screen. Silo: as Silo's own apps.</value>
+		<value condition="Control.HasFocus(623)">Hide the player's controls by themselves a few seconds after the last key press.</value>
+		<value condition="Control.HasFocus(624)">How many seconds the player's controls stay up before they hide.</value>
+		<value condition="Container(9000).HasFocus(1)">Colours, movement and the screensaver.</value>
+		<value condition="Container(9000).HasFocus(2)">What Home shows: its menu, numbered rows and tabs.</value>
+		<value condition="Container(9000).HasFocus(3)">What badges, ratings and plots show for each film and show.</value>
+		<value condition="Container(9000).HasFocus(4)">How the player looks while you watch.</value>
 	</variable>
 	<variable name="SkinSettingOSDAutoCloseTime">
 		<value condition="!String.IsEmpty(Skin.String(OSDAutoCloseTime))">$INFO[Skin.String(OSDAutoCloseTime)]</value>
@@ -861,7 +881,10 @@
         <value>$INFO[ListItem.Art(fanart)]</value>
     </variable>
     <expression name="SiloNoPosterArt">[!String.IsEmpty(ListItem.Property(home.type)) + String.IsEmpty(ListItem.Property(home.art.poster)) + String.IsEmpty(ListItem.Property(home.art.fanart))] | [String.IsEmpty(ListItem.Property(home.type)) + String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(thumb)) + String.IsEmpty(ListItem.Art(fanart))]</expression>
+    <!-- An episode's own picture instead of its show's with Skin settings' Home >
+         Episode pictures on Home (KodiConnectForSilo 0.22.0+ sends it as art.still). -->
     <variable name="SiloLandscapeArt">
+        <value condition="!String.IsEmpty(ListItem.Property(home.type)) + Skin.HasSetting(SkylineEpisodeStills) + !String.IsEmpty(ListItem.Property(home.art.still))">$INFO[ListItem.Property(home.art.still)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(home.type))">$INFO[ListItem.Property(home.art.landscape)]</value>
         <value condition="String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Art(thumb))">$INFO[ListItem.Art(thumb)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(landscape))">$INFO[ListItem.Art(landscape)]</value>

@@ -50,7 +50,7 @@ OTHER_CARDS = 12
 HOME_CARD_FIELDS = ('type', 'dbid', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta',
                     'hero.facts', 'rating.imdb', 'rating.tmdb', 'rating.rtcritic',
                     'hero.detail', 'plot', 'mpaa', 'badge1', 'badge2', 'badge3', 'dv', 'tint', 'percent', 'playcount',
-                    'new', 'left', 'dismiss', 'rank', 'place', 'art.poster', 'art.landscape', 'art.fanart', 'art.clearlogo', 'request.type', 'request.tmdb',
+                    'new', 'left', 'dismiss', 'rank', 'place', 'art.poster', 'art.landscape', 'art.still', 'art.fanart', 'art.clearlogo', 'request.type', 'request.tmdb',
                     'status.tint', 'status.seg1', 'status.seg2', 'status.seg3', 'status.seg4',
                     'request.library', 'request.state', 'request.more', 'request.logo', 'request.from', 'request.to',
                     'tv.play', 'tv.logo')
@@ -59,7 +59,7 @@ HOME_CARD_FIELDS = ('type', 'dbid', 'card.title', 'card.sub', 'card.wide_sub', '
 # all posters (no wide caption or art). Each unused field cost every Home card.
 PAGE_FIELDS = {
     'home': tuple(f for f in HOME_CARD_FIELDS if not f.startswith(('request.', 'status.'))),
-    'requests': tuple(f for f in HOME_CARD_FIELDS if f not in ('card.wide_sub', 'art.landscape', 'new', 'left', 'dismiss', 'rank', 'place')),
+    'requests': tuple(f for f in HOME_CARD_FIELDS if f not in ('card.wide_sub', 'art.landscape', 'art.still', 'new', 'left', 'dismiss', 'rank', 'place')),
     # The TV page's cards (KodiConnectForSilo's tvrows.py): a match or a
     # channel, what OK does (tv.play), and how far through it is.
     'tv': ('type', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta', 'hero.facts', 'hero.detail', 'plot',
@@ -2492,7 +2492,10 @@ CARDS = '''
         <value>$INFO[ListItem.Art(fanart)]</value>
     </variable>
     <expression name="SiloNoPosterArt">[!String.IsEmpty(ListItem.Property(home.type)) + String.IsEmpty(ListItem.Property(home.art.poster)) + String.IsEmpty(ListItem.Property(home.art.fanart))] | [String.IsEmpty(ListItem.Property(home.type)) + String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(thumb)) + String.IsEmpty(ListItem.Art(fanart))]</expression>
+    <!-- An episode's own picture instead of its show's with Skin settings' Home >
+         Episode pictures on Home (KodiConnectForSilo 0.22.0+ sends it as art.still). -->
     <variable name="SiloLandscapeArt">
+        <value condition="!String.IsEmpty(ListItem.Property(home.type)) + Skin.HasSetting(SkylineEpisodeStills) + !String.IsEmpty(ListItem.Property(home.art.still))">$INFO[ListItem.Property(home.art.still)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(home.type))">$INFO[ListItem.Property(home.art.landscape)]</value>
         <value condition="String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Art(thumb))">$INFO[ListItem.Art(thumb)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(landscape))">$INFO[ListItem.Art(landscape)]</value>

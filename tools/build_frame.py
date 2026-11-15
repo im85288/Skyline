@@ -106,6 +106,11 @@ def includes():
 		</definition>
 	</include>
 	<!-- Recommended add-ons' states (addon_states). -->%(addon_states)s
+	<!-- How large Kodi draws its menus, beside Sharp pictures for 4K menus. -->
+	<variable name="SkylineGuiSize">
+		<value condition="Integer.IsGreaterOrEqual(System.ScreenWidth,3000)">Menus in 4K</value>
+		<value>Menus in $INFO[System.ScreenHeight]p</value>
+	</variable>
 	<!-- The colour theme's name: Kodi calls the default SKINDEFAULT. -->
 	<variable name="SkylineColourName">
 		<value condition="String.IsEqual(Skin.CurrentColourTheme,SKINDEFAULT)">Silo</value>
@@ -235,8 +240,6 @@ TILES = [
      'Install, update and configure add-ons'),
     ('$LOCALIZE[10003]', 'ActivateWindow(filemanager)', 'icons/settings/filemanager.png',
      'Browse, copy and delete files'),
-    ('Customise menu', 'RunScript(script.skinshortcuts,type=manage&amp;group=mainmenu)', 'icons/settings/skin.png',
-     "Home's menu items, their widgets and sub-menus", 'System.HasAddon(script.skinshortcuts)'),
     ('System info', 'ActivateWindow(systeminfo)', 'icons/settings/sysinfo.png',
      'Hardware, storage, network and version'),
     ('$LOCALIZE[14204]', 'ActivateWindow(PVRSettings)', 'icons/settings/livetv.png', 'Live TV and recordings'),
@@ -555,8 +558,8 @@ def skin_settings(text):
         # Estuary's header and footer rules: the panel frames the settings now.
         text = re.sub(r'\t\t\t<control type="image">\s*<description>Dialog Header image</description>.*?</control>\n',
                       '', text, flags=re.S)
-    # Skyline's look, first in General: the colour theme (Kodi chooses it in
-    # Interface settings) and the artwork background.
+    # Skyline's look, first in Look: the colour theme (Kodi chooses it in
+    # Interface settings) and the recommended add-ons.
     look = '<!-- Skyline look (tools/build_frame.py) -->'
     if look not in text:
         text = text.replace('\t\t\t\t<control type="radiobutton" id="701">', '''\t\t\t\t%s
@@ -572,63 +575,9 @@ def skin_settings(text):
 \t\t\t\t\t<include>DefaultSettingButton</include>
 \t\t\t\t\t<onclick>ActivateWindow(1192)</onclick>
 \t\t\t\t</control>
-\t\t\t\t<control type="button" id="794">
-\t\t\t\t\t<label>Top 10 rows</label>
-\t\t\t\t\t<label2>Numbered Home rows</label2>
-\t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=top10)</onclick>
-\t\t\t\t\t<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
-\t\t\t\t</control>
-\t\t\t\t<control type="radiobutton" id="795">
-\t\t\t\t\t<label>Theme music on show pages</label>
-\t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<selected>!Skin.HasSetting(SkylineNoThemeMusic)</selected>
-\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineNoThemeMusic)</onclick>
-\t\t\t\t\t<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
-\t\t\t\t</control>
-\t\t\t\t<control type="radiobutton" id="796">
-\t\t\t\t\t<label>IMDb ratings</label>
-\t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<selected>!Skin.HasSetting(SkylineHideImdb)</selected>
-\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineHideImdb)</onclick>
-\t\t\t\t</control>
-\t\t\t\t<control type="radiobutton" id="797">
-\t\t\t\t\t<label>TMDB ratings</label>
-\t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<selected>!Skin.HasSetting(SkylineHideTmdb)</selected>
-\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineHideTmdb)</onclick>
-\t\t\t\t</control>
-\t\t\t\t<control type="radiobutton" id="798">
-\t\t\t\t\t<label>Rotten Tomatoes ratings</label>
-\t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<selected>!Skin.HasSetting(SkylineHideRt)</selected>
-\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineHideRt)</onclick>
-\t\t\t\t</control>
-\t\t\t\t<!-- Off unless chosen: DOLBY VISION 7.6 rather than DOLBY VISION (KodiConnectForSilo 0.22.0+). -->
-\t\t\t\t<control type="radiobutton" id="799">
-\t\t\t\t\t<label>Dolby Vision profile on badges</label>
-\t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<selected>Skin.HasSetting(SkylineDVProfile)</selected>
-\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineDVProfile)</onclick>
-\t\t\t\t\t<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
-\t\t\t\t</control>
-\t\t\t\t<!-- The bar's tabs (tools/build_home.py), each offered only where it can show:
-\t\t\t\t     hiding one gives its room to the custom items. -->
-\t\t\t\t<control type="radiobutton" id="780">
-\t\t\t\t\t<label>Requests tab</label>
-\t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<selected>!Skin.HasSetting(SkylineHideRequestsTab)</selected>
-\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineHideRequestsTab)</onclick>
-\t\t\t\t\t<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
-\t\t\t\t</control>
-\t\t\t\t<control type="radiobutton" id="781">
-\t\t\t\t\t<label>TV tab</label>
-\t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<selected>!Skin.HasSetting(SkylineHideTvTab)</selected>
-\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineHideTvTab)</onclick>
-\t\t\t\t\t<visible>PVR.HasTVChannels</visible>
-\t\t\t\t</control>
 \t\t\t\t<control type="radiobutton" id="701">''' % look, 1)
+    # Skyline's four tabs (Home and Titles new), before the layout below moves them all.
+    text = skyline_options(text)
     # The settings: in the right pane.
     text = text.replace('<control type="group" id="10000">\n\t\t\t<left>470</left>',
                         '<control type="group" id="10000">\n\t\t\t<left>%d</left><width>%d</width>' % (right_x - 24, right_w + 24), 1)
@@ -677,17 +626,133 @@ def skin_settings(text):
     text = text.replace('<control type="group">\n\t\t\t<right>0</right>\n\t\t\t<top>133</top>\n\t\t\t<bottom>137</bottom>\n\t\t\t<width>60</width>',
                         '<control type="group">\n\t\t\t<left>%d</left>\n\t\t\t<top>%d</top>\n\t\t\t<height>%d</height>\n\t\t\t<width>8</width>' % (
                             PANEL_X + PANEL_W - 22, PANEL_Y + 170, PANEL_H - 190), 1)
-    return skyline_options(text)
+    return text
 
 
 # Estuary's options that do nothing in Skyline: the weather in the top bar (no
 # top bar), touch mode (Skyline's windows are for remotes), media flags,
 # rating circles and auto-scrolling (Estuary's music and add-on views only),
-# and the profile label (Skyline shows the avatar). Main menu items (Skyline's
-# menu is Skin Shortcuts') and Artwork (Estuary's backgrounds) go whole.
+# and the profile label (Skyline shows the avatar). Estuary's Main menu items
+# (Skyline's menu is Skin Shortcuts') and Artwork (Estuary's backgrounds) tabs
+# are replaced whole by Skyline's Home and Titles.
 UNUSED_OPTIONS = (702, 703, 704, 705, 706, 707)
-UNUSED_SECTIONS = ((2, 610), (3, 600))  # (category item, its grouplist)
-PLAYER_SECTION = (4, 622)
+# (category item, its grouplist, its name): Estuary's four tabs, renamed.
+TABS = ((1, 700, 'Look'), (2, 610, 'Home'), (3, 600, 'Titles'), (4, 622, 'Player'))
+SILO = 'System.HasAddon(plugin.video.kodiconnectforsilo)'
+
+
+def setting(kind, control_id, label, action, selected=None, label2=None, visible=None, comment=None, enable=None):
+    """One setting's control in a skin settings tab."""
+    out = '\t\t\t\t<!-- %s -->\n' % comment if comment else ''
+    out += '\t\t\t\t<control type="%s" id="%d">\n\t\t\t\t\t<label>%s</label>\n' % (kind, control_id, label)
+    if label2:
+        out += '\t\t\t\t\t<label2>%s</label2>\n' % label2
+    out += '\t\t\t\t\t<include>DefaultSettingButton</include>\n'
+    if selected:
+        out += '\t\t\t\t\t<selected>%s</selected>\n' % selected
+    out += '\t\t\t\t\t<onclick>%s</onclick>\n' % action
+    if enable:
+        out += '\t\t\t\t\t<enable>%s</enable>\n' % enable
+    if visible:
+        out += '\t\t\t\t\t<visible>%s</visible>\n' % visible
+    return out + '\t\t\t\t</control>\n'
+
+
+SILO_OPTION = 'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_option&amp;name=%s)'
+# Look's screensaver pair, after Use slide animations: KodiConnectForSilo's
+# screensaver as Kodi's in one press (the add-on switches Kodi's setting and
+# says how it stands: SkylineSiloScreensaver), and its titles' logos.
+LOOK_SETTINGS = (
+    setting('radiobutton', 783, 'Silo screensaver', SILO_OPTION % 'screensaver',
+            selected='Skin.HasSetting(SkylineSiloScreensaver)', visible=SILO)
+    + setting('radiobutton', 784, '- Clear logo', 'Skin.ToggleSetting(SkylineScreensaverNoLogo)',
+              selected='!Skin.HasSetting(SkylineScreensaverNoLogo)', enable='Skin.HasSetting(SkylineSiloScreensaver)',
+              visible=SILO)
+    # Kodi's picture cache sized for 4K menus (KodiConnectForSilo edits advancedsettings.xml).
+    + setting('button', 787, 'Sharp pictures for 4K menus', 'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=big_art)',
+              label2='$VAR[SkylineGuiSize]', visible=SILO))
+# Home: its menu (Skin Shortcuts; it was in Kodi's Settings screen), the
+# numbered rows and the bar's tabs, each offered only where it can show:
+# hiding a tab gives its room to the custom items.
+HOME_SETTINGS = (
+    setting('button', 782, 'Customise menu', 'RunScript(script.skinshortcuts,type=manage&amp;group=mainmenu)',
+            label2='Menu items, rows and sub-menus', visible='System.HasAddon(script.skinshortcuts)')
+    + setting('button', 794, 'Top 10 rows', 'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=top10)',
+              label2='Numbered Home rows', visible=SILO)
+    + setting('radiobutton', 780, 'Requests tab', 'Skin.ToggleSetting(SkylineHideRequestsTab)',
+              selected='!Skin.HasSetting(SkylineHideRequestsTab)', visible=SILO)
+    + setting('radiobutton', 781, 'TV tab', 'Skin.ToggleSetting(SkylineHideTvTab)',
+              selected='!Skin.HasSetting(SkylineHideTvTab)', visible='PVR.HasTVChannels')
+    + setting('radiobutton', 786, 'Episode pictures on Home', 'Skin.ToggleSetting(SkylineEpisodeStills)',
+              selected='Skin.HasSetting(SkylineEpisodeStills)', visible=SILO))
+# Titles: what a film's or show's badges and ratings say, and its page's theme tune.
+TITLE_SETTINGS = (
+    setting('radiobutton', 796, 'IMDb ratings', 'Skin.ToggleSetting(SkylineHideImdb)',
+            selected='!Skin.HasSetting(SkylineHideImdb)')
+    + setting('radiobutton', 797, 'TMDB ratings', 'Skin.ToggleSetting(SkylineHideTmdb)',
+              selected='!Skin.HasSetting(SkylineHideTmdb)')
+    + setting('radiobutton', 798, 'Rotten Tomatoes ratings', 'Skin.ToggleSetting(SkylineHideRt)',
+              selected='!Skin.HasSetting(SkylineHideRt)')
+    + setting('radiobutton', 799, 'Dolby Vision profile on badges', 'Skin.ToggleSetting(SkylineDVProfile)',
+              selected='Skin.HasSetting(SkylineDVProfile)', visible=SILO,
+              comment='Off unless chosen: DOLBY VISION 7.6 rather than DOLBY VISION (KodiConnectForSilo 0.22.0+).')
+    + setting('radiobutton', 795, 'Theme music on show pages', 'Skin.ToggleSetting(SkylineNoThemeMusic)',
+              selected='!Skin.HasSetting(SkylineNoThemeMusic)', visible=SILO)
+    # Kodi's own setting (Show information for unwatched items), switched by the add-on: SkylineHideSpoilers.
+    + setting('radiobutton', 785, 'Hide spoilers for unwatched episodes', SILO_OPTION % 'spoilers',
+              selected='Skin.HasSetting(SkylineHideSpoilers)', visible=SILO))
+
+# The line under a tab's name: the focused setting's help, else the tab's.
+SETTING_HELP = (
+    (790, "Skyline's colour theme. Opens Kodi's Interface settings, where the skin's colours are chosen."),
+    (792, 'Add-ons Skyline works with, such as Up Next and YouTube, and what each one adds.'),
+    (701, 'Pages slide in and out as they open and close. Off: they appear at once.'),
+    (783, "Use KodiConnectForSilo's screensaver: your films' and shows' backdrops, one after another. Off: the one you had before."),
+    (784, "Show each title's logo over its backdrop in the screensaver. Off: the backdrops alone."),
+    (787, "With 4K menus, Kodi keeps posters and backgrounds smaller than it draws them, so they look soft. "
+          "Raises the sizes (or puts them back). Kodi restarts to use them."),
+    (782, "Choose Home's menu items, the rows each one shows and their sub-menus."),
+    (794, 'Choose which Home rows show big numbers beside their first ten posters, as a chart does.'),
+    (780, "Show the Requests tab in Home's bar, to find and request films and shows through Silo."),
+    (781, "Show the TV tab in Home's bar, with live channels and the guide."),
+    (786, "Episodes on Home's rows, such as Continue Watching, show their own picture instead of their show's artwork."),
+    (796, "Show IMDb's rating on Home, info pages and lists."),
+    (797, "Show TMDB's rating on Home, info pages and lists."),
+    (798, "Show Rotten Tomatoes' critics' score on Home, info pages and lists."),
+    (799, 'Name the Dolby Vision profile on its badge: DOLBY VISION 7.6 instead of DOLBY VISION.'),
+    (795, "Play a show's theme tune while its page is open, when Silo has one."),
+    (785, "Hide the plot and picture of episodes you haven't watched, everywhere in Kodi. Films are not affected."),
+    (793, "How the player looks. Showcase: the title's logo over the bar and a pause screen. Silo: as Silo's own apps."),
+    (623, "Hide the player's controls by themselves a few seconds after the last key press."),
+    (624, "How many seconds the player's controls stay up before they hide."),
+)
+TAB_HELP = ((1, 'Colours, movement and the screensaver.'), (2, 'What Home shows: its menu, numbered rows and tabs.'),
+            (3, 'What badges, ratings and plots show for each film and show.'), (4, 'How the player looks while you watch.'))
+
+
+def settings_help_variable():
+    """Variables.xml's SkinSettingsHelpTextVar (Estuary's, per tab only): per setting."""
+    out = '\t<variable name="SkinSettingsHelpTextVar">\n'
+    for control_id, words in SETTING_HELP:
+        out += '\t\t<value condition="Control.HasFocus(%d)">%s</value>\n' % (control_id, words)
+    for item, words in TAB_HELP:
+        out += '\t\t<value condition="Container(9000).HasFocus(%d)">%s</value>\n' % (item, words)
+    return out + '\t</variable>\n'
+
+
+def tab_grouplist(grouplist, item, controls):
+    """A tab's list of settings, laid out as Estuary's (skin_settings moves them)."""
+    return ('''\t\t\t<control type="grouplist" id="%(g)d">
+\t\t\t\t<top>133</top>
+\t\t\t\t<left>0</left>
+\t\t\t\t<right>0</right>
+\t\t\t\t<bottom>140</bottom>
+\t\t\t\t<onleft>9000</onleft>
+\t\t\t\t<onright>60</onright>
+\t\t\t\t<onup>%(g)d</onup>
+\t\t\t\t<ondown>%(g)d</ondown>
+\t\t\t\t<visible>Container(9000).HasFocus(%(i)d)</visible>
+''' % {'g': grouplist, 'i': item}) + controls + '\t\t\t</control>\n'
 
 
 def drop_control(text, opening):
@@ -709,19 +774,29 @@ def drop_control(text, opening):
 
 
 def skyline_options(text):
-    """Skin settings with only what Skyline uses: General, and Player (Estuary's
+    """Skin settings with only what Skyline uses, in four tabs: Look (General's
+    colours, add-ons and slide animations), Home, Titles, and Player (Estuary's
     On screen display: the OSD's auto-close, and Skyline's player style)."""
     for option in UNUSED_OPTIONS:
         text = re.sub(r'\t*<control type="(?:radio)?button" id="%d">.*?</control>\n' % option, '', text, count=1, flags=re.S)
-    for item, grouplist in UNUSED_SECTIONS:
-        text = re.sub(r'\t*<item id="%d">.*?</item>\n' % item, '', text, count=1, flags=re.S)
+    # Estuary's Main menu items and Artwork tabs: Skyline's Home and Titles in their place.
+    for item, grouplist, controls in ((2, 610, HOME_SETTINGS), (3, 600, TITLE_SETTINGS)):
         text = drop_control(text, '<control type="grouplist" id="%d">' % grouplist)
-    item, grouplist = PLAYER_SECTION
-    text = re.sub(r'(<item id="%d">\s*<label>)\$LOCALIZE\[31170\](</label>)' % item, r'\1Player\2', text, count=1)
-    # What pointed at Main menu items' list points at Player's.
-    for tag in ('onup', 'ondown', 'onleft', 'onright'):
-        text = text.replace('<%s>610</%s>' % (tag, tag), '<%s>%d</%s>' % (tag, grouplist, tag))
-    return text.replace('Control.IsVisible(610)', 'Control.IsVisible(%d)' % grouplist)
+        player = text.index('<control type="grouplist" id="622">')
+        player = text.rindex('\n', 0, player) + 1
+        text = text[:player] + tab_grouplist(grouplist, item, controls) + text[player:]
+    for item, grouplist, name in TABS:
+        text = re.sub(r'(<item id="%d">\s*<label>)[^<]*(</label>)' % item, r'\g<1>%s\2' % name, text, count=1)
+    # Look's screensaver pair: last in its list, after Use slide animations.
+    home = text.index('<control type="grouplist" id="610">')
+    look_end = text.rindex('\t\t\t</control>\n', 0, home)
+    text = text[:look_end] + LOOK_SETTINGS + text[look_end:]
+    # As the screen opens, KodiConnectForSilo says how Kodi's screensaver and
+    # spoiler settings stand (they can change in Kodi's own settings too).
+    text = text.replace('\t<onload condition="String.IsEmpty(Skin.String(background_overlay))">',
+                        '\t<onload condition="%s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_state)</onload>\n'
+                        '\t<onload condition="String.IsEmpty(Skin.String(background_overlay))">' % SILO, 1)
+    return text
 
 
 def file_manager_window():
@@ -1569,6 +1644,12 @@ def main():
     source = os.path.join(ROOT, 'tools', 'source', 'SkinSettings.xml')
     with open(xml_path('SkinSettings.xml'), 'w', encoding='utf-8') as handle:
         handle.write(skin_settings(open(source, encoding='utf-8').read()))
+    # Its help line: the focused setting's, not only the tab's.
+    path = xml_path('Variables.xml')
+    text = open(path, encoding='utf-8').read()
+    text = re.sub(r'\t<variable name="SkinSettingsHelpTextVar">.*?</variable>\n', lambda m: settings_help_variable(),
+                  text, count=1, flags=re.S)
+    open(path, 'w', encoding='utf-8').write(text)
     # Estuary's list views (add-ons, programs, favourites...): white-pill rows.
     for name, list_id in (('View_50_List', '$PARAM[list_id]'), ('View_55_WideList', '55')):
         source = os.path.join(ROOT, 'tools', 'source', name + '.xml')

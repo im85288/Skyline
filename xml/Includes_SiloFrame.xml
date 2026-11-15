@@ -91,6 +91,11 @@
 		<value condition="System.HasAddon(inputstream.adaptive)">Turned off  ·  OK turns it on</value>
 		<value>Not installed  ·  OK installs</value>
 	</variable>
+	<!-- How large Kodi draws its menus, beside Sharp pictures for 4K menus. -->
+	<variable name="SkylineGuiSize">
+		<value condition="Integer.IsGreaterOrEqual(System.ScreenWidth,3000)">Menus in 4K</value>
+		<value>Menus in $INFO[System.ScreenHeight]p</value>
+	</variable>
 	<!-- The colour theme's name: Kodi calls the default SKINDEFAULT. -->
 	<variable name="SkylineColourName">
 		<value condition="String.IsEqual(Skin.CurrentColourTheme,SKINDEFAULT)">Silo</value>

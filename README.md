@@ -60,10 +60,16 @@ submenu shows as pills on the item's page, reached with Down from the bar, as th
 
 ## Skin settings
 
-- **General:** Colours; Recommended add-ons (Up Next, YouTube and more, with what each adds); **Top 10
-  rows**, which opens KodiConnectForSilo's choice of Home rows to number; Use slide animations;
-  Theme music on show pages; IMDb, TMDB and Rotten Tomatoes ratings, each shown or hidden everywhere (all on by
-  default); Dolby Vision profile on badges (DOLBY VISION 7.6, off by default).
+Each setting explains itself in the line under the tab's name when it has focus.
+
+- **Look:** Colours; Recommended add-ons (Up Next, YouTube and more, with what each adds); Use slide animations;
+  Silo screensaver (KodiConnectForSilo's backdrops as Kodi's screensaver, in one press) and its Clear logo.
+- **Home:** Customise menu (Skin Shortcuts: menu items, their rows and sub-menus); **Top 10 rows**, which
+  opens KodiConnectForSilo's choice of Home rows to number; the Requests and TV tabs; Episode pictures on Home
+  (an episode's own picture instead of its show's artwork).
+- **Titles:** IMDb, TMDB and Rotten Tomatoes ratings, each shown or hidden everywhere (all on by default);
+  Dolby Vision profile on badges (DOLBY VISION 7.6, off by default); Theme music on show pages; Hide spoilers for
+  unwatched episodes (Kodi's own setting, switched through KodiConnectForSilo).
 - **Player:** Player style (Showcase or Silo's) and the overlay's auto-close.
 
 ## Install

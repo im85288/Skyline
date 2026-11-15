@@ -127,13 +127,6 @@
 					<property name="description">Browse, copy and delete files</property>
 				</item>
 				<item>
-					<label>Customise menu</label>
-					<onclick>RunScript(script.skinshortcuts,type=manage&amp;group=mainmenu)</onclick>
-					<icon>icons/settings/skin.png</icon>
-					<property name="description">Home's menu items, their widgets and sub-menus</property>
-					<visible>System.HasAddon(script.skinshortcuts)</visible>
-				</item>
-				<item>
 					<label>System info</label>
 					<onclick>ActivateWindow(systeminfo)</onclick>
 					<icon>icons/settings/sysinfo.png</icon>
