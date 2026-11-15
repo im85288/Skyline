@@ -79,11 +79,13 @@
 					<selected>!Skin.HasSetting(SkylineHideRt)</selected>
 					<onclick>Skin.ToggleSetting(SkylineHideRt)</onclick>
 				</control>
-				<control type="radiobutton" id="791">
-					<label>Artwork background</label>
+				<!-- Off unless chosen: DOLBY VISION 7.6 rather than DOLBY VISION (KodiConnectForSilo 0.22.0+). -->
+				<control type="radiobutton" id="799">
+					<label>Dolby Vision profile on badges</label>
 					<include>DefaultSettingButton</include>
-					<selected>Skin.HasSetting(SkylineArtworkBackground)</selected>
-					<onclick>Skin.ToggleSetting(SkylineArtworkBackground)</onclick>
+					<selected>Skin.HasSetting(SkylineDVProfile)</selected>
+					<onclick>Skin.ToggleSetting(SkylineDVProfile)</onclick>
+					<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
 				</control>
 				<!-- The bar's tabs (tools/build_home.py), each offered only where it can show:
 				     hiding one gives its room to the custom items. -->

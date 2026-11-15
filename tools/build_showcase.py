@@ -25,7 +25,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from build_home import RATING_SHOWN, ROOT, TEXT, TEXT_DIM  # noqa: E402
+from build_home import property_badge_variables, RATING_SHOWN, ROOT, TEXT, TEXT_DIM  # noqa: E402
 
 # Showcase is the default: the setting (off until chosen) picks Silo's player.
 SETTING = 'SkylineSiloOSD'
@@ -83,8 +83,10 @@ def variables():
     def variable(name, values):
         return '    <variable name="%s">\n%s    </variable>\n' % (name, ''.join(
             '        <value%s>%s</value>\n' % (' condition="%s"' % c if c else '', v) for c, v in values))
+    # What's playing's badges, with Dolby Vision's profile when the skin setting says.
+    out = property_badge_variables('SiloShowcaseBadge', PLAYING % 'badge%d', PLAYING % 'dv')
     # The pause screen's picture: an episode's still, else the film's backdrop.
-    out = variable('SiloShowcaseStill', [
+    out += variable('SiloShowcaseStill', [
         ('!String.IsEmpty(VideoPlayer.TVShowTitle) + !String.IsEmpty(Player.Art(thumb))', '$INFO[Player.Art(thumb)]'),
         (None, '$INFO[Player.Art(fanart)]')])
     # Under the logo: "S3 E5 · Unbowed and Unbent", or a film's year and genres.
@@ -249,8 +251,8 @@ def overlay():
         'on': ON, 'text': TEXT, 'logo': logo(96, 588, 720, 120, 'silo_osd_title').replace('\n\t\t\t', '\n\t\t\t\t'),
         # KodiConnectForSilo's badges for what's playing, else Kodi's player's own.
         'badges': badge('$VAR[SiloShowcaseMpaa]', '[!String.IsEmpty(%s) | !String.IsEmpty(VideoPlayer.mpaa)]' % PLAYING % 'mpaa')
-        + ''.join(badge('$INFO[%s]' % PLAYING % name, '!String.IsEmpty(%s)' % PLAYING % name)
-                  for name in ('badge1', 'badge2', 'badge3'))
+        + ''.join(badge('$VAR[SiloShowcaseBadge%d]' % n, '!String.IsEmpty(%s)' % PLAYING % ('badge%d' % n))
+                  for n in (1, 2, 3))
         + ''.join(badge(label, 'String.IsEmpty(%s) + !String.IsEmpty(%s)' % (PLAYING % 'badge1', shown)) for label, shown in (
             ('$VAR[SiloShowcaseResolution]', 'VideoPlayer.VideoResolution'), ('$VAR[SiloShowcaseHdr]', 'VideoPlayer.HdrType'),
             ('$VAR[SiloShowcaseAudio]', 'VideoPlayer.AudioCodec')))}

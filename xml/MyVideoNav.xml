@@ -1004,7 +1004,7 @@
                 <left>1218</left><top>434</top><width>494</width><height>40</height>
                 <font>silo_meta</font>
                 <textcolor>BFEDEDED</textcolor>
-                <label>$INFO[ListItem.Art(silobadge1)]$INFO[ListItem.Art(silobadge2),  ·  ,]$INFO[ListItem.Art(silobadge3),  ·  ,]</label>
+                <label>$VAR[SiloBrowseBadge1]$VAR[SiloBrowseBadge2,  ·  ,]$VAR[SiloBrowseBadge3,  ·  ,]</label>
             </control>
             <control type="textbox">
                 <left>1218</left><top>482</top><width>494</width><height>90</height>

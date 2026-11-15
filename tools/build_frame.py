@@ -140,19 +140,11 @@ def includes():
 		<value condition="Integer.IsEqual(Container(50).NumItems,1)">1 event</value>
 		<value>$INFO[Container(50).NumItems,, events]</value>
 	</variable>
-	<!-- Silo's page colour behind a screen, and with Skin settings' Artwork
-	     background (as Arctic Zephyr) the focused title's fanart, dimmed. -->
+	<!-- Silo's page colour behind a screen. -->
 	<include name="SiloPage">
 		<control type="image">
 			<left>0</left><top>0</top><width>1920</width><height>1080</height>
 			<texture colordiffuse="%(bg)s">colors/white.png</texture>
-		</control>
-		<control type="image">
-			<left>0</left><top>0</top><width>1920</width><height>1080</height>
-			<aspectratio>scale</aspectratio>
-			<fadetime>400</fadetime>
-			<texture background="true" colordiffuse="38FFFFFF">$INFO[Container.ListItem.Art(fanart)]</texture>
-			<visible>Skin.HasSetting(SkylineArtworkBackground)</visible>
 		</control>
 	</include>
 </includes>
@@ -612,11 +604,13 @@ def skin_settings(text):
 \t\t\t\t\t<selected>!Skin.HasSetting(SkylineHideRt)</selected>
 \t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineHideRt)</onclick>
 \t\t\t\t</control>
-\t\t\t\t<control type="radiobutton" id="791">
-\t\t\t\t\t<label>Artwork background</label>
+\t\t\t\t<!-- Off unless chosen: DOLBY VISION 7.6 rather than DOLBY VISION (KodiConnectForSilo 0.22.0+). -->
+\t\t\t\t<control type="radiobutton" id="799">
+\t\t\t\t\t<label>Dolby Vision profile on badges</label>
 \t\t\t\t\t<include>DefaultSettingButton</include>
-\t\t\t\t\t<selected>Skin.HasSetting(SkylineArtworkBackground)</selected>
-\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineArtworkBackground)</onclick>
+\t\t\t\t\t<selected>Skin.HasSetting(SkylineDVProfile)</selected>
+\t\t\t\t\t<onclick>Skin.ToggleSetting(SkylineDVProfile)</onclick>
+\t\t\t\t\t<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
 \t\t\t\t</control>
 \t\t\t\t<!-- The bar's tabs (tools/build_home.py), each offered only where it can show:
 \t\t\t\t     hiding one gives its room to the custom items. -->

@@ -58,15 +58,12 @@ submenu shows as pills on the item's page, reached with Down from the bar, as th
 - **Zephyr**: a flatter dark grey with a blue focus, as Arctic Zephyr.
 - **OLED**: true black pages and near-black panels.
 
-**Artwork background** in the skin settings shows the selected title's fanart, dimmed, behind every
-screen, as Arctic Zephyr does.
-
 ## Skin settings
 
 - **General:** Colours; Recommended add-ons (Up Next, YouTube and more, with what each adds); **Top 10
-  rows**, which opens KodiConnectForSilo's choice of Home rows to number; Artwork background; Use slide animations;
+  rows**, which opens KodiConnectForSilo's choice of Home rows to number; Use slide animations;
   Theme music on show pages; IMDb, TMDB and Rotten Tomatoes ratings, each shown or hidden everywhere (all on by
-  default).
+  default); Dolby Vision profile on badges (DOLBY VISION 7.6, off by default).
 - **Player:** Player style (Showcase or Silo's) and the overlay's auto-close.
 
 ## Install

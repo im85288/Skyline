@@ -49,7 +49,7 @@ PAGE_CARDS = {'home': HOME_CARDS}
 OTHER_CARDS = 12
 HOME_CARD_FIELDS = ('type', 'dbid', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta',
                     'hero.facts', 'rating.imdb', 'rating.tmdb', 'rating.rtcritic',
-                    'hero.detail', 'plot', 'mpaa', 'badge1', 'badge2', 'badge3', 'tint', 'percent', 'playcount',
+                    'hero.detail', 'plot', 'mpaa', 'badge1', 'badge2', 'badge3', 'dv', 'tint', 'percent', 'playcount',
                     'new', 'left', 'dismiss', 'rank', 'place', 'art.poster', 'art.landscape', 'art.fanart', 'art.clearlogo', 'request.type', 'request.tmdb',
                     'status.tint', 'status.seg1', 'status.seg2', 'status.seg3', 'status.seg4',
                     'request.library', 'request.state', 'request.more', 'request.logo', 'request.from', 'request.to',
@@ -2340,6 +2340,49 @@ def build():
 # A Home card: an item KodiConnectForSilo published as properties (rows.py).
 HOME_CARD = '!String.IsEmpty(LI.Property(home.type))'
 HERO_TITLE_TERM = '[!String.IsEmpty(Container(%(r)d).ListItem.Property(home.dbid)) + String.IsEmpty(Container(%(r)d).ListItem.Property(home.request.tmdb))] | [Integer.IsGreater(Container(%(r)d).ListItem.DBID,0) + [String.IsEqual(Container(%(r)d).ListItem.DBType,movie) | String.IsEqual(Container(%(r)d).ListItem.DBType,tvshow) | String.IsEqual(Container(%(r)d).ListItem.DBType,episode)]]'
+# The skin setting (off unless chosen) for Dolby Vision's profile beside its
+# name: DOLBY VISION 7.6. KodiConnectForSilo (0.22.0+) sends badges without it
+# and the profile apart (silo.dv, home.dv, the silodv extra), so the skin
+# joins them here, and the setting changes every screen at once.
+DV_PROFILE = 'Skin.HasSetting(SkylineDVProfile)'
+
+
+def dv_values(badge, dv, plain=None):
+    """[(condition, value)] for a badge (an info label): with the profile dv
+    after it when the setting is on and the badge is Dolby Vision's; else
+    the badge alone, under the condition plain (None: none)."""
+    return [('%s + String.IsEqual(%s,DOLBY VISION) + !String.IsEmpty(%s)' % (DV_PROFILE, badge, dv),
+             '$INFO[%s] $INFO[%s]' % (badge, dv)),
+            (plain, '$INFO[%s]' % badge)]
+
+
+def dv_variable(name, values):
+    out = '    <variable name="%s">\n' % name
+    for condition, value in values:
+        out += ('        <value condition="%s">%s</value>\n' % (condition, value) if condition
+                else '        <value>%s</value>\n' % value)
+    return out + '    </variable>\n'
+
+
+def art_badge_values(item, n):
+    """A title's stored badge n (silobadge<n>), with its profile (silodv) when the setting is on."""
+    return dv_values('%s.Art(silobadge%d)' % (item, n), '%s.Art(silodv)' % item)
+
+
+def art_badge_variables(prefix, item):
+    """Variables <prefix>1..3: the stored badges of item (art_badge_values)."""
+    return ''.join(dv_variable('%s%d' % (prefix, n), art_badge_values(item, n)) for n in (1, 2, 3))
+
+
+def property_badge_variables(prefix, badge, dv):
+    """Variables <prefix>1..3: badges sent as properties, badge % n, with the profile dv."""
+    return ''.join(dv_variable('%s%d' % (prefix, n), dv_values(badge % n, dv)) for n in (1, 2, 3))
+
+
+# Home's hero badges: a card's own (home.badge<n>) joined with its home.dv.
+HERO_DV = {'SiloBadge%d' % n: ('badge%d' % n, 'dv') for n in (1, 2, 3)}
+
+
 HERO_STATIC = {'SiloHeroType': 'home.type', 'SiloHeroDbid': 'home.dbid', 'SiloHeroArt': 'home.art.fanart', 'SiloLogoArt': 'home.art.clearlogo', 'SiloTitle': 'home.hero.title', 'SiloMetaLine': 'home.hero.meta', 'SiloHeroFacts': 'home.hero.facts', 'SiloHeroImdb': 'home.rating.imdb', 'SiloHeroTmdb': 'home.rating.tmdb', 'SiloHeroRtCritic': 'home.rating.rtcritic', 'SiloPlot': 'home.plot', 'SiloDetail': 'home.hero.detail', 'SiloMpaa': 'home.mpaa', 'SiloHeroTint': 'home.tint', 'SiloBadge1': 'home.badge1', 'SiloBadge2': 'home.badge2', 'SiloBadge3': 'home.badge3'}
 
 HERO = [
@@ -2401,8 +2444,12 @@ HERO = [
     # Kodi gives a library item those entries in any list, so the property wins.
     (name, [('!String.IsEmpty(LI.Property(silo.%s))' % key, '$INFO[LI.Property(silo.%s)]' % key),
             (None, '$INFO[LI.Art(silo%s)]' % key)])
-    for name, key in (('SiloHeroTint', 'tint'), ('SiloBadge1', 'badge1'), ('SiloBadge2', 'badge2'),
-                      ('SiloBadge3', 'badge3'))]
+    for name, key in (('SiloHeroTint', 'tint'),)] + [
+    # A stored badge names Dolby Vision's profile only when the skin's setting says (art_badge_values).
+    ('SiloBadge%d' % n, dv_values('LI.Property(silo.badge%d)' % n, 'LI.Property(silo.dv)',
+                                  '!String.IsEmpty(LI.Property(silo.badge%d))' % n)
+     + art_badge_values('LI', n))
+    for n in (1, 2, 3)]
 
 CARDS = '''
     <variable name="SiloCardTitle">
@@ -2622,7 +2669,11 @@ def variables():
     out += EMPTY_HOME + hero_reason()
     for name, entries in HERO:
         # A Home card (KodiConnectForSilo's published rows) carries its text ready.
-        if name in HERO_STATIC:
+        if name in HERO_DV:
+            badge, dv = HERO_DV[name]
+            entries = [(HOME_CARD + (' + ' + condition if condition else ''), value) for condition, value in
+                       dv_values('LI.Property(home.%s)' % badge, 'LI.Property(home.%s)' % dv)] + entries
+        elif name in HERO_STATIC:
             entries = [(HOME_CARD, '$INFO[LI.Property(%s)]' % HERO_STATIC[name])] + entries
         out += '    <variable name="%s">\n' % name
         if name in TV_HERO:  # the TV page: what's playing, till a card has focus
@@ -2635,7 +2686,14 @@ def variables():
                 out += '        <value condition="%s">%s</value>\n' % (full, value.replace('LI', item))
         # Switching to Home clears the remembered row until the first row takes
         # focus (a timer): show Home's first card meanwhile, not a black hero.
-        if name in HERO_STATIC:
+        if name in HERO_DV:
+            badge, dv = HERO_DV[name]
+            for row in (1, 2):
+                for condition, value in dv_values(prop('silo.home.%d.1.%s' % (row, badge)),
+                                                  prop('silo.home.%d.1.%s' % (row, dv))):
+                    out += '        <value condition="%s">%s</value>\n' % (
+                        home_waiting(row) + (' + ' + condition if condition else ''), value)
+        elif name in HERO_STATIC:
             field = HERO_STATIC[name][len('home.'):]
             for row in (1, 2):
                 out += '        <value condition="%s">$INFO[%s]</value>\n' % (

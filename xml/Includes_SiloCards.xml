@@ -23,6 +23,7 @@
                 <property name="home.badge1">$INFO[Window(Home).Property($PARAM[p].badge1)]</property>
                 <property name="home.badge2">$INFO[Window(Home).Property($PARAM[p].badge2)]</property>
                 <property name="home.badge3">$INFO[Window(Home).Property($PARAM[p].badge3)]</property>
+                <property name="home.dv">$INFO[Window(Home).Property($PARAM[p].dv)]</property>
                 <property name="home.tint">$INFO[Window(Home).Property($PARAM[p].tint)]</property>
                 <property name="home.percent">$INFO[Window(Home).Property($PARAM[p].percent)]</property>
                 <property name="home.playcount">$INFO[Window(Home).Property($PARAM[p].playcount)]</property>

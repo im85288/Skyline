@@ -21,7 +21,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from build_home import rt_list_marks, RATING_SHOWN, focus_sheen, focus_zoom, watched_disc, watched_mark, BACKGROUND, ROOT, SAFE_X, TEXT, TEXT_DIM, TITLE_DIM, SUB_DIM, GRID_BACKDROP  # noqa: E402
+from build_home import art_badge_variables, rt_list_marks, RATING_SHOWN, focus_sheen, focus_zoom, watched_disc, watched_mark, BACKGROUND, ROOT, SAFE_X, TEXT, TEXT_DIM, TITLE_DIM, SUB_DIM, GRID_BACKDROP  # noqa: E402
 
 # An add-on's videos (content videos) get the poster grid too, and its views.
 GRID = ('Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets) | Container.Content(seasons)'
@@ -741,7 +741,7 @@ def title_views():
                 <left>%(ix)d</left><top>%(badges_y)d</top><width>%(iw)d</width><height>40</height>
                 <font>silo_meta</font>
                 <textcolor>%(dim)s</textcolor>
-                <label>$INFO[ListItem.Art(silobadge1)]$INFO[ListItem.Art(silobadge2),  ·  ,]$INFO[ListItem.Art(silobadge3),  ·  ,]</label>
+                <label>$VAR[SiloBrowseBadge1]$VAR[SiloBrowseBadge2,  ·  ,]$VAR[SiloBrowseBadge3,  ·  ,]</label>
             </control>
             <control type="textbox">
                 <left>%(ix)d</left><top>%(cast_y)d</top><width>%(iw)d</width><height>90</height>
@@ -1248,7 +1248,9 @@ def add_variables():
     start, end = '    <!-- Silo Skyline browse (tools/build_browse.py) -->', '    <!-- end Silo Skyline browse -->\n'
     if start in text:
         text = text[:text.index(start) - 1] + text[text.index(end) + len(end):]
-    text = text.replace('</includes>', VARIABLES + '</includes>')
+    # A title's stored badges, with Dolby Vision's profile when the skin says (art_badge_values).
+    badges = art_badge_variables('SiloBrowseBadge', 'ListItem')
+    text = text.replace('</includes>', VARIABLES.replace(start + '\n', start + '\n' + badges, 1) + '</includes>')
     open(path, 'w', encoding='utf-8').write(text)
 
 

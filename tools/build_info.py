@@ -18,7 +18,7 @@ import sys
 from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from build_home import RATING_SHOWN, focus_sheen, focus_zoom, watched_mark, BACKGROUND, POSTER, ROOT, SAFE_X, TEXT, TEXT_DIM, card_layout  # noqa: E402
+from build_home import dv_variable, property_badge_variables, DV_PROFILE, RATING_SHOWN, focus_sheen, focus_zoom, watched_mark, BACKGROUND, POSTER, ROOT, SAFE_X, TEXT, TEXT_DIM, card_layout  # noqa: E402
 
 # Silo's detail hero: 100 px down (tvOS 100pt on a 1080pt canvas).
 TOP = 100
@@ -145,7 +145,7 @@ def build():
     has_logo = '[!String.IsEmpty(ListItem.Art(clearlogo)) | !String.IsEmpty(ListItem.Art(tvshow.clearlogo))]'
     # Silo's own badges from the widget item, else Kodi's stream details.
     silo_badges = '!String.IsEmpty(ListItem.Property(silo.badge1))'
-    badges = ''.join([badge('$INFO[ListItem.Property(silo.badge%d)]' % n,
+    badges = ''.join([badge('$VAR[SiloInfoBadge%d]' % n,
                             '!String.IsEmpty(ListItem.Property(silo.badge%d))' % n) for n in (1, 2, 3)] + [
         badge('$INFO[ListItem.VideoResolution]$VAR[SiloDetailResolutionSuffix]',
               '!%s + !String.IsEmpty(ListItem.VideoResolution)' % silo_badges),
@@ -1114,7 +1114,7 @@ VARIABLES = '''
     <variable name="SiloDetailTech">
         <value condition="Control.HasFocus(64) | [Control.HasFocus(65) + Integer.IsGreater(Container(64).NumItems,0)]">$INFO[Container(64).ListItem.VideoResolution,[COLOR 8CEDEDED]VERSION[/COLOR]  ,]$VAR[SiloFocusHdr]          [COLOR 8CEDEDED]AUDIO[/COLOR]  $VAR[SiloFocusAudio]</value>
         <value condition="Control.HasFocus(61) | [Control.HasFocus(60) + Integer.IsGreater(Container(61).NumItems,0)]">$INFO[Container(61).ListItem.VideoResolution,[COLOR 8CEDEDED]VERSION[/COLOR]  ,]$VAR[SiloFocusHdr61]          [COLOR 8CEDEDED]AUDIO[/COLOR]  $VAR[SiloFocusAudio61]</value>
-        <value>$INFO[ListItem.Property(silo.version),[COLOR 8CEDEDED]VERSION[/COLOR]  ,          ]$INFO[ListItem.Property(silo.audio),[COLOR 8CEDEDED]AUDIO[/COLOR]  ,          ]$INFO[ListItem.Property(silo.subtitles),[COLOR 8CEDEDED]SUBTITLES[/COLOR]  ,]</value>
+        <value>$VAR[SiloInfoVersion,[COLOR 8CEDEDED]VERSION[/COLOR]  ,          ]$INFO[ListItem.Property(silo.audio),[COLOR 8CEDEDED]AUDIO[/COLOR]  ,          ]$INFO[ListItem.Property(silo.subtitles),[COLOR 8CEDEDED]SUBTITLES[/COLOR]  ,]</value>
     </variable>
     <!-- The episode row's focused card: its formats, as the tech line names them. -->
     <variable name="SiloFocusHdr">
@@ -1191,11 +1191,12 @@ VARIABLES = '''
         <value condition="[String.IsEqual(Window(movieinformation).Property(silo.myrating.for),ListItem.Property(silo.content_id)) + Integer.IsGreater(Window(movieinformation).Property(silo.myrating.now),0)] | [!String.IsEqual(Window(movieinformation).Property(silo.myrating.for),ListItem.Property(silo.content_id)) + Integer.IsGreater(ListItem.Property(silo.myrating),0)]">silo/menu_rated.png</value>
         <value>silo/menu_rate.png</value>
     </variable>
-    <!-- Dolby Vision with its profile (KodiConnectForSilo 0.21.3+): silo.dv from the
-         add-on's own lists, the silodv extra from Kodi's library ("DOLBY VISION 7"). -->
+    <!-- Dolby Vision with its profile (KodiConnectForSilo 0.21.3+), when the skin
+         setting SkylineDVProfile is on: silo.dv from the add-on's own lists, the
+         silodv extra from Kodi's library ("DOLBY VISION 7"). -->
     <variable name="SiloDetailHdr">
-        <value condition="String.IsEqual(ListItem.HdrType,dolbyvision) + !String.IsEmpty(ListItem.Property(silo.dv))">DOLBY VISION $INFO[ListItem.Property(silo.dv)]</value>
-        <value condition="String.IsEqual(ListItem.HdrType,dolbyvision) + !String.IsEmpty(ListItem.Art(silodv))">DOLBY VISION $INFO[ListItem.Art(silodv)]</value>
+        <value condition="String.IsEqual(ListItem.HdrType,dolbyvision) + Skin.HasSetting(SkylineDVProfile) + !String.IsEmpty(ListItem.Property(silo.dv))">DOLBY VISION $INFO[ListItem.Property(silo.dv)]</value>
+        <value condition="String.IsEqual(ListItem.HdrType,dolbyvision) + Skin.HasSetting(SkylineDVProfile) + !String.IsEmpty(ListItem.Art(silodv))">DOLBY VISION $INFO[ListItem.Art(silodv)]</value>
         <value condition="String.IsEqual(ListItem.HdrType,dolbyvision)">DOLBY VISION</value>
         <value condition="String.IsEqual(ListItem.HdrType,hdr10plus)">HDR10+</value>
         <value condition="String.IsEqual(ListItem.HdrType,hdr10)">HDR10</value>
@@ -1397,6 +1398,15 @@ def split_ratings(variables):
     return (variables,
             '[%s] + %s' % (' | '.join(shown['imdb']) or 'false', RATING_SHOWN['imdb']),
             '[%s] + %s' % (' | '.join(shown['tmdb']) or 'false', RATING_SHOWN['themoviedb']))
+
+
+# The badges and the Version line from KodiConnectForSilo's properties, with
+# Dolby Vision's profile (silo.dv) when the skin setting says (build_home.dv_values).
+VARIABLES = VARIABLES.replace('    <variable name="SiloDetailHdr">', property_badge_variables(
+    'SiloInfoBadge', 'ListItem.Property(silo.badge%d)', 'ListItem.Property(silo.dv)') + dv_variable('SiloInfoVersion', [
+        ('%s + String.Contains(ListItem.Property(silo.version),Dolby Vision) + !String.IsEmpty(ListItem.Property(silo.dv))'
+         % DV_PROFILE, '$INFO[ListItem.Property(silo.version)] $INFO[ListItem.Property(silo.dv)]'),
+        (None, '$INFO[ListItem.Property(silo.version)]')]) + '    <variable name="SiloDetailHdr">', 1)
 
 
 def add_variables():

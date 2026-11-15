@@ -22,7 +22,7 @@ import sys
 from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from build_home import rt_list_marks, RATING_SHOWN, focus_sheen, focus_zoom, watched_mark, BACKGROUND, ROOT, SAFE_X, TEXT, TEXT_DIM, TITLE_DIM, SUB_DIM, GRID_BACKDROP  # noqa: E402
+from build_home import art_badge_variables, rt_list_marks, RATING_SHOWN, focus_sheen, focus_zoom, watched_mark, BACKGROUND, ROOT, SAFE_X, TEXT, TEXT_DIM, TITLE_DIM, SUB_DIM, GRID_BACKDROP  # noqa: E402
 
 WINDOW_ID = 1191
 TYPE = 'Window(Home).Property(silo.browse.type)'
@@ -784,7 +784,7 @@ def view_controls():
                 <left>%(ix)d</left><top>%(by)d</top><width>%(iw)d</width><height>40</height>
                 <font>silo_meta</font>
                 <textcolor>%(dim)s</textcolor>
-                <label>$INFO[%(lst)s.Art(silobadge1)]$INFO[%(lst)s.Art(silobadge2),  ·  ,]$INFO[%(lst)s.Art(silobadge3),  ·  ,]</label>
+                <label>$VAR[SiloLibraryBadge1]$VAR[SiloLibraryBadge2,  ·  ,]$VAR[SiloLibraryBadge3,  ·  ,]</label>
             </control>
             <control type="grouplist">
                 <left>%(ix)d</left><top>%(ry)d</top><width>%(iw)d</width><height>40</height>
@@ -1328,7 +1328,8 @@ def add_variables():
     start, end = '    <!-- Silo Skyline library (tools/build_library.py) -->', '    <!-- end Silo Skyline library -->\n'
     if start in text:
         text = text[:text.index(start) - 1] + text[text.index(end) + len(end):]
-    text = text.replace('</includes>', VARIABLES.replace(start + '\n', start + '\n' + filter_variables(), 1) + '</includes>')
+    text = text.replace('</includes>', VARIABLES.replace(start + '\n', start + '\n' + filter_variables()
+                                                    + art_badge_variables('SiloLibraryBadge', 'Container(%d).ListItem' % LIST_VIEW_ID), 1) + '</includes>')
     open(path, 'w', encoding='utf-8').write(text)
 
 

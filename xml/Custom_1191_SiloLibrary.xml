@@ -642,7 +642,7 @@
                 <left>1230</left><top>456</top><width>482</width><height>40</height>
                 <font>silo_meta</font>
                 <textcolor>BFEDEDED</textcolor>
-                <label>$INFO[Container(58).ListItem.Art(silobadge1)]$INFO[Container(58).ListItem.Art(silobadge2),  ·  ,]$INFO[Container(58).ListItem.Art(silobadge3),  ·  ,]</label>
+                <label>$VAR[SiloLibraryBadge1]$VAR[SiloLibraryBadge2,  ·  ,]$VAR[SiloLibraryBadge3,  ·  ,]</label>
             </control>
             <control type="grouplist">
                 <left>1230</left><top>504</top><width>482</width><height>40</height>

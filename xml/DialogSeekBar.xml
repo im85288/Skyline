@@ -803,7 +803,7 @@
 					</control>
 					<control type="button">
 						<width>auto</width><height>36</height>
-						<label>$INFO[Window(Home).Property(silokodi.playing.badge1)]</label>
+						<label>$VAR[SiloShowcaseBadge1]</label>
 						<font>silo_badge</font>
 						<textoffsetx>12</textoffsetx>
 						<aligny>center</aligny>
@@ -815,7 +815,7 @@
 					</control>
 					<control type="button">
 						<width>auto</width><height>36</height>
-						<label>$INFO[Window(Home).Property(silokodi.playing.badge2)]</label>
+						<label>$VAR[SiloShowcaseBadge2]</label>
 						<font>silo_badge</font>
 						<textoffsetx>12</textoffsetx>
 						<aligny>center</aligny>
@@ -827,7 +827,7 @@
 					</control>
 					<control type="button">
 						<width>auto</width><height>36</height>
-						<label>$INFO[Window(Home).Property(silokodi.playing.badge3)]</label>
+						<label>$VAR[SiloShowcaseBadge3]</label>
 						<font>silo_badge</font>
 						<textoffsetx>12</textoffsetx>
 						<aligny>center</aligny>
