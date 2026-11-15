@@ -1,3 +1,14 @@
+[B]0.13.0[/B]
+• Skin settings in four tabs (Look, Home, Titles, Player); each setting explains itself when focused
+• Customise menu moves from Kodi's Settings screen to Skin settings > Home
+• Look: Clock on Home; Silo screensaver in one press, its Clear logo and delay; Sharp pictures for 4K menus; Reset Skyline's options
+• Home: Episode pictures on Home; Live sport groups and My teams under the TV tab
+• Titles: Dolby Vision profile on badges (off by default, switches at once); Theme music volume; Hide spoilers for unwatched episodes
+• Player: Rewind a little when unpausing
+• Recommended add-ons says which are missing
+• Artwork background removed
+• Needs KodiConnectForSilo 0.22.0 for the new options
+
 [B]0.12.4[/B]
 • Search: Movies and Shows appear above the keyboard as you type
 • Movies: no "Error getting ?filter=" in the log on very large libraries
