@@ -347,11 +347,9 @@ if __name__ == '__main__':
     write_png('dialog_button.png', 100, 100, lambda x, y: rounded_rect_coverage(x, y, 100, 100, 36, inset=10))
     # A focused row in the player's settings list: the white bar on the
     # dialog's own colour, as a Kodi button draws only its focus texture.
-    def dialog_row_focus(x, y):
-        bar = rounded_rect_coverage(x, y, 100, 100, 36, inset=10)
-        grey = int(0xED * bar + 0x13 * (1 - bar))
-        return 1.0, (grey, int(0xED * bar + 0x14 * (1 - bar)), int(0xED * bar + 0x17 * (1 - bar)))
-    write_png('dialog_row_focus.png', 100, 100, dialog_row_focus)
+    # The focused row in a dialog's list: a white bar inset 10 px, clear around
+    # it so the glass shows through (tinted SkylineFocus by build_colours).
+    write_png('dialog_row_focus.png', 100, 100, lambda x, y: rounded_rect_coverage(x, y, 100, 100, 36, inset=10))
     # Start over (an info page's Play from beginning): a ring open at its top
     # left, an arrowhead on the open end turning it anticlockwise, and a
     # small play triangle inside.

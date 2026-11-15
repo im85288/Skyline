@@ -113,7 +113,7 @@
 			<focusedcolor>SkylineFocusText</focusedcolor>
 			<invalidcolor>invalid</invalidcolor>
 			<selectedcolor>selected</selectedcolor>
-			<texturefocus border="46">silo/dialog_row_focus.png</texturefocus>
+			<texturefocus border="46" colordiffuse="SkylineFocus">silo/dialog_row_focus.png</texturefocus>
 			<texturenofocus />
 		</definition>
 	</include>
