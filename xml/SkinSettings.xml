@@ -44,7 +44,7 @@
 				</control>
 				<control type="button" id="792">
 					<label>Recommended add-ons</label>
-					<label2>Up Next, YouTube and more</label2>
+					<label2>$VAR[SkylineAddonsMissing]</label2>
 					<include>DefaultSettingButton</include>
 					<onclick>ActivateWindow(1192)</onclick>
 				</control>
@@ -53,6 +53,12 @@
 					<include>DefaultSettingButton</include>
 					<selected>!Skin.HasSetting(no_slide_animations)</selected>
 					<onclick>Skin.ToggleSetting(no_slide_animations)</onclick>
+				</control>
+				<control type="radiobutton" id="789">
+					<label>Clock on Home</label>
+					<include>DefaultSettingButton</include>
+					<selected>!Skin.HasSetting(SkylineNoClock)</selected>
+					<onclick>Skin.ToggleSetting(SkylineNoClock)</onclick>
 				</control>
 				<control type="radiobutton" id="783">
 					<label>Silo screensaver</label>
@@ -69,11 +75,24 @@
 					<enable>Skin.HasSetting(SkylineSiloScreensaver)</enable>
 					<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
 				</control>
+				<control type="button" id="788">
+					<label>Screensaver starts after</label>
+					<label2>$INFO[Skin.String(SkylineScreensaverTime)]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_choice&amp;name=screensaver_time)</onclick>
+					<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
+				</control>
 				<control type="button" id="787">
 					<label>Sharp pictures for 4K menus</label>
 					<label2>$VAR[SkylineGuiSize]</label2>
 					<include>DefaultSettingButton</include>
 					<onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=big_art)</onclick>
+					<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
+				</control>
+				<control type="button" id="770">
+					<label>Reset Skyline's options</label>
+					<include>DefaultSettingButton</include>
+					<onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_reset)</onclick>
 					<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
 				</control>
 			</control>
@@ -114,6 +133,22 @@
 					<selected>!Skin.HasSetting(SkylineHideTvTab)</selected>
 					<onclick>Skin.ToggleSetting(SkylineHideTvTab)</onclick>
 					<visible>PVR.HasTVChannels</visible>
+				</control>
+				<control type="button" id="772">
+					<label>- Live sport groups</label>
+					<label2>Playlist groups to look in</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=tv_sport_groups)</onclick>
+					<enable>!Skin.HasSetting(SkylineHideTvTab)</enable>
+					<visible>PVR.HasTVChannels + System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
+				</control>
+				<control type="button" id="773">
+					<label>- My teams</label>
+					<label2>$INFO[Skin.String(SkylineTvTeams)]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_choice&amp;name=tv_teams)</onclick>
+					<enable>!Skin.HasSetting(SkylineHideTvTab)</enable>
+					<visible>PVR.HasTVChannels + System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
 				</control>
 				<control type="radiobutton" id="786">
 					<label>Episode pictures on Home</label>
@@ -166,6 +201,14 @@
 					<onclick>Skin.ToggleSetting(SkylineNoThemeMusic)</onclick>
 					<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
 				</control>
+				<control type="button" id="771">
+					<label>- Theme music volume</label>
+					<label2>$INFO[Skin.String(SkylineThemeVolume)]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_choice&amp;name=theme_volume)</onclick>
+					<enable>!Skin.HasSetting(SkylineNoThemeMusic)</enable>
+					<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
+				</control>
 				<control type="radiobutton" id="785">
 					<label>Hide spoilers for unwatched episodes</label>
 					<include>DefaultSettingButton</include>
@@ -204,6 +247,13 @@
 					<include>DefaultSettingButton</include>
 					<onclick>Skin.SetNumeric(OSDAutoCloseTime)</onclick>
 					<enable>Skin.HasSetting(OSDAutoClose)</enable>
+				</control>
+				<control type="button" id="625">
+					<label>Rewind a little when unpausing</label>
+					<label2>$INFO[Skin.String(SkylineUnpauseBack)]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_choice&amp;name=unpause_back)</onclick>
+					<visible>System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
 				</control>
 			</control>
 		</control>

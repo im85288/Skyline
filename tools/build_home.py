@@ -1900,7 +1900,19 @@ def avatar():
                 <texture colordiffuse="66FFFFFF">silo/avatar_ring.png</texture>
                 <visible>Control.HasFocus(%(menu)d)</visible>
             </control>
+        </control>
+        <!-- The time, left of the avatar (Skin settings' Look > Clock on Home, on unless switched off). -->
+        <control type="label">
+            <left>%(clock_left)d</left><top>%(top)d</top>
+            <width>160</width><height>64</height>
+            <align>right</align><aligny>center</aligny>
+            <font>silo_meta</font>
+            <textcolor>%(dim)s</textcolor>
+            <label>$INFO[System.Time]</label>
+            <animation effect="fade" start="100" end="70" time="200" condition="%(bar_dim)s">Conditional</animation>
+            <visible>!Skin.HasSetting(SkylineNoClock)</visible>
         </control>''' % {'left': 1920 - SAFE_X - 64, 'top': BAR_TOP, 'name': prop('silo.profile_name'),
+                         'clock_left': 1920 - SAFE_X - 64 - 20 - 160, 'dim': TEXT_DIM,
                          'moves': bar_moves(9011, 'SetFocus(%d,0,absolute)' % AVATAR_MENU, AVATAR_MENU), 'menu': AVATAR_MENU, 'has_picture': has_picture, 'text': TEXT,
                          'initial': prop('silo.profile_initial'), 'picture': prop('silo.avatar'),
                          'bar_dim': BAR_DIM}

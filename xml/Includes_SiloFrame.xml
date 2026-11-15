@@ -91,6 +91,25 @@
 		<value condition="System.HasAddon(inputstream.adaptive)">Turned off  ·  OK turns it on</value>
 		<value>Not installed  ·  OK installs</value>
 	</variable>
+	<variable name="SkylineAddonsMissing">
+		<value condition="System.AddonIsEnabled(plugin.video.kodiconnectforsilo) + System.AddonIsEnabled(service.upnext) + System.AddonIsEnabled(plugin.video.youtube) + System.AddonIsEnabled(script.skinshortcuts) + System.AddonIsEnabled(inputstream.adaptive)">All installed</value>
+		<value>Missing$VAR[SkylineAddonMissing0, · ,]$VAR[SkylineAddonMissing1, · ,]$VAR[SkylineAddonMissing2, · ,]$VAR[SkylineAddonMissing3, · ,]$VAR[SkylineAddonMissing4, · ,]</value>
+	</variable>
+	<variable name="SkylineAddonMissing0">
+		<value condition="!System.AddonIsEnabled(plugin.video.kodiconnectforsilo)">KodiConnectForSilo</value>
+	</variable>
+	<variable name="SkylineAddonMissing1">
+		<value condition="!System.AddonIsEnabled(service.upnext)">Up Next</value>
+	</variable>
+	<variable name="SkylineAddonMissing2">
+		<value condition="!System.AddonIsEnabled(plugin.video.youtube)">YouTube</value>
+	</variable>
+	<variable name="SkylineAddonMissing3">
+		<value condition="!System.AddonIsEnabled(script.skinshortcuts)">Skin Shortcuts</value>
+	</variable>
+	<variable name="SkylineAddonMissing4">
+		<value condition="!System.AddonIsEnabled(inputstream.adaptive)">InputStream Adaptive</value>
+	</variable>
 	<!-- How large Kodi draws its menus, beside Sharp pictures for 4K menus. -->
 	<variable name="SkylineGuiSize">
 		<value condition="Integer.IsGreaterOrEqual(System.ScreenWidth,3000)">Menus in 4K</value>

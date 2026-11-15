@@ -571,7 +571,7 @@ def skin_settings(text):
 \t\t\t\t</control>
 \t\t\t\t<control type="button" id="792">
 \t\t\t\t\t<label>Recommended add-ons</label>
-\t\t\t\t\t<label2>Up Next, YouTube and more</label2>
+\t\t\t\t\t<label2>$VAR[SkylineAddonsMissing]</label2>
 \t\t\t\t\t<include>DefaultSettingButton</include>
 \t\t\t\t\t<onclick>ActivateWindow(1192)</onclick>
 \t\t\t\t</control>
@@ -659,18 +659,28 @@ def setting(kind, control_id, label, action, selected=None, label2=None, visible
 
 
 SILO_OPTION = 'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_option&amp;name=%s)'
+# A list of values the add-on offers and keeps (skinoptions.choose), shown beside the button as a skin string.
+SILO_CHOICE = 'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_choice&amp;name=%s)'
+TV = 'PVR.HasTVChannels + ' + SILO
 # Look's screensaver pair, after Use slide animations: KodiConnectForSilo's
 # screensaver as Kodi's in one press (the add-on switches Kodi's setting and
 # says how it stands: SkylineSiloScreensaver), and its titles' logos.
 LOOK_SETTINGS = (
-    setting('radiobutton', 783, 'Silo screensaver', SILO_OPTION % 'screensaver',
+    setting('radiobutton', 789, 'Clock on Home', 'Skin.ToggleSetting(SkylineNoClock)',
+            selected='!Skin.HasSetting(SkylineNoClock)')
+    + setting('radiobutton', 783, 'Silo screensaver', SILO_OPTION % 'screensaver',
             selected='Skin.HasSetting(SkylineSiloScreensaver)', visible=SILO)
     + setting('radiobutton', 784, '- Clear logo', 'Skin.ToggleSetting(SkylineScreensaverNoLogo)',
               selected='!Skin.HasSetting(SkylineScreensaverNoLogo)', enable='Skin.HasSetting(SkylineSiloScreensaver)',
               visible=SILO)
+    + setting('button', 788, 'Screensaver starts after', SILO_CHOICE % 'screensaver_time',
+              label2='$INFO[Skin.String(SkylineScreensaverTime)]', visible=SILO)
     # Kodi's picture cache sized for 4K menus (KodiConnectForSilo edits advancedsettings.xml).
     + setting('button', 787, 'Sharp pictures for 4K menus', 'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=big_art)',
-              label2='$VAR[SkylineGuiSize]', visible=SILO))
+              label2='$VAR[SkylineGuiSize]', visible=SILO)
+    # Every Skyline option back to its default, after a question (KodiConnectForSilo asks it).
+    + setting('button', 770, "Reset Skyline's options", 'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=skin_reset)',
+              visible=SILO))
 # Home: its menu (Skin Shortcuts; it was in Kodi's Settings screen), the
 # numbered rows and the bar's tabs, each offered only where it can show:
 # hiding a tab gives its room to the custom items.
@@ -683,6 +693,10 @@ HOME_SETTINGS = (
               selected='!Skin.HasSetting(SkylineHideRequestsTab)', visible=SILO)
     + setting('radiobutton', 781, 'TV tab', 'Skin.ToggleSetting(SkylineHideTvTab)',
               selected='!Skin.HasSetting(SkylineHideTvTab)', visible='PVR.HasTVChannels')
+    + setting('button', 772, '- Live sport groups', 'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=tv_sport_groups)',
+              label2='Playlist groups to look in', enable='!Skin.HasSetting(SkylineHideTvTab)', visible=TV)
+    + setting('button', 773, '- My teams', SILO_CHOICE % 'tv_teams', label2='$INFO[Skin.String(SkylineTvTeams)]',
+              enable='!Skin.HasSetting(SkylineHideTvTab)', visible=TV)
     + setting('radiobutton', 786, 'Episode pictures on Home', 'Skin.ToggleSetting(SkylineEpisodeStills)',
               selected='Skin.HasSetting(SkylineEpisodeStills)', visible=SILO))
 # Titles: what a film's or show's badges and ratings say, and its page's theme tune.
@@ -698,15 +712,23 @@ TITLE_SETTINGS = (
               comment='Off unless chosen: DOLBY VISION 7.6 rather than DOLBY VISION (KodiConnectForSilo 0.22.0+).')
     + setting('radiobutton', 795, 'Theme music on show pages', 'Skin.ToggleSetting(SkylineNoThemeMusic)',
               selected='!Skin.HasSetting(SkylineNoThemeMusic)', visible=SILO)
+    + setting('button', 771, '- Theme music volume', SILO_CHOICE % 'theme_volume',
+              label2='$INFO[Skin.String(SkylineThemeVolume)]', enable='!Skin.HasSetting(SkylineNoThemeMusic)', visible=SILO)
     # Kodi's own setting (Show information for unwatched items), switched by the add-on: SkylineHideSpoilers.
     + setting('radiobutton', 785, 'Hide spoilers for unwatched episodes', SILO_OPTION % 'spoilers',
               selected='Skin.HasSetting(SkylineHideSpoilers)', visible=SILO))
+
+PLAYER_SETTINGS = setting('button', 625, 'Rewind a little when unpausing', SILO_CHOICE % 'unpause_back',
+                          label2='$INFO[Skin.String(SkylineUnpauseBack)]', visible=SILO)
 
 # The line under a tab's name: the focused setting's help, else the tab's.
 SETTING_HELP = (
     (790, "Skyline's colour theme. Opens Kodi's Interface settings, where the skin's colours are chosen."),
     (792, 'Add-ons Skyline works with, such as Up Next and YouTube, and what each one adds.'),
     (701, 'Pages slide in and out as they open and close. Off: they appear at once.'),
+    (789, "Show the time at the top of Home, beside your profile picture."),
+    (788, "How many minutes Kodi waits with nothing pressed before the screensaver starts."),
+    (770, "Put every Skyline option back to how it came. Your menu items and Kodi's own settings stay."),
     (783, "Use KodiConnectForSilo's screensaver: your films' and shows' backdrops, one after another. Off: the one you had before."),
     (784, "Show each title's logo over its backdrop in the screensaver. Off: the backdrops alone."),
     (787, "With 4K menus, Kodi keeps posters and backgrounds smaller than it draws them, so they look soft. "
@@ -715,16 +737,20 @@ SETTING_HELP = (
     (794, 'Choose which Home rows show big numbers beside their first ten posters, as a chart does.'),
     (780, "Show the Requests tab in Home's bar, to find and request films and shows through Silo."),
     (781, "Show the TV tab in Home's bar, with live channels and the guide."),
+    (772, "The TV tab's Live sport now row shows matches only on channels in the playlist groups ticked here."),
+    (773, "Teams whose matches the TV tab's My teams row looks for, in any group. Several: separate them with commas."),
     (786, "Episodes on Home's rows, such as Continue Watching, show their own picture instead of their show's artwork."),
     (796, "Show IMDb's rating on Home, info pages and lists."),
     (797, "Show TMDB's rating on Home, info pages and lists."),
     (798, "Show Rotten Tomatoes' critics' score on Home, info pages and lists."),
     (799, 'Name the Dolby Vision profile on its badge: DOLBY VISION 7.6 instead of DOLBY VISION.'),
     (795, "Play a show's theme tune while its page is open, when Silo has one."),
+    (771, "How loud a theme tune plays, compared with Kodi's volume. Kodi's volume comes back as the tune stops."),
     (785, "Hide the plot and picture of episodes you haven't watched, everywhere in Kodi. Films are not affected."),
     (793, "How the player looks. Showcase: the title's logo over the bar and a pause screen. Silo: as Silo's own apps."),
     (623, "Hide the player's controls by themselves a few seconds after the last key press."),
     (624, "How many seconds the player's controls stay up before they hide."),
+    (625, "After a pause of more than a few seconds, a Silo title picks up this much earlier, so you don't lose the thread."),
 )
 TAB_HELP = ((1, 'Colours, movement and the screensaver.'), (2, 'What Home shows: its menu, numbered rows and tabs.'),
             (3, 'What badges, ratings and plots show for each film and show.'), (4, 'How the player looks while you watch.'))
@@ -787,6 +813,10 @@ def skyline_options(text):
         text = text[:player] + tab_grouplist(grouplist, item, controls) + text[player:]
     for item, grouplist, name in TABS:
         text = re.sub(r'(<item id="%d">\s*<label>)[^<]*(</label>)' % item, r'\g<1>%s\2' % name, text, count=1)
+    # Player's own (rewind on unpause): last in its list.
+    tabs_end = text.index('<control type="list" id="9000">')
+    player_end = text.rindex('\t\t\t</control>\n', 0, text.rindex('</control>', 0, tabs_end))
+    text = text[:player_end] + PLAYER_SETTINGS + text[player_end:]
     # Look's screensaver pair: last in its list, after Use slide animations.
     home = text.index('<control type="grouplist" id="610">')
     look_end = text.rindex('\t\t\t</control>\n', 0, home)
@@ -1617,6 +1647,16 @@ def addon_states():
 		<value condition="System.HasAddon(%s)">Turned off  ·  OK turns it on</value>
 		<value>%s</value>
 	</variable>''' % (number, addon, addon, 'Get it from %s' % source if source else 'Not installed  ·  OK installs')
+    # Beside Skin settings' Recommended add-ons: the ones not yet installed or turned on.
+    names = [(addon, name) for addon, name, _, _ in RECOMMENDED]
+    out += '\n\t<variable name="SkylineAddonsMissing">\n'
+    out += '\t\t<value condition="%s">All installed</value>\n' % ' + '.join(
+        'System.AddonIsEnabled(%s)' % addon for addon, _ in names)
+    out += '\t\t<value>Missing%s</value>\n' % ''.join('$VAR[SkylineAddonMissing%d, · ,]' % n for n in range(len(names)))
+    out += '\t</variable>'
+    for number, (addon, name) in enumerate(names):
+        out += ('\n\t<variable name="SkylineAddonMissing%d">\n\t\t<value condition="!System.AddonIsEnabled(%s)">%s</value>\n'
+                '\t</variable>' % (number, addon, name))
     return out
 
 

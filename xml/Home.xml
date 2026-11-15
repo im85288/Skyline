@@ -8255,6 +8255,17 @@
                 <visible>Control.HasFocus(9211)</visible>
             </control>
         </control>
+        <!-- The time, left of the avatar (Skin settings' Look > Clock on Home, on unless switched off). -->
+        <control type="label">
+            <left>1588</left><top>56</top>
+            <width>160</width><height>64</height>
+            <align>right</align><aligny>center</aligny>
+            <font>silo_meta</font>
+            <textcolor>BFEDEDED</textcolor>
+            <label>$INFO[System.Time]</label>
+            <animation effect="fade" start="100" end="70" time="200" condition="!ControlGroup(9000).HasFocus() + !Control.HasFocus(9011)">Conditional</animation>
+            <visible>!Skin.HasSetting(SkylineNoClock)</visible>
+        </control>
 
         <!-- Skin Shortcuts' main menu, built into script-skinshortcuts-includes.xml. -->
         <control type="list" id="9100">
