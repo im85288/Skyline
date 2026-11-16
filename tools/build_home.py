@@ -727,7 +727,10 @@ def moves(page_index, slot):
         ups = [(above, target)]
     for condition, to in ups:
         out += '\n                    <onup%s>SetFocus(%s)</onup>' % (' condition="%s"' % condition if condition else '', to)
-    # Back goes to the page's tab, as in Silo.
+    # Back goes to the page's tab, as in Silo, by way of the page's first row:
+    # that scrolls the rows' grouplist back to the top, else the next page
+    # opened from the bar showed its rows from this row's position down.
+    out += first_visible('onback', page_rows(page_index, range(1, min(LOOKAHEAD, rows_of(PAGES[page_index])) + 1)))
     out += '\n                    <onback>SetFocus(%s)</onback>' % target
     return out
 
