@@ -1,3 +1,6 @@
+[B]0.14.2[/B]
+• Back from a lower row on Home, Movies or Series: the next page chosen from the menu bar opens at its first row, not scrolled down
+
 [B]0.14.1[/B]
 • Dolby Vision profile on badges (DOLBY VISION 7.6) is on by default; turn it off in Skin settings > Titles
 
