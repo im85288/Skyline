@@ -96,7 +96,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>!String.IsEmpty(VideoPlayer.VideoResolution)</visible>
+                        <visible>[!String.IsEmpty(VideoPlayer.VideoResolution)] + !Player.ChannelPreviewActive</visible>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -108,7 +108,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>String.StartsWith(Player.Process(videofps),59.9) | String.StartsWith(Player.Process(videofps),60) | String.StartsWith(Player.Process(videofps),50) | String.StartsWith(Player.Process(videofps),48) | String.StartsWith(Player.Process(videofps),29.9) | String.StartsWith(Player.Process(videofps),30) | String.StartsWith(Player.Process(videofps),25) | String.StartsWith(Player.Process(videofps),23.9) | String.StartsWith(Player.Process(videofps),24)</visible>
+                        <visible>[String.StartsWith(Player.Process(videofps),59.9) | String.StartsWith(Player.Process(videofps),60) | String.StartsWith(Player.Process(videofps),50) | String.StartsWith(Player.Process(videofps),48) | String.StartsWith(Player.Process(videofps),29.9) | String.StartsWith(Player.Process(videofps),30) | String.StartsWith(Player.Process(videofps),25) | String.StartsWith(Player.Process(videofps),23.9) | String.StartsWith(Player.Process(videofps),24)] + !Player.ChannelPreviewActive</visible>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -120,7 +120,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>!String.IsEmpty(VideoPlayer.HdrType)</visible>
+                        <visible>[!String.IsEmpty(VideoPlayer.HdrType)] + !Player.ChannelPreviewActive</visible>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -132,7 +132,19 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>!String.IsEmpty(VideoPlayer.AudioChannels)</visible>
+                        <visible>[!String.IsEmpty(VideoPlayer.AudioChannels)] + !Player.ChannelPreviewActive</visible>
+                    </control>
+                    <control type="button">
+                        <top>2</top><width>auto</width><height>36</height>
+                        <label>OK  to watch</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>14</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>SkylineFocusText</disabledcolor>
+                        <texturenofocus border="18" colordiffuse="SkylineFocus">silo/pill.png</texturenofocus>
+                        <texturefocus border="18" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
+                        <visible>Player.ChannelPreviewActive</visible>
                     </control>
                 </control>
 
