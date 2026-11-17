@@ -1660,49 +1660,31 @@ MINI_ID = 1198               # the mini guide (long OK in Live TV), as Sky's
 MINI_LIST = 5700
 MINI_ROWS, MINI_ROW = 5, 78
 MINI_CHANNEL_W = 340
-MINI_CELL_W = (1920 - 2 * 88 - MINI_CHANNEL_W) // 4
+MINI_COLUMNS = 4             # half hours (KodiConnectForSilo's GRID_COLUMNS)
+MINI_CELL_W = (1920 - 2 * 88 - MINI_CHANNEL_W) // MINI_COLUMNS
 MINI_TOP = 1080 - 40 - MINI_ROWS * MINI_ROW
-MINI_COLUMNS = ('prev', 'now', 'next', 'later')
 MINI_COL = 'Window(Home).Property(silo.mini.col)'
+MINI_PLUGIN = 'plugin://plugin.video.kodiconnectforsilo/'
 
 
-def mini_focus(column, item='ListItem'):
-    """Whether a column is the focused one: silo.mini.col (empty: now), and a
-    channel with no earlier programme shows now focused instead."""
-    has_prev = '!String.IsEmpty(%s.Property(silo.prev.title))' % item
-    return {'prev': 'String.IsEqual(%s,prev) + %s' % (MINI_COL, has_prev),
-            'now': '[String.IsEmpty(%s) | String.IsEqual(%s,now) | [String.IsEqual(%s,prev) + String.IsEmpty(%s.Property(silo.prev.title))]]'
-                   % (MINI_COL, MINI_COL, MINI_COL, item),
-            'next': 'String.IsEqual(%s,next)' % MINI_COL,
-            'later': 'String.IsEqual(%s,later)' % MINI_COL}[column]
+def mini_lit(column):
+    """Whether a column is the focused one (silo.mini.col; empty: the first)."""
+    if column == 0:
+        return '[String.IsEmpty(%s) | String.IsEqual(%s,0)]' % (MINI_COL, MINI_COL)
+    return 'String.IsEqual(%s,%d)' % (MINI_COL, column)
 
 
 def mini_cell(column, left, focused_row):
-    """One programme in a row: title, and its times (on now, with the minutes
-    left; earlier, catch-up's icon). The focused one is Silo's white."""
-    p = 'ListItem.Property(silo.%s.%%s)' % column
-    times = '$INFO[%s]' % (p % 'times')
-    if column == 'now':
-        times += '$INFO[ListItem.Property(silo.now.left),  ·  , min left]'
+    """The programme in one half hour: its title (dimmer where it carries on
+    from the column before) and times (on now, the minutes left; catch-up's
+    icon on an earlier one it can play). The focused one is Silo's white."""
+    p = 'ListItem.Property(silo.c%d.%%s)' % column
+    times = '$INFO[%s]$INFO[%s,  ·  , min left]' % (p % 'times', p % 'left')
     exists = '!String.IsEmpty(%s)' % (p % 'title')
+    carries = 'String.IsEqual(%s,1)' % (p % 'cont')
+    archive = 'String.IsEqual(%s,1)' % (p % 'archive')
 
-    def body(text, soft, mark, fill, visible):
-        icon_x = 16
-        title = '''
-                        <control type="label">
-                            <left>16</left><top>6</top><width>%(tw)d</width><height>36</height>
-                            <font>silo_meta</font>
-                            <textcolor>%(text)s</textcolor>
-                            <label>$INFO[%(title)s]</label>
-                        </control>''' % {'tw': MINI_CELL_W - 40, 'text': text, 'title': p % 'title'}
-        icon = ''
-        if column == 'prev':
-            icon = '''
-                        <control type="image">
-                            <left>%d</left><top>45</top><width>22</width><height>22</height>
-                            <texture colordiffuse="%s">silo/menu_history.png</texture>
-                        </control>''' % (icon_x, mark)
-            icon_x += 30
+    def body(text, cont_text, soft, mark, fill, visible):
         return '''
                     <control type="group">
                         <left>%(left)d</left>
@@ -1710,29 +1692,57 @@ def mini_cell(column, left, focused_row):
                         <control type="image">
                             <width>%(w)d</width><height>%(h)d</height>
                             <texture border="14" colordiffuse="%(fill)s">silo/card_landscape_mask.png</texture>
-                        </control>%(title)s%(icon)s
+                        </control>
                         <control type="label">
-                            <left>%(tx)d</left><top>42</top><width>%(tw)d</width><height>28</height>
+                            <left>16</left><top>6</top><width>%(tw)d</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>%(text)s</textcolor>
+                            <label>$INFO[%(title)s]</label>
+                            <visible>!%(carries)s</visible>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>%(tw)d</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>%(cont_text)s</textcolor>
+                            <label>… $INFO[%(title)s]</label>
+                            <visible>%(carries)s</visible>
+                        </control>
+                        <control type="image">
+                            <left>16</left><top>45</top><width>22</width><height>22</height>
+                            <texture colordiffuse="%(mark)s">silo/menu_history.png</texture>
+                            <visible>%(archive)s</visible>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>%(tw)d</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>%(soft)s</textcolor>
                             <label>%(times)s</label>
+                            <visible>!%(archive)s</visible>
+                        </control>
+                        <control type="label">
+                            <left>46</left><top>42</top><width>%(tw2)d</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>%(soft)s</textcolor>
+                            <label>%(times)s</label>
+                            <visible>%(archive)s</visible>
                         </control>
                     </control>''' % {'left': left, 'visible': visible, 'w': MINI_CELL_W - 8, 'h': MINI_ROW - 8,
-                                     'fill': fill, 'title': title, 'icon': icon, 'tx': icon_x,
-                                     'tw': MINI_CELL_W - 24 - icon_x, 'soft': soft, 'times': times}
+                                     'fill': fill, 'tw': MINI_CELL_W - 40, 'tw2': MINI_CELL_W - 70, 'text': text,
+                                     'cont_text': cont_text, 'soft': soft, 'mark': mark, 'title': p % 'title',
+                                     'carries': carries, 'archive': archive, 'times': times}
     if not focused_row:
-        return body('D9EDEDED', '99EDEDED', ACCENT, '12FFFFFF', exists)
-    lit = mini_focus(column)
-    return (body('FF000000', '99000000', 'FF000000', 'FFEDEDED', '%s + %s' % (exists, lit)) +
-            body('FFEDEDED', 'B3EDEDED', ACCENT, '24FFFFFF', '%s + !%s' % (exists, '[%s]' % lit)))
+        return body('D9EDEDED', '80EDEDED', '99EDEDED', ACCENT, '12FFFFFF', exists)
+    lit = mini_lit(column)
+    return (body('FF000000', 'B3000000', '99000000', 'FF000000', 'FFEDEDED', '%s + %s' % (exists, lit)) +
+            body('FFEDEDED', '99EDEDED', 'B3EDEDED', ACCENT, '24FFFFFF', '%s + !%s' % (exists, lit)))
 
 
 def mini_row(focused):
     """A channel's row: number, logo and name (the playing one marked), then
-    its earlier, now, next and later programmes."""
+    its programme in each half hour."""
     playing = 'String.IsEqual(ListItem.Property(silo.number),VideoPlayer.ChannelNumberLabel)'
-    cells = ''.join(mini_cell(column, MINI_CHANNEL_W + i * MINI_CELL_W, focused)
-                    for i, column in enumerate(MINI_COLUMNS))
+    cells = ''.join(mini_cell(column, MINI_CHANNEL_W + column * MINI_CELL_W, focused)
+                    for column in range(MINI_COLUMNS))
     return '''
                     <control type="image">
                         <width>%(cw)d</width><height>%(h)d</height>
@@ -1770,8 +1780,8 @@ def mini_row(focused):
 def mini_details():
     """Above the grid: the focused programme's title, day and times, and plot."""
     out = ''
-    for column in MINI_COLUMNS:
-        p = 'Container(%d).ListItem.Property(silo.%s.%%s)' % (MINI_LIST, column)
+    for column in range(MINI_COLUMNS):
+        p = 'Container(%d).ListItem.Property(silo.c%d.%%s)' % (MINI_LIST, column)
         out += '''
             <control type="group">
                 <visible>%(lit)s</visible>
@@ -1793,63 +1803,70 @@ def mini_details():
                     <textcolor>D9EDEDED</textcolor>
                     <label>$INFO[%(plot)s]</label>
                 </control>
-            </control>''' % {'lit': mini_focus(column, 'Container(%d).ListItem' % MINI_LIST),
-                             'title': p % 'title', 'timeline': p % 'timeline', 'plot': p % 'plot',
-                             't1': MINI_TOP - 186, 't2': MINI_TOP - 138, 't3': MINI_TOP - 102}
+            </control>''' % {'lit': mini_lit(column), 'title': p % 'title', 'timeline': p % 'timeline',
+                             'plot': p % 'plot', 't1': MINI_TOP - 186, 't2': MINI_TOP - 138, 't3': MINI_TOP - 102}
     return out
 
 
 def build_mini():
     """Sky's mini guide over Live TV (long OK): five channels of the playing
-    group along the bottom, the picture left clear above, each with its
-    programmes earlier (where catch-up can play it), on now, next and later
-    (KodiConnectForSilo's mini_grid), the focused one's details above.
-    Up and Down move through the channels (round from the ends), Left and
-    Right through the programmes; OK on now watches the channel, on an
-    earlier one plays it from catch-up. Back or 8 s idle closes it."""
+    group along the bottom, the picture left clear above, each with what's
+    on in four half-hour columns from now (KodiConnectForSilo's mini_grid),
+    the focused programme's details above. Up and Down move through the
+    channels (round from the ends), Left and Right through the half hours,
+    and past the first or last column the grid moves a half hour (mini_shift:
+    back into catch-up, on into the days ahead). OK on now watches the
+    channel, on an earlier one catch-up can play plays it. Back or 8 s idle
+    closes it."""
     item = 'Container(%d).ListItem' % MINI_LIST
-    has_prev = '!String.IsEmpty(%s.Property(silo.prev.title))' % item
-    col_now = '[String.IsEmpty(%s) | String.IsEqual(%s,now)]' % (MINI_COL, MINI_COL)
     playing = 'String.IsEqual(%s.Property(silo.number),VideoPlayer.ChannelNumberLabel)' % item
-    on_now, on_prev = mini_focus('now', item), mini_focus('prev', item)
-    play_channel = ('RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_channel&amp;id=$INFO[%s.Property(silo.channelid)])'
-                    % item)
-    play_past = ('RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_broadcast&amp;id=$INFO[%s.Property(silo.prev.broadcastid)]'
-                 '&amp;channel=$INFO[%s.Property(silo.channelid)]&amp;when=past)' % (item, item))
+    shift = ('RunPlugin(%s?mode=mini_shift&amp;dir=%%s&amp;focus=$INFO[%s.Property(silo.number)])' % (MINI_PLUGIN, item))
+    clicks = ''
+    for column in range(MINI_COLUMNS):
+        p = '%s.Property(silo.c%d.%%s)' % (item, column)
+        lit = mini_lit(column)
+        now = '%s + String.IsEqual(%s,now)' % (lit, p % 'when')
+        past = '%s + String.IsEqual(%s,1)' % (lit, p % 'archive')
+        play_past = ('RunPlugin(%s?mode=play_broadcast&amp;id=$INFO[%s]&amp;channel=$INFO[%s.Property(silo.channelid)]&amp;when=past)'
+                     % (MINI_PLUGIN, p % 'broadcastid', item))
+        # The plugin first: once the window has closed its list's item is gone.
+        for condition, action in (
+                ('%s + %s' % (now, playing), 'Dialog.Close(%d)' % MINI_ID),
+                ('%s + !%s' % (now, playing),
+                 'RunPlugin(%s?mode=play_channel&amp;id=$INFO[%s.Property(silo.channelid)])' % (MINI_PLUGIN, item)),
+                ('%s + !%s' % (now, playing), 'Dialog.Close(%d)' % MINI_ID),
+                (past, play_past), (past, 'Dialog.Close(%d)' % MINI_ID)):
+            clicks += '\n                <onclick condition="%s">%s</onclick>' % (condition, action)
+    last = MINI_COLUMNS - 1
+    # Kodi runs each action whose condition holds in turn: each list is ordered not to cascade.
+    left = [(mini_lit(0), shift % '-1')] + [(mini_lit(c), 'SetProperty(silo.mini.col,%d,home)' % (c - 1))
+                                             for c in range(1, MINI_COLUMNS)]
+    right = [(mini_lit(last), shift % '1')] + [(mini_lit(c), 'SetProperty(silo.mini.col,%d,home)' % (c + 1))
+                                               for c in range(last - 1, -1, -1)]
     header = ''.join('''
             <control type="label">
                 <left>%d</left><top>%d</top><width>%d</width><height>40</height>
                 <font>silo_detail</font>
                 <textcolor>%s</textcolor>
-                <label>%s</label>
-            </control>''' % (88 + MINI_CHANNEL_W + i * MINI_CELL_W + 16, MINI_TOP - 48, MINI_CELL_W - 24,
-                             ACCENT if column == 'now' else '99EDEDED', label)
-        for i, (column, label) in enumerate(zip(MINI_COLUMNS, ('Earlier', 'Now  ·  $INFO[System.Time]', 'Next', 'Later'))))
+                <label>$INFO[Window(Home).Property(silokodi.mini_head%d)]</label>
+            </control>''' % (88 + MINI_CHANNEL_W + column * MINI_CELL_W + 16, MINI_TOP - 48, MINI_CELL_W - 24,
+                             '99EDEDED', column) for column in range(MINI_COLUMNS))
     return MINI_WINDOW % {
         'window': MINI_ID, 'list': MINI_LIST, 'top': MINI_TOP, 'h': MINI_ROWS * MINI_ROW, 'row': MINI_ROW,
-        'details': mini_details(), 'header': header, 'hint_y': MINI_TOP - 186,
-        # Left and Right: Kodi runs each action whose condition holds in turn, so each step is ordered not to cascade.
-        'left': ''.join('\n                <onleft condition="%s">SetProperty(silo.mini.col,%s,home)</onleft>' % pair for pair in (
-            ('%s + %s' % (col_now, has_prev), 'prev'), ('String.IsEqual(%s,next)' % MINI_COL, 'now'),
-            ('String.IsEqual(%s,later)' % MINI_COL, 'next'))),
-        'right': ''.join('\n                <onright condition="%s">SetProperty(silo.mini.col,%s,home)</onright>' % pair for pair in (
-            ('String.IsEqual(%s,next)' % MINI_COL, 'later'), (col_now, 'next'), ('String.IsEqual(%s,prev)' % MINI_COL, 'now'))),
-        'clicks': ''.join('\n                <onclick condition="%s">%s</onclick>' % pair for pair in (
-            ('%s + %s' % (on_now, playing), 'Dialog.Close(%d)' % MINI_ID),
-            # The plugin first: once the window has closed its list's item is gone.
-            ('%s + !%s' % (on_now, playing), play_channel),
-            ('%s + !%s' % (on_now, playing), 'Dialog.Close(%d)' % MINI_ID),
-            (on_prev, play_past),
-            (on_prev, 'Dialog.Close(%d)' % MINI_ID))),
-        'row': MINI_ROW, 'card': mini_row(False), 'card_focused': mini_row(True)}
+        'details': mini_details(), 'header': header, 'hint_y': MINI_TOP - 186, 'plugin': MINI_PLUGIN,
+        'left': ''.join('\n                <onleft condition="%s">%s</onleft>' % pair for pair in left),
+        'right': ''.join('\n                <onright condition="%s">%s</onright>' % pair for pair in right),
+        'clicks': clicks, 'card': mini_row(False), 'card_focused': mini_row(True)}
 
 
 MINI_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated by tools/build_tv.py: edit that, not this. -->
 <window id="%(window)d" type="dialog">
     <defaultcontrol always="true">%(list)d</defaultcontrol>
-    <!-- Opens on what the banner shows: the playing channel, or the one being browsed. -->
+    <!-- Opens on what the banner shows (the playing channel, or the one being browsed), from now. -->
     <onload>SetProperty(silo.mini.number,$INFO[VideoPlayer.ChannelNumberLabel],home)</onload>
+    <onload>SetProperty(silo.mini.focus,$INFO[VideoPlayer.ChannelNumberLabel],home)</onload>
+    <onload>ClearProperty(silo.mini.shift,home)</onload>
     <onload>ClearProperty(silo.mini.col,home)</onload>
     <onload>ClearProperty(silo.mini.placed,home)</onload>
     <controls>
@@ -1878,7 +1895,7 @@ MINI_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
                 <!-- Round from the ends, as the guide. -->
                 <onup>Control.Move(%(list)d,-1)</onup>
                 <ondown>Control.Move(%(list)d,1)</ondown>%(left)s%(right)s
-                <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=mini_grid&amp;number=$INFO[Window(Home).Property(silo.mini.number)]</content>
+                <content target="videos">%(plugin)s?mode=mini_grid&amp;number=$INFO[Window(Home).Property(silo.mini.number)]&amp;shift=$INFO[Window(Home).Property(silo.mini.shift)]&amp;focus=$INFO[Window(Home).Property(silo.mini.focus)]</content>
                 <!-- On now: the channel (already playing: just close); earlier: from catch-up. -->%(clicks)s
                 <itemlayout width="1744" height="%(row)d">%(card)s
                 </itemlayout>
@@ -1890,7 +1907,7 @@ MINI_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 </window>
 '''
 
-MINI_TIMERS = """    <!-- The mini guide: on the channel it opened on once the grid arrives, and shut after 8 s idle. -->
+MINI_TIMERS = """    <!-- The mini guide: on the channel it opened on (or was on as the grid moved) once the grid arrives, and shut after 8 s idle. -->
     <timer>
         <name>silo_mini_now</name>
         <start reset="true">Window.IsActive(%(window)d) + String.IsEmpty(Window(Home).Property(silo.mini.placed)) + String.IsEqual(Window(Home).Property(silokodi.mini_for),Window(Home).Property(silo.mini.number)) + Integer.IsGreater(Container(%(list)d).NumItems,0) + !Container(%(list)d).IsUpdating</start>
