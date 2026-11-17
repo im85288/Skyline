@@ -433,6 +433,21 @@
         <onstop>SetFocus(14,$INFO[Container(13).ListItem.Property(silo.first)],absolute)</onstop>
         <onstop>SetFocus(13)</onstop>
     </timer>
+    <!-- The mini guide: on the programme on now once a channel's arrive, and shut after 8 s idle. -->
+    <timer>
+        <name>silo_mini_now</name>
+        <start reset="true">Window.IsActive(1198) + String.IsEmpty(Window(Home).Property(silo.mini.placed)) + String.IsEqual(Window(Home).Property(silokodi.mini_for),Window(Home).Property(silo.mini.number)) + Integer.IsGreater(Container(5700).NumItems,0) + !Container(5700).IsUpdating</start>
+        <stop>true</stop>
+        <onstop>SetProperty(silo.mini.placed,1,home)</onstop>
+        <onstop>SetFocus(5700,$INFO[Window(Home).Property(silokodi.mini_now)],absolute)</onstop>
+    </timer>
+    <timer>
+        <name>silo_mini_autoclose</name>
+        <start reset="true">Window.IsActive(1198)</start>
+        <reset>Window.IsActive(1198) + !System.IdleTime(1)</reset>
+        <stop>!Window.IsActive(1198) | Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(silo_mini_autoclose),8)</stop>
+        <onstop condition="Window.IsActive(1198)">Dialog.Close(1198)</onstop>
+    </timer>
     <!-- end Silo Skyline TV -->
 <!-- Silo Skyline Showcase timer (tools/build_showcase.py) -->
     <timer>

@@ -790,7 +790,8 @@ def add_timers():
     text = open(path, encoding='utf-8').read()
     if TIMER_START in text:
         text = text[:text.index(TIMER_START)] + text[text.index(TIMER_END) + len(TIMER_END):]
-    text = text.replace('</timers>', TIMER_START + TIMERS % {'window': RECENT_ID, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS} + TIMER_END + '</timers>')
+    text = text.replace('</timers>', TIMER_START + TIMERS % {'window': RECENT_ID, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
+                        + MINI_TIMERS + TIMER_END + '</timers>')
     open(path, 'w', encoding='utf-8').write(text)
 
 
@@ -1655,6 +1656,197 @@ def add_leave_timer():
     open(path, 'w', encoding='utf-8').write(text.replace('</timers>', LEAVE_TIMER + '</timers>'))
 
 
+MINI_ID = 1198               # the mini guide (long OK in Live TV), as Sky's
+MINI_LIST = 5700
+MINI_CARD_W, MINI_CARD_H, MINI_GAP = 360, 168, 16
+MINI_TOP = 742               # the programmes' row
+MINI_X = 88 + LOGO_BOX_W + 40
+MINI_HOME = 'Window(Home).Property(silo.mini.%s)'
+MINI_PLAYING = 'String.IsEqual(%s,VideoPlayer.ChannelNumberLabel)' % (MINI_HOME % 'number')
+
+
+def mini_card(focused):
+    """A programme in the mini guide: its times, title and what it is (on now:
+    LIVE and the minutes left; past: catch-up), Silo's white when focused."""
+    text, soft = ('FF000000', '99000000') if focused else ('FFEDEDED', 'B3EDEDED')
+    fill = 'FFEDEDED' if focused else '1FFFFFFF'
+    mark = 'FF000000' if focused else ACCENT
+    return '''
+                    <control type="image">
+                        <width>%(w)d</width><height>%(h)d</height>
+                        <texture border="20" colordiffuse="%(fill)s">silo/card_landscape_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <left>22</left><top>16</top><width>%(tw)d</width><height>32</height>
+                        <font>silo_detail</font>
+                        <textcolor>%(soft)s</textcolor>
+                        <label>$INFO[ListItem.Property(silo.times)]</label>
+                    </control>
+                    <control type="textbox">
+                        <left>22</left><top>50</top><width>%(tw)d</width><height>76</height>
+                        <font>silo_meta</font>
+                        <textcolor>%(text)s</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                    <control type="label">
+                        <left>22</left><top>%(tag)d</top><width>%(tw)d</width><height>30</height>
+                        <font>silo_detail</font>
+                        <textcolor>%(mark)s</textcolor>
+                        <label>▶ LIVE$INFO[ListItem.Property(silo.left),  ·  , min left]</label>
+                        <visible>String.IsEqual(ListItem.Property(silo.when),now)</visible>
+                    </control>
+                    <control type="image">
+                        <left>22</left><top>%(icon)d</top><width>26</width><height>26</height>
+                        <texture colordiffuse="%(mark)s">silo/menu_history.png</texture>
+                        <visible>String.IsEqual(ListItem.Property(silo.archive),1)</visible>
+                    </control>
+                    <control type="label">
+                        <left>58</left><top>%(tag)d</top><width>%(tw)d</width><height>30</height>
+                        <font>silo_detail</font>
+                        <textcolor>%(mark)s</textcolor>
+                        <label>Catch up</label>
+                        <visible>String.IsEqual(ListItem.Property(silo.archive),1)</visible>
+                    </control>''' % {'w': MINI_CARD_W, 'h': MINI_CARD_H, 'tw': MINI_CARD_W - 44, 'fill': fill,
+                                     'text': text, 'soft': soft, 'mark': mark, 'tag': MINI_CARD_H - 40,
+                                     'icon': MINI_CARD_H - 38}
+
+
+def build_mini():
+    """Sky's mini guide over Live TV (long OK): along the bottom, the channel
+    on the left and its programmes in a row, the picture left clear above.
+    Left and Right walk its timeline (earlier ones only where catch-up can
+    play them), Up and Down step to the channel above or below without
+    switching (KodiConnectForSilo's mini_step); OK on now watches the channel,
+    on an earlier one plays it from catch-up. Back or 8 s idle closes it."""
+    step = ('RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=mini_step&amp;dir=%%s&amp;group=$INFO[%s])'
+            % (MINI_HOME % 'group'))
+    play = ('RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_broadcast&amp;id=$INFO[ListItem.Property(silo.broadcastid)]'
+            '&amp;channel=$INFO[ListItem.Property(silo.channelid)]&amp;when=$INFO[ListItem.Property(silo.when)])')
+    now = 'String.IsEqual(ListItem.Property(silo.when),now)'
+    past = 'String.IsEqual(ListItem.Property(silo.archive),1)'
+    return MINI_WINDOW % {
+        'window': MINI_ID, 'list': MINI_LIST, 'top': MINI_TOP, 'bw': LOGO_BOX_W, 'bh': LOGO_BOX_H,
+        'name_y': MINI_TOP + LOGO_BOX_H + 10, 'group_y': MINI_TOP + LOGO_BOX_H + 48,
+        'watching_y': MINI_TOP + LOGO_BOX_H + 82,
+        'logo': MINI_HOME % 'logo', 'number': MINI_HOME % 'number', 'name': MINI_HOME % 'name',
+        'group': MINI_HOME % 'group', 'playing': MINI_PLAYING, 'accent': ACCENT,
+        'x': MINI_X, 'lw': 1920 - 88 - MINI_X, 'cw': MINI_CARD_W + MINI_GAP, 'ch': MINI_CARD_H,
+        'up': step % '-1', 'down': step % '1', 'now': now, 'past': past, 'play': play,
+        'when_y': MINI_TOP + MINI_CARD_H + 14, 'plot_y': MINI_TOP + MINI_CARD_H + 48,
+        'card': mini_card(False), 'card_focused': mini_card(True)}
+
+
+MINI_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated by tools/build_tv.py: edit that, not this. -->
+<window id="%(window)d" type="dialog">
+    <defaultcontrol always="true">%(list)d</defaultcontrol>
+    <!-- Opens on what the banner shows: the playing channel, or the one being browsed. -->
+    <onload>SetProperty(silo.mini.number,$INFO[VideoPlayer.ChannelNumberLabel],home)</onload>
+    <onload>SetProperty(silo.mini.name,"$INFO[VideoPlayer.ChannelName]",home)</onload>
+    <onload>SetProperty(silo.mini.logo,"$INFO[Player.Icon]",home)</onload>
+    <onload>SetProperty(silo.mini.group,"$INFO[VideoPlayer.ChannelGroup]",home)</onload>
+    <onload>ClearProperty(silo.mini.placed,home)</onload>
+    <controls>
+        <control type="group">
+            <animation effect="slide" start="0,320" end="0,0" time="220" tween="cubic" easing="out">WindowOpen</animation>
+            <animation effect="slide" start="0,0" end="0,320" time="160" tween="cubic" easing="in">WindowClose</animation>
+            <control type="image">
+                <left>0</left><top>520</top><width>1920</width><height>560</height>
+                <texture>silo/scrim_bottom.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>640</top><width>1920</width><height>440</height>
+                <texture>silo/scrim_bottom.png</texture>
+            </control>
+            <control type="label">
+                <right>88</right><top>684</top><width>1200</width><height>40</height>
+                <align>right</align>
+                <font>silo_detail</font>
+                <textcolor>B3EDEDED</textcolor>
+                <label>◀ ▶  Earlier and later     ▲ ▼  Channels     OK  Watch</label>
+            </control>
+            <!-- The channel. -->
+            <control type="image">
+                <left>88</left><top>%(top)d</top><width>%(bw)d</width><height>%(bh)d</height>
+                <aspectratio>keep</aspectratio>
+                <texture>$INFO[%(logo)s]</texture>
+            </control>
+            <control type="label">
+                <left>88</left><top>%(name_y)d</top><width>%(bw)d</width><height>36</height>
+                <font>silo_meta</font>
+                <textcolor>FFEDEDED</textcolor>
+                <label>$INFO[%(number)s,,  ]$INFO[%(name)s]</label>
+            </control>
+            <control type="label">
+                <left>88</left><top>%(group_y)d</top><width>%(bw)d</width><height>32</height>
+                <font>silo_detail</font>
+                <textcolor>99EDEDED</textcolor>
+                <label>$INFO[%(group)s]</label>
+            </control>
+            <control type="label">
+                <left>88</left><top>%(watching_y)d</top><width>%(bw)d</width><height>30</height>
+                <font>silo_detail</font>
+                <textcolor>%(accent)s</textcolor>
+                <label>Watching</label>
+                <visible>%(playing)s</visible>
+            </control>
+            <!-- Its programmes: earlier (catch-up), on now, next and later. -->
+            <control type="fixedlist" id="%(list)d">
+                <left>%(x)d</left><top>%(top)d</top><width>%(lw)d</width><height>%(ch)d</height>
+                <orientation>horizontal</orientation>
+                <focusposition>1</focusposition>
+                <movement>2</movement>
+                <scrolltime tween="cubic" easing="out">180</scrolltime>
+                <onleft>noop</onleft>
+                <onright>noop</onright>
+                <onup>%(up)s</onup>
+                <ondown>%(down)s</ondown>
+                <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=schedule&amp;mini=1&amp;number=$INFO[%(number)s]&amp;name=$INFO[%(name)s]</content>
+                <!-- On now: the channel (already playing: just close); earlier: from catch-up. -->
+                <onclick condition="[%(now)s + !%(playing)s] | %(past)s">Dialog.Close(%(window)d)</onclick>
+                <onclick condition="[%(now)s + !%(playing)s] | %(past)s">%(play)s</onclick>
+                <onclick condition="%(now)s + %(playing)s">Dialog.Close(%(window)d)</onclick>
+                <itemlayout width="%(cw)d" height="%(ch)d">%(card)s
+                </itemlayout>
+                <focusedlayout width="%(cw)d" height="%(ch)d">%(card_focused)s
+                </focusedlayout>
+            </control>
+            <!-- The focused programme: its day and times, then its plot. -->
+            <control type="label">
+                <left>%(x)d</left><top>%(when_y)d</top><width>%(lw)d</width><height>32</height>
+                <font>silo_detail</font>
+                <textcolor>B3EDEDED</textcolor>
+                <label>$INFO[Container(%(list)d).ListItem.Property(silo.timeline)]</label>
+            </control>
+            <control type="textbox">
+                <left>%(x)d</left><top>%(plot_y)d</top><width>%(lw)d</width><height>68</height>
+                <font>silo_detail</font>
+                <textcolor>D9EDEDED</textcolor>
+                <label>$INFO[Container(%(list)d).ListItem.Property(silo.plot)]</label>
+            </control>
+        </control>
+    </controls>
+</window>
+'''
+
+MINI_TIMERS = """    <!-- The mini guide: on the programme on now once a channel's arrive, and shut after 8 s idle. -->
+    <timer>
+        <name>silo_mini_now</name>
+        <start reset="true">Window.IsActive(%(window)d) + String.IsEmpty(Window(Home).Property(silo.mini.placed)) + String.IsEqual(Window(Home).Property(silokodi.mini_for),Window(Home).Property(silo.mini.number)) + Integer.IsGreater(Container(%(list)d).NumItems,0) + !Container(%(list)d).IsUpdating</start>
+        <stop>true</stop>
+        <onstop>SetProperty(silo.mini.placed,1,home)</onstop>
+        <onstop>SetFocus(%(list)d,$INFO[Window(Home).Property(silokodi.mini_now)],absolute)</onstop>
+    </timer>
+    <timer>
+        <name>silo_mini_autoclose</name>
+        <start reset="true">Window.IsActive(%(window)d)</start>
+        <reset>Window.IsActive(%(window)d) + !System.IdleTime(1)</reset>
+        <stop>!Window.IsActive(%(window)d) | Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(silo_mini_autoclose),8)</stop>
+        <onstop condition="Window.IsActive(%(window)d)">Dialog.Close(%(window)d)</onstop>
+    </timer>
+""" % {'window': MINI_ID, 'list': MINI_LIST}
+
+
 if __name__ == '__main__':
     with open(os.path.join(ROOT, 'xml', 'MyPVRGuide.xml'), 'w', encoding='utf-8') as handle:
         handle.write(build())
@@ -1667,6 +1859,8 @@ if __name__ == '__main__':
         handle.write(build_quick_guide())
     with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloRecentChannels.xml' % RECENT_ID), 'w', encoding='utf-8') as handle:
         handle.write(build_recent())
+    with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloMiniGuide.xml' % MINI_ID), 'w', encoding='utf-8') as handle:
+        handle.write(build_mini())
     add_banner()
     add_timers()
     add_variables()
