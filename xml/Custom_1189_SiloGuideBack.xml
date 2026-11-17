@@ -3,7 +3,10 @@
 <!-- focus lands in MyPVRGuide.xml -->
 <window type="dialog" id="1189">
     <onload>Dialog.Close(1189,true)</onload>
-    <onload condition="Skin.TimerIsRunning(silo_guide_leave)">Action(Back)</onload>
+    <!-- Leaving: stop and go Home (Kodi's Back went to the window before the guide, the
+         video, and round again). -->
+    <onload condition="Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">PlayerControl(Stop)</onload>
+    <onload condition="Skin.TimerIsRunning(silo_guide_leave)">ActivateWindow(Home)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">Action(FullScreen)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + String.IsEmpty(Window(Home).Property(silo.guide.timeline))">Action(Back)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + !String.IsEmpty(Window(Home).Property(silo.guide.timeline))">SetFocus(11)</onload>

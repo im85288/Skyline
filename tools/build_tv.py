@@ -1610,7 +1610,7 @@ def build_recent():
 # Back in the guide (KodiConnectForSilo's player keymap opens this dialog,
 # as Back in the video window opens 1188): to what's playing, but Back again
 # within LEAVE_SECONDS of Back from that video bringing you here leaves Live
-# TV (Home stops what plays), as Android apps' "press Back again to exit":
+# TV (stops it and goes Home), as Android apps' "press Back again to exit":
 # otherwise the two Backs only went round in a loop. 1188 sets
 # silo.guide.fromplayer; the silo_guide_leave timer starts on it, says so
 # and runs LEAVE_SECONDS. With nothing playing, from the timeline up to the
@@ -1626,7 +1626,10 @@ GUIDE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- focus lands in MyPVRGuide.xml -->
 <window type="dialog" id="%(id)d">
     <onload>Dialog.Close(%(id)d,true)</onload>
-    <onload condition="Skin.TimerIsRunning(silo_guide_leave)">Action(Back)</onload>
+    <!-- Leaving: stop and go Home (Kodi's Back went to the window before the guide, the
+         video, and round again). -->
+    <onload condition="Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">PlayerControl(Stop)</onload>
+    <onload condition="Skin.TimerIsRunning(silo_guide_leave)">ActivateWindow(Home)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">Action(FullScreen)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + String.IsEmpty(Window(Home).Property(silo.guide.timeline))">Action(Back)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + !String.IsEmpty(Window(Home).Property(silo.guide.timeline))">SetFocus(%(groups)d)</onload>
