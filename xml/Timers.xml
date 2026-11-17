@@ -442,6 +442,12 @@
         <onstop>SetFocus(5700,$INFO[Window(Home).Property(silokodi.mini_now)],absolute)</onstop>
     </timer>
     <timer>
+        <name>silo_mini_closed</name>
+        <start reset="true">!Window.IsActive(1198) + String.IsEqual(Window(Home).Property(silo.mini.wasopen),1)</start>
+        <stop>Window.IsActive(1198) | Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(silo_mini_closed),4)</stop>
+        <onstop>ClearProperty(silo.mini.wasopen,home)</onstop>
+    </timer>
+    <timer>
         <name>silo_mini_autoclose</name>
         <start reset="true">Window.IsActive(1198)</start>
         <reset>Window.IsActive(1198) + !System.IdleTime(1)</reset>

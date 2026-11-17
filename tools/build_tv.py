@@ -1740,7 +1740,7 @@ def mini_cell(column, left, focused_row):
 def mini_row(focused):
     """A channel's row: number, logo and name (the playing one marked), then
     its programme in each half hour."""
-    playing = 'String.IsEqual(ListItem.Property(silo.number),VideoPlayer.ChannelNumberLabel)'
+    playing = 'String.IsEqual(ListItem.Property(silo.playing),1)'
     cells = ''.join(mini_cell(column, MINI_CHANNEL_W + column * MINI_CELL_W, focused)
                     for column in range(MINI_COLUMNS))
     return '''
@@ -1749,7 +1749,7 @@ def mini_row(focused):
                         <texture border="14" colordiffuse="%(fill)s">silo/card_landscape_mask.png</texture>
                     </control>
                     <control type="image">
-                        <left>0</left><top>14</top><width>5</width><height>%(bar)d</height>
+                        <left>0</left><top>12</top><width>6</width><height>%(bar)d</height>
                         <texture colordiffuse="%(accent)s">colors/white.png</texture>
                         <visible>%(playing)s</visible>
                     </control>
@@ -1771,6 +1771,15 @@ def mini_row(focused):
                         <font>silo_detail</font>
                         <textcolor>%(text)s</textcolor>
                         <label>$INFO[ListItem.Label]</label>
+                        <visible>!%(playing)s</visible>
+                    </control>
+                    <control type="label">
+                        <left>188</left><top>0</top><width>%(nw)d</width><height>%(h)d</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>%(accent)s</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>%(playing)s</visible>
                     </control>%(cells)s''' % {
         'cw': MINI_CHANNEL_W - 8, 'h': MINI_ROW - 8, 'bar': MINI_ROW - 36, 'accent': ACCENT, 'playing': playing,
         'fill': '24FFFFFF' if focused else '12FFFFFF', 'soft': 'B3EDEDED' if focused else '80EDEDED',
@@ -1819,7 +1828,7 @@ def build_mini():
     channel, on an earlier one catch-up can play plays it. Back or 8 s idle
     closes it."""
     item = 'Container(%d).ListItem' % MINI_LIST
-    playing = 'String.IsEqual(%s.Property(silo.number),VideoPlayer.ChannelNumberLabel)' % item
+    playing = 'String.IsEqual(%s.Property(silo.playing),1)' % item
     shift = ('RunPlugin(%s?mode=mini_shift&amp;dir=%%s&amp;focus=$INFO[%s.Property(silo.number)])' % (MINI_PLUGIN, item))
     clicks = ''
     for column in range(MINI_COLUMNS):
@@ -1869,6 +1878,8 @@ MINI_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
     <onload>ClearProperty(silo.mini.shift,home)</onload>
     <onload>ClearProperty(silo.mini.col,home)</onload>
     <onload>ClearProperty(silo.mini.placed,home)</onload>
+    <!-- Closed (Back, OK or 8 s idle): Back is ignored a moment (silo_mini_closed, window 1188). -->
+    <onunload>SetProperty(silo.mini.wasopen,1,home)</onunload>
     <controls>
         <control type="group">
             <animation effect="slide" start="0,460" end="0,0" time="220" tween="cubic" easing="out">WindowOpen</animation>
@@ -1914,6 +1925,12 @@ MINI_TIMERS = """    <!-- The mini guide: on the channel it opened on (or was on
         <stop>true</stop>
         <onstop>SetProperty(silo.mini.placed,1,home)</onstop>
         <onstop>SetFocus(%(list)d,$INFO[Window(Home).Property(silokodi.mini_now)],absolute)</onstop>
+    </timer>
+    <timer>
+        <name>silo_mini_closed</name>
+        <start reset="true">!Window.IsActive(%(window)d) + String.IsEqual(Window(Home).Property(silo.mini.wasopen),1)</start>
+        <stop>Window.IsActive(%(window)d) | Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(silo_mini_closed),4)</stop>
+        <onstop>ClearProperty(silo.mini.wasopen,home)</onstop>
     </timer>
     <timer>
         <name>silo_mini_autoclose</name>

@@ -4,14 +4,18 @@
      (leave the video for the menus), unless Showcase's pause screen has shown
      since the video paused, which Back only dismisses. Leaving Live TV for the
      guide, it says so (silo.guide.fromplayer): Back there then leaves the
-     guide, rather than returning to the video (build_tv.py, window 1189). A
+     guide, rather than returning to the video (build_tv.py, window 1189).
+     Just after Live TV's mini guide closes (timer silo_mini_closed, 4 s),
+     Back does nothing: one meant for the mini guide as it closed by itself. A
      channel played from the TV page's cards (silo.tv.fromcard) opens the
      guide, as one played from the guide comes back to it. -->
 <window type="dialog" id="1188">
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown)">Dialog.Close(1188,true)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV)">SetProperty(silo.guide.fromplayer,1,home)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + ![VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(silo.tv.fromcard))]">Action(Back)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(silo.tv.fromcard))">ActivateWindow(TVGuide)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !Skin.TimerIsRunning(silo_mini_closed) + VideoPlayer.Content(LiveTV)">SetProperty(silo.guide.fromplayer,1,home)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !Skin.TimerIsRunning(silo_mini_closed) + ![VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(silo.tv.fromcard))]">Action(Back)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !Skin.TimerIsRunning(silo_mini_closed) + VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(silo.tv.fromcard))">ActivateWindow(TVGuide)</onload>
+    <onload condition="Skin.TimerIsRunning(silo_mini_closed)">ClearProperty(silo.mini.wasopen,home)</onload>
+    <onload condition="Skin.TimerIsRunning(silo_mini_closed)">Skin.TimerStop(silo_mini_closed)</onload>
     <onload>ClearProperty(silo.tv.fromcard,home)</onload>
     <onload condition="Skin.TimerIsRunning(silo_pause_shown)">Skin.TimerStop(silo_pause_shown)</onload>
     <onload>Dialog.Close(1188,true)</onload>
