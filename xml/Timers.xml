@@ -433,7 +433,7 @@
         <onstop>SetFocus(14,$INFO[Container(13).ListItem.Property(silo.first)],absolute)</onstop>
         <onstop>SetFocus(13)</onstop>
     </timer>
-    <!-- The mini guide: on the programme on now once a channel's arrive, and shut after 8 s idle. -->
+    <!-- The mini guide: on the channel it opened on once the grid arrives, and shut after 8 s idle. -->
     <timer>
         <name>silo_mini_now</name>
         <start reset="true">Window.IsActive(1198) + String.IsEmpty(Window(Home).Property(silo.mini.placed)) + String.IsEqual(Window(Home).Property(silokodi.mini_for),Window(Home).Property(silo.mini.number)) + Integer.IsGreater(Container(5700).NumItems,0) + !Container(5700).IsUpdating</start>

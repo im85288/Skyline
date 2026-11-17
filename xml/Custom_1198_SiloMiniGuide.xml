@@ -4,157 +4,467 @@
     <defaultcontrol always="true">5700</defaultcontrol>
     <!-- Opens on what the banner shows: the playing channel, or the one being browsed. -->
     <onload>SetProperty(silo.mini.number,$INFO[VideoPlayer.ChannelNumberLabel],home)</onload>
-    <onload>SetProperty(silo.mini.name,"$INFO[VideoPlayer.ChannelName]",home)</onload>
-    <onload>SetProperty(silo.mini.logo,"$INFO[Player.Icon]",home)</onload>
-    <onload>SetProperty(silo.mini.group,"$INFO[VideoPlayer.ChannelGroup]",home)</onload>
+    <onload>ClearProperty(silo.mini.col,home)</onload>
     <onload>ClearProperty(silo.mini.placed,home)</onload>
     <controls>
         <control type="group">
-            <animation effect="slide" start="0,320" end="0,0" time="220" tween="cubic" easing="out">WindowOpen</animation>
-            <animation effect="slide" start="0,0" end="0,320" time="160" tween="cubic" easing="in">WindowClose</animation>
+            <animation effect="slide" start="0,460" end="0,0" time="220" tween="cubic" easing="out">WindowOpen</animation>
+            <animation effect="slide" start="0,0" end="0,460" time="160" tween="cubic" easing="in">WindowClose</animation>
             <control type="image">
-                <left>0</left><top>520</top><width>1920</width><height>560</height>
+                <left>0</left><top>300</top><width>1920</width><height>780</height>
                 <texture>silo/scrim_bottom.png</texture>
             </control>
             <control type="image">
-                <left>0</left><top>640</top><width>1920</width><height>440</height>
+                <left>0</left><top>440</top><width>1920</width><height>640</height>
                 <texture>silo/scrim_bottom.png</texture>
             </control>
             <control type="label">
-                <right>88</right><top>684</top><width>1200</width><height>40</height>
-                <align>right</align>
-                <font>silo_detail</font>
-                <textcolor>B3EDEDED</textcolor>
-                <label>◀ ▶  Earlier and later     ▲ ▼  Channels     OK  Watch</label>
-            </control>
-            <!-- The channel. -->
-            <control type="image">
-                <left>88</left><top>742</top><width>246</width><height>106</height>
-                <aspectratio>keep</aspectratio>
-                <texture>$INFO[Window(Home).Property(silo.mini.logo)]</texture>
-            </control>
-            <control type="label">
-                <left>88</left><top>858</top><width>246</width><height>36</height>
-                <font>silo_meta</font>
-                <textcolor>FFEDEDED</textcolor>
-                <label>$INFO[Window(Home).Property(silo.mini.number),,  ]$INFO[Window(Home).Property(silo.mini.name)]</label>
-            </control>
-            <control type="label">
-                <left>88</left><top>896</top><width>246</width><height>32</height>
+                <right>88</right><top>464</top><width>700</width><height>48</height>
+                <align>right</align><aligny>center</aligny>
                 <font>silo_detail</font>
                 <textcolor>99EDEDED</textcolor>
-                <label>$INFO[Window(Home).Property(silo.mini.group)]</label>
+                <label>OK  Watch     ◀ ▶  Earlier, later</label>
+            </control>
+            <control type="group">
+                <visible>String.IsEqual(Window(Home).Property(silo.mini.col),prev) + !String.IsEmpty(Container(5700).ListItem.Property(silo.prev.title))</visible>
+                <control type="label">
+                    <left>88</left><top>464</top><width>1200</width><height>48</height>
+                    <font>silo_meta</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.prev.title)]</label>
+                </control>
+                <control type="label">
+                    <left>88</left><top>512</top><width>1744</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>B3EDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.prev.timeline)]</label>
+                </control>
+                <control type="label">
+                    <left>88</left><top>548</top><width>1744</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>D9EDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.prev.plot)]</label>
+                </control>
+            </control>
+            <control type="group">
+                <visible>[String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),now) | [String.IsEqual(Window(Home).Property(silo.mini.col),prev) + String.IsEmpty(Container(5700).ListItem.Property(silo.prev.title))]]</visible>
+                <control type="label">
+                    <left>88</left><top>464</top><width>1200</width><height>48</height>
+                    <font>silo_meta</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.now.title)]</label>
+                </control>
+                <control type="label">
+                    <left>88</left><top>512</top><width>1744</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>B3EDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.now.timeline)]</label>
+                </control>
+                <control type="label">
+                    <left>88</left><top>548</top><width>1744</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>D9EDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.now.plot)]</label>
+                </control>
+            </control>
+            <control type="group">
+                <visible>String.IsEqual(Window(Home).Property(silo.mini.col),next)</visible>
+                <control type="label">
+                    <left>88</left><top>464</top><width>1200</width><height>48</height>
+                    <font>silo_meta</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.next.title)]</label>
+                </control>
+                <control type="label">
+                    <left>88</left><top>512</top><width>1744</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>B3EDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.next.timeline)]</label>
+                </control>
+                <control type="label">
+                    <left>88</left><top>548</top><width>1744</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>D9EDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.next.plot)]</label>
+                </control>
+            </control>
+            <control type="group">
+                <visible>String.IsEqual(Window(Home).Property(silo.mini.col),later)</visible>
+                <control type="label">
+                    <left>88</left><top>464</top><width>1200</width><height>48</height>
+                    <font>silo_meta</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.later.title)]</label>
+                </control>
+                <control type="label">
+                    <left>88</left><top>512</top><width>1744</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>B3EDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.later.timeline)]</label>
+                </control>
+                <control type="label">
+                    <left>88</left><top>548</top><width>1744</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>D9EDEDED</textcolor>
+                    <label>$INFO[Container(5700).ListItem.Property(silo.later.plot)]</label>
+                </control>
             </control>
             <control type="label">
-                <left>88</left><top>930</top><width>246</width><height>30</height>
+                <left>444</left><top>602</top><width>327</width><height>40</height>
+                <font>silo_detail</font>
+                <textcolor>99EDEDED</textcolor>
+                <label>Earlier</label>
+            </control>
+            <control type="label">
+                <left>795</left><top>602</top><width>327</width><height>40</height>
                 <font>silo_detail</font>
                 <textcolor>FFF2D46B</textcolor>
-                <label>Watching</label>
-                <visible>String.IsEqual(Window(Home).Property(silo.mini.number),VideoPlayer.ChannelNumberLabel)</visible>
+                <label>Now  ·  $INFO[System.Time]</label>
             </control>
-            <!-- Its programmes: earlier (catch-up), on now, next and later. -->
-            <control type="fixedlist" id="5700">
-                <left>374</left><top>742</top><width>1458</width><height>168</height>
-                <orientation>horizontal</orientation>
-                <focusposition>1</focusposition>
-                <movement>2</movement>
-                <scrolltime tween="cubic" easing="out">180</scrolltime>
-                <onleft>noop</onleft>
-                <onright>noop</onright>
-                <onup>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=mini_step&amp;dir=-1&amp;group=$INFO[Window(Home).Property(silo.mini.group)])</onup>
-                <ondown>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=mini_step&amp;dir=1&amp;group=$INFO[Window(Home).Property(silo.mini.group)])</ondown>
-                <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=schedule&amp;mini=1&amp;number=$INFO[Window(Home).Property(silo.mini.number)]&amp;name=$INFO[Window(Home).Property(silo.mini.name)]</content>
+            <control type="label">
+                <left>1146</left><top>602</top><width>327</width><height>40</height>
+                <font>silo_detail</font>
+                <textcolor>99EDEDED</textcolor>
+                <label>Next</label>
+            </control>
+            <control type="label">
+                <left>1497</left><top>602</top><width>327</width><height>40</height>
+                <font>silo_detail</font>
+                <textcolor>99EDEDED</textcolor>
+                <label>Later</label>
+            </control>
+            <control type="list" id="5700">
+                <left>88</left><top>650</top><width>1744</width><height>390</height>
+                <orientation>vertical</orientation>
+                <scrolltime tween="cubic" easing="out">160</scrolltime>
+                <!-- Round from the ends, as the guide. -->
+                <onup>Control.Move(5700,-1)</onup>
+                <ondown>Control.Move(5700,1)</ondown>
+                <onleft condition="[String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),now)] + !String.IsEmpty(Container(5700).ListItem.Property(silo.prev.title))">SetProperty(silo.mini.col,prev,home)</onleft>
+                <onleft condition="String.IsEqual(Window(Home).Property(silo.mini.col),next)">SetProperty(silo.mini.col,now,home)</onleft>
+                <onleft condition="String.IsEqual(Window(Home).Property(silo.mini.col),later)">SetProperty(silo.mini.col,next,home)</onleft>
+                <onright condition="String.IsEqual(Window(Home).Property(silo.mini.col),next)">SetProperty(silo.mini.col,later,home)</onright>
+                <onright condition="[String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),now)]">SetProperty(silo.mini.col,next,home)</onright>
+                <onright condition="String.IsEqual(Window(Home).Property(silo.mini.col),prev)">SetProperty(silo.mini.col,now,home)</onright>
+                <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=mini_grid&amp;number=$INFO[Window(Home).Property(silo.mini.number)]</content>
                 <!-- On now: the channel (already playing: just close); earlier: from catch-up. -->
-                <onclick condition="[String.IsEqual(ListItem.Property(silo.when),now) + !String.IsEqual(Window(Home).Property(silo.mini.number),VideoPlayer.ChannelNumberLabel)] | String.IsEqual(ListItem.Property(silo.archive),1)">Dialog.Close(1198)</onclick>
-                <onclick condition="[String.IsEqual(ListItem.Property(silo.when),now) + !String.IsEqual(Window(Home).Property(silo.mini.number),VideoPlayer.ChannelNumberLabel)] | String.IsEqual(ListItem.Property(silo.archive),1)">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_broadcast&amp;id=$INFO[ListItem.Property(silo.broadcastid)]&amp;channel=$INFO[ListItem.Property(silo.channelid)]&amp;when=$INFO[ListItem.Property(silo.when)])</onclick>
-                <onclick condition="String.IsEqual(ListItem.Property(silo.when),now) + String.IsEqual(Window(Home).Property(silo.mini.number),VideoPlayer.ChannelNumberLabel)">Dialog.Close(1198)</onclick>
-                <itemlayout width="376" height="168">
+                <onclick condition="[String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),now) | [String.IsEqual(Window(Home).Property(silo.mini.col),prev) + String.IsEmpty(Container(5700).ListItem.Property(silo.prev.title))]] + String.IsEqual(Container(5700).ListItem.Property(silo.number),VideoPlayer.ChannelNumberLabel)">Dialog.Close(1198)</onclick>
+                <onclick condition="[String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),now) | [String.IsEqual(Window(Home).Property(silo.mini.col),prev) + String.IsEmpty(Container(5700).ListItem.Property(silo.prev.title))]] + !String.IsEqual(Container(5700).ListItem.Property(silo.number),VideoPlayer.ChannelNumberLabel)">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_channel&amp;id=$INFO[Container(5700).ListItem.Property(silo.channelid)])</onclick>
+                <onclick condition="[String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),now) | [String.IsEqual(Window(Home).Property(silo.mini.col),prev) + String.IsEmpty(Container(5700).ListItem.Property(silo.prev.title))]] + !String.IsEqual(Container(5700).ListItem.Property(silo.number),VideoPlayer.ChannelNumberLabel)">Dialog.Close(1198)</onclick>
+                <onclick condition="String.IsEqual(Window(Home).Property(silo.mini.col),prev) + !String.IsEmpty(Container(5700).ListItem.Property(silo.prev.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_broadcast&amp;id=$INFO[Container(5700).ListItem.Property(silo.prev.broadcastid)]&amp;channel=$INFO[Container(5700).ListItem.Property(silo.channelid)]&amp;when=past)</onclick>
+                <onclick condition="String.IsEqual(Window(Home).Property(silo.mini.col),prev) + !String.IsEmpty(Container(5700).ListItem.Property(silo.prev.title))">Dialog.Close(1198)</onclick>
+                <itemlayout width="1744" height="78">
                     <control type="image">
-                        <width>360</width><height>168</height>
-                        <texture border="20" colordiffuse="1FFFFFFF">silo/card_landscape_mask.png</texture>
+                        <width>332</width><height>70</height>
+                        <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>0</left><top>14</top><width>5</width><height>42</height>
+                        <texture colordiffuse="FFF2D46B">colors/white.png</texture>
+                        <visible>String.IsEqual(ListItem.Property(silo.number),VideoPlayer.ChannelNumberLabel)</visible>
                     </control>
                     <control type="label">
-                        <left>22</left><top>16</top><width>316</width><height>32</height>
+                        <left>16</left><top>0</top><width>64</width><height>70</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>80EDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(silo.number)]</label>
+                    </control>
+                    <control type="image">
+                        <left>80</left><top>9</top><width>96</width><height>52</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture>$INFO[ListItem.Icon]</texture>
+                    </control>
+                    <control type="label">
+                        <left>188</left><top>0</top><width>140</width><height>70</height>
+                        <aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>B3EDEDED</textcolor>
-                        <label>$INFO[ListItem.Property(silo.times)]</label>
+                        <label>$INFO[ListItem.Label]</label>
                     </control>
-                    <control type="textbox">
-                        <left>22</left><top>50</top><width>316</width><height>76</height>
-                        <font>silo_meta</font>
+                    <control type="group">
+                        <left>340</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.prev.title))</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>D9EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.prev.title)]</label>
+                        </control>
+                        <control type="image">
+                            <left>16</left><top>45</top><width>22</width><height>22</height>
+                            <texture colordiffuse="FFF2D46B">silo/menu_history.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>99EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.prev.times)]</label>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <left>691</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.now.title))</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>D9EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.now.title)]</label>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>99EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.now.times)]$INFO[ListItem.Property(silo.now.left),  ·  , min left]</label>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <left>1042</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.next.title))</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>D9EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.next.title)]</label>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>99EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.next.times)]</label>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <left>1393</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.later.title))</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>D9EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.later.title)]</label>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>99EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.later.times)]</label>
+                        </control>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="1744" height="78">
+                    <control type="image">
+                        <width>332</width><height>70</height>
+                        <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>0</left><top>14</top><width>5</width><height>42</height>
+                        <texture colordiffuse="FFF2D46B">colors/white.png</texture>
+                        <visible>String.IsEqual(ListItem.Property(silo.number),VideoPlayer.ChannelNumberLabel)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>0</top><width>64</width><height>70</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>B3EDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(silo.number)]</label>
+                    </control>
+                    <control type="image">
+                        <left>80</left><top>9</top><width>96</width><height>52</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture>$INFO[ListItem.Icon]</texture>
+                    </control>
+                    <control type="label">
+                        <left>188</left><top>0</top><width>140</width><height>70</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
                         <textcolor>FFEDEDED</textcolor>
                         <label>$INFO[ListItem.Label]</label>
                     </control>
-                    <control type="label">
-                        <left>22</left><top>128</top><width>316</width><height>30</height>
-                        <font>silo_detail</font>
-                        <textcolor>FFF2D46B</textcolor>
-                        <label>▶ LIVE$INFO[ListItem.Property(silo.left),  ·  , min left]</label>
-                        <visible>String.IsEqual(ListItem.Property(silo.when),now)</visible>
+                    <control type="group">
+                        <left>340</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.prev.title)) + String.IsEqual(Window(Home).Property(silo.mini.col),prev) + !String.IsEmpty(ListItem.Property(silo.prev.title))</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>SkylineFocusText</textcolor>
+                            <label>$INFO[ListItem.Property(silo.prev.title)]</label>
+                        </control>
+                        <control type="image">
+                            <left>16</left><top>45</top><width>22</width><height>22</height>
+                            <texture colordiffuse="SkylineFocusText">silo/menu_history.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>SkylineFocusTextDim</textcolor>
+                            <label>$INFO[ListItem.Property(silo.prev.times)]</label>
+                        </control>
                     </control>
-                    <control type="image">
-                        <left>22</left><top>130</top><width>26</width><height>26</height>
-                        <texture colordiffuse="FFF2D46B">silo/menu_history.png</texture>
-                        <visible>String.IsEqual(ListItem.Property(silo.archive),1)</visible>
+                    <control type="group">
+                        <left>340</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.prev.title)) + ![String.IsEqual(Window(Home).Property(silo.mini.col),prev) + !String.IsEmpty(ListItem.Property(silo.prev.title))]</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>FFEDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.prev.title)]</label>
+                        </control>
+                        <control type="image">
+                            <left>16</left><top>45</top><width>22</width><height>22</height>
+                            <texture colordiffuse="FFF2D46B">silo/menu_history.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>B3EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.prev.times)]</label>
+                        </control>
                     </control>
-                    <control type="label">
-                        <left>58</left><top>128</top><width>316</width><height>30</height>
-                        <font>silo_detail</font>
-                        <textcolor>FFF2D46B</textcolor>
-                        <label>Catch up</label>
-                        <visible>String.IsEqual(ListItem.Property(silo.archive),1)</visible>
+                    <control type="group">
+                        <left>691</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.now.title)) + [String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),now) | [String.IsEqual(Window(Home).Property(silo.mini.col),prev) + String.IsEmpty(ListItem.Property(silo.prev.title))]]</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>SkylineFocusText</textcolor>
+                            <label>$INFO[ListItem.Property(silo.now.title)]</label>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>SkylineFocusTextDim</textcolor>
+                            <label>$INFO[ListItem.Property(silo.now.times)]$INFO[ListItem.Property(silo.now.left),  ·  , min left]</label>
+                        </control>
                     </control>
-                </itemlayout>
-                <focusedlayout width="376" height="168">
-                    <control type="image">
-                        <width>360</width><height>168</height>
-                        <texture border="20" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
+                    <control type="group">
+                        <left>691</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.now.title)) + ![[String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),now) | [String.IsEqual(Window(Home).Property(silo.mini.col),prev) + String.IsEmpty(ListItem.Property(silo.prev.title))]]]</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>FFEDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.now.title)]</label>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>B3EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.now.times)]$INFO[ListItem.Property(silo.now.left),  ·  , min left]</label>
+                        </control>
                     </control>
-                    <control type="label">
-                        <left>22</left><top>16</top><width>316</width><height>32</height>
-                        <font>silo_detail</font>
-                        <textcolor>SkylineFocusTextDim</textcolor>
-                        <label>$INFO[ListItem.Property(silo.times)]</label>
+                    <control type="group">
+                        <left>1042</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.next.title)) + String.IsEqual(Window(Home).Property(silo.mini.col),next)</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>SkylineFocusText</textcolor>
+                            <label>$INFO[ListItem.Property(silo.next.title)]</label>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>SkylineFocusTextDim</textcolor>
+                            <label>$INFO[ListItem.Property(silo.next.times)]</label>
+                        </control>
                     </control>
-                    <control type="textbox">
-                        <left>22</left><top>50</top><width>316</width><height>76</height>
-                        <font>silo_meta</font>
-                        <textcolor>SkylineFocusText</textcolor>
-                        <label>$INFO[ListItem.Label]</label>
+                    <control type="group">
+                        <left>1042</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.next.title)) + ![String.IsEqual(Window(Home).Property(silo.mini.col),next)]</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>FFEDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.next.title)]</label>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>B3EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.next.times)]</label>
+                        </control>
                     </control>
-                    <control type="label">
-                        <left>22</left><top>128</top><width>316</width><height>30</height>
-                        <font>silo_detail</font>
-                        <textcolor>SkylineFocusText</textcolor>
-                        <label>▶ LIVE$INFO[ListItem.Property(silo.left),  ·  , min left]</label>
-                        <visible>String.IsEqual(ListItem.Property(silo.when),now)</visible>
+                    <control type="group">
+                        <left>1393</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.later.title)) + String.IsEqual(Window(Home).Property(silo.mini.col),later)</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>SkylineFocusText</textcolor>
+                            <label>$INFO[ListItem.Property(silo.later.title)]</label>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>SkylineFocusTextDim</textcolor>
+                            <label>$INFO[ListItem.Property(silo.later.times)]</label>
+                        </control>
                     </control>
-                    <control type="image">
-                        <left>22</left><top>130</top><width>26</width><height>26</height>
-                        <texture colordiffuse="SkylineFocusText">silo/menu_history.png</texture>
-                        <visible>String.IsEqual(ListItem.Property(silo.archive),1)</visible>
-                    </control>
-                    <control type="label">
-                        <left>58</left><top>128</top><width>316</width><height>30</height>
-                        <font>silo_detail</font>
-                        <textcolor>SkylineFocusText</textcolor>
-                        <label>Catch up</label>
-                        <visible>String.IsEqual(ListItem.Property(silo.archive),1)</visible>
+                    <control type="group">
+                        <left>1393</left>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.later.title)) + ![String.IsEqual(Window(Home).Property(silo.mini.col),later)]</visible>
+                        <control type="image">
+                            <width>343</width><height>70</height>
+                            <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <font>silo_meta</font>
+                            <textcolor>FFEDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.later.title)]</label>
+                        </control>
+                        <control type="label">
+                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <font>silo_detail</font>
+                            <textcolor>B3EDEDED</textcolor>
+                            <label>$INFO[ListItem.Property(silo.later.times)]</label>
+                        </control>
                     </control>
                 </focusedlayout>
-            </control>
-            <!-- The focused programme: its day and times, then its plot. -->
-            <control type="label">
-                <left>374</left><top>924</top><width>1458</width><height>32</height>
-                <font>silo_detail</font>
-                <textcolor>B3EDEDED</textcolor>
-                <label>$INFO[Container(5700).ListItem.Property(silo.timeline)]</label>
-            </control>
-            <control type="textbox">
-                <left>374</left><top>958</top><width>1458</width><height>68</height>
-                <font>silo_detail</font>
-                <textcolor>D9EDEDED</textcolor>
-                <label>$INFO[Container(5700).ListItem.Property(silo.plot)]</label>
             </control>
         </control>
     </controls>
