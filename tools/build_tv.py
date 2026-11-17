@@ -1828,12 +1828,15 @@ def build_mini():
     channels (round from the ends), Left and Right through the half hours,
     and past the first or last column the grid moves a half hour (mini_shift:
     back into catch-up, on into the days ahead). OK on now watches the
-    channel, on an earlier one catch-up can play plays it. Back or 8 s idle
-    closes it."""
+    channel (on the one playing with catch-up, starts its programme over,
+    as Sky's Restart), on an earlier one catch-up can play plays it. Back or
+    8 s idle closes it."""
     item = 'Container(%d).ListItem' % MINI_LIST
     playing = 'String.IsEqual(%s.Property(silo.playing),1)' % item
     shift = ('RunPlugin(%s?mode=mini_shift&amp;dir=%%s&amp;focus=$INFO[%s.Property(silo.number)])' % (MINI_PLUGIN, item))
+    archive = 'String.IsEqual(%s.Property(silo.archive),1)' % item
     clicks = ''
+    restarts = []
     for column in range(MINI_COLUMNS):
         p = '%s.Property(silo.c%d.%%s)' % (item, column)
         lit = mini_lit(column)
@@ -1842,7 +1845,11 @@ def build_mini():
         play_past = ('RunPlugin(%s?mode=play_broadcast&amp;id=$INFO[%s]&amp;channel=$INFO[%s.Property(silo.channelid)]&amp;when=past)'
                      % (MINI_PLUGIN, p % 'broadcastid', item))
         # The plugin first: once the window has closed its list's item is gone.
+        # Start over (Sky's Restart): on the playing channel's programme on now, where
+        # catch-up plays it, Kodi seeks to its start (the stream is already catch-up's).
+        restarts.append('[%s]' % now)
         for condition, action in (
+                ('%s + %s + %s' % (now, playing, archive), 'PVR.SeekPercentage(0)'),
                 ('%s + %s' % (now, playing), 'Dialog.Close(%d)' % MINI_ID),
                 ('%s + !%s' % (now, playing),
                  'RunPlugin(%s?mode=play_channel&amp;id=$INFO[%s.Property(silo.channelid)])' % (MINI_PLUGIN, item)),
@@ -1863,7 +1870,9 @@ def build_mini():
                 <label>$INFO[Window(Home).Property(silokodi.mini_head%d)]</label>
             </control>''' % (88 + MINI_CHANNEL_W + column * MINI_CELL_W + 16, MINI_TOP - 48, MINI_CELL_W - 24,
                              '99EDEDED', column) for column in range(MINI_COLUMNS))
+    restart = '[%s + %s + %s]' % (' | '.join(restarts), playing, archive)
     return MINI_WINDOW % {
+        'restart': restart, 'accent': ACCENT,
         'window': MINI_ID, 'list': MINI_LIST, 'top': MINI_TOP, 'h': MINI_ROWS * MINI_ROW, 'row': MINI_ROW,
         'details': mini_details(), 'header': header, 'hint_y': MINI_TOP - 186, 'plugin': MINI_PLUGIN,
         'left': ''.join('\n                <onleft condition="%s">%s</onleft>' % pair for pair in left),
@@ -1901,6 +1910,15 @@ MINI_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
                 <font>silo_detail</font>
                 <textcolor>99EDEDED</textcolor>
                 <label>OK  Watch     ◀ ▶  Earlier, later</label>
+                <visible>!%(restart)s</visible>
+            </control>
+            <control type="label">
+                <right>88</right><top>%(hint_y)d</top><width>700</width><height>48</height>
+                <align>right</align><aligny>center</aligny>
+                <font>silo_detail</font>
+                <textcolor>99EDEDED</textcolor>
+                <label>[COLOR %(accent)s]OK  Start over[/COLOR]     ◀ ▶  Earlier, later</label>
+                <visible>%(restart)s</visible>
             </control>%(details)s%(header)s
             <control type="list" id="%(list)d">
                 <left>88</left><top>%(top)d</top><width>1744</width><height>%(h)d</height>
