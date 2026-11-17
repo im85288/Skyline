@@ -1,3 +1,6 @@
+[B]0.14.4[/B]
+• Live TV: in the mini guide, OK on the programme on now of the channel you are watching starts it over from the beginning (channels with catch-up), as Sky's Restart
+
 [B]0.14.3[/B]
 • Live TV: Up/Down browse channels in the banner without switching (OK to watch), as Sky's mini guide
 • Live TV: hold OK for a mini guide over the picture: five channels in half-hour columns, Left/Right past the edges for earlier (catch-up) and later, the playing channel marked
