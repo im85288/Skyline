@@ -211,7 +211,7 @@ def episodes_left(right, y, indent=24):
 %(p)s    <visible>%(visible)s</visible>
 %(p)s    <control type="image">
 %(p)s        <width>%(w)d</width><height>40</height>
-%(p)s        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+%(p)s        <texture border="20,0,20,0">silo/count_disc.png</texture>
 %(p)s    </control>
 %(p)s    <control type="label">
 %(p)s        <width>%(w)d</width><height>40</height>

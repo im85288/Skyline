@@ -385,7 +385,7 @@
                         <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
                         <control type="image">
                             <width>40</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>40</width><height>40</height>
@@ -400,7 +400,7 @@
                         <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
                         <control type="image">
                             <width>50</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>50</width><height>40</height>
@@ -415,7 +415,7 @@
                         <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
                         <control type="image">
                             <width>62</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>62</width><height>40</height>
@@ -430,7 +430,7 @@
                         <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
                         <control type="image">
                             <width>74</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>74</width><height>40</height>
@@ -445,7 +445,7 @@
                         <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
                         <control type="image">
                             <width>40</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>40</width><height>40</height>
@@ -460,7 +460,7 @@
                         <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
                         <control type="image">
                             <width>50</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>50</width><height>40</height>
@@ -475,7 +475,7 @@
                         <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
                         <control type="image">
                             <width>62</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>62</width><height>40</height>
@@ -490,7 +490,7 @@
                         <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
                         <control type="image">
                             <width>74</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>74</width><height>40</height>
@@ -576,7 +576,7 @@
                         <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
                         <control type="image">
                             <width>40</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>40</width><height>40</height>
@@ -591,7 +591,7 @@
                         <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
                         <control type="image">
                             <width>50</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>50</width><height>40</height>
@@ -606,7 +606,7 @@
                         <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
                         <control type="image">
                             <width>62</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>62</width><height>40</height>
@@ -621,7 +621,7 @@
                         <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
                         <control type="image">
                             <width>74</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>74</width><height>40</height>
@@ -636,7 +636,7 @@
                         <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
                         <control type="image">
                             <width>40</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>40</width><height>40</height>
@@ -651,7 +651,7 @@
                         <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
                         <control type="image">
                             <width>50</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>50</width><height>40</height>
@@ -666,7 +666,7 @@
                         <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
                         <control type="image">
                             <width>62</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>62</width><height>40</height>
@@ -681,7 +681,7 @@
                         <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
                         <control type="image">
                             <width>74</width><height>40</height>
-                            <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                            <texture border="20,0,20,0">silo/count_disc.png</texture>
                         </control>
                         <control type="label">
                             <width>74</width><height>40</height>
@@ -1096,7 +1096,7 @@
                     <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
                     <control type="image">
                         <width>40</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>40</width><height>40</height>
@@ -1111,7 +1111,7 @@
                     <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
                     <control type="image">
                         <width>50</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>50</width><height>40</height>
@@ -1126,7 +1126,7 @@
                     <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
                     <control type="image">
                         <width>62</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>62</width><height>40</height>
@@ -1141,7 +1141,7 @@
                     <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
                     <control type="image">
                         <width>74</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>74</width><height>40</height>
@@ -1156,7 +1156,7 @@
                     <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
                     <control type="image">
                         <width>40</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>40</width><height>40</height>
@@ -1171,7 +1171,7 @@
                     <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
                     <control type="image">
                         <width>50</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>50</width><height>40</height>
@@ -1186,7 +1186,7 @@
                     <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
                     <control type="image">
                         <width>62</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>62</width><height>40</height>
@@ -1201,7 +1201,7 @@
                     <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
                     <control type="image">
                         <width>74</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>74</width><height>40</height>
@@ -1257,7 +1257,7 @@
                     <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
                     <control type="image">
                         <width>40</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>40</width><height>40</height>
@@ -1272,7 +1272,7 @@
                     <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
                     <control type="image">
                         <width>50</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>50</width><height>40</height>
@@ -1287,7 +1287,7 @@
                     <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
                     <control type="image">
                         <width>62</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>62</width><height>40</height>
@@ -1302,7 +1302,7 @@
                     <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
                     <control type="image">
                         <width>74</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>74</width><height>40</height>
@@ -1317,7 +1317,7 @@
                     <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
                     <control type="image">
                         <width>40</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>40</width><height>40</height>
@@ -1332,7 +1332,7 @@
                     <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
                     <control type="image">
                         <width>50</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>50</width><height>40</height>
@@ -1347,7 +1347,7 @@
                     <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
                     <control type="image">
                         <width>62</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>62</width><height>40</height>
@@ -1362,7 +1362,7 @@
                     <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
                     <control type="image">
                         <width>74</width><height>40</height>
-                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                        <texture border="20,0,20,0">silo/count_disc.png</texture>
                     </control>
                     <control type="label">
                         <width>74</width><height>40</height>

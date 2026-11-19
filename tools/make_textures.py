@@ -317,6 +317,19 @@ if __name__ == '__main__':
     # The Live TV playback bar's round buttons: a themed focus shape of their own.
     card_mask('round_button.png', 84, 84, 42)
     card_scrim()
+    # Silo's episodes-left count on a started show's poster: a 65% black
+    # capsule with a 20% white rim, 40 high, stretched sideways with
+    # border="20,0,20,0" (a wider number makes a pill).
+    def count_disc(x, y, width=48, height=40, ring=1.5):
+        shape = rounded_rect_coverage(x, y, width, height, height / 2.0)
+        inner = rounded_rect_coverage(x, y, width, height, height / 2.0, inset=ring)
+        ring_part = shape - inner
+        alpha = ring_part * 0.20 + inner * 0.65 + ring_part * 0.65 * (1 - 0.20)
+        if alpha <= 0:
+            return 0.0
+        grey = int(255 * ring_part * 0.20 / alpha)
+        return alpha, (grey, grey, grey)
+    write_png('count_disc.png', 48, 40, count_disc)
     # Silo's player buttons at rest: a 38% black disc with a 24% white ring.
     def osd_button(x, y, size=76, ring=2.0):
         disc = rounded_rect_coverage(x, y, size, size, size / 2.0)
