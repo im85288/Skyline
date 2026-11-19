@@ -27,6 +27,7 @@
                 <property name="home.tint">$INFO[Window(Home).Property($PARAM[p].tint)]</property>
                 <property name="home.percent">$INFO[Window(Home).Property($PARAM[p].percent)]</property>
                 <property name="home.playcount">$INFO[Window(Home).Property($PARAM[p].playcount)]</property>
+                <property name="home.episodes_left">$INFO[Window(Home).Property($PARAM[p].episodes_left)]</property>
                 <property name="home.new">$INFO[Window(Home).Property($PARAM[p].new)]</property>
                 <property name="home.left">$INFO[Window(Home).Property($PARAM[p].left)]</property>
                 <property name="home.dismiss">$INFO[Window(Home).Property($PARAM[p].dismiss)]</property>

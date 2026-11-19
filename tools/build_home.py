@@ -50,7 +50,7 @@ OTHER_CARDS = 12
 HOME_CARD_FIELDS = ('type', 'dbid', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta',
                     'hero.facts', 'rating.imdb', 'rating.tmdb', 'rating.rtcritic',
                     'hero.detail', 'plot', 'mpaa', 'badge1', 'badge2', 'badge3', 'dv', 'tint', 'percent', 'playcount',
-                    'new', 'left', 'dismiss', 'rank', 'place', 'art.poster', 'art.landscape', 'art.still', 'art.fanart', 'art.clearlogo', 'request.type', 'request.tmdb',
+                    'episodes_left', 'new', 'left', 'dismiss', 'rank', 'place', 'art.poster', 'art.landscape', 'art.still', 'art.fanart', 'art.clearlogo', 'request.type', 'request.tmdb',
                     'status.tint', 'status.seg1', 'status.seg2', 'status.seg3', 'status.seg4',
                     'request.library', 'request.state', 'request.more', 'request.logo', 'request.from', 'request.to',
                     'tv.play', 'tv.logo')
@@ -59,7 +59,8 @@ HOME_CARD_FIELDS = ('type', 'dbid', 'card.title', 'card.sub', 'card.wide_sub', '
 # all posters (no wide caption or art). Each unused field cost every Home card.
 PAGE_FIELDS = {
     'home': tuple(f for f in HOME_CARD_FIELDS if not f.startswith(('request.', 'status.'))),
-    'requests': tuple(f for f in HOME_CARD_FIELDS if f not in ('card.wide_sub', 'art.landscape', 'art.still', 'new', 'left', 'dismiss', 'rank', 'place')),
+    'requests': tuple(f for f in HOME_CARD_FIELDS if f not in ('card.wide_sub', 'art.landscape', 'art.still', 'episodes_left', 'new', 'left',
+                                                                      'dismiss', 'rank', 'place')),
     # The TV page's cards (KodiConnectForSilo's tvrows.py): a match or a
     # channel, what OK does (tv.play), and how far through it is.
     'tv': ('type', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta', 'hero.facts', 'hero.detail', 'plot',
