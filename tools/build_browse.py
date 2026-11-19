@@ -115,7 +115,7 @@ def poster(focused, view_id):
                     </control>
                 </control>''' % {'w': POSTER_W, 'h': POSTER_H, 'pw': POSTER_W - 24, 'text': TEXT, 
                                      'watched': watched_mark(POSTER_W, POSTER_H, 'silo/card_poster_mask.png', WATCHED,
-                                                            'Control.HasFocus(%d)' % view_id if focused else '', 20), 'zoom': zoom,
+                                                            'Control.HasFocus(%d)' % view_id if focused else '', 20, left=True), 'zoom': zoom,
                                      'sheen': focus_sheen(POSTER_W, POSTER_H, 'silo/card_poster_mask.png', 'silo/card_poster_rim.png',
                                                           'Control.HasFocus(%d)' % view_id, 20) if focused else '', 't1': POSTER_H + 20, 't2': POSTER_H + 54,
                                      'title_color': title_color, 'dim_visible': dim_visible,
@@ -559,7 +559,7 @@ def hero_poster(focused, view_id):
                                  'sheen': focus_sheen(HERO_POSTER_W, HERO_POSTER_H, 'silo/card_poster_mask.png',
                                                       'silo/card_poster_rim.png', lit, 16) if focused else '',
                                  'watched': watched_mark(HERO_POSTER_W, HERO_POSTER_H, 'silo/card_poster_mask.png', WATCHED,
-                                                         'Control.HasFocus(%d)' % view_id if focused else '', 16)}
+                                                         'Control.HasFocus(%d)' % view_id if focused else '', 16, left=True)}
 
 
 def detail_row(focused):

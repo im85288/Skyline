@@ -218,7 +218,7 @@ def card(focused, control_id=GRID_ID, size=None):
                                                          '!%s + [Integer.IsGreater(ListItem.PlayCount,0) | '
                                                          '[Integer.IsGreater(ListItem.Property(TotalEpisodes),0) + '
                                                          'Integer.IsEqual(ListItem.Property(UnWatchedEpisodes),0)]]' % BOX_SET,
-                                                         lit if focused else '', 16),
+                                                         lit if focused else '', 16, left=True),
                                  'yy': POSTER_H + 58, 'w': POSTER_W, 'dim': TEXT if focused else SUB_DIM,
                                  'box': box_set_marks(POSTER_W, POSTER_H)}
 
@@ -239,7 +239,7 @@ def hero_card(focused, control_id, width, height):
                                                          '!%s + [Integer.IsGreater(ListItem.PlayCount,0) | '
                                                          '[Integer.IsGreater(ListItem.Property(TotalEpisodes),0) + '
                                                          'Integer.IsEqual(ListItem.Property(UnWatchedEpisodes),0)]]' % BOX_SET,
-                                                         lit if focused else '', 16)}
+                                                         lit if focused else '', 16, left=True)}
 
 
 def letter_layouts(list_id=AZ_ID, chosen=None):

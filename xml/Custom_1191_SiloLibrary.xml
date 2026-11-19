@@ -122,6 +122,126 @@
                     </control>
                 </control>
                 <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
                     <left>6</left><top>6</top>
                     <visible>[Integer.IsGreater(ListItem.SetId,0) + [String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/) + !String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/sets/)]] | String.IsEqual(ListItem.DBType,set)</visible>
                     <control type="image">
@@ -200,6 +320,126 @@
                     <control type="image">
                         <left>9</left><top>9</top><width>22</width><height>22</height>
                         <texture colordiffuse="FF000000">OverlayWatched.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
                     </control>
                 </control>
                 <control type="group">
@@ -286,6 +526,126 @@
                     </control>
                 </control>
                 <control type="group">
+                    <left>135</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>125</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>113</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>101</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>135</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>125</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>113</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>101</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
                     <left>6</left><top>6</top>
                     <visible>[Integer.IsGreater(ListItem.SetId,0) + [String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/) + !String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/sets/)]] | String.IsEqual(ListItem.DBType,set)</visible>
                     <control type="image">
@@ -350,6 +710,126 @@
                     <control type="image">
                         <left>9</left><top>9</top><width>22</width><height>22</height>
                         <texture colordiffuse="FF000000">OverlayWatched.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>135</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>125</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>113</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>101</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>135</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>125</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>113</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>101</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
                     </control>
                 </control>
                 <control type="group">
@@ -816,6 +1296,126 @@
                     </control>
                 </control>
                 <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
                     <left>6</left><top>6</top>
                     <visible>[Integer.IsGreater(ListItem.SetId,0) + [String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/) + !String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/sets/)]] | String.IsEqual(ListItem.DBType,set)</visible>
                     <control type="image">
@@ -894,6 +1494,126 @@
                     <control type="image">
                         <left>9</left><top>9</top><width>22</width><height>22</height>
                         <texture colordiffuse="FF000000">OverlayWatched.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
                     </control>
                 </control>
                 <control type="group">
@@ -990,6 +1710,126 @@
                     </control>
                 </control>
                 <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
                     <left>6</left><top>6</top>
                     <visible>[Integer.IsGreater(ListItem.SetId,0) + [String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/) + !String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/sets/)]] | String.IsEqual(ListItem.DBType,set)</visible>
                     <control type="image">
@@ -1068,6 +1908,126 @@
                     <control type="image">
                         <left>9</left><top>9</top><width>22</width><height>22</height>
                         <texture colordiffuse="FF000000">OverlayWatched.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
                     </control>
                 </control>
                 <control type="group">
@@ -1164,6 +2124,126 @@
                     </control>
                 </control>
                 <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
                     <left>6</left><top>6</top>
                     <visible>[Integer.IsGreater(ListItem.SetId,0) + [String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/) + !String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/sets/)]] | String.IsEqual(ListItem.DBType,set)</visible>
                     <control type="image">
@@ -1242,6 +2322,126 @@
                     <control type="image">
                         <left>9</left><top>9</top><width>22</width><height>22</height>
                         <texture colordiffuse="FF000000">OverlayWatched.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
                     </control>
                 </control>
                 <control type="group">
@@ -1338,6 +2538,126 @@
                     </control>
                 </control>
                 <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
                     <left>6</left><top>6</top>
                     <visible>[Integer.IsGreater(ListItem.SetId,0) + [String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/) + !String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/sets/)]] | String.IsEqual(ListItem.DBType,set)</visible>
                     <control type="image">
@@ -1416,6 +2736,126 @@
                     <control type="image">
                         <left>9</left><top>9</top><width>22</width><height>22</height>
                         <texture colordiffuse="FF000000">OverlayWatched.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
                     </control>
                 </control>
                 <control type="group">
@@ -1512,6 +2952,126 @@
                     </control>
                 </control>
                 <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
                     <left>6</left><top>6</top>
                     <visible>[Integer.IsGreater(ListItem.SetId,0) + [String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/) + !String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/sets/)]] | String.IsEqual(ListItem.DBType,set)</visible>
                     <control type="image">
@@ -1590,6 +3150,126 @@
                     <control type="image">
                         <left>9</left><top>9</top><width>22</width><height>22</height>
                         <texture colordiffuse="FF000000">OverlayWatched.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
                     </control>
                 </control>
                 <control type="group">
@@ -1808,6 +3488,126 @@
                     </control>
                 </control>
                 <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
                     <left>6</left><top>6</top>
                     <visible>[Integer.IsGreater(ListItem.SetId,0) + [String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/) + !String.StartsWith(Window(Home).Property(silo.browse.path),videodb://movies/sets/)]] | String.IsEqual(ListItem.DBType,set)</visible>
                     <control type="image">
@@ -1886,6 +3686,126 @@
                     <control type="image">
                         <left>9</left><top>9</top><width>22</width><height>22</height>
                         <texture colordiffuse="FF000000">OverlayWatched.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsLess(ListItem.Property(home.episodes_left),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),9) + Integer.IsLess(ListItem.Property(home.episodes_left),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),99) + Integer.IsLess(ListItem.Property(home.episodes_left),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>!String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(home.episodes_left),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(home.episodes_left)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>202</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),10)</visible>
+                    <control type="image">
+                        <width>40</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>40</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>192</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),9) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),100)</visible>
+                    <control type="image">
+                        <width>50</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>50</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>180</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),99) + Integer.IsLess(ListItem.Property(UnWatchedEpisodes),1000)</visible>
+                    <control type="image">
+                        <width>62</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>62</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>168</left><top>16</top>
+                    <visible>String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0) + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),999)</visible>
+                    <control type="image">
+                        <width>74</width><height>40</height>
+                        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+                    </control>
+                    <control type="label">
+                        <width>74</width><height>40</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(UnWatchedEpisodes)]</label>
                     </control>
                 </control>
                 <control type="group">

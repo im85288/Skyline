@@ -182,6 +182,48 @@ def watched_disc(x, y, visible, indent=24):
 %(p)s</control>''' % {'p': pad, 'x': x, 'y': y, 'visible': visible}
 
 
+# A show you've started and not finished: its episodes left, from Home's
+# cards (KodiConnectForSilo's home.episodes_left) or Kodi's own counts (the
+# library's lists and the add-on's, which carry them). A show not started
+# has none, as Silo's apps: the count would be on every new show.
+EPISODES_LEFT = (
+    ('ListItem.Property(home.episodes_left)', '!String.IsEmpty(ListItem.Property(home.episodes_left))'),
+    ('ListItem.Property(UnWatchedEpisodes)',
+     'String.IsEmpty(ListItem.Property(home.episodes_left)) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0)'
+     ' + Integer.IsGreater(ListItem.Property(UnWatchedEpisodes),0)'))
+
+
+def episodes_left(right, y, indent=24):
+    """Silo's watch-status corner on a started show: the episodes left in a
+    dark disc where a watched title has its tick, a pill when the number is
+    wider. right: the disc's right edge."""
+    pad = ' ' * indent
+    groups = ''
+    for count, shown in EPISODES_LEFT:
+        for width, digits in ((40, 'Integer.IsLess(%s,10)'),
+                              (50, 'Integer.IsGreater(%s,9) + Integer.IsLess(%s,100)'),
+                              (62, 'Integer.IsGreater(%s,99) + Integer.IsLess(%s,1000)'),
+                              (74, 'Integer.IsGreater(%s,999)')):
+            groups += '''
+%(p)s<control type="group">
+%(p)s    <left>%(x)d</left><top>%(y)d</top>
+%(p)s    <visible>%(visible)s</visible>
+%(p)s    <control type="image">
+%(p)s        <width>%(w)d</width><height>40</height>
+%(p)s        <texture border="20" colordiffuse="A6000000">silo/avatar_mask.png</texture>
+%(p)s    </control>
+%(p)s    <control type="label">
+%(p)s        <width>%(w)d</width><height>40</height>
+%(p)s        <align>center</align><aligny>center</aligny>
+%(p)s        <font>silo_badge</font>
+%(p)s        <textcolor>%(text)s</textcolor>
+%(p)s        <label>$INFO[%(count)s]</label>
+%(p)s    </control>
+%(p)s</control>''' % {'p': pad, 'x': right - width, 'y': y, 'w': width, 'text': TEXT, 'count': count,
+                       'visible': '%s + %s' % (shown, digits.replace('%s', count))}
+    return groups
+
+
 RANK = '$INFO[ListItem.Property(home.rank)]$INFO[ListItem.Property(silo.rank)]'
 
 
@@ -204,9 +246,10 @@ def rank_numeral(card, indent=24):
 %(p)s</control>''' % {'p': pad, 'y': 6 + card['height'] - 110 - 16, 'w': card['width'], 'rank': RANK, 'ranked': RANKED}
 
 
-def watched_mark(width, height, mask, visible, focus='', indent=24):
+def watched_mark(width, height, mask, visible, focus='', indent=24, left=False):
     """Every card's watched look, as Home's: the card dimmed (lifting while it
-    has focus) under Silo's tick disc in its top right corner."""
+    has focus) under Silo's tick disc in its top right corner. left: a show
+    card, which has its episodes left there while started."""
     pad = ' ' * indent
     veil = '''
 %(p)s<control type="image">
@@ -217,7 +260,7 @@ def watched_mark(width, height, mask, visible, focus='', indent=24):
 %(p)s    <animation effect="fade" time="160">VisibleChange</animation>
 %(p)s</control>''' % {'p': pad, 'w': width, 'h': height, 'mask': mask,
                        'v': '[%s]' % visible + (' + !%s' % focus if focus else '')}
-    return veil + watched_disc(width - 44, 16, visible, indent)
+    return veil + watched_disc(width - 44, 16, visible, indent) + (episodes_left(width - 4, 16, indent) if left else '')
 
 
 def watched_dim(card, focus, indent=24):
@@ -528,6 +571,7 @@ def card_body(card, focused, control_id='$PARAM[id]', near=None):
                                                          'Control.HasFocus(%s)' % control_id) if focused else '',
                                     # From the poster's left: <right> is the item's edge, gap included.
                                     'watched': watched_disc(6 + card['width'] - 10 - 40, 16, WATCHED)
+                                               + (episodes_left(6 + card['width'] - 10, 16) if card['name'] != 'Landscape' else '')
                                                + new_tag(card) + (rank_numeral(card) if card['name'] == 'Poster' else ''),
                                     'no_art': no_art_card(card) + request_tags(card),
                                     'dim': watched_dim(card, 'Control.HasFocus(%s)' % control_id if focused else '')}
