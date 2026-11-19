@@ -1,3 +1,6 @@
+[B]0.15.0[/B]
+• Posters: a show you've started and not finished shows its episodes left in the top right corner, where a watched title has its tick, as Silo's apps (Home's rows need KodiConnectForSilo 0.24.0)
+
 [B]0.14.4[/B]
 • Live TV: in the mini guide, OK on the programme on now of the channel you are watching starts it over from the beginning (channels with catch-up), as Sky's Restart
 
