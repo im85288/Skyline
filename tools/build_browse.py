@@ -1282,7 +1282,8 @@ def with_scrollbars(xml):
     to a scrollbar beside it (id view*10+1), which pages through the view;
     Left goes back. Where Right already goes to the A-Z column, the scrollbar
     takes Right only when the column isn't there. Views that place their own
-    (a <pagecontrol> already, List and Extra Info) are left as they are."""
+    (a <pagecontrol> already, List and Extra Info) keep their place. Every
+    scrollbar is hidden until it has focus."""
     import re
     bars = []
 
@@ -1311,8 +1312,17 @@ def with_scrollbars(xml):
                             % (bar, right), 1)
 
     xml = re.sub(r'<control type="(list|panel)" id="(5\d)">.*?<itemlayout', add, xml, flags=re.S)
-    return xml.replace('\n    </controls>', '\n        <!-- The views\' scrollbars (with_scrollbars). -->'
-                       + ''.join(bars) + '\n    </controls>', 1)
+
+    def hide(match):
+        # Hidden until Right reaches it (allowhiddenfocus lets it take focus
+        # hidden), as other skins: shown while it has focus, fading in and out.
+        bar = match.group(1)
+        return ('%s<visible allowhiddenfocus="true">%s + Control.HasFocus(%s)</visible>\n'
+                '            <animation effect="fade" time="160">VisibleChange</animation>'
+                % (match.group(0).split('<visible>')[0], match.group(2), bar))
+    xml = xml.replace('\n    </controls>', '\n        <!-- The views\' scrollbars (with_scrollbars). -->'
+                      + ''.join(bars) + '\n    </controls>', 1)
+    return re.sub(r'<control type="scrollbar" id="(5\d1)">\s*<left>[^\n]*\n\s*<visible>([^\n]*)</visible>', hide, xml)
 
 
 if __name__ == '__main__':

@@ -1585,7 +1585,8 @@
              it (where the A-Z column isn't). -->
         <control type="scrollbar" id="561">
             <left>868</left><top>200</top><width>8</width><height>856</height>
-            <visible>Control.IsVisible(56) + ![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)]</visible>
+            <visible allowhiddenfocus="true">Control.IsVisible(56) + ![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)] + Control.HasFocus(561)</visible>
+            <animation effect="fade" time="160">VisibleChange</animation>
             <onleft>56</onleft><onright>noop</onright>
         </control>
 
@@ -2223,7 +2224,8 @@
         <!-- Estuary's: Right from the list to its scrollbar, which pages through it. -->
         <control type="scrollbar" id="581">
             <left>1856</left><top>200</top><width>8</width><height>856</height>
-            <visible>Control.IsVisible(58)</visible>
+            <visible allowhiddenfocus="true">Control.IsVisible(58) + Control.HasFocus(581)</visible>
+            <animation effect="fade" time="160">VisibleChange</animation>
             <onleft>58</onleft><onright>noop</onright>
         </control>
 
@@ -2280,37 +2282,44 @@
         <!-- The views' scrollbars (with_scrollbars). -->
         <control type="scrollbar" id="501">
             <left>1214</left><top>200</top><width>8</width><height>856</height>
-            <visible>Control.IsVisible(50)</visible>
+            <visible allowhiddenfocus="true">Control.IsVisible(50) + Control.HasFocus(501)</visible>
+            <animation effect="fade" time="160">VisibleChange</animation>
             <onleft>50</onleft><onright>noop</onright>
         </control>
         <control type="scrollbar" id="511">
             <left>1854</left><top>200</top><width>8</width><height>856</height>
-            <visible>Control.IsVisible(51) + ![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)]</visible>
+            <visible allowhiddenfocus="true">Control.IsVisible(51) + ![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)] + Control.HasFocus(511)</visible>
+            <animation effect="fade" time="160">VisibleChange</animation>
             <onleft>51</onleft><onright>noop</onright>
         </control>
         <control type="scrollbar" id="551">
             <left>1734</left><top>496</top><width>8</width><height>560</height>
-            <visible>Control.IsVisible(55) + ![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)]</visible>
+            <visible allowhiddenfocus="true">Control.IsVisible(55) + ![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)] + Control.HasFocus(551)</visible>
+            <animation effect="fade" time="160">VisibleChange</animation>
             <onleft>55</onleft><onright>noop</onright>
         </control>
         <control type="scrollbar" id="571">
             <left>1854</left><top>528</top><width>8</width><height>528</height>
-            <visible>Control.IsVisible(57)</visible>
+            <visible allowhiddenfocus="true">Control.IsVisible(57) + Control.HasFocus(571)</visible>
+            <animation effect="fade" time="160">VisibleChange</animation>
             <onleft>57</onleft><onright>noop</onright>
         </control>
         <control type="scrollbar" id="541">
             <left>1854</left><top>200</top><width>8</width><height>856</height>
-            <visible>Control.IsVisible(54)</visible>
+            <visible allowhiddenfocus="true">Control.IsVisible(54) + Control.HasFocus(541)</visible>
+            <animation effect="fade" time="160">VisibleChange</animation>
             <onleft>54</onleft><onright>noop</onright>
         </control>
         <control type="scrollbar" id="531">
             <left>1854</left><top>200</top><width>8</width><height>856</height>
-            <visible>Control.IsVisible(53)</visible>
+            <visible allowhiddenfocus="true">Control.IsVisible(53) + Control.HasFocus(531)</visible>
+            <animation effect="fade" time="160">VisibleChange</animation>
             <onleft>53</onleft><onright>noop</onright>
         </control>
         <control type="scrollbar" id="521">
             <left>1854</left><top>200</top><width>8</width><height>856</height>
-            <visible>Control.IsVisible(52)</visible>
+            <visible allowhiddenfocus="true">Control.IsVisible(52) + Control.HasFocus(521)</visible>
+            <animation effect="fade" time="160">VisibleChange</animation>
             <onleft>52</onleft><onright>noop</onright>
         </control>
     </controls>
