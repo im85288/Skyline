@@ -1,3 +1,12 @@
+[B]0.16.0[/B]
+• TV: a Catch up row of matches and programmes that have just ended, on channels with catch-up (KodiConnectForSilo 0.25.0)
+• TV: live cards say how long is left; Start again beside Watch for a programme on a catch-up channel
+• TV: Settings > Home > Plays on opening: the last channel, nothing until Watch has focus, or nothing
+• Live TV banner: a long channel name no longer pushes the 60 FPS badge off screen
+• Add-on lists open in Extra Info (picture and description beside the list) rather than posters
+• Cards with no picture are dark, not white; an add-on item with no poster shows its thumbnail
+• Every view in the video window has a scrollbar on Right, hidden until it has focus, as other skins
+
 [B]0.15.1[/B]
 • Posters: the episodes left now show on Home's rows too (0.15.0 left them off), on a round dark disc that widens into a pill for bigger numbers
 
