@@ -64,7 +64,7 @@
                         <control type="image">
                             <left>6</left><top>6</top>
                             <width>176</width><height>264</height>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloPosterArt]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloPosterArt]</texture>
                             <aspectratio>scale</aspectratio>
                             <visible>$PARAM[near]</visible>
                         </control>
@@ -331,7 +331,7 @@
                         <control type="image">
                             <left>6</left><top>6</top>
                             <width>176</width><height>264</height>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloPosterArt]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloPosterArt]</texture>
                             <aspectratio>scale</aspectratio>
                             <visible>$PARAM[near]</visible>
                         </control>
@@ -629,7 +629,7 @@
                         <control type="image">
                             <left>6</left><top>6</top>
                             <width>360</width><height>202</height>
-                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$VAR[SiloLandscapeArt]</texture>
+                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$VAR[SiloLandscapeArt]</texture>
                             <aspectratio>scale</aspectratio>
                             <visible>$PARAM[near] + [String.IsEmpty(ListItem.Property(home.tv.logo)) | !String.IsEmpty(ListItem.Property(home.art.landscape))]</visible>
                         </control>
@@ -740,7 +740,7 @@
                         <control type="image">
                             <left>6</left><top>6</top>
                             <width>360</width><height>202</height>
-                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$VAR[SiloLandscapeArt]</texture>
+                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$VAR[SiloLandscapeArt]</texture>
                             <aspectratio>scale</aspectratio>
                             <visible>$PARAM[near] + [String.IsEmpty(ListItem.Property(home.tv.logo)) | !String.IsEmpty(ListItem.Property(home.art.landscape))]</visible>
                         </control>
@@ -882,7 +882,7 @@
                         <control type="image">
                             <left>6</left><top>6</top>
                             <width>256</width><height>384</height>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloPosterArt]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloPosterArt]</texture>
                             <aspectratio>scale</aspectratio>
                             <visible>$PARAM[near]</visible>
                         </control>
@@ -1139,7 +1139,7 @@
                         <control type="image">
                             <left>6</left><top>6</top>
                             <width>256</width><height>384</height>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloPosterArt]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloPosterArt]</texture>
                             <aspectratio>scale</aspectratio>
                             <visible>$PARAM[near]</visible>
                         </control>

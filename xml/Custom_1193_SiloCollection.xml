@@ -103,7 +103,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -292,7 +292,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -509,7 +509,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>179</width><height>268</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <control type="image">
                     <left>6</left><top>6</top>
@@ -684,7 +684,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>179</width><height>268</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <control type="group">
                     <left>6</left><top>6</top>
@@ -1101,7 +1101,7 @@
             <control type="image">
                 <left>900</left><top>252</top><width>300</width><height>450</height>
                 <aspectratio>scale</aspectratio>
-                <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[Container(58).ListItem.Art(poster)]</texture>
+                <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[Container(58).ListItem.Art(poster)]</texture>
             </control>
             <control type="image">
                 <left>1230</left><top>252</top><width>482</width><height>140</height>
@@ -1277,7 +1277,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -1466,7 +1466,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -1691,7 +1691,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -1880,7 +1880,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -2105,7 +2105,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -2294,7 +2294,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -2519,7 +2519,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -2708,7 +2708,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -2933,7 +2933,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -3122,7 +3122,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -3469,7 +3469,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -3658,7 +3658,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -4055,21 +4055,21 @@
                     <control type="image">
                         <left>160</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan3)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan3)]</texture>
                         <animation effect="rotate" end="-7" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan3))</visible>
                     </control>
                     <control type="image">
                         <left>36</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan1)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan1)]</texture>
                         <animation effect="rotate" end="8" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan1))</visible>
                     </control>
                     <control type="image">
                         <left>98</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan2)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan2)]</texture>
                         <animation effect="rotate" end="1" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan2))</visible>
                     </control>
@@ -4097,21 +4097,21 @@
                     <control type="image">
                         <left>160</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan3)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan3)]</texture>
                         <animation effect="rotate" end="-7" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan3))</visible>
                     </control>
                     <control type="image">
                         <left>36</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan1)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan1)]</texture>
                         <animation effect="rotate" end="8" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan1))</visible>
                     </control>
                     <control type="image">
                         <left>98</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan2)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan2)]</texture>
                         <animation effect="rotate" end="1" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan2))</visible>
                     </control>

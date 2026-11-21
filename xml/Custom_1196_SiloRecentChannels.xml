@@ -83,7 +83,10 @@
                         <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
                     </control>
                     <control type="label">
-                        <width>auto</width><height>40</height>
+                        <!-- At most CHANNEL_MAX_W, ending in "...": an event channel's name
+                             carries its title and date ("Peacock 12: Goal Rush: Matchweek 11
+                             @ 21 Nov 10:50 AM ET") and pushed the badges off the row. -->
+                        <width max="600">auto</width><height>40</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
@@ -222,7 +225,10 @@
                         <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
                     </control>
                     <control type="label">
-                        <width>auto</width><height>40</height>
+                        <!-- At most CHANNEL_MAX_W, ending in "...": an event channel's name
+                             carries its title and date ("Peacock 12: Goal Rush: Matchweek 11
+                             @ 21 Nov 10:50 AM ET") and pushed the badges off the row. -->
+                        <width max="600">auto</width><height>40</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>

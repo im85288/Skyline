@@ -576,7 +576,10 @@ def infobar(top, plot=False):
                         <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
                     </control>
                     <control type="label">
-                        <width>auto</width><height>40</height>
+                        <!-- At most CHANNEL_MAX_W, ending in "...": an event channel's name
+                             carries its title and date ("Peacock 12: Goal Rush: Matchweek 11
+                             @ 21 Nov 10:50 AM ET") and pushed the badges off the row. -->
+                        <width max="%(channel_max)d">auto</width><height>40</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
@@ -623,8 +626,13 @@ def infobar(top, plot=False):
                 </control>''' % (tx, 1920 - tx - SAFE_X) if plot else '',
                              'tw': 1920 - tx - SAFE_X, 'text': TEXT, 'soft': 'D9EDEDED', 'shadow': 'CC000000',
                              'accent': ACCENT, 'bar_y': INFO_H - 10, 'bar_w': 1920 - 2 * left,
-                             'badges': stream_badges()}
+                             'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W}
 
+
+# The channel name's widest in the banner's info row: what's left of the row
+# (1466 wide) after the times, the progress bar, the minutes left and the four
+# badges (FHD, 60 FPS, HDR10, 5.1) with their gaps.
+CHANNEL_MAX_W = 600
 
 FPS = (('59.9', '60'), ('60', '60'), ('50', '50'), ('48', '48'), ('29.9', '30'), ('30', '30'), ('25', '25'),
        ('23.9', '24'), ('24', '24'))

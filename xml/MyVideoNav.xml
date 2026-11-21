@@ -9,7 +9,10 @@
     <onload condition="Player.HasVideo">PlayerControl(Stop)</onload>
     <defaultcontrol always="true">50</defaultcontrol>
     <backgroundcolor>SkylineBackground</backgroundcolor>
-    <views>50,51,52,53,54,55,56,57,58</views>
+    <!-- With no view stored for a folder, Kodi takes the first one here that
+         can show it: Extra Info for an add-on's lists (it shows only there),
+         ahead of the poster grid, which suits few add-ons' pictures. -->
+    <views>50,58,51,52,53,54,55,56,57</views>
     <controls>
         <control type="image">
             <left>0</left><top>0</top><width>1920</width><height>1080</height>
@@ -344,7 +347,7 @@
                         <left>6</left><top>6</top>
                         <width>246</width><height>369</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                     </control>
                     <control type="image">
                         <left>6</left><top>6</top>
@@ -523,7 +526,7 @@
                         <left>6</left><top>6</top>
                         <width>246</width><height>369</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                     </control>
                     <control type="image">
                         <left>6</left><top>6</top>
@@ -1070,7 +1073,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>179</width><height>268</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <control type="image">
                     <left>6</left><top>6</top>
@@ -1219,7 +1222,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>179</width><height>268</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <control type="group">
                     <left>6</left><top>6</top>
@@ -1382,7 +1385,7 @@
             <control type="image">
                 <left>888</left><top>200</top><width>300</width><height>450</height>
                 <aspectratio>scale</aspectratio>
-                <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 <visible>![String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(Container.Art(tvshow.poster))]</visible>
             </control>
             <!-- An add-on's folder has no poster: its own picture, whole, or nothing. -->
@@ -1610,7 +1613,7 @@
                         <left>6</left><top>6</top>
                         <width>324</width><height>182</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$VAR[SiloVideoThumb]</texture>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$VAR[SiloVideoThumb]</texture>
                     </control>
                     <control type="image">
                         <left>6</left><top>6</top>
@@ -1669,7 +1672,7 @@
                         <left>6</left><top>6</top>
                         <width>324</width><height>182</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$VAR[SiloVideoThumb]</texture>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$VAR[SiloVideoThumb]</texture>
                     </control>
                     <control type="image">
                         <left>6</left><top>6</top>
@@ -1805,21 +1808,21 @@
                     <control type="image">
                         <left>160</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan3)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan3)]</texture>
                         <animation effect="rotate" end="-7" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan3))</visible>
                     </control>
                     <control type="image">
                         <left>36</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan1)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan1)]</texture>
                         <animation effect="rotate" end="8" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan1))</visible>
                     </control>
                     <control type="image">
                         <left>98</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan2)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan2)]</texture>
                         <animation effect="rotate" end="1" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan2))</visible>
                     </control>
@@ -1847,21 +1850,21 @@
                     <control type="image">
                         <left>160</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan3)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan3)]</texture>
                         <animation effect="rotate" end="-7" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan3))</visible>
                     </control>
                     <control type="image">
                         <left>36</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan1)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan1)]</texture>
                         <animation effect="rotate" end="8" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan1))</visible>
                     </control>
                     <control type="image">
                         <left>98</left><top>53</top><width>124</width><height>186</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan2)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan2)]</texture>
                         <animation effect="rotate" end="1" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan2))</visible>
                     </control>
@@ -1899,7 +1902,7 @@
                         <left>6</left><top>6</top>
                         <width>360</width><height>202</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$INFO[ListItem.Art(thumb)]</texture>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Art(thumb)]</texture>
                     </control>
                     <control type="image">
                         <left>6</left><top>6</top>
@@ -1978,7 +1981,7 @@
                         <left>6</left><top>6</top>
                         <width>360</width><height>202</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$INFO[ListItem.Art(thumb)]</texture>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Art(thumb)]</texture>
                     </control>
                     <control type="image">
                         <left>6</left><top>6</top>

@@ -82,7 +82,7 @@ def poster(focused, view_id):
                         <left>6</left><top>6</top>
                         <width>%(w)d</width><height>%(h)d</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                     </control>
                     <control type="image">
                         <left>6</left><top>6</top>
@@ -164,7 +164,7 @@ def fan_card(focused, view_id):
                     <control type="image">
                         <left>%(x)d</left><top>%(y)d</top><width>%(w)d</width><height>%(h)d</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan%(n)d)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan%(n)d)]</texture>
                         <animation effect="rotate" end="%(a)d" center="auto" time="0" condition="true">Conditional</animation>
                         <visible>!String.IsEmpty(ListItem.Property(silo.fan%(n)d))</visible>
                     </control>''' % {'x': x, 'y': (FAN_H - MINI_H) // 2 + 6, 'w': MINI_W, 'h': MINI_H, 'n': number,
@@ -204,7 +204,7 @@ def episode(focused, view_id):
                         <left>6</left><top>6</top>
                         <width>%(w)d</width><height>%(h)d</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$INFO[ListItem.Art(thumb)]</texture>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Art(thumb)]</texture>
                     </control>
                     <control type="image">
                         <left>6</left><top>6</top>
@@ -282,7 +282,7 @@ def video_card(focused, view_id):
                         <left>6</left><top>6</top>
                         <width>%(w)d</width><height>%(h)d</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$VAR[SiloVideoThumb]</texture>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$VAR[SiloVideoThumb]</texture>
                     </control>
                     <control type="image">
                         <left>6</left><top>6</top>
@@ -553,7 +553,7 @@ def hero_poster(focused, view_id):
                 <control type="image">
                     <left>6</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>%(sheen)s%(watched)s
                 </control>''' % {'w': HERO_POSTER_W, 'h': HERO_POSTER_H, 'zoom': focus_zoom(lit, 20) if focused else '',
                                  'sheen': focus_sheen(HERO_POSTER_W, HERO_POSTER_H, 'silo/card_poster_mask.png',
@@ -721,7 +721,7 @@ def title_views():
             <control type="image">
                 <left>%(dx)d</left><top>%(top)d</top><width>300</width><height>450</height>
                 <aspectratio>scale</aspectratio>
-                <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 <visible>!%(no_poster)s</visible>
             </control>
             <!-- An add-on's folder has no poster: its own picture, whole, or nothing. -->
@@ -951,7 +951,10 @@ def build():
     <onload condition="Player.HasVideo">PlayerControl(Stop)</onload>
     <defaultcontrol always="true">50</defaultcontrol>
     <backgroundcolor>%(background)s</backgroundcolor>
-    <views>50,51,52,53,54,%(hero_view)d,%(detail_view)d,%(video_view)d,%(extra_view)d</views>
+    <!-- With no view stored for a folder, Kodi takes the first one here that
+         can show it: Extra Info for an add-on's lists (it shows only there),
+         ahead of the poster grid, which suits few add-ons' pictures. -->
+    <views>50,%(extra_view)d,51,52,53,54,%(hero_view)d,%(detail_view)d,%(video_view)d</views>
     <controls>
         <control type="image">
             <left>0</left><top>0</top><width>1920</width><height>1080</height>
@@ -1143,6 +1146,8 @@ VARIABLES = '''
     <variable name="SiloBrowsePoster">
         <value condition="!String.IsEmpty(ListItem.Art(poster))">$INFO[ListItem.Art(poster)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.poster))">$INFO[ListItem.Art(tvshow.poster)]</value>
+        <!-- An add-on's item with no poster: its thumbnail, cropped to the card, not an empty card. -->
+        <value condition="String.StartsWith(Container.FolderPath,plugin://) + !String.IsEmpty(ListItem.Art(thumb))">$INFO[ListItem.Art(thumb)]</value>
         <value>$INFO[Container.Art(tvshow.poster)]</value>
     </variable>
     <variable name="SiloBrowseLabel">

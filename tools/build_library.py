@@ -200,7 +200,7 @@ def card(focused, control_id=GRID_ID, size=None):
                 <control type="image">
                     <left>6</left><top>6</top><width>%(pw)d</width><height>%(ph)d</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->%(sheen)s%(watched)s%(box)s%(title)s
@@ -230,7 +230,7 @@ def hero_card(focused, control_id, width, height):
                 <control type="image">
                     <left>6</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>%(sheen)s%(watched)s%(box)s
                 </control>''' % {'box': box_set_marks(width, height), 'w': width, 'h': height, 'zoom': focus_zoom(lit, 20) if focused else '',
                                  'sheen': focus_sheen(width, height, 'silo/card_poster_mask.png', 'silo/card_poster_rim.png',
@@ -772,7 +772,7 @@ def view_controls():
             <control type="image">
                 <left>%(dx)d</left><top>%(dy)d</top><width>300</width><height>450</height>
                 <aspectratio>scale</aspectratio>
-                <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[%(lst)s.Art(poster)]</texture>
+                <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[%(lst)s.Art(poster)]</texture>
             </control>%(list_title)s
             <control type="label">
                 <left>%(ix)d</left><top>%(iy)d</top><width>%(iw)d</width><height>40</height>

@@ -129,7 +129,7 @@
                     <control type="image">
                         <left>6</left><top>6</top><width>176</width><height>264</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Art(set.poster)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Art(set.poster)]</texture>
                     </control>
                     <control type="group">
                         <left>6</left><top>6</top>
@@ -177,7 +177,7 @@
                     <control type="image">
                         <left>6</left><top>6</top><width>176</width><height>264</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Art(set.poster)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Art(set.poster)]</texture>
                     </control>
                     <control type="group">
                         <left>6</left><top>6</top>

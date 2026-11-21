@@ -270,7 +270,7 @@
                         <control type="image">
                             <left>6</left><top>6</top>
                             <width>288</width><height>162</height>
-                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$VAR[SiloLandscapeArt]</texture>
+                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$VAR[SiloLandscapeArt]</texture>
                             <aspectratio>scale</aspectratio>
                         </control>
                         <control type="image">
@@ -363,7 +363,7 @@
                         <control type="image">
                             <left>6</left><top>6</top>
                             <width>288</width><height>162</height>
-                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$VAR[SiloLandscapeArt]</texture>
+                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$VAR[SiloLandscapeArt]</texture>
                             <aspectratio>scale</aspectratio>
                         </control>
                         <control type="image">

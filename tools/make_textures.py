@@ -317,6 +317,9 @@ if __name__ == '__main__':
     # The Live TV playback bar's round buttons: a themed focus shape of their own.
     card_mask('round_button.png', 84, 84, 42)
     card_scrim()
+    # A card with no picture (or still loading): Skyline's panel colour, not
+    # Estuary's light grey colors/grey.png, which drew as a white card.
+    write_png('card_empty.png', 4, 4, lambda x, y: (1.0, (0x1C, 0x1F, 0x24)))
     # Silo's episodes-left count on a started show's poster: a 65% black
     # capsule with a 20% white rim, 40 high, stretched sideways with
     # border="20,0,20,0" (a wider number makes a pill).

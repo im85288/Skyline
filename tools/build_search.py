@@ -128,7 +128,7 @@ def box_set_card(focused, list_id):
                     <control type="image">
                         <left>6</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
                         <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Art(set.poster)]</texture>
+                        <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Art(set.poster)]</texture>
                     </control>%(sheen)s%(marks)s
                     <control type="label">
                         <left>6</left><top>%(ty)d</top><width>%(w)d</width><height>40</height>

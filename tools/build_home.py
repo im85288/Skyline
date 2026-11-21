@@ -507,7 +507,7 @@ def card_body(card, focused, control_id='$PARAM[id]', near=None):
                         <control type="image">
                             <left>6</left><top>6</top>
                             <width>%(w)d</width><height>%(h)d</height>
-                            <texture background="true" diffuse="%(mask)s" fallback="colors/grey.png">%(art)s</texture>
+                            <texture background="true" diffuse="%(mask)s" fallback="silo/card_empty.png">%(art)s</texture>
                             <aspectratio>scale</aspectratio>%(near)s
                         </control>%(logo)s
                         <control type="image">
@@ -1485,7 +1485,7 @@ def fan_row_card(focused, list_id_):
                         <control type="image">
                             <left>%(x)d</left><top>%(y)d</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan%(n)d)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan%(n)d)]</texture>
                             <animation effect="rotate" end="%(a)d" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan%(n)d))</visible>
                         </control>''' % {'x': x, 'y': (FAN_CARD_H - 156) // 2 + 6, 'n': number, 'a': -angle}

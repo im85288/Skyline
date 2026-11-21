@@ -990,7 +990,7 @@ def video_card(focused):
                         <control type="image">
                             <left>6</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="colors/grey.png">$INFO[ListItem.Art(thumb)]</texture>
+                            <texture background="true" diffuse="silo/card_landscape_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Art(thumb)]</texture>
                         </control>
                         <control type="image">
                             <left>%(px)d</left><top>%(py)d</top><width>56</width><height>56</height>

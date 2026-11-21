@@ -232,7 +232,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->
@@ -421,7 +421,7 @@
                 <control type="image">
                     <left>6</left><top>6</top><width>246</width><height>369</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$VAR[SiloBrowsePoster]</texture>
+                    <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$VAR[SiloBrowsePoster]</texture>
                 </control>
                 <!-- The rating is in Silo's poster art itself (top left). -->
                 <!-- Watched: Silo's frosted disc with a white tick, top right. -->

@@ -7016,21 +7016,21 @@
                         <control type="image">
                             <left>132</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan3)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan3)]</texture>
                             <animation effect="rotate" end="-7" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan3))</visible>
                         </control>
                         <control type="image">
                             <left>28</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan1)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan1)]</texture>
                             <animation effect="rotate" end="8" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan1))</visible>
                         </control>
                         <control type="image">
                             <left>80</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan2)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan2)]</texture>
                             <animation effect="rotate" end="1" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan2))</visible>
                         </control>
@@ -7069,21 +7069,21 @@
                         <control type="image">
                             <left>132</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan3)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan3)]</texture>
                             <animation effect="rotate" end="-7" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan3))</visible>
                         </control>
                         <control type="image">
                             <left>28</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan1)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan1)]</texture>
                             <animation effect="rotate" end="8" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan1))</visible>
                         </control>
                         <control type="image">
                             <left>80</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan2)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan2)]</texture>
                             <animation effect="rotate" end="1" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan2))</visible>
                         </control>
@@ -7190,21 +7190,21 @@
                         <control type="image">
                             <left>132</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan3)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan3)]</texture>
                             <animation effect="rotate" end="-7" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan3))</visible>
                         </control>
                         <control type="image">
                             <left>28</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan1)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan1)]</texture>
                             <animation effect="rotate" end="8" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan1))</visible>
                         </control>
                         <control type="image">
                             <left>80</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan2)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan2)]</texture>
                             <animation effect="rotate" end="1" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan2))</visible>
                         </control>
@@ -7243,21 +7243,21 @@
                         <control type="image">
                             <left>132</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan3)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan3)]</texture>
                             <animation effect="rotate" end="-7" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan3))</visible>
                         </control>
                         <control type="image">
                             <left>28</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan1)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan1)]</texture>
                             <animation effect="rotate" end="8" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan1))</visible>
                         </control>
                         <control type="image">
                             <left>80</left><top>45</top><width>104</width><height>156</height>
                             <aspectratio>scale</aspectratio>
-                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="colors/grey.png">$INFO[ListItem.Property(silo.fan2)]</texture>
+                            <texture background="true" diffuse="silo/card_poster_mask.png" fallback="silo/card_empty.png">$INFO[ListItem.Property(silo.fan2)]</texture>
                             <animation effect="rotate" end="1" center="auto" time="0" condition="true">Conditional</animation>
                             <visible>!String.IsEmpty(ListItem.Property(silo.fan2))</visible>
                         </control>
