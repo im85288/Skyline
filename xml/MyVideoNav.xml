@@ -40,6 +40,8 @@
             <left>88</left><top>200</top>
             <width>1110</width><height>880</height>
             <orientation>vertical</orientation>
+            <pagecontrol>501</pagecontrol>
+            <onright>501</onright>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
             <viewtype label="List">list</viewtype>
             <visible>!$EXP[SiloBrowseGrid] + !$EXP[SiloBrowseEpisodes] + !$EXP[SiloBrowseFans] + !$EXP[SiloBrowseChips] + !$EXP[SiloBrowseAddonVideos]</visible>
@@ -335,6 +337,8 @@
             <left>82</left><top>200</top>
             <width>1756</width><height>880</height>
             <orientation>vertical</orientation>
+            <pagecontrol>511</pagecontrol>
+            <onright condition="![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)]">511</onright>
             <scrolltime tween="cubic" easing="out">280</scrolltime>
             <viewtype label="Posters">poster</viewtype>
             <onleft condition="$EXP[SiloBrowseTitles]">9000</onleft>
@@ -1062,6 +1066,8 @@
             <left>82</left><top>496</top>
             <width>1636</width><height>584</height>
             <orientation>vertical</orientation>
+            <pagecontrol>551</pagecontrol>
+            <onright condition="![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)]">551</onright>
             <scrolltime tween="cubic" easing="out">280</scrolltime>
             <viewtype label="Hero">bigwide</viewtype>
             <visible>$EXP[SiloBrowseTitles]</visible>
@@ -1509,8 +1515,10 @@
             <scrolltime tween="cubic" easing="out">200</scrolltime>
             <viewtype label="List">biginfo</viewtype>
             <visible>$EXP[SiloBrowseTitles]</visible>
+            <pagecontrol>561</pagecontrol>
             <onleft>9000</onleft>
             <onright condition="[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)">60</onright>
+            <onright condition="![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)]">561</onright>
             <onclick condition="System.AddonIsEnabled(plugin.video.kodiconnectforsilo) + [Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(ListItem.DBID,0)">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=info&amp;type=$INFO[ListItem.DBType]&amp;dbid=$INFO[ListItem.DBID])</onclick>
             <itemlayout width="780" height="66">
                 <control type="label">
@@ -1573,6 +1581,13 @@
                 </control>
             </focusedlayout>
         </control>
+        <!-- Estuary's: Right from the list to its scrollbar, which pages through
+             it (where the A-Z column isn't). -->
+        <control type="scrollbar" id="561">
+            <left>868</left><top>200</top><width>8</width><height>856</height>
+            <visible>Control.IsVisible(56) + ![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)]</visible>
+            <onleft>56</onleft><onright>noop</onright>
+        </control>
 
         <!-- An add-on's videos: the focused one's details over Silo's 16:9 cards. -->
         <control type="group">
@@ -1603,6 +1618,8 @@
             <left>82</left><top>528</top>
             <width>1756</width><height>552</height>
             <orientation>vertical</orientation>
+            <pagecontrol>571</pagecontrol>
+            <onright>571</onright>
             <scrolltime tween="cubic" easing="out">280</scrolltime>
             <viewtype label="Videos">panel</viewtype>
             <onleft>9000</onleft>
@@ -1745,6 +1762,8 @@
             <left>82</left><top>200</top>
             <width>1756</width><height>880</height>
             <orientation>vertical</orientation>
+            <pagecontrol>541</pagecontrol>
+            <onright>541</onright>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
             <viewtype label="Genres">panel</viewtype>
             <visible>$EXP[SiloBrowseChips]</visible>
@@ -1796,6 +1815,8 @@
             <left>82</left><top>200</top>
             <width>1756</width><height>880</height>
             <orientation>vertical</orientation>
+            <pagecontrol>531</pagecontrol>
+            <onright>531</onright>
             <scrolltime tween="cubic" easing="out">280</scrolltime>
             <viewtype label="Collections">panel</viewtype>
             <visible>$EXP[SiloBrowseFans]</visible>
@@ -1889,6 +1910,8 @@
             <left>82</left><top>200</top>
             <width>1756</width><height>880</height>
             <orientation>vertical</orientation>
+            <pagecontrol>521</pagecontrol>
+            <onright>521</onright>
             <scrolltime tween="cubic" easing="out">280</scrolltime>
             <viewtype label="Episodes">list</viewtype>
             <visible>$EXP[SiloBrowseEpisodes]</visible>
@@ -2107,7 +2130,9 @@
             <scrolltime tween="cubic" easing="out">200</scrolltime>
             <viewtype label="Extra Info">biginfo</viewtype>
             <visible>$EXP[SiloBrowseExtra]</visible>
+            <pagecontrol>581</pagecontrol>
             <onleft>9000</onleft>
+            <onright>581</onright>
             <itemlayout width="1064" height="80">
                 <control type="label">
                     <left>28</left><width>816</width><height>80</height>
@@ -2195,6 +2220,12 @@
                 </control>
             </focusedlayout>
         </control>
+        <!-- Estuary's: Right from the list to its scrollbar, which pages through it. -->
+        <control type="scrollbar" id="581">
+            <left>1856</left><top>200</top><width>8</width><height>856</height>
+            <visible>Control.IsVisible(58)</visible>
+            <onleft>58</onleft><onright>noop</onright>
+        </control>
 
         <!-- View and sort, from the left (Left from a view's first column). -->
         <control type="group">
@@ -2246,5 +2277,41 @@
 
         <!-- A trailer from an info page: its cover (Includes_SiloFrame.xml). -->
         <include>SiloTrailerCover</include>
+        <!-- The views' scrollbars (with_scrollbars). -->
+        <control type="scrollbar" id="501">
+            <left>1214</left><top>200</top><width>8</width><height>856</height>
+            <visible>Control.IsVisible(50)</visible>
+            <onleft>50</onleft><onright>noop</onright>
+        </control>
+        <control type="scrollbar" id="511">
+            <left>1854</left><top>200</top><width>8</width><height>856</height>
+            <visible>Control.IsVisible(51) + ![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)]</visible>
+            <onleft>51</onleft><onright>noop</onright>
+        </control>
+        <control type="scrollbar" id="551">
+            <left>1734</left><top>496</top><width>8</width><height>560</height>
+            <visible>Control.IsVisible(55) + ![[Container.Content(movies) | Container.Content(tvshows)] + Integer.IsGreater(Container.NumItems,20) + String.StartsWith(Container.FolderPath,videodb://)]</visible>
+            <onleft>55</onleft><onright>noop</onright>
+        </control>
+        <control type="scrollbar" id="571">
+            <left>1854</left><top>528</top><width>8</width><height>528</height>
+            <visible>Control.IsVisible(57)</visible>
+            <onleft>57</onleft><onright>noop</onright>
+        </control>
+        <control type="scrollbar" id="541">
+            <left>1854</left><top>200</top><width>8</width><height>856</height>
+            <visible>Control.IsVisible(54)</visible>
+            <onleft>54</onleft><onright>noop</onright>
+        </control>
+        <control type="scrollbar" id="531">
+            <left>1854</left><top>200</top><width>8</width><height>856</height>
+            <visible>Control.IsVisible(53)</visible>
+            <onleft>53</onleft><onright>noop</onright>
+        </control>
+        <control type="scrollbar" id="521">
+            <left>1854</left><top>200</top><width>8</width><height>856</height>
+            <visible>Control.IsVisible(52)</visible>
+            <onleft>52</onleft><onright>noop</onright>
+        </control>
     </controls>
 </window>

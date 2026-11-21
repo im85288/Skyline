@@ -473,18 +473,26 @@ def extra_view():
             <scrolltime tween="cubic" easing="out">200</scrolltime>
             <viewtype label="Extra Info">biginfo</viewtype>
             <visible>$EXP[SiloBrowseExtra]</visible>
+            <pagecontrol>%(scroll)d</pagecontrol>
             <onleft>%(menu)d</onleft>
+            <onright>%(scroll)d</onright>
             <itemlayout width="%(lw)d" height="%(row)d">%(normal)s
             </itemlayout>
             <focusedlayout width="%(lw)d" height="%(row)d">%(focus)s
             </focusedlayout>
+        </control>
+        <!-- Estuary's: Right from the list to its scrollbar, which pages through it. -->
+        <control type="scrollbar" id="%(scroll)d">
+            <left>%(sx)d</left><top>%(top)d</top><width>8</width><height>%(lh)d</height>
+            <visible>Control.IsVisible(%(id)d)</visible>
+            <onleft>%(id)d</onleft><onright>noop</onright>
         </control>
 ''' % {'id': EXTRA_VIEW, 'x': SAFE_X, 'top': VIEWS_TOP, 'pw': EXTRA_PIC_W, 'ph': EXTRA_PIC_H, 'text': TEXT, 'dim': TEXT_DIM,
        'bx': SAFE_X + 14, 'by': VIEWS_TOP + EXTRA_PIC_H - 14, 'bw': EXTRA_PIC_W - 28,
        'fy': VIEWS_TOP + EXTRA_PIC_H + 14, 'ty': VIEWS_TOP + EXTRA_PIC_H + 64,
        'tb': 1080 - VIEWS_TOP - EXTRA_PIC_H - 64 - 40, 'lx': EXTRA_LIST_X, 'lw': EXTRA_LIST_W,
        'lh': 1080 - VIEWS_TOP - 24, 'menu': MENU_ID, 'row': EXTRA_ROW,
-       'normal': extra_row(False), 'focus': extra_row(True)}
+       'normal': extra_row(False), 'focus': extra_row(True), 'scroll': EXTRA_VIEW * 10 + 1, 'sx': 1920 - SAFE_X + 24}
 
 
 def to_view(tag, indent):
@@ -763,12 +771,21 @@ def title_views():
             <scrolltime tween="cubic" easing="out">200</scrolltime>
             <viewtype label="List">biginfo</viewtype>
             <visible>$EXP[SiloBrowseTitles]</visible>
+            <pagecontrol>%(detail_bar)d</pagecontrol>
             <onleft>%(menu)d</onleft>
-            <onright condition="%(bar)s">%(jump)d</onright>%(click)s
+            <onright condition="%(bar)s">%(jump)d</onright>
+            <onright condition="![%(bar)s]">%(detail_bar)d</onright>%(click)s
             <itemlayout width="%(lw)d" height="%(row)d">%(row_normal)s
             </itemlayout>
             <focusedlayout width="%(lw)d" height="%(row)d">%(row_focused)s
             </focusedlayout>
+        </control>
+        <!-- Estuary's: Right from the list to its scrollbar, which pages through
+             it (where the A-Z column isn't). -->
+        <control type="scrollbar" id="%(detail_bar)d">
+            <left>%(dbx)d</left><top>%(top)d</top><width>8</width><height>%(lh)d</height>
+            <visible>Control.IsVisible(%(detail)d) + ![%(bar)s]</visible>
+            <onleft>%(detail)d</onleft><onright>noop</onright>
         </control>
 ''' % {'hero': HERO_VIEW, 'detail': DETAIL_VIEW, 'menu': MENU_ID, 'x': SAFE_X, 'text': TEXT, 'dim': TEXT_DIM,
        'hero_title': title_art(SAFE_X, 206, 820, 130), 'hero_facts': facts_line(SAFE_X, 344, 1200),
@@ -781,7 +798,8 @@ def title_views():
        'detail_marks': rating_marks('                '), 'marks_y': VIEWS_TOP + 184,
        'badges_y': VIEWS_TOP + 234, 'cast_y': VIEWS_TOP + 282, 'dplot_y': VIEWS_TOP + 480,
        'dplot_h': 1080 - VIEWS_TOP - 520, 'lw': DETAIL_LIST_W, 'lh': 1080 - VIEWS_TOP - 24, 'row': DETAIL_ROW,
-       'row_normal': detail_row(False), 'row_focused': detail_row(True)}
+       'row_normal': detail_row(False), 'row_focused': detail_row(True),
+       'detail_bar': DETAIL_VIEW * 10 + 1, 'dbx': SAFE_X - 6 + DETAIL_LIST_W + 6}
 
 
 def side_menu():
@@ -1259,8 +1277,46 @@ def add_variables():
     open(path, 'w', encoding='utf-8').write(text)
 
 
+def with_scrollbars(xml):
+    """Estuary's scrollbar on every view: Right at a view's right edge goes
+    to a scrollbar beside it (id view*10+1), which pages through the view;
+    Left goes back. Where Right already goes to the A-Z column, the scrollbar
+    takes Right only when the column isn't there. Views that place their own
+    (a <pagecontrol> already, List and Extra Info) are left as they are."""
+    import re
+    bars = []
+
+    def add(match):
+        head, view = match.group(0), int(match.group(2))
+        if '<pagecontrol>' in head:
+            return head
+        tag = lambda name: int(re.search(r'<%s>(\d+)</%s>' % (name, name), head).group(1))
+        left, top, width, height = tag('left'), tag('top'), tag('width'), tag('height')
+        bar = view * 10 + 1
+        taken = re.search(r'<onright condition="([^"]*)">', head)
+        visible = 'Control.IsVisible(%d)' % view
+        if taken:
+            right = '<onright condition="![%s]">%d</onright>' % (taken.group(1), bar)
+            visible += ' + ![%s]' % taken.group(1)
+        else:
+            right = '<onright>%d</onright>' % bar
+        bars.append('''
+        <control type="scrollbar" id="%d">
+            <left>%d</left><top>%d</top><width>8</width><height>%d</height>
+            <visible>%s</visible>
+            <onleft>%d</onleft><onright>noop</onright>
+        </control>''' % (bar, min(left + width + 16, 1920 - SAFE_X + 24), top, min(height, 1080 - top - 24), visible, view))
+        return head.replace('<orientation>vertical</orientation>',
+                            '<orientation>vertical</orientation>\n            <pagecontrol>%d</pagecontrol>\n            %s'
+                            % (bar, right), 1)
+
+    xml = re.sub(r'<control type="(list|panel)" id="(5\d)">.*?<itemlayout', add, xml, flags=re.S)
+    return xml.replace('\n    </controls>', '\n        <!-- The views\' scrollbars (with_scrollbars). -->'
+                       + ''.join(bars) + '\n    </controls>', 1)
+
+
 if __name__ == '__main__':
     with open(os.path.join(ROOT, 'xml', 'MyVideoNav.xml'), 'w', encoding='utf-8') as handle:
-        handle.write(build())
+        handle.write(with_scrollbars(build()))
     add_variables()
     print('Wrote xml/MyVideoNav.xml and its variables in xml/Variables.xml')
