@@ -111,6 +111,12 @@ def includes():
 		<value condition="Integer.IsGreaterOrEqual(System.ScreenWidth,3000)">Menus in 4K</value>
 		<value>Menus in $INFO[System.ScreenHeight]p</value>
 	</variable>
+	<!-- What the TV tab plays as it opens (Skin.SelectBool: none set is the last channel). -->
+	<variable name="SkylineTvAutoplay">
+		<value condition="Skin.HasSetting(SkylineTvAutoplayOff)">Nothing</value>
+		<value condition="Skin.HasSetting(SkylineTvAutoplayWatch)">When Watch is chosen</value>
+		<value>The last channel</value>
+	</variable>
 	<!-- The colour theme's name: Kodi calls the default SKINDEFAULT. -->
 	<variable name="SkylineColourName">
 		<value condition="String.IsEqual(Skin.CurrentColourTheme,SKINDEFAULT)">Silo</value>
@@ -697,6 +703,11 @@ HOME_SETTINGS = (
               label2='Playlist groups to look in', enable='!Skin.HasSetting(SkylineHideTvTab)', visible=TV)
     + setting('button', 773, '- My teams', SILO_CHOICE % 'tv_teams', label2='$INFO[Skin.String(SkylineTvTeams)]',
               enable='!Skin.HasSetting(SkylineHideTvTab)', visible=TV)
+    # As Sky's "Default to live TV": what the TV tab plays as it opens.
+    + setting('button', 774, '- Plays on opening',
+              'Skin.SelectBool(Plays on opening,The last channel|SkylineTvAutoplayLast,'
+              'When Watch is chosen|SkylineTvAutoplayWatch,Nothing|SkylineTvAutoplayOff)',
+              label2='$VAR[SkylineTvAutoplay]', enable='!Skin.HasSetting(SkylineHideTvTab)', visible=TV)
     + setting('radiobutton', 786, 'Episode pictures on Home', 'Skin.ToggleSetting(SkylineEpisodeStills)',
               selected='Skin.HasSetting(SkylineEpisodeStills)', visible=SILO))
 # Titles: what a film's or show's badges and ratings say, and its page's theme tune.
@@ -739,6 +750,7 @@ SETTING_HELP = (
     (781, "Show the TV tab in Home's bar, with live channels and the guide."),
     (772, "The TV tab's Live sport now row shows matches only on channels in the playlist groups ticked here."),
     (773, "Teams whose matches the TV tab's My teams row looks for, in any group. Several: separate them with commas."),
+    (774, "What the TV tab plays behind its rows as it opens: the last channel you watched, nothing until Watch has focus, or nothing at all (a channel then plays only when you choose one)."),
     (786, "Episodes in the rows on Home, Movies and Series, such as Continue Watching, show their own picture instead of their show's artwork."),
     (796, "Show IMDb's rating on Home, info pages and lists."),
     (797, "Show TMDB's rating on Home, info pages and lists."),

@@ -64,13 +64,13 @@ PAGE_FIELDS = {
     # The TV page's cards (KodiConnectForSilo's tvrows.py): a match or a
     # channel, what OK does (tv.play), and how far through it is.
     'tv': ('type', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta', 'hero.facts', 'hero.detail', 'plot',
-           'percent',
+           'percent', 'left',
            'art.landscape', 'art.fanart', 'tv.play', 'tv.logo'),
 }
 # Rows a page can show; Requests has Silo's Discover rows (six title rows,
 # then Studios, Networks and Genres), and every slot costs Home.xml size.
 # Silo's libraries have 6 rows each: fewer slots keep Home.xml quick to load.
-PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 3, 'custom': WIDGETS}
+PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 4, 'custom': WIDGETS}
 
 
 def published(page, slot):
@@ -1675,13 +1675,19 @@ def tab(control_id, page, page_index):
                             # watched (KodiConnectForSilo), any other tab stops it.
                             'preview_off': '' if page == 'tv' else
                             '                    <onclick condition="%s">PlayerControl(Stop)</onclick>\n' % TV_PREVIEWING,
-                            'preview_on': '\n                    <onclick condition="!Player.HasVideo">'
-                            'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=tv_preview)</onclick>'
+                            # Unless Settings > Plays on opening says otherwise (TV_AUTOPLAY_LAST).
+                            'preview_on': '\n                    <onclick condition="!Player.HasVideo + %s">'
+                            'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=tv_preview)</onclick>' % TV_AUTOPLAY_LAST
                             if page == 'tv' else '',
                             'open_sections': open_sections(page, control_id)}
 
 
 TV_PAGE = 'String.IsEqual(Window(Home).Property(silo.page),tv)'
+# Settings > Home > Plays on opening (Skin.SelectBool): none set is the last channel.
+TV_AUTOPLAY_LAST = '!Skin.HasSetting(SkylineTvAutoplayWatch) + !Skin.HasSetting(SkylineTvAutoplayOff)'
+TV_RESTART = 4812  # the TV hero's Start again
+# The channel playing has catch-up (KodiConnectForSilo's tv.playing_archive).
+TV_ARCHIVE = 'String.IsEqual(Window(Home).Property(silokodi.tv.playing_archive),1)'
 # A Live TV channel playing behind the TV page: Home doesn't stop it, and
 # leaving the TV page for another tab does.
 TV_PREVIEWING = 'VideoPlayer.Content(LiveTV) + ' + TV_PAGE
@@ -1718,14 +1724,14 @@ def tv_backdrop():
         </control>''' % {'playing': TV_PLAYING, 'background': BACKGROUND}
 
 
-def hero_pill(control_id, label, icon, clicks, width, moves):
+def hero_pill(control_id, label, icon, clicks, width, moves, visible=None):
     """A hero button as Play and More info: an icon and a label in a pill,
     lit when focused. clicks: [(condition or None, action)]; moves: its
-    <onup>... tags."""
+    <onup>... tags (and any <onfocus>); visible: when it shows, if not always."""
     lit = 'Control.HasFocus(%d)' % control_id
     return '''
                 <control type="group">
-                    <width>%(w)d</width><height>56</height>
+                    <width>%(w)d</width><height>56</height>%(visible)s
                     <control type="button" id="%(id)d">
                         <width>%(w)d</width><height>56</height>
                         <label />
@@ -1758,7 +1764,7 @@ def hero_pill(control_id, label, icon, clicks, width, moves):
                         <label>%(label)s</label>
                         <visible>!%(lit)s</visible>
                     </control>
-                </control>''' % {'id': control_id, 'w': width, 'lw': width - 80, 'text': TEXT, 'icon': icon,
+                </control>''' % {'visible': '\n                    <visible>%s</visible>' % visible if visible else '', 'id': control_id, 'w': width, 'lw': width - 80, 'text': TEXT, 'icon': icon,
                              'label': label, 'lit': lit, 'moves': moves,
                              'clicks': ''.join('\n                        <onclick%s>%s</onclick>' % (
                                  ' condition="%s"' % c if c else '', a) for c, a in clicks)}
@@ -1774,25 +1780,45 @@ def hero_pill_moves(up, down_page, left, right, back):
 
 def tv_hero():
     """The TV page's hero buttons, where the other pages' Play and More info
-    sit: Watch (what's playing, full screen; else the last channel watched)
-    and Guide."""
+    sit: Watch (what's playing, full screen; else the last channel watched),
+    Start again (Apple TV's: the playing programme from its start, where its
+    channel has catch-up) and Guide."""
     on_now = 'Window(Home).Property(silo.tv.1.1.tv.play)'  # On now's first: the last channel watched (tvrows.ROWS)
+    restart = '%s + VideoPlayer.Content(LiveTV) + %s' % (TV_PLAYING, TV_ARCHIVE)
+    # Left and Right step over Start again when it's hidden.
+    watch_moves = hero_pill_moves(TV_TAB, 'tv', 'noop', 'noop', TV_TAB) + (
+        '\n                        <onright condition="%s">SetFocus(%d)</onright>'
+        '\n                        <onright condition="!%s">SetFocus(%d)</onright>'
+        # Settings > Plays on opening: When Watch is chosen.
+        '\n                        <onfocus condition="Skin.HasSetting(SkylineTvAutoplayWatch) + !Player.HasVideo">'
+        'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=tv_preview)</onfocus>'
+        % (restart, TV_RESTART, '[%s]' % restart, TV_GUIDE))
+    guide_moves = hero_pill_moves(TV_TAB, 'tv', 'noop', 'noop', TV_TAB) + (
+        '\n                        <onleft condition="%s">SetFocus(%d)</onleft>'
+        '\n                        <onleft condition="!%s">SetFocus(%d)</onleft>'
+        % (restart, TV_RESTART, '[%s]' % restart, TV_WATCH))
     watch = hero_pill(TV_WATCH, 'Watch', 'silo/icon_play.png',
                       [('Player.HasVideo', 'ActivateWindow(fullscreenvideo)'),
                        ('!Player.HasVideo + !String.IsEmpty(%s)' % on_now, 'RunPlugin($INFO[%s])' % on_now)],
-                      190, hero_pill_moves(TV_TAB, 'tv', 'noop', 'SetFocus(%d)' % TV_GUIDE, TV_TAB))
+                      190, watch_moves)
+    # The catch-up stream is already playing: seek it to the programme's start
+    # (the mini guide's Start over), full screen.
+    again = hero_pill(TV_RESTART, 'Start again', 'silo/start_over.png',
+                      [(None, 'PVR.SeekPercentage(0)'), (None, 'ActivateWindow(fullscreenvideo)')], 250,
+                      hero_pill_moves(TV_TAB, 'tv', 'SetFocus(%d)' % TV_WATCH, 'SetFocus(%d)' % TV_GUIDE, TV_TAB),
+                      visible=restart)
     guide = hero_pill(TV_GUIDE, 'Guide', 'silo/menu_browse.png', [(None, 'ActivateWindow(TVGuide)')],
-                      190, hero_pill_moves(TV_TAB, 'tv', 'SetFocus(%d)' % TV_WATCH, 'noop', TV_TAB))
+                      190, guide_moves)
     return '''
-        <!-- The TV page's Watch and Guide (Up from its top row), where the other
-             pages' Play and More info sit. -->
+        <!-- The TV page's Watch, Start again and Guide (Up from its top row),
+             where the other pages' Play and More info sit. -->
         <control type="grouplist" id="%(id)d">
             <left>%(x)d</left><top>540</top>
             <width>1000</width><height>56</height>
             <orientation>horizontal</orientation>
             <itemgap>14</itemgap>
-            <visible>%(tv)s</visible>%(watch)s%(guide)s
-        </control>''' % {'id': TV_BUTTONS, 'x': SAFE_X, 'tv': TV_PAGE, 'watch': watch, 'guide': guide}
+            <visible>%(tv)s</visible>%(watch)s%(again)s%(guide)s
+        </control>''' % {'id': TV_BUTTONS, 'x': SAFE_X, 'tv': TV_PAGE, 'watch': watch, 'again': again, 'guide': guide}
 
 
 def hero_buttons():

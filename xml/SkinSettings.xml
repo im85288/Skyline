@@ -150,6 +150,14 @@
 					<enable>!Skin.HasSetting(SkylineHideTvTab)</enable>
 					<visible>PVR.HasTVChannels + System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
 				</control>
+				<control type="button" id="774">
+					<label>- Plays on opening</label>
+					<label2>$VAR[SkylineTvAutoplay]</label2>
+					<include>DefaultSettingButton</include>
+					<onclick>Skin.SelectBool(Plays on opening,The last channel|SkylineTvAutoplayLast,When Watch is chosen|SkylineTvAutoplayWatch,Nothing|SkylineTvAutoplayOff)</onclick>
+					<enable>!Skin.HasSetting(SkylineHideTvTab)</enable>
+					<visible>PVR.HasTVChannels + System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
+				</control>
 				<control type="radiobutton" id="786">
 					<label>Episode pictures on Home</label>
 					<include>DefaultSettingButton</include>

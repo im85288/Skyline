@@ -115,6 +115,12 @@
 		<value condition="Integer.IsGreaterOrEqual(System.ScreenWidth,3000)">Menus in 4K</value>
 		<value>Menus in $INFO[System.ScreenHeight]p</value>
 	</variable>
+	<!-- What the TV tab plays as it opens (Skin.SelectBool: none set is the last channel). -->
+	<variable name="SkylineTvAutoplay">
+		<value condition="Skin.HasSetting(SkylineTvAutoplayOff)">Nothing</value>
+		<value condition="Skin.HasSetting(SkylineTvAutoplayWatch)">When Watch is chosen</value>
+		<value>The last channel</value>
+	</variable>
 	<!-- The colour theme's name: Kodi calls the default SKINDEFAULT. -->
 	<variable name="SkylineColourName">
 		<value condition="String.IsEqual(Skin.CurrentColourTheme,SKINDEFAULT)">Silo</value>
