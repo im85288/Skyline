@@ -26,7 +26,7 @@ GRID_Y = PILLS_Y + 74      # 482: the ruler and 8 rows of 69 end at the screen's
 CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
 ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
-BAND = 'B30A1555'           # the programmes' glass: Sky Stream's deep navy, the picture faint behind
+BAND = 'D10A1555'           # the glass: Sky Stream's deep navy, the picture faint behind
 CHANNEL_BAND = BAND         # the channels' glass: the programmes' own
 PANEL_X = SAFE_X - 16       # the glass starts just left of the channel names (the focus outline's edge)
 LOGO_W, LOGO_H = 92, 52
@@ -277,6 +277,17 @@ def build():
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/guide_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
+        <!-- The day and times on a dark backing, faded in from above, so they
+             read over the picture. -->
+        <control type="image">
+            <left>0</left><top>%(ruler_fade_y)d</top><width>1920</width><height>%(ruler_fade_h)d</height>
+            <texture colordiffuse="%(background)s">silo/scrim_bottom.png</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>%(grid_y)d</top><width>1920</width><height>%(ruler_h)d</height>
+            <texture colordiffuse="%(background)s">colors/white.png</texture>
+        </control>
+
         <!-- Sky's glass under the rows (the day and times above stay on the
              picture): the programmes on see-through navy, the channels on the
              same a little less see-through, from just left of their names (a
@@ -448,8 +459,8 @@ def build():
         </control>
 
         <!-- The time row's first, cut-off time (")0" of 22:00) faded into the
-             page's colour: Kodi clips a half-hour that began before the grid's
-             left edge. A fade, not a block: a block showed against the picture. -->
+             row's dark backing: Kodi clips a half-hour that began before the
+             grid's left edge. -->
         <control type="image">
             <left>%(cw)d</left><top>%(grid_y)d</top><width>110</width><height>%(ruler_h)d</height>
             <texture colordiffuse="%(background)s">silo/scrim_side.png</texture>
@@ -467,7 +478,7 @@ def build():
        'name_shown': '[String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 36 - 214 - 14,
-       'band': BAND, 'band_y': GRID_Y + RULER_H,
+       'band': BAND, 'band_y': GRID_Y + RULER_H, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
        'edge_x': PANEL_X + 20, 'edge_w': 1920 - PANEL_X - 20,

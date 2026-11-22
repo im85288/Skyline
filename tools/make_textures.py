@@ -71,14 +71,14 @@ def hero_mask(width=640, height=400):
 
 def guide_mask(width=640, height=360):
     """The TV guide's picture, full screen (build_tv.py): in the top half it
-    fades out to the left, clear at the left edge to solid at 62% of the
-    width, as Home's hero art, so the title and plot read; from the rows down
-    (the guide's glass, 51% of the height) it is solid edge to edge, so it
-    shows through the channels' glass as through the programmes'. A straight
-    blend between the two over 8% of the height."""
+    is clear over the left third (the title and plot) and comes in to solid
+    at 70% of the width; from the rows down (the guide's glass, 50% of the
+    height) it is solid edge to edge, so it shows through the channels' glass
+    as through the programmes'. A straight blend between the two over 6% of
+    the height."""
     def alpha(x, y):
-        from_left = min(1.0, x / (width * 0.62))
-        blend = min(1.0, max(0.0, (y / float(height) - 0.43) / 0.08))
+        from_left = min(1.0, max(0.0, (x / float(width) - 0.32) / 0.38))
+        blend = min(1.0, max(0.0, (y / float(height) - 0.44) / 0.06))
         return from_left + (1.0 - from_left) * blend
     write_png('guide_mask.png', width, height, alpha)
 
