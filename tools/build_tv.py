@@ -958,6 +958,13 @@ def add_banner():
     text = open(path, encoding='utf-8').read()
     start, end = '\t\t<!-- Silo Skyline Live TV banner (tools/build_tv.py) -->', '\t\t<!-- end Silo Skyline Live TV banner -->\n'
     text = text[:text.index(start)] + banner() + text[text.index(end) + len(end):]
+    # The window too: Kodi closes it once none of its own reasons holds (Info's
+    # timed out), whatever the banner's group says, so a programme Left/Right
+    # stepped to keeps it open (KodiConnectForSilo clears that after 8 s idle).
+    stepped = ' | !String.IsEmpty(Window(Home).Property(silokodi.banner.title))'
+    reasons = ' | !String.IsEmpty(PVR.ChannelNumberInput)'
+    if reasons + stepped not in text:
+        text = text.replace(reasons + '</visible>', reasons + stepped + '</visible>', 1)
     open(path, 'w', encoding='utf-8').write(text)
 
 
