@@ -388,9 +388,8 @@ def build():
             <!-- Now: a white line at the current time with TiviMate's dot at its top; what has aired isn't
                  shaded (Sky's dims its titles instead). -->
             <progresstexture border="0,16,18,0" colordiffuse="F2FFFFFF">silo/epg_now_line.png</progresstexture>
-            <!-- The ruler's first cell is the date, above the channels: there, in line
-                 with their logos, today and the time in TiviMate's yellow; the
-                 others are the times (the only cells with a colon). -->
+            <!-- The ruler's first cell is the day, above the channels; the others
+                 are the times (the only cells with a colon). -->
             <rulerlayout height="%(ruler_h)d" width="1400">
                 <control type="label">
                     <left>14</left><width>%(half_hour)d</width><height>%(ruler_h)d</height>
@@ -401,14 +400,25 @@ def build():
                     <label>$INFO[ListItem.Label]</label>
                     <visible>String.Contains(ListItem.Label,:)</visible>
                 </control>
+                <!-- The ruler's first cell is the day shown (Kodi's long date, as
+                     System.Date's): "Today" for today, as Sky's, in white. -->
                 <control type="label">
                     <left>%(date_x)d</left><width>%(date_w)d</width><height>%(ruler_h)d</height>
                     <aligny>center</aligny>
                     <font>silo_detail</font>
-                    <textcolor>%(accent)s</textcolor>
-                    <selectedcolor>%(accent)s</selectedcolor>
-                    <label>$INFO[System.Date(ddd d mmm)]</label>
-                    <visible>!String.Contains(ListItem.Label,:)</visible>
+                    <textcolor>%(text)s</textcolor>
+                    <selectedcolor>%(text)s</selectedcolor>
+                    <label>$LOCALIZE[33006]</label>
+                    <visible>!String.Contains(ListItem.Label,:) + String.IsEqual(ListItem.Label,System.Date)</visible>
+                </control>
+                <control type="label">
+                    <left>%(date_x)d</left><width>%(date_w)d</width><height>%(ruler_h)d</height>
+                    <aligny>center</aligny>
+                    <font>silo_detail</font>
+                    <textcolor>%(text)s</textcolor>
+                    <selectedcolor>%(text)s</selectedcolor>
+                    <label>$INFO[ListItem.Label]</label>
+                    <visible>!String.Contains(ListItem.Label,:) + !String.IsEqual(ListItem.Label,System.Date)</visible>
                 </control>
             </rulerlayout>
             <channellayout height="%(row_h)d" width="%(cw)d">%(channel)s
