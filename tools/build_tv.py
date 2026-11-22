@@ -1777,7 +1777,7 @@ def live_notes():
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<control type="image">
 				<width>%(w)d</width><height>112</height>
-				<texture border="28" colordiffuse="F2FFFFFF">silo/menu_panel.png</texture>
+				<texture border="28" colordiffuse="EB707070">silo/menu_panel.png</texture>
 			</control>
 			<control type="image">
 				<left>28</left><top>32</top><width>48</width><height>48</height>
@@ -1804,7 +1804,7 @@ def live_notes():
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<control type="image">
 				<width>%(w)d</width><height>150</height>
-				<texture border="28" colordiffuse="F2FFFFFF">silo/menu_panel.png</texture>
+				<texture border="28" colordiffuse="EB707070">silo/menu_panel.png</texture>
 			</control>
 			<!-- The next programme's picture, else the channel's logo. -->
 			<control type="image">
