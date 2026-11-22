@@ -28,24 +28,14 @@
                 <visible>Player.HasVideo</visible>
             </control>
             <!-- The programme's own picture (Sky's, from the playlist's guide:
-                 ListItem.EpgEventIcon), filling the box, with the channel's logo
-                 in its corner on a dark wash, as Sky's guide; with none, the
-                 channel's logo (ListItem.Icon) as before. -->
+                 ListItem.EpgEventIcon), filling the box; with none, the channel's
+                 logo (ListItem.Icon) as before. No logo on the picture: with a
+                 picture, Kodi's ListItem.Icon is the picture too, and the channel
+                 column beside it has the logo. -->
             <control type="image">
                 <width>496</width><height>279</height>
                 <aspectratio>scale</aspectratio>
                 <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
-                <visible>!Player.HasVideo + !String.IsEmpty(ListItem.EpgEventIcon)</visible>
-            </control>
-            <control type="image">
-                <width>496</width><height>279</height>
-                <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
-                <visible>!Player.HasVideo + !String.IsEmpty(ListItem.EpgEventIcon)</visible>
-            </control>
-            <control type="image">
-                <left>18</left><top>205</top><width>150</width><height>56</height>
-                <aspectratio align="left" aligny="bottom">keep</aspectratio>
-                <texture background="true">$INFO[ListItem.Icon]</texture>
                 <visible>!Player.HasVideo + !String.IsEmpty(ListItem.EpgEventIcon)</visible>
             </control>
             <control type="image">
