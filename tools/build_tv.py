@@ -246,11 +246,32 @@ def build():
                 <width>%(pw)d</width><height>%(ph)d</height>
                 <visible>Player.HasVideo</visible>
             </control>
+            <!-- The programme's own picture (Sky's, from the playlist's guide:
+                 ListItem.EpgEventIcon), filling the box, with the channel's logo
+                 in its corner on a dark wash, as Sky's guide; with none, the
+                 channel's logo (ListItem.Icon) as before. -->
+            <control type="image">
+                <width>%(pw)d</width><height>%(ph)d</height>
+                <aspectratio>scale</aspectratio>
+                <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
+                <visible>!Player.HasVideo + !String.IsEmpty(ListItem.EpgEventIcon)</visible>
+            </control>
+            <control type="image">
+                <width>%(pw)d</width><height>%(ph)d</height>
+                <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                <visible>!Player.HasVideo + !String.IsEmpty(ListItem.EpgEventIcon)</visible>
+            </control>
+            <control type="image">
+                <left>18</left><top>%(logo_y)d</top><width>150</width><height>56</height>
+                <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                <texture background="true">$INFO[ListItem.Icon]</texture>
+                <visible>!Player.HasVideo + !String.IsEmpty(ListItem.EpgEventIcon)</visible>
+            </control>
             <control type="image">
                 <width>%(pw)d</width><height>%(ph)d</height>
                 <aspectratio>keep</aspectratio>
                 <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Icon]</texture>
-                <visible>!Player.HasVideo</visible>
+                <visible>!Player.HasVideo + String.IsEmpty(ListItem.EpgEventIcon)</visible>
             </control>
         </control>
 
@@ -377,7 +398,7 @@ def build():
     </controls>
 </window>
 ''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': BACKGROUND, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
-       'pw': PREVIEW_W, 'ph': PREVIEW_H, 'pills_y': PILLS_Y, 'py': (PILLS_Y - PREVIEW_H) // 2,
+       'pw': PREVIEW_W, 'ph': PREVIEW_H, 'pills_y': PILLS_Y, 'py': (PILLS_Y - PREVIEW_H) // 2, 'logo_y': PREVIEW_H - 18 - 56,
        'dx': SAFE_X + PREVIEW_W + 48, 'dw': 1920 - 2 * SAFE_X - PREVIEW_W - 48, 'plot_h': PILLS_Y - 194,
        'soft': 'D9EDEDED', 'accent': ACCENT, 'on_now': 'Integer.IsGreater(ListItem.Progress,0) + Integer.IsLess(ListItem.Progress,100)',
        'gw': 1920 - 2 * SAFE_X, 'pill': group_pill(False), 'pill_focused': group_pill(True),
