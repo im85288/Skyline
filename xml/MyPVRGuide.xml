@@ -25,10 +25,15 @@
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/hero_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
-        <!-- The grid's band, Sky's dark blue, over the picture's foot. -->
+        <!-- Sky's bands under the rows (the day and times above them stay on the
+             picture): the channels on a dark one, the programmes on blue. -->
         <control type="image">
-            <left>0</left><top>474</top><width>1920</width><height>606</height>
-            <texture colordiffuse="FA0C111D">colors/white.png</texture>
+            <left>0</left><top>528</top><width>560</width><height>552</height>
+            <texture colordiffuse="E60A0C11">colors/white.png</texture>
+        </control>
+        <control type="image">
+            <left>560</left><top>528</top><width>1360</width><height>552</height>
+            <texture colordiffuse="E0182F78">colors/white.png</texture>
         </control>
         <control type="label">
             <right>88</right><top>40</top><width>400</width><height>48</height>
@@ -127,6 +132,378 @@
             <ondown>Action(Number0)</ondown>
             <onfocus>ClearProperty(silo.guide.timeline,home)</onfocus>
             <scrolltime tween="cubic" easing="out">200</scrolltime>
+
+            <itemlayout width="878" height="52" condition="Integer.IsEqual(Container(11).NumItems,2)">
+                    <control type="image">
+                        <width>866</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>866</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>ListItem.IsSelected</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>834</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>99EDEDED</textcolor>
+                        <selectedcolor>99EDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+            </itemlayout>
+            <focusedlayout width="878" height="52" condition="Integer.IsEqual(Container(11).NumItems,2)">
+                    <control type="image">
+                        <width>866</width><height>52</height>
+                        <texture border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texture>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>834</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>SkylineFocusText</textcolor>
+                        <selectedcolor>SkylineFocusText</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="image">
+                        <width>866</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>                    <control type="image">
+                        <width>866</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>834</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <selectedcolor>FFEDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+            </focusedlayout>
+            <itemlayout width="585" height="52" condition="Integer.IsEqual(Container(11).NumItems,3)">
+                    <control type="image">
+                        <width>573</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>573</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>ListItem.IsSelected</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>541</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>99EDEDED</textcolor>
+                        <selectedcolor>99EDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+            </itemlayout>
+            <focusedlayout width="585" height="52" condition="Integer.IsEqual(Container(11).NumItems,3)">
+                    <control type="image">
+                        <width>573</width><height>52</height>
+                        <texture border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texture>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>541</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>SkylineFocusText</textcolor>
+                        <selectedcolor>SkylineFocusText</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="image">
+                        <width>573</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>                    <control type="image">
+                        <width>573</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>541</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <selectedcolor>FFEDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+            </focusedlayout>
+            <itemlayout width="439" height="52" condition="Integer.IsEqual(Container(11).NumItems,4)">
+                    <control type="image">
+                        <width>427</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>427</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>ListItem.IsSelected</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>395</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>99EDEDED</textcolor>
+                        <selectedcolor>99EDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+            </itemlayout>
+            <focusedlayout width="439" height="52" condition="Integer.IsEqual(Container(11).NumItems,4)">
+                    <control type="image">
+                        <width>427</width><height>52</height>
+                        <texture border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texture>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>395</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>SkylineFocusText</textcolor>
+                        <selectedcolor>SkylineFocusText</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="image">
+                        <width>427</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>                    <control type="image">
+                        <width>427</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>395</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <selectedcolor>FFEDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+            </focusedlayout>
+            <itemlayout width="351" height="52" condition="Integer.IsEqual(Container(11).NumItems,5)">
+                    <control type="image">
+                        <width>339</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>339</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>ListItem.IsSelected</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>307</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>99EDEDED</textcolor>
+                        <selectedcolor>99EDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+            </itemlayout>
+            <focusedlayout width="351" height="52" condition="Integer.IsEqual(Container(11).NumItems,5)">
+                    <control type="image">
+                        <width>339</width><height>52</height>
+                        <texture border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texture>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>307</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>SkylineFocusText</textcolor>
+                        <selectedcolor>SkylineFocusText</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="image">
+                        <width>339</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>                    <control type="image">
+                        <width>339</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>307</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <selectedcolor>FFEDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+            </focusedlayout>
+            <itemlayout width="292" height="52" condition="Integer.IsEqual(Container(11).NumItems,6)">
+                    <control type="image">
+                        <width>280</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>280</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>ListItem.IsSelected</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>248</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>99EDEDED</textcolor>
+                        <selectedcolor>99EDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+            </itemlayout>
+            <focusedlayout width="292" height="52" condition="Integer.IsEqual(Container(11).NumItems,6)">
+                    <control type="image">
+                        <width>280</width><height>52</height>
+                        <texture border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texture>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>248</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>SkylineFocusText</textcolor>
+                        <selectedcolor>SkylineFocusText</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="image">
+                        <width>280</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>                    <control type="image">
+                        <width>280</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>248</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <selectedcolor>FFEDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+            </focusedlayout>
+            <itemlayout width="250" height="52" condition="Integer.IsEqual(Container(11).NumItems,7)">
+                    <control type="image">
+                        <width>238</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>238</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>ListItem.IsSelected</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>206</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>99EDEDED</textcolor>
+                        <selectedcolor>99EDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+            </itemlayout>
+            <focusedlayout width="250" height="52" condition="Integer.IsEqual(Container(11).NumItems,7)">
+                    <control type="image">
+                        <width>238</width><height>52</height>
+                        <texture border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texture>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>206</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>SkylineFocusText</textcolor>
+                        <selectedcolor>SkylineFocusText</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="image">
+                        <width>238</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>                    <control type="image">
+                        <width>238</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>206</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <selectedcolor>FFEDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+            </focusedlayout>
+            <itemlayout width="219" height="52" condition="Integer.IsEqual(Container(11).NumItems,8)">
+                    <control type="image">
+                        <width>207</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>207</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>ListItem.IsSelected</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>175</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>99EDEDED</textcolor>
+                        <selectedcolor>99EDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+            </itemlayout>
+            <focusedlayout width="219" height="52" condition="Integer.IsEqual(Container(11).NumItems,8)">
+                    <control type="image">
+                        <width>207</width><height>52</height>
+                        <texture border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texture>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>175</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>SkylineFocusText</textcolor>
+                        <selectedcolor>SkylineFocusText</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="image">
+                        <width>207</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>                    <control type="image">
+                        <width>207</width><height>52</height>
+                        <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><width>175</width><height>52</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <selectedcolor>FFEDEDED</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>
+            </focusedlayout>
             <itemlayout width="290" height="52">
                     <control type="image">
                         <width>278</width><height>52</height>

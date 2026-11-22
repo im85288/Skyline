@@ -27,8 +27,8 @@ CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
 ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
 BACKDROP_X, BACKDROP_W, BACKDROP_H = 576, 1344, 756  # the programme's picture, as the Home hero's art
-BAND = 'FA0C111D'           # the grid's dark blue band, as Sky's: near solid, so the channels' side
-                            # and the programmes' (the picture's foot behind) match
+BAND = 'E0182F78'           # the programmes' band: Sky's blue, a little see-through
+CHANNEL_BAND = 'E60A0C11'   # the channels' band: near black, as Sky's
 LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
 PREVIEW_W, PREVIEW_H = 496, 279
@@ -160,20 +160,21 @@ def add_variables():
     open(path, 'w', encoding='utf-8').write(text.replace('</includes>', variables() + '</includes>'))
 
 
-def group_pill(focused):
+def group_pill(focused, width=290):
     """A channel group: Silo's pill, the chosen group outlined, the focused
     one white. Dark, not see-through: they sit on the programme's picture.
-    290 px a pill, so six groups fit across (the guide has six) without the last cut off."""
+    The pills share the full width between them (pill_layouts): width is a
+    pill's slot, 12 px of it the gap."""
     chosen = 'ListItem.IsSelected'
     if focused:
         return '''
                     <control type="image">
-                        <width>278</width><height>52</height>
+                        <width>%(pw)d</width><height>52</height>
                         <texture border="26" colordiffuse="%(text)s">silo/pill_26.png</texture>
                         <visible>Control.HasFocus(%(id)d)</visible>
                     </control>
                     <control type="label">
-                        <left>16</left><width>246</width><height>52</height>
+                        <left>16</left><width>%(lw)d</width><height>52</height>
                         <align>center</align><aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>FF000000</textcolor>
@@ -182,41 +183,63 @@ def group_pill(focused):
                         <visible>Control.HasFocus(%(id)d)</visible>
                     </control>
                     <control type="image">
-                        <width>278</width><height>52</height>
+                        <width>%(pw)d</width><height>52</height>
                         <texture border="26" colordiffuse="%(pill_bg)s">silo/pill_26.png</texture>
                         <visible>!Control.HasFocus(%(id)d)</visible>
                     </control>                    <control type="image">
-                        <width>278</width><height>52</height>
+                        <width>%(pw)d</width><height>52</height>
                         <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
                         <visible>!Control.HasFocus(%(id)d)</visible>
                     </control>
                     <control type="label">
-                        <left>16</left><width>246</width><height>52</height>
+                        <left>16</left><width>%(lw)d</width><height>52</height>
                         <align>center</align><aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>%(text)s</textcolor>
                         <selectedcolor>%(text)s</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
                         <visible>!Control.HasFocus(%(id)d)</visible>
-                    </control>''' % {'text': TEXT, 'id': GROUPS_ID, 'pill_bg': PILL_BG}
+                    </control>''' % {'text': TEXT, 'id': GROUPS_ID, 'pill_bg': PILL_BG, 'pw': width - 12, 'lw': width - 44}
     return '''
                     <control type="image">
-                        <width>278</width><height>52</height>
+                        <width>%(pw)d</width><height>52</height>
                         <texture border="26" colordiffuse="%(pill_bg)s">silo/pill_26.png</texture>
                     </control>
                     <control type="image">
-                        <width>278</width><height>52</height>
+                        <width>%(pw)d</width><height>52</height>
                         <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
                         <visible>%(chosen)s</visible>
                     </control>
                     <control type="label">
-                        <left>16</left><width>246</width><height>52</height>
+                        <left>16</left><width>%(lw)d</width><height>52</height>
                         <align>center</align><aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>%(dim)s</textcolor>
                         <selectedcolor>%(dim)s</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
-                    </control>''' % {'chosen': chosen, 'dim': DIM, 'pill_bg': PILL_BG}
+                    </control>''' % {'chosen': chosen, 'dim': DIM, 'pill_bg': PILL_BG, 'pw': width - 12, 'lw': width - 44}
+
+
+def pill_layouts():
+    """The groups' layouts: as many pills as there are groups share the
+    guide's width (Kodi picks a list's layout by its condition), up to
+    eight; more scroll at 290 px."""
+    full = 1920 - 2 * SAFE_X + 12  # the last pill's gap runs past the edge
+    out = ''
+    for count in range(2, 9):
+        condition = 'Integer.IsEqual(Container(%d).NumItems,%d)' % (GROUPS_ID, count)
+        width = full // count
+        out += ('''
+            <itemlayout width="%(w)d" height="52" condition="%(c)s">%(pill)s
+            </itemlayout>
+            <focusedlayout width="%(w)d" height="52" condition="%(c)s">%(focused)s
+            </focusedlayout>''' % {'w': width, 'c': condition, 'pill': group_pill(False, width),
+                                     'focused': group_pill(True, width)})
+    return out + '''
+            <itemlayout width="290" height="52">%s
+            </itemlayout>
+            <focusedlayout width="290" height="52">%s
+            </focusedlayout>''' % (group_pill(False), group_pill(True))
 
 
 def build():
@@ -251,9 +274,14 @@ def build():
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/hero_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
-        <!-- The grid's band, Sky's dark blue, over the picture's foot. -->
+        <!-- Sky's bands under the rows (the day and times above them stay on the
+             picture): the channels on a dark one, the programmes on blue. -->
         <control type="image">
-            <left>0</left><top>%(band_y)d</top><width>1920</width><height>%(band_h)d</height>
+            <left>0</left><top>%(band_y)d</top><width>%(cw)d</width><height>%(band_h)d</height>
+            <texture colordiffuse="%(channel_band)s">colors/white.png</texture>
+        </control>
+        <control type="image">
+            <left>%(cw)d</left><top>%(band_y)d</top><width>%(pw_band)d</width><height>%(band_h)d</height>
             <texture colordiffuse="%(band)s">colors/white.png</texture>
         </control>
         <control type="label">
@@ -341,10 +369,7 @@ def build():
             <ondown>Action(Number0)</ondown>
             <onfocus>ClearProperty(silo.guide.timeline,home)</onfocus>
             <scrolltime tween="cubic" easing="out">200</scrolltime>
-            <itemlayout width="290" height="52">%(pill)s
-            </itemlayout>
-            <focusedlayout width="290" height="52">%(pill_focused)s
-            </focusedlayout>
+%(pill_layouts)s
         </control>
 
         <!-- The timeline: channels down the left, programmes across. -->
@@ -407,11 +432,11 @@ def build():
        'name_shown': '[String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 36 - 214 - 14,
-       'bx': BACKDROP_X, 'bw': BACKDROP_W, 'bh': BACKDROP_H, 'band': BAND, 'band_y': GRID_Y - 8,
-       'band_h': 1080 - GRID_Y + 8,
+       'bx': BACKDROP_X, 'bw': BACKDROP_W, 'bh': BACKDROP_H, 'band': BAND, 'band_y': GRID_Y + RULER_H,
+       'band_h': 1080 - GRID_Y - RULER_H, 'channel_band': CHANNEL_BAND, 'pw_band': 1920 - CHANNEL_W,
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
        'soft': 'D9EDEDED', 'accent': ACCENT,
-       'gw': 1920 - 2 * SAFE_X, 'pill': group_pill(False), 'pill_focused': group_pill(True),
+       'gw': 1920 - 2 * SAFE_X, 'pill_layouts': pill_layouts(),
        'grid_y': GRID_Y, 'grid_h': grid_h, 'ruler_h': RULER_H, 'row_h': ROW_H, 'cw': CHANNEL_W,
        'date_x': SAFE_X + 4, 'date_w': CHANNEL_W - SAFE_X - 4,
        'channel': channel(False), 'channel_focused': channel(True),
