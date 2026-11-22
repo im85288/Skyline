@@ -6,8 +6,10 @@
          OK watches the one shown, as Sky's mini guide, not this screen. -->
     <onload condition="Player.ChannelPreviewActive">Dialog.Close(1196,true)</onload>
     <onload condition="Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
-    <!-- On an earlier or later programme the banner stepped to (Left/Right): catch-up or a reminder. -->
-    <onload condition="Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onload>
+    <!-- On an earlier or later programme the banner stepped to (Left/Right),
+         browsed or on the playing channel: catch-up or a reminder, not this screen. -->
+    <onload condition="!Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Dialog.Close(1196,true)</onload>
+    <onload condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onload>
     <controls>
         <!-- The top's shade and corners fade in place (sliding, the shade crossed the picture). -->
         <control type="group">
