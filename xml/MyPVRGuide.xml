@@ -25,26 +25,20 @@
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/hero_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
-        <!-- Sky's glass panel under the rows (the day and times above stay on the
-             picture), in from the screen's left with a rounded corner, off the
-             right and bottom: the channels on a darker navy, the programmes on
-             blue, both see-through; a sheen and a fine light edge along its top.
-             Kodi can't blur what's behind, so the glass is this. -->
-        <control type="image">
-            <left>56</left><top>528</top><width>504</width><height>592</height>
-            <!-- Rounded on the left only: no right slice keeps the right corners square. -->
-            <texture border="20,20,0,20" colordiffuse="C70D1440">silo/card_landscape_mask.png</texture>
-        </control>
+        <!-- Sky's glass under the programmes (the day and times above stay on the
+             picture): see-through navy, a sheen and a fine light edge along its
+             top. The channel names sit on the page itself, as Sky's do. Kodi
+             can't blur what's behind, so the glass is this. -->
         <control type="image">
             <left>560</left><top>528</top><width>1360</width><height>592</height>
             <texture colordiffuse="B30A1555">colors/white.png</texture>
         </control>
         <control type="image">
-            <left>56</left><top>528</top><width>1864</width><height>180</height>
-            <texture border="20,20,0,0" flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
+            <left>560</left><top>528</top><width>1360</width><height>180</height>
+            <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
-            <left>76</left><top>528</top><width>1844</width><height>2</height>
+            <left>560</left><top>528</top><width>1360</width><height>2</height>
             <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
         </control>
         <control type="label">

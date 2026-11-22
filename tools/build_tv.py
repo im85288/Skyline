@@ -28,8 +28,6 @@ ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
 BACKDROP_X, BACKDROP_W, BACKDROP_H = 576, 1344, 756  # the programme's picture, as the Home hero's art
 BAND = 'B30A1555'           # the programmes' glass: Sky Stream's deep navy, the picture faint behind
-CHANNEL_BAND = 'C70D1440'   # the channels' glass: a darker navy than the programmes', not black
-PANEL_X = SAFE_X - 32       # the glass panel starts in from the screen's left, as Sky's
 LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
 PREVIEW_W, PREVIEW_H = 496, 279
@@ -275,26 +273,20 @@ def build():
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/hero_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
-        <!-- Sky's glass panel under the rows (the day and times above stay on the
-             picture), in from the screen's left with a rounded corner, off the
-             right and bottom: the channels on a darker navy, the programmes on
-             blue, both see-through; a sheen and a fine light edge along its top.
-             Kodi can't blur what's behind, so the glass is this. -->
-        <control type="image">
-            <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(cw_panel)d</width><height>%(band_h)d</height>
-            <!-- Rounded on the left only: no right slice keeps the right corners square. -->
-            <texture border="20,20,0,20" colordiffuse="%(channel_band)s">silo/card_landscape_mask.png</texture>
-        </control>
+        <!-- Sky's glass under the programmes (the day and times above stay on the
+             picture): see-through navy, a sheen and a fine light edge along its
+             top. The channel names sit on the page itself, as Sky's do. Kodi
+             can't blur what's behind, so the glass is this. -->
         <control type="image">
             <left>%(cw)d</left><top>%(band_y)d</top><width>%(pw_band)d</width><height>%(band_h)d</height>
             <texture colordiffuse="%(band)s">colors/white.png</texture>
         </control>
         <control type="image">
-            <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(panel_w)d</width><height>180</height>
-            <texture border="20,20,0,0" flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
+            <left>%(cw)d</left><top>%(band_y)d</top><width>%(pw_band)d</width><height>180</height>
+            <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
-            <left>%(edge_x)d</left><top>%(band_y)d</top><width>%(edge_w)d</width><height>2</height>
+            <left>%(cw)d</left><top>%(band_y)d</top><width>%(pw_band)d</width><height>2</height>
             <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
         </control>
         <control type="label">
@@ -465,9 +457,8 @@ def build():
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 36 - 214 - 14,
        'bx': BACKDROP_X, 'bw': BACKDROP_W, 'bh': BACKDROP_H, 'band': BAND, 'band_y': GRID_Y + RULER_H,
-       'band_h': 1080 - GRID_Y - RULER_H + 40, 'channel_band': CHANNEL_BAND, 'pw_band': 1920 - CHANNEL_W,
-       'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
-       'edge_x': PANEL_X + 20, 'edge_w': 1920 - PANEL_X - 20,
+       'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W,
+
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
        'soft': 'D9EDEDED',
        'gw': 1920 - 2 * SAFE_X, 'pill_layouts': pill_layouts(),
