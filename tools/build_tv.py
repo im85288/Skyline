@@ -23,7 +23,7 @@ GROUPS_ID, GRID_ID = 11, 51
 DIM = '99EDEDED'
 PILLS_Y = 404               # under the programme's details (Sky Stream's top half)
 GRID_Y = PILLS_Y + 74
-CHANNEL_W = 420             # Sky's: the channel's name and number, no logo
+CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
 ROW_H = 66                  # 8 channels on screen
 GRID_ROWS = 8
 BACKDROP_X, BACKDROP_W, BACKDROP_H = 576, 1344, 756  # the programme's picture, as the Home hero's art
@@ -66,9 +66,9 @@ def playing_mark(left, top, size=24, colour=ACCENT, also='true'):
 
 
 def channel(focused):
-    """A channel down the left, as Sky Stream's: its name, the number at the
-    right, no logo; the playing channel's name in the accent, the focused
-    row's outlined while the timeline has focus."""
+    """A channel down the left, as Sky Stream's: its name only (fixed numbers
+    aren't needed to find one); the playing channel's name in the accent, the
+    focused row's outlined while the timeline has focus."""
     colour = TEXT if focused else 'C7EDEDED'
     rim = '''
                     <control type="image">
@@ -85,18 +85,11 @@ def channel(focused):
                         <selectedcolor>{colour}</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
                         {visible}
-                    </control>''' % (SAFE_X, CHANNEL_W - SAFE_X - 96, ROW_H,
-                         # The focused channel's whole name: an event channel's says what's on.
-                         '\n                        <scroll>true</scroll>' if focused else ''),
-        colour, ACCENT, PLAYING) + '''
-                    <control type="label">
-                        <left>%d</left><top>0</top><width>64</width><height>%d</height>
-                        <align>right</align><aligny>center</aligny>
-                        <font>silo_meta</font>
-                        <textcolor>%s</textcolor>
-                        <selectedcolor>%s</selectedcolor>
-                        <label>$INFO[ListItem.ChannelNumberLabel]</label>
-                    </control>''' % (CHANNEL_W - 96, ROW_H, colour, colour)
+                    </control>''' % (SAFE_X, CHANNEL_W - SAFE_X - 28, ROW_H,
+                         # No scrolling inside the outline, as Sky's: the details above
+                         # carry the whole name.
+                         ''),
+        colour, ACCENT, PLAYING)
 
 
 def programme(focused):
@@ -269,12 +262,21 @@ def build():
              line (LIVE, length, when it started) and the plot. -->
         <control type="group">
             <left>%(x)d</left><top>52</top>
+            <!-- The channel's logo, as Sky's (KodiConnectForSilo publishes it:
+                 Kodi 21 has no logo label for guide programmes), else its name. -->
+            <control type="image">
+                <top>-4</top><width>240</width><height>48</height>
+                <aspectratio align="left">keep</aspectratio>
+                <texture background="true">$INFO[Window(Home).Property(silokodi.guide.logo)]</texture>
+                <visible>%(logo_shown)s</visible>
+            </control>
             <control type="label">
                 <width>%(dw)d</width><height>40</height>
                 <aligny>center</aligny>
                 <font>silo_meta</font>
                 <textcolor>%(dim)s</textcolor>
-                <label>$INFO[ListItem.ChannelNumberLabel,,  ]$INFO[ListItem.ChannelName]</label>
+                <label>$INFO[ListItem.ChannelName]</label>
+                <visible>!%(logo_shown)s</visible>
             </control>
             <control type="label">
                 <top>44</top><width>%(dw)d</width><height>72</height>
@@ -392,6 +394,8 @@ def build():
     </controls>
 </window>
 ''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': BACKGROUND, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
+       'logo_shown': '[!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
+                     'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 52 - 178 - 12,
        'bx': BACKDROP_X, 'bw': BACKDROP_W, 'bh': BACKDROP_H, 'band': BAND, 'band_y': GRID_Y - 8,
        'band_h': 1080 - GRID_Y + 8,

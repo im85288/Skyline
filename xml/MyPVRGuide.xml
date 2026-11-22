@@ -42,12 +42,21 @@
              line (LIVE, length, when it started) and the plot. -->
         <control type="group">
             <left>88</left><top>52</top>
+            <!-- The channel's logo, as Sky's (KodiConnectForSilo publishes it:
+                 Kodi 21 has no logo label for guide programmes), else its name. -->
+            <control type="image">
+                <top>-4</top><width>240</width><height>48</height>
+                <aspectratio align="left">keep</aspectratio>
+                <texture background="true">$INFO[Window(Home).Property(silokodi.guide.logo)]</texture>
+                <visible>[!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]</visible>
+            </control>
             <control type="label">
                 <width>1000</width><height>40</height>
                 <aligny>center</aligny>
                 <font>silo_meta</font>
                 <textcolor>99EDEDED</textcolor>
-                <label>$INFO[ListItem.ChannelNumberLabel,,  ]$INFO[ListItem.ChannelName]</label>
+                <label>$INFO[ListItem.ChannelName]</label>
+                <visible>![!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]</visible>
             </control>
             <control type="label">
                 <top>44</top><width>1000</width><height>72</height>
@@ -176,7 +185,7 @@
             <!-- Kodi's "vertical": channels down, time across (TiviMate's timeline). -->
             <orientation>vertical</orientation>
             <viewtype label="19298">list</viewtype>
-            <timeblocks>25</timeblocks>
+            <timeblocks>22</timeblocks>
             <rulerunit>6</rulerunit>
             <onup>11</onup>
             <!-- Where Back goes (window 1189) depends on the timeline having focus. -->
@@ -198,7 +207,7 @@
                     <visible>String.Contains(ListItem.Label,:)</visible>
                 </control>
                 <control type="label">
-                    <left>92</left><width>328</width><height>46</height>
+                    <left>92</left><width>468</width><height>46</height>
                     <aligny>center</aligny>
                     <font>silo_detail</font>
                     <textcolor>FFF2D46B</textcolor>
@@ -207,9 +216,9 @@
                     <visible>!String.Contains(ListItem.Label,:)</visible>
                 </control>
             </rulerlayout>
-            <channellayout height="66" width="420">
+            <channellayout height="66" width="560">
                     <control type="label">
-                        <left>88</left><top>0</top><width>236</width><height>66</height>
+                        <left>88</left><top>0</top><width>444</width><height>66</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFF2D46B</textcolor>
@@ -218,7 +227,7 @@
                         <visible>ListItem.IsPlaying</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>236</width><height>66</height>
+                        <left>88</left><top>0</top><width>444</width><height>66</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>C7EDEDED</textcolor>
@@ -226,25 +235,16 @@
                         <label>$INFO[ListItem.Label]</label>
                         <visible>!ListItem.IsPlaying</visible>
                     </control>
-                    <control type="label">
-                        <left>324</left><top>0</top><width>64</width><height>66</height>
-                        <align>right</align><aligny>center</aligny>
-                        <font>silo_meta</font>
-                        <textcolor>C7EDEDED</textcolor>
-                        <selectedcolor>C7EDEDED</selectedcolor>
-                        <label>$INFO[ListItem.ChannelNumberLabel]</label>
-                    </control>
             </channellayout>
-            <focusedchannellayout height="66" width="420">
+            <focusedchannellayout height="66" width="560">
                     <control type="image">
-                        <left>72</left><top>6</top><width>336</width><height>54</height>
+                        <left>72</left><top>6</top><width>476</width><height>54</height>
                         <texture border="16" colordiffuse="FFEDEDED">silo/card_landscape_rim.png</texture>
                         <visible>Control.HasFocus(51)</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>236</width><height>66</height>
+                        <left>88</left><top>0</top><width>444</width><height>66</height>
                         <aligny>center</aligny>
-                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix>
                         <font>silo_meta</font>
                         <textcolor>FFF2D46B</textcolor>
                         <selectedcolor>FFF2D46B</selectedcolor>
@@ -252,22 +252,13 @@
                         <visible>ListItem.IsPlaying</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>236</width><height>66</height>
+                        <left>88</left><top>0</top><width>444</width><height>66</height>
                         <aligny>center</aligny>
-                        <scroll>true</scroll><scrollsuffix>     ·     </scrollsuffix>
                         <font>silo_meta</font>
                         <textcolor>FFEDEDED</textcolor>
                         <selectedcolor>FFEDEDED</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
                         <visible>!ListItem.IsPlaying</visible>
-                    </control>
-                    <control type="label">
-                        <left>324</left><top>0</top><width>64</width><height>66</height>
-                        <align>right</align><aligny>center</aligny>
-                        <font>silo_meta</font>
-                        <textcolor>FFEDEDED</textcolor>
-                        <selectedcolor>FFEDEDED</selectedcolor>
-                        <label>$INFO[ListItem.ChannelNumberLabel]</label>
                     </control>
             </focusedchannellayout>
             <itemlayout height="66" width="60">
