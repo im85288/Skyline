@@ -8,11 +8,11 @@
     <onunload>ClearProperty(silo.guide.fromplayer,home)</onunload>
     <defaultcontrol always="true">51</defaultcontrol>
     <views>51</views>
-    <backgroundcolor>SkylineBackground</backgroundcolor>
+    <backgroundcolor>FF0A0F22</backgroundcolor>
     <controls>
         <control type="image">
             <left>0</left><top>0</top><width>1920</width><height>1080</height>
-            <texture colordiffuse="SkylineBackground">colors/white.png</texture>
+            <texture colordiffuse="FF0A0F22">colors/white.png</texture>
         </control>
 
         <!-- Sky Stream's guide: the focused programme's picture across the top
@@ -699,7 +699,7 @@
              left edge. A fade, not a block: a block showed against the picture. -->
         <control type="image">
             <left>560</left><top>482</top><width>110</width><height>46</height>
-            <texture colordiffuse="SkylineBackground">silo/scrim_side.png</texture>
+            <texture colordiffuse="FF0A0F22">silo/scrim_side.png</texture>
         </control>
 
         <!-- Kodi's labels for the window's own use. -->

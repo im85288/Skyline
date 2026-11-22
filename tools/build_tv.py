@@ -27,6 +27,7 @@ CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
 ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
 BACKDROP_X, BACKDROP_W, BACKDROP_H = 576, 1344, 756  # the programme's picture, as the Home hero's art
+GUIDE_BG = 'FF0A0F22'       # the guide's page: Sky Stream's dark navy, not Skyline's near-black
 BAND = 'B30A1555'           # the programmes' glass: Sky Stream's deep navy, the picture faint behind
 LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
@@ -450,7 +451,7 @@ def build():
         <control type="label" id="30"><visible>false</visible></control>
     </controls>
 </window>
-''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': BACKGROUND, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
+''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': GUIDE_BG, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
        'logo_shown': '[!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        # Only a channel with no logo shows its name: until the logo is known, neither.
