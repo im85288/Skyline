@@ -390,14 +390,20 @@
     <!-- end Silo Skyline guide Back -->
     <!-- Silo Skyline TV (tools/build_tv.py) -->
     <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets silo.live.step),
-         as Sky's banner: the programme before or after on the channel it shows,
-         browsed or playing (banner_step); with no banner up, Info opens it on the
-         playing channel. A timer, not a window: opening one closed the banner. -->
+         as Sky's banner: note the channel the banner shows (browsed or playing),
+         open Skyline's banner window (it holds the keys after) and step. -->
+    <timer>
+        <name>silo_live_banner_idle</name>
+        <start reset="true">Window.IsActive(1183) + System.IdleTime(8)</start>
+        <onstart>Dialog.Close(1183)</onstart>
+        <stop>true</stop>
+    </timer>
     <timer>
         <name>silo_live_left</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="![Player.ChannelPreviewActive | Player.ShowInfo | Window.IsActive(fullscreeninfo)]">Action(Info)</onstart>
+        <onstart condition="!Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="!Window.IsActive(1183)">ActivateWindow(1183)</onstart>
         <onstart>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
         <stop>true</stop>
     </timer>
@@ -405,7 +411,8 @@
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="![Player.ChannelPreviewActive | Player.ShowInfo | Window.IsActive(fullscreeninfo)]">Action(Info)</onstart>
+        <onstart condition="!Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="!Window.IsActive(1183)">ActivateWindow(1183)</onstart>
         <onstart>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
         <stop>true</stop>
     </timer>

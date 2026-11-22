@@ -66,13 +66,13 @@
                 <control type="image">
                     <left>92</left><top>100</top><width>110</width><height>40</height>
                     <aspectratio align="left" aligny="bottom">keep</aspectratio>
-                    <texture>$INFO[Player.Icon]</texture>
+                    <texture>$VAR[SiloBannerLogo]</texture>
                     <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>106</height>
                     <aspectratio>keep</aspectratio>
-                    <texture>$INFO[Player.Icon]</texture>
+                    <texture>$VAR[SiloBannerLogo]</texture>
                     <visible>![[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]]</visible>
                 </control>
                 <control type="label">
@@ -127,7 +127,7 @@
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                        <label>$INFO[VideoPlayer.ChannelNumberLabel,,  ]$INFO[VideoPlayer.ChannelName]</label>
+                        <label>$VAR[SiloBannerChannel]</label>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -139,7 +139,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[!String.IsEmpty(VideoPlayer.VideoResolution)] + !Player.ChannelPreviewActive</visible>
+                        <visible>[!String.IsEmpty(VideoPlayer.VideoResolution)] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -151,7 +151,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[String.StartsWith(Player.Process(videofps),59.9) | String.StartsWith(Player.Process(videofps),60) | String.StartsWith(Player.Process(videofps),50) | String.StartsWith(Player.Process(videofps),48) | String.StartsWith(Player.Process(videofps),29.9) | String.StartsWith(Player.Process(videofps),30) | String.StartsWith(Player.Process(videofps),25) | String.StartsWith(Player.Process(videofps),23.9) | String.StartsWith(Player.Process(videofps),24)] + !Player.ChannelPreviewActive</visible>
+                        <visible>[String.StartsWith(Player.Process(videofps),59.9) | String.StartsWith(Player.Process(videofps),60) | String.StartsWith(Player.Process(videofps),50) | String.StartsWith(Player.Process(videofps),48) | String.StartsWith(Player.Process(videofps),29.9) | String.StartsWith(Player.Process(videofps),30) | String.StartsWith(Player.Process(videofps),25) | String.StartsWith(Player.Process(videofps),23.9) | String.StartsWith(Player.Process(videofps),24)] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -163,7 +163,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[!String.IsEmpty(VideoPlayer.HdrType)] + !Player.ChannelPreviewActive</visible>
+                        <visible>[!String.IsEmpty(VideoPlayer.HdrType)] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -175,7 +175,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[!String.IsEmpty(VideoPlayer.AudioChannels)] + !Player.ChannelPreviewActive</visible>
+                        <visible>[!String.IsEmpty(VideoPlayer.AudioChannels)] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="button">
                         <top>2</top><width>auto</width><height>36</height>
@@ -250,13 +250,13 @@
                 <control type="image">
                     <left>92</left><top>100</top><width>110</width><height>40</height>
                     <aspectratio align="left" aligny="bottom">keep</aspectratio>
-                    <texture>$INFO[Player.Icon]</texture>
+                    <texture>$VAR[SiloBannerLogo]</texture>
                     <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>106</height>
                     <aspectratio>keep</aspectratio>
-                    <texture>$INFO[Player.Icon]</texture>
+                    <texture>$VAR[SiloBannerLogo]</texture>
                     <visible>![[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]]</visible>
                 </control>
                 <control type="label">
@@ -311,7 +311,7 @@
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                        <label>$INFO[VideoPlayer.ChannelNumberLabel,,  ]$INFO[VideoPlayer.ChannelName]</label>
+                        <label>$VAR[SiloBannerChannel]</label>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -323,7 +323,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[!String.IsEmpty(VideoPlayer.VideoResolution)] + !Player.ChannelPreviewActive</visible>
+                        <visible>[!String.IsEmpty(VideoPlayer.VideoResolution)] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -335,7 +335,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[String.StartsWith(Player.Process(videofps),59.9) | String.StartsWith(Player.Process(videofps),60) | String.StartsWith(Player.Process(videofps),50) | String.StartsWith(Player.Process(videofps),48) | String.StartsWith(Player.Process(videofps),29.9) | String.StartsWith(Player.Process(videofps),30) | String.StartsWith(Player.Process(videofps),25) | String.StartsWith(Player.Process(videofps),23.9) | String.StartsWith(Player.Process(videofps),24)] + !Player.ChannelPreviewActive</visible>
+                        <visible>[String.StartsWith(Player.Process(videofps),59.9) | String.StartsWith(Player.Process(videofps),60) | String.StartsWith(Player.Process(videofps),50) | String.StartsWith(Player.Process(videofps),48) | String.StartsWith(Player.Process(videofps),29.9) | String.StartsWith(Player.Process(videofps),30) | String.StartsWith(Player.Process(videofps),25) | String.StartsWith(Player.Process(videofps),23.9) | String.StartsWith(Player.Process(videofps),24)] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -347,7 +347,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[!String.IsEmpty(VideoPlayer.HdrType)] + !Player.ChannelPreviewActive</visible>
+                        <visible>[!String.IsEmpty(VideoPlayer.HdrType)] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="button">
                         <top>5</top><width>auto</width><height>30</height>
@@ -359,7 +359,7 @@
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[!String.IsEmpty(VideoPlayer.AudioChannels)] + !Player.ChannelPreviewActive</visible>
+                        <visible>[!String.IsEmpty(VideoPlayer.AudioChannels)] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="button">
                         <top>2</top><width>auto</width><height>36</height>

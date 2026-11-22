@@ -581,13 +581,13 @@ def infobar(top, plot=False):
                 <control type="image">
                     <left>%(bx)d</left><top>%(by)d</top><width>110</width><height>40</height>
                     <aspectratio align="left" aligny="bottom">keep</aspectratio>
-                    <texture>$INFO[Player.Icon]</texture>
+                    <texture>$VAR[SiloBannerLogo]</texture>
                     <visible>%(picture)s</visible>
                 </control>
                 <control type="image">
                     <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(bh)d</height>
                     <aspectratio>keep</aspectratio>
-                    <texture>$INFO[Player.Icon]</texture>
+                    <texture>$VAR[SiloBannerLogo]</texture>
                     <visible>!%(picture_or)s</visible>
                 </control>
                 <control type="label">
@@ -630,7 +630,7 @@ def infobar(top, plot=False):
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                        <label>$INFO[VideoPlayer.ChannelNumberLabel,,  ]$INFO[VideoPlayer.ChannelName]</label>
+                        <label>$VAR[SiloBannerChannel]</label>
                     </control>%(badges)s
                 </control>
 %(plot)s
@@ -758,7 +758,7 @@ def stream_badges():
                         <disabledcolor>FF141414</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[%(condition)s] + !Player.ChannelPreviewActive</visible>
+                        <visible>[%(condition)s] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>''' % {'label': label, 'condition': condition} for label, condition in (
         ('$VAR[SiloLiveResolution]', '!String.IsEmpty(VideoPlayer.VideoResolution)'),
         ('$VAR[SiloLiveFps] FPS', fps),
@@ -786,7 +786,11 @@ def banner_variables():
     return (var('SiloBannerTitle', 'title', '$INFO[VideoPlayer.Title]') +
             var('SiloBannerTimes', 'times', '$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]') +
             var('SiloBannerPlot', 'plot', '$INFO[VideoPlayer.Plot]') +
-            var('SiloBannerPicture', 'picture', '$INFO[Window(Home).Property(silokodi.tv.banner_picture)]'))
+            var('SiloBannerPicture', 'picture', '$INFO[Window(Home).Property(silokodi.tv.banner_picture)]') +
+            var('SiloBannerLogo', 'logo', '$INFO[Player.Icon]') +
+            '    <variable name="SiloBannerChannel">\n        <value condition="%s">$INFO[%s,,  ]$INFO[%s]</value>\n'
+            '        <value>$INFO[VideoPlayer.ChannelNumberLabel,,  ]$INFO[VideoPlayer.ChannelName]</value>\n'
+            '    </variable>\n' % (BANNER_STEPPED, STEPPED % 'number', STEPPED % 'channel'))
 
 
 def stream_variables():
@@ -838,9 +842,8 @@ def banner():
     as TiviMate's in Silo's look; Estuary's stays for its own OSD."""
     return '''		<!-- Silo Skyline Live TV banner (tools/build_tv.py) -->
 		<control type="group">
-			<!-- Up also while Left/Right have stepped to a programme (as Sky's, it stays
-			     while you move; KodiConnectForSilo clears that after 8 s idle). -->
-			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive | !String.IsEmpty(Window(Home).Property(silokodi.banner.title))] + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d)</visible>
+			<!-- Not under the banner window (1183, Left/Right), which draws its own. -->
+			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d) + !Window.IsActive(%(banner_window)d)</visible>
 			<animation effect="slide" start="0,120" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<!-- Twice, so the text reads over bright pictures; the top for the corners. -->
@@ -869,7 +872,7 @@ def banner():
 			</control>%(corners)s%(info)s
 		</control>
 		<!-- end Silo Skyline Live TV banner -->
-''' % {'recent': RECENT_ID, 'corners': corners(), 'info': infobar(1080 - 40 - BANNER_H, plot=True),
+''' % {'recent': RECENT_ID, 'banner_window': BANNER_WINDOW, 'corners': corners(), 'info': infobar(1080 - 40 - BANNER_H, plot=True),
        'band_fade': 1080 - 40 - BANNER_H - 144, 'band_y': 1080 - 40 - BANNER_H - 24,
        'band_h': BANNER_H + 64}
 
@@ -877,14 +880,20 @@ def banner():
 TIMER_START, TIMER_END = '    <!-- Silo Skyline TV (tools/build_tv.py) -->\n', '    <!-- end Silo Skyline TV -->\n'
 # The OK screen closes after 5 s without a key (TiviMate: 3 s, too quick from the sofa).
 TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets silo.live.step),
-         as Sky's banner: the programme before or after on the channel it shows,
-         browsed or playing (banner_step); with no banner up, Info opens it on the
-         playing channel. A timer, not a window: opening one closed the banner. -->
+         as Sky's banner: note the channel the banner shows (browsed or playing),
+         open Skyline's banner window (it holds the keys after) and step. -->
+    <timer>
+        <name>silo_live_banner_idle</name>
+        <start reset="true">Window.IsActive(%(banner_window)d) + System.IdleTime(8)</start>
+        <onstart>Dialog.Close(%(banner_window)d)</onstart>
+        <stop>true</stop>
+    </timer>
     <timer>
         <name>silo_live_left</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="!%(banner_up)s">Action(Info)</onstart>
+        <onstart condition="!Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="!Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
         <onstart>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
         <stop>true</stop>
     </timer>
@@ -892,7 +901,8 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="!%(banner_up)s">Action(Info)</onstart>
+        <onstart condition="!Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="!Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
         <onstart>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
         <stop>true</stop>
     </timer>
@@ -948,7 +958,7 @@ def add_timers():
     text = open(path, encoding='utf-8').read()
     if TIMER_START in text:
         text = text[:text.index(TIMER_START)] + text[text.index(TIMER_END) + len(TIMER_END):]
-    text = text.replace('</timers>', TIMER_START + TIMERS % {'banner_up': BANNER_UP, 'window': RECENT_ID, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
+    text = text.replace('</timers>', TIMER_START + TIMERS % {'banner_window': BANNER_WINDOW, 'window': RECENT_ID, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
                         + MINI_TIMERS + TIMER_END + '</timers>')
     open(path, 'w', encoding='utf-8').write(text)
 
@@ -1848,9 +1858,47 @@ GUIDE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 '''
 
 
-# Left and Right in Live TV: skin timers (TIMERS, silo_live_left/right) step
-# the banner; the banner is up while browsing (preview) or showing (Info).
-BANNER_UP = '[Player.ChannelPreviewActive | Player.ShowInfo | Window.IsActive(fullscreeninfo)]'
+# Left and Right in Live TV, as Sky's banner: skin timers (TIMERS,
+# silo_live_left/right) note the channel shown, open this window and step;
+# the window draws the banner and holds the keys (Left/Right step, OK plays
+# or reminds, Back/Up/Down close), and closes after 8 s idle. Kodi's own
+# banner (DialogSeekBar) timed out mid-step, and holding it open gave the
+# keys to its seek bar.
+BANNER_WINDOW = 1183
+LIVE_BANNER_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated by tools/build_tv.py: edit that, not this. Live TV's banner for Left/Right. -->
+<window type="dialog" id="%(id)d">
+    <defaultcontrol always="true">100</defaultcontrol>
+    <controls>
+        <control type="image">
+            <left>0</left><top>480</top><width>1920</width><height>600</height>
+            <texture>silo/scrim_bottom.png</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>%(band_fade)d</top><width>1920</width><height>120</height>
+            <texture colordiffuse="99FFFFFF">silo/scrim_bottom.png</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>%(band_y)d</top><width>1920</width><height>%(band_h)d</height>
+            <texture colordiffuse="99000000">colors/white.png</texture>
+        </control>
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>200</height>
+            <texture flipy="true">silo/scrim_bottom.png</texture>
+        </control>%(corners)s%(info)s
+        <!-- The keys: an unseen button with focus. -->
+        <control type="button" id="100">
+            <left>-20</left><top>-20</top><width>1</width><height>1</height>
+            <texturefocus /><texturenofocus />
+            <onleft>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onleft>
+            <onright>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onright>
+            <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onclick>
+            <onup>Dialog.Close(%(id)d)</onup>
+            <ondown>Dialog.Close(%(id)d)</ondown>
+        </control>
+    </controls>
+</window>
+'''
 
 
 LEAVE_TIMER_START = '    <!-- Silo Skyline guide Back (tools/build_tv.py) -->\n'
@@ -2225,6 +2273,11 @@ if __name__ == '__main__':
     add_leave_timer()
     with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloGuideBack.xml' % GUIDE_BACK), 'w', encoding='utf-8') as handle:
         handle.write(GUIDE_BACK_WINDOW % {'id': GUIDE_BACK, 'groups': GROUPS_ID})
+    with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloLiveBanner.xml' % BANNER_WINDOW), 'w', encoding='utf-8') as handle:
+        handle.write(LIVE_BANNER_WINDOW % {'id': BANNER_WINDOW, 'corners': corners(),
+                                           'info': infobar(1080 - 40 - BANNER_H, plot=True),
+                                           'band_fade': 1080 - 40 - BANNER_H - 144, 'band_y': 1080 - 40 - BANNER_H - 24,
+                                           'band_h': BANNER_H + 64})
     with open(os.path.join(ROOT, 'xml', 'DialogPVRInfo.xml'), 'w', encoding='utf-8') as handle:
         handle.write(build_info())
     with open(os.path.join(ROOT, 'xml', 'DialogPVRChannelsOSD.xml'), 'w', encoding='utf-8') as handle:
