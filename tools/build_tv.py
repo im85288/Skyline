@@ -145,7 +145,7 @@ def variables():
             '        <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>\n'
             '        <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '    </variable>\n'
-            ) % {'lit': lit, } + quick_variables() + stream_variables() + '    <!-- end Silo Skyline TV guide -->\n'
+            ) % {'lit': lit, } + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
 
 
 def add_variables():
@@ -541,6 +541,14 @@ LOGO_BOX_W, LOGO_BOX_H = 246, 106
 # browsed (Up/Down) or playing: Kodi gives only the playing programme's.
 BANNER_PICTURE = '!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))'
 BANNER_LIVE = 'String.IsEqual(Window(Home).Property(silokodi.tv.banner_live),1)'
+# Left/Right while browsing channels, as Sky's: the shown channel's earlier or
+# later programme (KodiConnectForSilo's banner.py, silokodi.banner.*).
+BANNER_STEPPED = '!String.IsEmpty(Window(Home).Property(silokodi.banner.title))'
+STEPPED = 'Window(Home).Property(silokodi.banner.%s)'
+BANNER_HAS_PICTURE = '[[%s + !String.IsEmpty(%s)] | [!%s + %s]]' % (
+    BANNER_STEPPED, STEPPED % 'picture', BANNER_STEPPED, BANNER_PICTURE)
+BANNER_SHOWS_LIVE = '[[%s + String.IsEqual(%s,1)] | [!%s + %s]]' % (
+    BANNER_STEPPED, STEPPED % 'live', BANNER_STEPPED, BANNER_LIVE)
 
 
 def infobar(top, plot=False):
@@ -562,7 +570,7 @@ def infobar(top, plot=False):
                 <control type="image">
                     <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(ph)d</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Window(Home).Property(silokodi.tv.banner_picture)]</texture>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerPicture]</texture>
                     <visible>%(picture)s</visible>
                 </control>
                 <control type="image">
@@ -586,7 +594,7 @@ def infobar(top, plot=False):
                     <left>%(tx)d</left><width>%(tw)d</width><height>60</height>
                     <font>silo_osd_title</font>
                     <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                    <label fallback="19055">$INFO[VideoPlayer.Title]</label>
+                    <label fallback="19055">$VAR[SiloBannerTitle]</label>
                 </control>
                 <control type="grouplist">
                     <left>%(tx)d</left><top>66</top><width>%(tw)d</width><height>40</height>
@@ -597,14 +605,14 @@ def infobar(top, plot=False):
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>%(soft)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                        <label>$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]</label>
+                        <label>$VAR[SiloBannerTimes]</label>
                     </control>
                     <control type="progress">
                         <top>17</top><width>90</width><height>6</height>
                         <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
                         <midtexture colordiffuse="%(text)s">colors/white.png</midtexture>
                         <info>PVR.EpgEventProgress</info>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
+                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + !%(stepped)s</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
@@ -612,7 +620,7 @@ def infobar(top, plot=False):
                         <font>silo_meta</font>
                         <textcolor>%(soft)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
                         <label>$INFO[PVR.EpgEventRemainingTime(mins),, min]</label>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
+                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + !%(stepped)s</visible>
                     </control>
                     <control type="label">
                         <!-- At most CHANNEL_MAX_W, ending in "...": an event channel's name
@@ -626,8 +634,17 @@ def infobar(top, plot=False):
                     </control>%(badges)s
                 </control>
 %(plot)s
+                <control type="label">
+                    <left>%(tx)d</left><top>%(next_y)d</top><width>%(tw)d</width><height>40</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>%(accent)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                    <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
+                    <visible>%(stepped)s</visible>
+                </control>
                 <control type="grouplist">
                     <left>%(tx)d</left><top>%(next_y)d</top><width>%(tw)d</width><height>40</height>
+                    <visible>!%(stepped)s</visible>
                     <orientation>horizontal</orientation>
                     <itemgap>22</itemgap>
                     <control type="label">
@@ -651,7 +668,7 @@ def infobar(top, plot=False):
                     <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
                     <midtexture colordiffuse="%(accent)s">colors/white.png</midtexture>
                     <info>PVR.EpgEventProgress</info>
-                    <visible>!String.IsEmpty(VideoPlayer.EndTime)%(bar)s</visible>
+                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + !%(stepped)s%(bar)s</visible>
                 </control>
             </control>''' % {'top': top, 'left': left, 'bw': LOGO_BOX_W, 'bh': LOGO_BOX_H,
                              'tx': tx, 'next_y': 154 if plot else 110, 'bar': ' + false' if plot else '',
@@ -661,14 +678,14 @@ def infobar(top, plot=False):
                     <aligny>center</aligny>
                     <font>silo_detail</font>
                     <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label>$INFO[VideoPlayer.Plot]</label>
+                    <label>$VAR[SiloBannerPlot]</label>
                 </control>''' % (tx, 1920 - tx - SAFE_X) if plot else '',
                              'tw': 1920 - tx - SAFE_X, 'text': TEXT, 'soft': 'D9EDEDED', 'shadow': 'CC000000',
                              'accent': ACCENT, 'bar_y': INFO_H - 10, 'bar_w': 1920 - 2 * left,
                              'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W,
                              'ph': LOGO_BOX_W * 9 // 16, 'bx': left + 12, 'by': 14 + LOGO_BOX_W * 9 // 16 - 12 - 40,
-                             'picture': BANNER_PICTURE, 'picture_or': '[%s]' % BANNER_PICTURE,
-                             'live': live_tag(BANNER_LIVE)}
+                             'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
+                             'live': live_tag(BANNER_SHOWS_LIVE), 'stepped': BANNER_STEPPED}
 
 
 # The channel name's widest in the banner's info row: what's left of the row
@@ -759,6 +776,17 @@ def stream_badges():
                         <texturefocus border="18" colordiffuse="FFEDEDED">silo/pill_18.png</texturefocus>
                         <visible>Player.ChannelPreviewActive</visible>
                     </control>'''
+
+
+def banner_variables():
+    """The banner's text and picture: the programme Left/Right stepped to, else Kodi's."""
+    def var(name, stepped, kodi):
+        return ('    <variable name="%s">\n        <value condition="%s">$INFO[%s]</value>\n'
+                '        <value>%s</value>\n    </variable>\n' % (name, BANNER_STEPPED, STEPPED % stepped, kodi))
+    return (var('SiloBannerTitle', 'title', '$INFO[VideoPlayer.Title]') +
+            var('SiloBannerTimes', 'times', '$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]') +
+            var('SiloBannerPlot', 'plot', '$INFO[VideoPlayer.Plot]') +
+            var('SiloBannerPicture', 'picture', '$INFO[Window(Home).Property(silokodi.tv.banner_picture)]'))
 
 
 def stream_variables():
@@ -1694,7 +1722,9 @@ def build_recent():
     <!-- Browsing channels in the banner (Up/Down, Kodi's Confirm channel switch):
          OK watches the one shown, as Sky's mini guide, not this screen. -->
     <onload condition="Player.ChannelPreviewActive">Dialog.Close(%(window)d,true)</onload>
-    <onload condition="Player.ChannelPreviewActive">Action(Select)</onload>
+    <onload condition="Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
+    <!-- On an earlier or later programme the banner stepped to (Left/Right): catch-up or a reminder. -->
+    <onload condition="Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onload>
     <controls>
         <!-- The top's shade and corners fade in place (sliding, the shade crossed the picture). -->
         <control type="group">

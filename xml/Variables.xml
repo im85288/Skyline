@@ -10274,6 +10274,22 @@
         <value condition="Integer.IsEqual(VideoPlayer.AudioChannels,8)">7.1</value>
         <value>$INFO[VideoPlayer.AudioChannels,, CH]</value>
     </variable>
+    <variable name="SiloBannerTitle">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.title)]</value>
+        <value>$INFO[VideoPlayer.Title]</value>
+    </variable>
+    <variable name="SiloBannerTimes">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.times)]</value>
+        <value>$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]</value>
+    </variable>
+    <variable name="SiloBannerPlot">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.plot)]</value>
+        <value>$INFO[VideoPlayer.Plot]</value>
+    </variable>
+    <variable name="SiloBannerPicture">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.picture)]</value>
+        <value>$INFO[Window(Home).Property(silokodi.tv.banner_picture)]</value>
+    </variable>
     <!-- end Silo Skyline TV guide -->
     <!-- Silo Skyline request browse (tools/build_requests.py) -->
     <variable name="SiloRequestPillMovies">

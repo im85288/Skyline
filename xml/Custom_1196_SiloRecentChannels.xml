@@ -5,7 +5,9 @@
     <!-- Browsing channels in the banner (Up/Down, Kodi's Confirm channel switch):
          OK watches the one shown, as Sky's mini guide, not this screen. -->
     <onload condition="Player.ChannelPreviewActive">Dialog.Close(1196,true)</onload>
-    <onload condition="Player.ChannelPreviewActive">Action(Select)</onload>
+    <onload condition="Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
+    <!-- On an earlier or later programme the banner stepped to (Left/Right): catch-up or a reminder. -->
+    <onload condition="Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onload>
     <controls>
         <!-- The top's shade and corners fade in place (sliding, the shade crossed the picture). -->
         <control type="group">
@@ -51,31 +53,31 @@
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>138</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Window(Home).Property(silokodi.tv.banner_picture)]</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerPicture]</texture>
+                    <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>138</height>
                     <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
+                    <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
                 <control type="image">
                     <left>92</left><top>100</top><width>110</width><height>40</height>
                     <aspectratio align="left" aligny="bottom">keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
+                    <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>106</height>
                     <aspectratio>keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
-                    <visible>![!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]</visible>
+                    <visible>![[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]]</visible>
                 </control>
                 <control type="label">
                     <left>358</left><width>1474</width><height>60</height>
                     <font>silo_osd_title</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label fallback="19055">$INFO[VideoPlayer.Title]</label>
+                    <label fallback="19055">$VAR[SiloBannerTitle]</label>
                 </control>
                 <control type="grouplist">
                     <left>358</left><top>66</top><width>1474</width><height>40</height>
@@ -91,21 +93,21 @@
                         <disabledcolor>FFFFFFFF</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
-                        <visible>String.IsEqual(Window(Home).Property(silokodi.tv.banner_live),1)</visible>
+                        <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEqual(Window(Home).Property(silokodi.banner.live),1)] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEqual(Window(Home).Property(silokodi.tv.banner_live),1)]]</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                        <label>$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]</label>
+                        <label>$VAR[SiloBannerTimes]</label>
                     </control>
                     <control type="progress">
                         <top>17</top><width>90</width><height>6</height>
                         <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
                         <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                         <info>PVR.EpgEventProgress</info>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
+                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
@@ -113,7 +115,7 @@
                         <font>silo_meta</font>
                         <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                         <label>$INFO[PVR.EpgEventRemainingTime(mins),, min]</label>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
+                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="label">
                         <!-- At most CHANNEL_MAX_W, ending in "...": an event channel's name
@@ -187,8 +189,17 @@
                     </control>
                 </control>
 
+                <control type="label">
+                    <left>358</left><top>110</top><width>1474</width><height>40</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>FFF2D46B</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                </control>
                 <control type="grouplist">
                     <left>358</left><top>110</top><width>1474</width><height>40</height>
+                    <visible>String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     <orientation>horizontal</orientation>
                     <itemgap>22</itemgap>
                     <control type="label">
@@ -212,7 +223,7 @@
                     <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
                     <midtexture colordiffuse="FFF2D46B">colors/white.png</midtexture>
                     <info>PVR.EpgEventProgress</info>
-                    <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
+                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
             </control>
             </control>
@@ -226,31 +237,31 @@
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>138</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Window(Home).Property(silokodi.tv.banner_picture)]</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerPicture]</texture>
+                    <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>138</height>
                     <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
+                    <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
                 <control type="image">
                     <left>92</left><top>100</top><width>110</width><height>40</height>
                     <aspectratio align="left" aligny="bottom">keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
-                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
+                    <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>106</height>
                     <aspectratio>keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
-                    <visible>![!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]</visible>
+                    <visible>![[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]]</visible>
                 </control>
                 <control type="label">
                     <left>358</left><width>1474</width><height>60</height>
                     <font>silo_osd_title</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label fallback="19055">$INFO[VideoPlayer.Title]</label>
+                    <label fallback="19055">$VAR[SiloBannerTitle]</label>
                 </control>
                 <control type="grouplist">
                     <left>358</left><top>66</top><width>1474</width><height>40</height>
@@ -266,21 +277,21 @@
                         <disabledcolor>FFFFFFFF</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
-                        <visible>String.IsEqual(Window(Home).Property(silokodi.tv.banner_live),1)</visible>
+                        <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEqual(Window(Home).Property(silokodi.banner.live),1)] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEqual(Window(Home).Property(silokodi.tv.banner_live),1)]]</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                        <label>$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]</label>
+                        <label>$VAR[SiloBannerTimes]</label>
                     </control>
                     <control type="progress">
                         <top>17</top><width>90</width><height>6</height>
                         <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
                         <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                         <info>PVR.EpgEventProgress</info>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
+                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
@@ -288,7 +299,7 @@
                         <font>silo_meta</font>
                         <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                         <label>$INFO[PVR.EpgEventRemainingTime(mins),, min]</label>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
+                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="label">
                         <!-- At most CHANNEL_MAX_W, ending in "...": an event channel's name
@@ -362,8 +373,17 @@
                     </control>
                 </control>
 
+                <control type="label">
+                    <left>358</left><top>110</top><width>1474</width><height>40</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>FFF2D46B</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                </control>
                 <control type="grouplist">
                     <left>358</left><top>110</top><width>1474</width><height>40</height>
+                    <visible>String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     <orientation>horizontal</orientation>
                     <itemgap>22</itemgap>
                     <control type="label">
@@ -387,7 +407,7 @@
                     <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
                     <midtexture colordiffuse="FFF2D46B">colors/white.png</midtexture>
                     <info>PVR.EpgEventProgress</info>
-                    <visible>!String.IsEmpty(VideoPlayer.EndTime)</visible>
+                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
             </control>
             </control>
