@@ -7,6 +7,9 @@
          video, and round again). -->
     <onload condition="Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">PlayerControl(Stop)</onload>
     <onload condition="Skin.TimerIsRunning(silo_guide_leave)">ActivateWindow(Home)</onload>
+    <!-- Back on the TV page: its preview again, the last channel (Settings >
+         Plays on opening), once the stop is done (after=stop). -->
+    <onload condition="Skin.TimerIsRunning(silo_guide_leave) + String.IsEqual(Window(Home).Property(silo.page),tv) + !Skin.HasSetting(SkylineTvAutoplayWatch) + !Skin.HasSetting(SkylineTvAutoplayOff)">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=tv_preview&amp;after=stop)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">Action(FullScreen)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + String.IsEmpty(Window(Home).Property(silo.guide.timeline))">Action(Back)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + !String.IsEmpty(Window(Home).Property(silo.guide.timeline))">SetFocus(11)</onload>
