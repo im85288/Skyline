@@ -73,5 +73,75 @@
 				<font>font13</font>
 			</control>
 		</control>
+		<!-- Silo Skyline Live TV notes (tools/build_tv.py) -->
+		<control type="group">
+			<right>88</right><top>120</top><width>640</width><height>112</height>
+			<visible>VideoPlayer.Content(LiveTV) + !Player.ChannelPreviewActive + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(1196) + !Window.IsActive(1183) + !Window.IsActive(tvguide) + !String.IsEmpty(Window(Home).Property(silokodi.startover.title))</visible>
+			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
+			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
+			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
+			<control type="image">
+				<width>640</width><height>112</height>
+				<texture border="28" colordiffuse="F2FFFFFF">silo/menu_panel.png</texture>
+			</control>
+			<control type="image">
+				<left>28</left><top>32</top><width>48</width><height>48</height>
+				<texture colordiffuse="FFEDEDED">silo/start_over.png</texture>
+			</control>
+			<control type="label">
+				<left>100</left><top>16</top><width>512</width><height>44</height>
+				<font>silo_card_title</font>
+				<textcolor>FFEDEDED</textcolor>
+				<label>Start from the beginning</label>
+			</control>
+			<control type="label">
+				<left>100</left><top>58</top><width>512</width><height>38</height>
+				<font>silo_card_sub</font>
+				<textcolor>99EDEDED</textcolor>
+				<label>[COLOR FFF2D46B]OK[/COLOR]  ·  $INFO[Window(Home).Property(silokodi.startover.title)]</label>
+			</control>
+		</control>
+		<control type="group">
+			<right>88</right><top>120</top><width>640</width><height>150</height>
+			<visible>VideoPlayer.Content(LiveTV) + !Player.ChannelPreviewActive + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(1196) + !Window.IsActive(1183) + !Window.IsActive(tvguide) + !String.IsEmpty(Window(Home).Property(silokodi.next.title)) + String.IsEmpty(Window(Home).Property(silokodi.startover.title))</visible>
+			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
+			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
+			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
+			<control type="image">
+				<width>640</width><height>150</height>
+				<texture border="28" colordiffuse="F2FFFFFF">silo/menu_panel.png</texture>
+			</control>
+			<!-- The next programme's picture, else the channel's logo. -->
+			<control type="image">
+				<left>20</left><top>20</top><width>196</width><height>110</height>
+				<aspectratio>keep</aspectratio>
+				<texture>$INFO[Player.Icon]</texture>
+				<visible>String.IsEmpty(Window(Home).Property(silokodi.next.picture))</visible>
+			</control>
+			<control type="image">
+				<left>20</left><top>20</top><width>196</width><height>110</height>
+				<aspectratio>scale</aspectratio>
+				<texture background="true">$INFO[Window(Home).Property(silokodi.next.picture)]</texture>
+			</control>
+			<control type="label">
+				<left>240</left><top>18</top><width>376</width><height>34</height>
+				<font>silo_card_sub</font>
+				<textcolor>FFF2D46B</textcolor>
+				<label>COMING UP NEXT</label>
+			</control>
+			<control type="label">
+				<left>240</left><top>52</top><width>376</width><height>44</height>
+				<font>silo_card_title</font>
+				<textcolor>FFEDEDED</textcolor>
+				<label>$INFO[Window(Home).Property(silokodi.next.title)]</label>
+			</control>
+			<control type="label">
+				<left>240</left><top>96</top><width>376</width><height>36</height>
+				<font>silo_card_sub</font>
+				<textcolor>99EDEDED</textcolor>
+				<label>$INFO[Window(Home).Property(silokodi.next.time),at ,]</label>
+			</control>
+		</control>
+		<!-- end Silo Skyline Live TV notes -->
 	</controls>
 </window>

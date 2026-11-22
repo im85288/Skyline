@@ -10,6 +10,11 @@
          browsed or on the playing channel: catch-up or a reminder, not this screen. -->
     <onload condition="!Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Dialog.Close(1196,true)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onload>
+    <!-- Just tuned in partway through a catch-up programme (KodiConnectForSilo's
+         Start from the beginning note): OK seeks it to the start, as Sky's. -->
+    <onload condition="!Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.startover.title))">Dialog.Close(1196,true)</onload>
+    <onload condition="!Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.startover.title))">PVR.SeekPercentage(0)</onload>
+    <onload condition="!Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.startover.title))">SetProperty(silokodi.startover.done,1,home)</onload>
     <controls>
         <!-- The top's shade and corners fade in place (sliding, the shade crossed the picture). -->
         <control type="group">

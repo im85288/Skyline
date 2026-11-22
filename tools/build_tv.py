@@ -1742,6 +1742,103 @@ def recent_card(focused):
                                   'colour': TEXT if focused else 'D9EDEDED'}
 
 
+STARTOVER = '!String.IsEmpty(Window(Home).Property(silokodi.startover.title))'
+NEXT_UP = '!String.IsEmpty(Window(Home).Property(silokodi.next.title))'
+STARTOVER_OK = ('!Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + '
+                + STARTOVER)
+NOTE_W, NOTE_X, NOTE_Y = 640, 88, 120  # under the banner's clock, top right
+NOTES_START, NOTES_END = '\t\t<!-- Silo Skyline Live TV notes (tools/build_tv.py) -->\n', '\t\t<!-- end Silo Skyline Live TV notes -->\n'
+
+
+def live_notes():
+    """Sky's two notes over full-screen Live TV, top right (KodiConnectForSilo's
+    liveprompts.py says when): Start from the beginning just after tuning in
+    partway through a catch-up programme (OK, window %d, seeks to it), and
+    Coming up next in a programme's last two minutes. Not over the menus
+    Live TV opens, nor while browsing channels.""" % RECENT_ID
+    hidden = ('VideoPlayer.Content(LiveTV) + !Player.ChannelPreviewActive + !Window.IsActive(videoosd) + '
+              '!Window.IsActive(pvrosdchannels) + !Window.IsActive(%d) + !Window.IsActive(%d) + '
+              '!Window.IsActive(tvguide)' % (RECENT_ID, BANNER_WINDOW))
+    return NOTES_START + '''		<control type="group">
+			<right>%(x)d</right><top>%(y)d</top><width>%(w)d</width><height>112</height>
+			<visible>%(hidden)s + %(startover)s</visible>
+			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
+			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
+			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
+			<control type="image">
+				<width>%(w)d</width><height>112</height>
+				<texture border="28" colordiffuse="F2FFFFFF">silo/menu_panel.png</texture>
+			</control>
+			<control type="image">
+				<left>28</left><top>32</top><width>48</width><height>48</height>
+				<texture colordiffuse="%(text)s">silo/start_over.png</texture>
+			</control>
+			<control type="label">
+				<left>100</left><top>16</top><width>%(tw)d</width><height>44</height>
+				<font>silo_card_title</font>
+				<textcolor>%(text)s</textcolor>
+				<label>Start from the beginning</label>
+			</control>
+			<control type="label">
+				<left>100</left><top>58</top><width>%(tw)d</width><height>38</height>
+				<font>silo_card_sub</font>
+				<textcolor>%(dim)s</textcolor>
+				<label>[COLOR %(accent)s]OK[/COLOR]  ·  $INFO[Window(Home).Property(silokodi.startover.title)]</label>
+			</control>
+		</control>
+		<control type="group">
+			<right>%(x)d</right><top>%(y)d</top><width>%(w)d</width><height>150</height>
+			<visible>%(hidden)s + %(next)s + !%(startover)s</visible>
+			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
+			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
+			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
+			<control type="image">
+				<width>%(w)d</width><height>150</height>
+				<texture border="28" colordiffuse="F2FFFFFF">silo/menu_panel.png</texture>
+			</control>
+			<!-- The next programme's picture, else the channel's logo. -->
+			<control type="image">
+				<left>20</left><top>20</top><width>196</width><height>110</height>
+				<aspectratio>keep</aspectratio>
+				<texture>$INFO[Player.Icon]</texture>
+				<visible>String.IsEmpty(Window(Home).Property(silokodi.next.picture))</visible>
+			</control>
+			<control type="image">
+				<left>20</left><top>20</top><width>196</width><height>110</height>
+				<aspectratio>scale</aspectratio>
+				<texture background="true">$INFO[Window(Home).Property(silokodi.next.picture)]</texture>
+			</control>
+			<control type="label">
+				<left>240</left><top>18</top><width>%(nw)d</width><height>34</height>
+				<font>silo_card_sub</font>
+				<textcolor>%(accent)s</textcolor>
+				<label>COMING UP NEXT</label>
+			</control>
+			<control type="label">
+				<left>240</left><top>52</top><width>%(nw)d</width><height>44</height>
+				<font>silo_card_title</font>
+				<textcolor>%(text)s</textcolor>
+				<label>$INFO[Window(Home).Property(silokodi.next.title)]</label>
+			</control>
+			<control type="label">
+				<left>240</left><top>96</top><width>%(nw)d</width><height>36</height>
+				<font>silo_card_sub</font>
+				<textcolor>%(dim)s</textcolor>
+				<label>$INFO[Window(Home).Property(silokodi.next.time),at ,]</label>
+			</control>
+		</control>
+''' % {'x': NOTE_X, 'y': NOTE_Y, 'w': NOTE_W, 'tw': NOTE_W - 128, 'nw': NOTE_W - 264, 'hidden': hidden,
+       'startover': STARTOVER, 'next': NEXT_UP, 'text': TEXT, 'dim': DIM, 'accent': ACCENT} + NOTES_END
+
+
+def add_live_notes():
+    path = os.path.join(ROOT, 'xml', 'VideoFullScreen.xml')
+    text = open(path, encoding='utf-8').read()
+    if NOTES_START in text:
+        text = text[:text.index(NOTES_START)] + text[text.index(NOTES_END) + len(NOTES_END):]
+    open(path, 'w', encoding='utf-8').write(text.replace('\t</controls>', live_notes() + '\t</controls>'))
+
+
 def build_recent():
     """While Live TV plays (OK in our keymap), as TiviMate's: what's playing
     (the information block, with its full-width bar), then the recently
@@ -1759,6 +1856,11 @@ def build_recent():
          browsed or on the playing channel: catch-up or a reminder, not this screen. -->
     <onload condition="!Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Dialog.Close(%(window)d,true)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onload>
+    <!-- Just tuned in partway through a catch-up programme (KodiConnectForSilo's
+         Start from the beginning note): OK seeks it to the start, as Sky's. -->
+    <onload condition="%(startover)s">Dialog.Close(%(window)d,true)</onload>
+    <onload condition="%(startover)s">PVR.SeekPercentage(0)</onload>
+    <onload condition="%(startover)s">SetProperty(silokodi.startover.done,1,home)</onload>
     <controls>
         <!-- The top's shade and corners fade in place (sliding, the shade crossed the picture). -->
         <control type="group">
@@ -1819,7 +1921,7 @@ def build_recent():
         </control>%(bar)s
     </controls>
 </window>
-''' % {'window': RECENT_ID, 'list': RECENT_LIST, 'bg': BACKGROUND[2:], 
+''' % {'startover': STARTOVER_OK, 'window': RECENT_ID, 'list': RECENT_LIST, 'bg': BACKGROUND[2:], 
        'corners': corners(), 'info': infobar(ROW_Y - 32 - INFO_H),
        'lx': SAFE_X - 8, 'ly': ROW_Y, 'lw': 1920 - SAFE_X + 8, 'iw': TILE_W + TILE_GAP, 'ih': TILE_H,
        'card': recent_card(False), 'card_focused': recent_card(True),
@@ -2284,6 +2386,7 @@ if __name__ == '__main__':
     with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloMiniGuide.xml' % MINI_ID), 'w', encoding='utf-8') as handle:
         handle.write(build_mini())
     add_banner()
+    add_live_notes()
     add_timers()
     add_variables()
     print('Wrote xml/MyPVRGuide.xml, DialogPVRInfo.xml and their variables in xml/Variables.xml')
