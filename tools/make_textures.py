@@ -313,6 +313,8 @@ if __name__ == '__main__':
     menu_panel()
     menu_panel('glass_pill.png', 72, 36)
     epg_now()
+    # Sky's guide shades nothing: what has finished is dimmed text instead (build_tv.py).
+    epg_now('epg_now_line.png', shade=0)
     play_circle()
     # Silo's skip pill outline (Up Next's Skip intro), stretched with border="48".
     focus_ring('pill_ring.png', 96, 96, 48, 4)

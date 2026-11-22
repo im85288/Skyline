@@ -27,8 +27,8 @@
         </control>
         <!-- The grid's band, Sky's dark blue, over the picture's foot. -->
         <control type="image">
-            <left>0</left><top>470</top><width>1920</width><height>610</height>
-            <texture colordiffuse="E00C1322">colors/white.png</texture>
+            <left>0</left><top>474</top><width>1920</width><height>606</height>
+            <texture colordiffuse="FA0C111D">colors/white.png</texture>
         </control>
         <control type="label">
             <right>88</right><top>40</top><width>400</width><height>48</height>
@@ -41,25 +41,25 @@
         <!-- At the left, over the picture's fade: the channel, the title, Sky's
              line (LIVE, length, when it started) and the plot. -->
         <control type="group">
-            <left>88</left><top>52</top>
+            <left>88</left><top>36</top>
             <!-- The channel's logo, as Sky's (KodiConnectForSilo publishes it:
                  Kodi 21 has no logo label for guide programmes), else its name. -->
             <control type="image">
-                <top>-4</top><width>240</width><height>48</height>
+                <width>320</width><height>72</height>
                 <aspectratio align="left">keep</aspectratio>
                 <texture background="true">$INFO[Window(Home).Property(silokodi.guide.logo)]</texture>
                 <visible>[!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]</visible>
             </control>
             <control type="label">
-                <width>1000</width><height>40</height>
+                <width>1000</width><height>72</height>
                 <aligny>center</aligny>
                 <font>silo_meta</font>
                 <textcolor>99EDEDED</textcolor>
                 <label>$INFO[ListItem.ChannelName]</label>
-                <visible>![!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]</visible>
+                <visible>[String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]</visible>
             </control>
             <control type="label">
-                <top>44</top><width>1000</width><height>72</height>
+                <top>80</top><width>1000</width><height>72</height>
                 <aligny>center</aligny>
                 <font>silo_osd_title</font>
                 <textcolor>FFEDEDED</textcolor>
@@ -69,7 +69,7 @@
             <!-- No programme (the guide has none): the channel's name, which on an
                  event channel says what's on. -->
             <control type="label">
-                <top>44</top><width>1000</width><height>72</height>
+                <top>80</top><width>1000</width><height>72</height>
                 <aligny>center</aligny>
                 <font>silo_osd_title</font>
                 <textcolor>FFEDEDED</textcolor>
@@ -77,7 +77,7 @@
                 <visible>String.IsEmpty(ListItem.Label)</visible>
             </control>
             <control type="grouplist">
-                <top>128</top><width>1000</width><height>36</height>
+                <top>164</top><width>1000</width><height>36</height>
                 <orientation>horizontal</orientation>
                 <itemgap>20</itemgap>
                 <control type="button">
@@ -108,7 +108,7 @@
                 </control>
             </control>
             <control type="textbox">
-                <top>178</top><width>1000</width><height>162</height>
+                <top>214</top><width>1000</width><height>144</height>
                 <font>silo_plot</font>
                 <textcolor>D9EDEDED</textcolor>
                 <label>$INFO[ListItem.Plot]</label>
@@ -121,7 +121,7 @@
              time of the programme selected before, which can be hours ago.
              Back: window 1189 (GUIDE_BACK). -->
         <control type="list" id="11">
-            <left>88</left><top>404</top><width>1744</width><height>52</height>
+            <left>88</left><top>408</top><width>1744</width><height>52</height>
             <orientation>horizontal</orientation>
             <ondown>SetFocus(51)</ondown>
             <ondown>Action(Number0)</ondown>
@@ -130,8 +130,7 @@
             <itemlayout width="312" height="52">
                     <control type="image">
                         <width>300</width><height>52</height>
-                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill_26.png</texture>
-                        <visible>!ListItem.IsSelected</visible>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
                     </control>
                     <control type="image">
                         <width>300</width><height>52</height>
@@ -164,6 +163,10 @@
                     </control>
                     <control type="image">
                         <width>300</width><height>52</height>
+                        <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
+                        <visible>!Control.HasFocus(11)</visible>
+                    </control>                    <control type="image">
+                        <width>300</width><height>52</height>
                         <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
                         <visible>!Control.HasFocus(11)</visible>
                     </control>
@@ -181,7 +184,7 @@
 
         <!-- The timeline: channels down the left, programmes across. -->
         <control type="epggrid" id="51">
-            <left>0</left><top>478</top><width>1920</width><height>574</height>
+            <left>0</left><top>482</top><width>1920</width><height>598</height>
             <!-- Kodi's "vertical": channels down, time across (TiviMate's timeline). -->
             <orientation>vertical</orientation>
             <viewtype label="19298">list</viewtype>
@@ -191,8 +194,9 @@
             <!-- Where Back goes (window 1189) depends on the timeline having focus. -->
             <onfocus>SetProperty(silo.guide.timeline,1,home)</onfocus>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
-            <!-- Now: a white line at the current time with TiviMate's dot at its top, what has aired shaded. -->
-            <progresstexture border="0,16,18,0" colordiffuse="F2FFFFFF">silo/epg_now.png</progresstexture>
+            <!-- Now: a white line at the current time with TiviMate's dot at its top; what has aired isn't
+                 shaded (Sky's dims its titles instead). -->
+            <progresstexture border="0,16,18,0" colordiffuse="F2FFFFFF">silo/epg_now_line.png</progresstexture>
             <!-- The ruler's first cell is the date, above the channels: there, in line
                  with their logos, today and the time in TiviMate's yellow; the
                  others are the times (the only cells with a colon). -->
@@ -216,9 +220,9 @@
                     <visible>!String.Contains(ListItem.Label,:)</visible>
                 </control>
             </rulerlayout>
-            <channellayout height="66" width="560">
+            <channellayout height="69" width="560">
                     <control type="label">
-                        <left>88</left><top>0</top><width>444</width><height>66</height>
+                        <left>88</left><top>0</top><width>444</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFF2D46B</textcolor>
@@ -227,7 +231,7 @@
                         <visible>ListItem.IsPlaying</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>444</width><height>66</height>
+                        <left>88</left><top>0</top><width>444</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>C7EDEDED</textcolor>
@@ -236,14 +240,14 @@
                         <visible>!ListItem.IsPlaying</visible>
                     </control>
             </channellayout>
-            <focusedchannellayout height="66" width="560">
+            <focusedchannellayout height="69" width="560">
                     <control type="image">
-                        <left>72</left><top>6</top><width>476</width><height>54</height>
+                        <left>72</left><top>6</top><width>476</width><height>57</height>
                         <texture border="16" colordiffuse="FFEDEDED">silo/card_landscape_rim.png</texture>
                         <visible>Control.HasFocus(51)</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>444</width><height>66</height>
+                        <left>88</left><top>0</top><width>444</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFF2D46B</textcolor>
@@ -252,7 +256,7 @@
                         <visible>ListItem.IsPlaying</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>444</width><height>66</height>
+                        <left>88</left><top>0</top><width>444</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFEDEDED</textcolor>
@@ -261,33 +265,33 @@
                         <visible>!ListItem.IsPlaying</visible>
                     </control>
             </focusedchannellayout>
-            <itemlayout height="66" width="60">
+            <itemlayout height="69" width="60">
                     <control type="image">
-                        <left>0</left><top>18</top><width>2</width><height>30</height>
+                        <left>0</left><top>18</top><width>2</width><height>33</height>
                         <texture colordiffuse="1FFFFFFF">colors/white.png</texture>
                     </control>
                     <control type="image" id="2">
-                        <left>3</left><top>6</top><width>54</width><height>54</height>
+                        <left>3</left><top>6</top><width>54</width><height>57</height>
                         <texture border="16" colordiffuse="00FFFFFF">silo/card_landscape_mask.png</texture>
                     </control>
                     <control type="label" id="1">
-                        <left>18</left><top>6</top><width>30</width><height>54</height>
+                        <left>18</left><top>6</top><width>30</width><height>57</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <label>$VAR[SiloGuideTitleRest]</label>
                     </control>
             </itemlayout>
-            <focusedlayout height="66" width="60">
+            <focusedlayout height="69" width="60">
                     <control type="image">
-                        <left>0</left><top>18</top><width>2</width><height>30</height>
+                        <left>0</left><top>18</top><width>2</width><height>33</height>
                         <texture colordiffuse="1FFFFFFF">colors/white.png</texture>
                     </control>
                     <control type="image" id="2">
-                        <left>3</left><top>6</top><width>54</width><height>54</height>
+                        <left>3</left><top>6</top><width>54</width><height>57</height>
                         <texture border="16" colordiffuse="$VAR[SiloGuideCell]">silo/card_landscape_mask.png</texture>
                     </control>
                     <control type="label" id="1">
-                        <left>18</left><top>6</top><width>30</width><height>54</height>
+                        <left>18</left><top>6</top><width>30</width><height>57</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <label>$VAR[SiloGuideTitle]</label>

@@ -21,13 +21,14 @@ from build_home import BACKGROUND, ROOT, SAFE_X, TEXT  # noqa: E402
 
 GROUPS_ID, GRID_ID = 11, 51
 DIM = '99EDEDED'
-PILLS_Y = 404               # under the programme's details (Sky Stream's top half)
-GRID_Y = PILLS_Y + 74
+PILLS_Y = 408               # under the programme's details (Sky Stream's top half)
+GRID_Y = PILLS_Y + 74      # 482: the ruler and 8 rows of 69 end at the screen's foot
 CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
-ROW_H = 66                  # 8 channels on screen
+ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
 BACKDROP_X, BACKDROP_W, BACKDROP_H = 576, 1344, 756  # the programme's picture, as the Home hero's art
-BAND = 'E00C1322'           # the grid's dark blue band, as Sky's
+BAND = 'FA0C111D'           # the grid's dark blue band, as Sky's: near solid, so the channels' side
+                            # and the programmes' (the picture's foot behind) match
 LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
 PREVIEW_W, PREVIEW_H = 496, 279
@@ -35,6 +36,7 @@ BLOCK_W = 60                # a 5-minute block
 # TiviMate's yellow: the playing channel, the programme on now, today.
 ACCENT = 'FFF2D46B'
 PLAYING = 'ListItem.IsPlaying'
+PILL_BG = 'E6262A33'          # the group pills' dark fill
 ENDED = 'Integer.IsEqual(ListItem.Progress,100)'  # a programme that has finished
 
 
@@ -160,7 +162,7 @@ def add_variables():
 
 def group_pill(focused):
     """A channel group: Silo's pill, the chosen group outlined, the focused
-    one white."""
+    one white. Dark, not see-through: they sit on the programme's picture."""
     chosen = 'ListItem.IsSelected'
     if focused:
         return '''
@@ -180,6 +182,10 @@ def group_pill(focused):
                     </control>
                     <control type="image">
                         <width>300</width><height>52</height>
+                        <texture border="26" colordiffuse="%(pill_bg)s">silo/pill_26.png</texture>
+                        <visible>!Control.HasFocus(%(id)d)</visible>
+                    </control>                    <control type="image">
+                        <width>300</width><height>52</height>
                         <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
                         <visible>!Control.HasFocus(%(id)d)</visible>
                     </control>
@@ -191,12 +197,11 @@ def group_pill(focused):
                         <selectedcolor>%(text)s</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
                         <visible>!Control.HasFocus(%(id)d)</visible>
-                    </control>''' % {'text': TEXT, 'id': GROUPS_ID}
+                    </control>''' % {'text': TEXT, 'id': GROUPS_ID, 'pill_bg': PILL_BG}
     return '''
                     <control type="image">
                         <width>300</width><height>52</height>
-                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill_26.png</texture>
-                        <visible>!%(chosen)s</visible>
+                        <texture border="26" colordiffuse="%(pill_bg)s">silo/pill_26.png</texture>
                     </control>
                     <control type="image">
                         <width>300</width><height>52</height>
@@ -210,7 +215,7 @@ def group_pill(focused):
                         <textcolor>%(dim)s</textcolor>
                         <selectedcolor>%(dim)s</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
-                    </control>''' % {'chosen': chosen, 'dim': DIM}
+                    </control>''' % {'chosen': chosen, 'dim': DIM, 'pill_bg': PILL_BG}
 
 
 def build():
@@ -261,25 +266,25 @@ def build():
         <!-- At the left, over the picture's fade: the channel, the title, Sky's
              line (LIVE, length, when it started) and the plot. -->
         <control type="group">
-            <left>%(x)d</left><top>52</top>
+            <left>%(x)d</left><top>36</top>
             <!-- The channel's logo, as Sky's (KodiConnectForSilo publishes it:
                  Kodi 21 has no logo label for guide programmes), else its name. -->
             <control type="image">
-                <top>-4</top><width>240</width><height>48</height>
+                <width>320</width><height>72</height>
                 <aspectratio align="left">keep</aspectratio>
                 <texture background="true">$INFO[Window(Home).Property(silokodi.guide.logo)]</texture>
                 <visible>%(logo_shown)s</visible>
             </control>
             <control type="label">
-                <width>%(dw)d</width><height>40</height>
+                <width>%(dw)d</width><height>72</height>
                 <aligny>center</aligny>
                 <font>silo_meta</font>
                 <textcolor>%(dim)s</textcolor>
                 <label>$INFO[ListItem.ChannelName]</label>
-                <visible>!%(logo_shown)s</visible>
+                <visible>%(name_shown)s</visible>
             </control>
             <control type="label">
-                <top>44</top><width>%(dw)d</width><height>72</height>
+                <top>80</top><width>%(dw)d</width><height>72</height>
                 <aligny>center</aligny>
                 <font>silo_osd_title</font>
                 <textcolor>%(text)s</textcolor>
@@ -289,7 +294,7 @@ def build():
             <!-- No programme (the guide has none): the channel's name, which on an
                  event channel says what's on. -->
             <control type="label">
-                <top>44</top><width>%(dw)d</width><height>72</height>
+                <top>80</top><width>%(dw)d</width><height>72</height>
                 <aligny>center</aligny>
                 <font>silo_osd_title</font>
                 <textcolor>%(text)s</textcolor>
@@ -297,7 +302,7 @@ def build():
                 <visible>String.IsEmpty(ListItem.Label)</visible>
             </control>
             <control type="grouplist">
-                <top>128</top><width>%(dw)d</width><height>36</height>
+                <top>164</top><width>%(dw)d</width><height>36</height>
                 <orientation>horizontal</orientation>
                 <itemgap>20</itemgap>%(guide_live)s
                 <control type="label">
@@ -316,7 +321,7 @@ def build():
                 </control>
             </control>
             <control type="textbox">
-                <top>178</top><width>%(dw)d</width><height>%(plot_h)d</height>
+                <top>214</top><width>%(dw)d</width><height>%(plot_h)d</height>
                 <font>silo_plot</font>
                 <textcolor>%(soft)s</textcolor>
                 <label>$INFO[ListItem.Plot]</label>
@@ -353,8 +358,9 @@ def build():
             <!-- Where Back goes (window 1189) depends on the timeline having focus. -->
             <onfocus>SetProperty(silo.guide.timeline,1,home)</onfocus>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
-            <!-- Now: a white line at the current time with TiviMate's dot at its top, what has aired shaded. -->
-            <progresstexture border="0,16,18,0" colordiffuse="F2FFFFFF">silo/epg_now.png</progresstexture>
+            <!-- Now: a white line at the current time with TiviMate's dot at its top; what has aired isn't
+                 shaded (Sky's dims its titles instead). -->
+            <progresstexture border="0,16,18,0" colordiffuse="F2FFFFFF">silo/epg_now_line.png</progresstexture>
             <!-- The ruler's first cell is the date, above the channels: there, in line
                  with their logos, today and the time in TiviMate's yellow; the
                  others are the times (the only cells with a colon). -->
@@ -396,7 +402,10 @@ def build():
 ''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': BACKGROUND, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
        'logo_shown': '[!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
-       'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 52 - 178 - 12,
+       # Only a channel with no logo shows its name: until the logo is known, neither.
+       'name_shown': '[String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
+                     'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
+       'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 36 - 214 - 14,
        'bx': BACKDROP_X, 'bw': BACKDROP_W, 'bh': BACKDROP_H, 'band': BAND, 'band_y': GRID_Y - 8,
        'band_h': 1080 - GRID_Y + 8,
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
