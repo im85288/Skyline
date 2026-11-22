@@ -1547,16 +1547,41 @@
                 <width>600</width><height>260</height>
                 <texture border="28" colordiffuse="SkylineGlass">silo/menu_panel.png</texture>
             </control>
+            <!-- The programme's picture (Sky's), else its channel's logo. -->
+            <control type="image">
+                <left>30</left><top>24</top><width>170</width><height>96</height>
+                <aspectratio>scale</aspectratio>
+                <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Container(11).ListItem.EpgEventIcon]</texture>
+                <visible>!String.IsEmpty(Container(11).ListItem.EpgEventIcon)</visible>
+            </control>
+            <control type="image">
+                <left>30</left><top>24</top><width>170</width><height>96</height>
+                <aspectratio>keep</aspectratio>
+                <texture background="true">$INFO[Container(11).ListItem.Icon]</texture>
+                <visible>String.IsEmpty(Container(11).ListItem.EpgEventIcon)</visible>
+            </control>
             <control type="textbox">
-                <left>30</left><top>22</top><width>540</width><height>96</height>
+                <left>222</left><top>22</top><width>348</width><height>96</height>
                 <font>silo_meta</font>
                 <textcolor>FFEDEDED</textcolor>
                 <label fallback="19055">$INFO[Container(11).ListItem.Title]</label>
             </control>
             <control type="grouplist">
-                <left>30</left><top>126</top><width>540</width><height>34</height>
+                <left>30</left><top>130</top><width>540</width><height>34</height>
                 <orientation>horizontal</orientation>
                 <itemgap>18</itemgap>
+                <control type="button">
+                    <top>1</top><width>auto</width><height>32</height>
+                    <label>LIVE</label>
+                    <font>silo_badge</font>
+                    <textoffsetx>10</textoffsetx>
+                    <aligny>center</aligny>
+                    <enable>false</enable>
+                    <disabledcolor>FFFFFFFF</disabledcolor>
+                    <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
+                    <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
+                    <visible>String.Contains(Container(11).ListItem.Genre,Live)</visible>
+                </control>
                 <control type="label">
                     <width>auto</width><height>34</height>
                     <aligny>center</aligny>
@@ -1587,16 +1612,41 @@
                 <width>600</width><height>260</height>
                 <texture border="28" colordiffuse="SkylineGlass">silo/menu_panel.png</texture>
             </control>
+            <!-- The programme's picture (Sky's), else its channel's logo. -->
+            <control type="image">
+                <left>30</left><top>24</top><width>170</width><height>96</height>
+                <aspectratio>scale</aspectratio>
+                <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Container(14).ListItem.EpgEventIcon]</texture>
+                <visible>!String.IsEmpty(Container(14).ListItem.EpgEventIcon)</visible>
+            </control>
+            <control type="image">
+                <left>30</left><top>24</top><width>170</width><height>96</height>
+                <aspectratio>keep</aspectratio>
+                <texture background="true">$INFO[Container(14).ListItem.Icon]</texture>
+                <visible>String.IsEmpty(Container(14).ListItem.EpgEventIcon)</visible>
+            </control>
             <control type="textbox">
-                <left>30</left><top>22</top><width>540</width><height>96</height>
+                <left>222</left><top>22</top><width>348</width><height>96</height>
                 <font>silo_meta</font>
                 <textcolor>FFEDEDED</textcolor>
                 <label fallback="19055">$INFO[Container(14).ListItem.Label]</label>
             </control>
             <control type="grouplist">
-                <left>30</left><top>126</top><width>540</width><height>34</height>
+                <left>30</left><top>130</top><width>540</width><height>34</height>
                 <orientation>horizontal</orientation>
                 <itemgap>18</itemgap>
+                <control type="button">
+                    <top>1</top><width>auto</width><height>32</height>
+                    <label>LIVE</label>
+                    <font>silo_badge</font>
+                    <textoffsetx>10</textoffsetx>
+                    <aligny>center</aligny>
+                    <enable>false</enable>
+                    <disabledcolor>FFFFFFFF</disabledcolor>
+                    <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
+                    <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
+                    <visible>String.Contains(Container(14).ListItem.Genre,Live)</visible>
+                </control>
                 <control type="label">
                     <width>auto</width><height>34</height>
                     <aligny>center</aligny>

@@ -42,10 +42,32 @@
             </control>
             <control type="group">
                 <top>844</top>
+                <!-- The programme's picture (Sky's, as Sky's banner), the channel's
+                     logo in its corner; browsing another channel (Up/Down), or with
+                     no picture, the channel's logo alone: Kodi's picture is the
+                     playing programme's. -->
+                <control type="image">
+                    <left>80</left><top>14</top><width>246</width><height>138</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[PVR.EpgEventIcon]</texture>
+                    <visible>!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)</visible>
+                </control>
+                <control type="image">
+                    <left>80</left><top>14</top><width>246</width><height>138</height>
+                    <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                    <visible>!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)</visible>
+                </control>
+                <control type="image">
+                    <left>92</left><top>100</top><width>110</width><height>40</height>
+                    <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                    <texture>$INFO[Player.Icon]</texture>
+                    <visible>!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)</visible>
+                </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>106</height>
                     <aspectratio>keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
+                    <visible>![!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)]</visible>
                 </control>
                 <control type="label">
                     <left>358</left><width>1474</width><height>60</height>
@@ -57,6 +79,18 @@
                     <left>358</left><top>66</top><width>1474</width><height>40</height>
                     <orientation>horizontal</orientation>
                     <itemgap>22</itemgap>
+                    <control type="button">
+                        <top>4</top><width>auto</width><height>32</height>
+                        <label>LIVE</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>10</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>FFFFFFFF</disabledcolor>
+                        <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
+                        <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
+                        <visible>!Player.ChannelPreviewActive + String.Contains(VideoPlayer.Genre,Live)</visible>
+                    </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
                         <aligny>center</aligny>

@@ -51,20 +51,50 @@
             </control>
             <control type="group">
                 <visible>[String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),0)]</visible>
+                <control type="image">
+                    <left>88</left><top>464</top><width>210</width><height>118</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Container(5700).ListItem.Property(silo.c0.picture)]</texture>
+                    <visible>!String.IsEmpty(Container(5700).ListItem.Property(silo.c0.picture))</visible>
+                </control>
+                <control type="image">
+                    <left>88</left><top>464</top><width>210</width><height>118</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture background="true">$INFO[Container(5700).ListItem.Icon]</texture>
+                    <visible>String.IsEmpty(Container(5700).ListItem.Property(silo.c0.picture))</visible>
+                </control>
                 <control type="label">
-                    <left>88</left><top>464</top><width>1200</width><height>48</height>
+                    <left>326</left><top>464</top><width>1206</width><height>48</height>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Container(5700).ListItem.Property(silo.c0.title)]</label>
                 </control>
-                <control type="label">
-                    <left>88</left><top>512</top><width>1744</width><height>34</height>
-                    <font>silo_detail</font>
-                    <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label>$INFO[Container(5700).ListItem.Property(silo.c0.timeline)]</label>
+                <control type="grouplist">
+                    <left>326</left><top>512</top><width>1506</width><height>34</height>
+                    <orientation>horizontal</orientation>
+                    <itemgap>16</itemgap>
+                    <control type="button">
+                        <top>1</top><width>auto</width><height>32</height>
+                        <label>LIVE</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>10</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>FFFFFFFF</disabledcolor>
+                        <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
+                        <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
+                        <visible>String.IsEqual(Container(5700).ListItem.Property(silo.c0.live),1)</visible>
+                    </control>
+                    <control type="label">
+                        <width>auto</width><height>34</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>$INFO[Container(5700).ListItem.Property(silo.c0.timeline)]</label>
+                    </control>
                 </control>
                 <control type="label">
-                    <left>88</left><top>548</top><width>1744</width><height>34</height>
+                    <left>326</left><top>548</top><width>1506</width><height>34</height>
                     <font>silo_detail</font>
                     <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Container(5700).ListItem.Property(silo.c0.plot)]</label>
@@ -72,20 +102,50 @@
             </control>
             <control type="group">
                 <visible>String.IsEqual(Window(Home).Property(silo.mini.col),1)</visible>
+                <control type="image">
+                    <left>88</left><top>464</top><width>210</width><height>118</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Container(5700).ListItem.Property(silo.c1.picture)]</texture>
+                    <visible>!String.IsEmpty(Container(5700).ListItem.Property(silo.c1.picture))</visible>
+                </control>
+                <control type="image">
+                    <left>88</left><top>464</top><width>210</width><height>118</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture background="true">$INFO[Container(5700).ListItem.Icon]</texture>
+                    <visible>String.IsEmpty(Container(5700).ListItem.Property(silo.c1.picture))</visible>
+                </control>
                 <control type="label">
-                    <left>88</left><top>464</top><width>1200</width><height>48</height>
+                    <left>326</left><top>464</top><width>1206</width><height>48</height>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Container(5700).ListItem.Property(silo.c1.title)]</label>
                 </control>
-                <control type="label">
-                    <left>88</left><top>512</top><width>1744</width><height>34</height>
-                    <font>silo_detail</font>
-                    <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label>$INFO[Container(5700).ListItem.Property(silo.c1.timeline)]</label>
+                <control type="grouplist">
+                    <left>326</left><top>512</top><width>1506</width><height>34</height>
+                    <orientation>horizontal</orientation>
+                    <itemgap>16</itemgap>
+                    <control type="button">
+                        <top>1</top><width>auto</width><height>32</height>
+                        <label>LIVE</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>10</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>FFFFFFFF</disabledcolor>
+                        <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
+                        <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
+                        <visible>String.IsEqual(Container(5700).ListItem.Property(silo.c1.live),1)</visible>
+                    </control>
+                    <control type="label">
+                        <width>auto</width><height>34</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>$INFO[Container(5700).ListItem.Property(silo.c1.timeline)]</label>
+                    </control>
                 </control>
                 <control type="label">
-                    <left>88</left><top>548</top><width>1744</width><height>34</height>
+                    <left>326</left><top>548</top><width>1506</width><height>34</height>
                     <font>silo_detail</font>
                     <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Container(5700).ListItem.Property(silo.c1.plot)]</label>
@@ -93,20 +153,50 @@
             </control>
             <control type="group">
                 <visible>String.IsEqual(Window(Home).Property(silo.mini.col),2)</visible>
+                <control type="image">
+                    <left>88</left><top>464</top><width>210</width><height>118</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Container(5700).ListItem.Property(silo.c2.picture)]</texture>
+                    <visible>!String.IsEmpty(Container(5700).ListItem.Property(silo.c2.picture))</visible>
+                </control>
+                <control type="image">
+                    <left>88</left><top>464</top><width>210</width><height>118</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture background="true">$INFO[Container(5700).ListItem.Icon]</texture>
+                    <visible>String.IsEmpty(Container(5700).ListItem.Property(silo.c2.picture))</visible>
+                </control>
                 <control type="label">
-                    <left>88</left><top>464</top><width>1200</width><height>48</height>
+                    <left>326</left><top>464</top><width>1206</width><height>48</height>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Container(5700).ListItem.Property(silo.c2.title)]</label>
                 </control>
-                <control type="label">
-                    <left>88</left><top>512</top><width>1744</width><height>34</height>
-                    <font>silo_detail</font>
-                    <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label>$INFO[Container(5700).ListItem.Property(silo.c2.timeline)]</label>
+                <control type="grouplist">
+                    <left>326</left><top>512</top><width>1506</width><height>34</height>
+                    <orientation>horizontal</orientation>
+                    <itemgap>16</itemgap>
+                    <control type="button">
+                        <top>1</top><width>auto</width><height>32</height>
+                        <label>LIVE</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>10</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>FFFFFFFF</disabledcolor>
+                        <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
+                        <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
+                        <visible>String.IsEqual(Container(5700).ListItem.Property(silo.c2.live),1)</visible>
+                    </control>
+                    <control type="label">
+                        <width>auto</width><height>34</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>$INFO[Container(5700).ListItem.Property(silo.c2.timeline)]</label>
+                    </control>
                 </control>
                 <control type="label">
-                    <left>88</left><top>548</top><width>1744</width><height>34</height>
+                    <left>326</left><top>548</top><width>1506</width><height>34</height>
                     <font>silo_detail</font>
                     <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Container(5700).ListItem.Property(silo.c2.plot)]</label>
@@ -114,20 +204,50 @@
             </control>
             <control type="group">
                 <visible>String.IsEqual(Window(Home).Property(silo.mini.col),3)</visible>
+                <control type="image">
+                    <left>88</left><top>464</top><width>210</width><height>118</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Container(5700).ListItem.Property(silo.c3.picture)]</texture>
+                    <visible>!String.IsEmpty(Container(5700).ListItem.Property(silo.c3.picture))</visible>
+                </control>
+                <control type="image">
+                    <left>88</left><top>464</top><width>210</width><height>118</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture background="true">$INFO[Container(5700).ListItem.Icon]</texture>
+                    <visible>String.IsEmpty(Container(5700).ListItem.Property(silo.c3.picture))</visible>
+                </control>
                 <control type="label">
-                    <left>88</left><top>464</top><width>1200</width><height>48</height>
+                    <left>326</left><top>464</top><width>1206</width><height>48</height>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Container(5700).ListItem.Property(silo.c3.title)]</label>
                 </control>
-                <control type="label">
-                    <left>88</left><top>512</top><width>1744</width><height>34</height>
-                    <font>silo_detail</font>
-                    <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label>$INFO[Container(5700).ListItem.Property(silo.c3.timeline)]</label>
+                <control type="grouplist">
+                    <left>326</left><top>512</top><width>1506</width><height>34</height>
+                    <orientation>horizontal</orientation>
+                    <itemgap>16</itemgap>
+                    <control type="button">
+                        <top>1</top><width>auto</width><height>32</height>
+                        <label>LIVE</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>10</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>FFFFFFFF</disabledcolor>
+                        <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
+                        <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
+                        <visible>String.IsEqual(Container(5700).ListItem.Property(silo.c3.live),1)</visible>
+                    </control>
+                    <control type="label">
+                        <width>auto</width><height>34</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>$INFO[Container(5700).ListItem.Property(silo.c3.timeline)]</label>
+                    </control>
                 </control>
                 <control type="label">
-                    <left>88</left><top>548</top><width>1744</width><height>34</height>
+                    <left>326</left><top>548</top><width>1506</width><height>34</height>
                     <font>silo_detail</font>
                     <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Container(5700).ListItem.Property(silo.c3.plot)]</label>

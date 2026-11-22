@@ -290,7 +290,7 @@ def build():
             <control type="grouplist">
                 <top>132</top><width>%(dw)d</width><height>36</height>
                 <orientation>horizontal</orientation>
-                <itemgap>18</itemgap>
+                <itemgap>18</itemgap>%(guide_live)s
                 <control type="label">
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
@@ -390,6 +390,7 @@ def build():
 ''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': BACKGROUND, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
        'pw': PREVIEW_W, 'ph': PREVIEW_H, 'pills_y': PILLS_Y, 'py': (PILLS_Y - PREVIEW_H) // 2,
        'dx': SAFE_X + PREVIEW_W + 48, 'dw': 1920 - 2 * SAFE_X - PREVIEW_W - 48, 'plot_h': PILLS_Y - 194,
+       'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
        'soft': 'D9EDEDED', 'accent': ACCENT, 'on_now': 'Integer.IsGreater(ListItem.Progress,0) + Integer.IsLess(ListItem.Progress,100)',
        'gw': 1920 - 2 * SAFE_X, 'pill': group_pill(False), 'pill_focused': group_pill(True),
        'grid_y': GRID_Y, 'grid_h': grid_h, 'ruler_h': RULER_H, 'row_h': ROW_H, 'cw': CHANNEL_W,
@@ -536,6 +537,9 @@ BANNER_H = 196
 LOGO_BOX_W, LOGO_BOX_H = 246, 106
 
 
+BANNER_PICTURE = '!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)'
+
+
 def infobar(top, plot=False):
     """What's playing, as TiviMate shows it: the channel's logo on a card at
     the left; beside it the programme with the guide's LIVE-style tag, then
@@ -549,10 +553,32 @@ def infobar(top, plot=False):
     return '''
             <control type="group">
                 <top>%(top)d</top>
+                <!-- The programme's picture (Sky's, as Sky's banner), the channel's
+                     logo in its corner; browsing another channel (Up/Down), or with
+                     no picture, the channel's logo alone: Kodi's picture is the
+                     playing programme's. -->
+                <control type="image">
+                    <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(ph)d</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[PVR.EpgEventIcon]</texture>
+                    <visible>%(picture)s</visible>
+                </control>
+                <control type="image">
+                    <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(ph)d</height>
+                    <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                    <visible>%(picture)s</visible>
+                </control>
+                <control type="image">
+                    <left>%(bx)d</left><top>%(by)d</top><width>110</width><height>40</height>
+                    <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                    <texture>$INFO[Player.Icon]</texture>
+                    <visible>%(picture)s</visible>
+                </control>
                 <control type="image">
                     <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(bh)d</height>
                     <aspectratio>keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
+                    <visible>!%(picture_or)s</visible>
                 </control>
                 <control type="label">
                     <left>%(tx)d</left><width>%(tw)d</width><height>60</height>
@@ -563,7 +589,7 @@ def infobar(top, plot=False):
                 <control type="grouplist">
                     <left>%(tx)d</left><top>66</top><width>%(tw)d</width><height>40</height>
                     <orientation>horizontal</orientation>
-                    <itemgap>22</itemgap>
+                    <itemgap>22</itemgap>%(live)s
                     <control type="label">
                         <width>auto</width><height>40</height>
                         <aligny>center</aligny>
@@ -637,7 +663,10 @@ def infobar(top, plot=False):
                 </control>''' % (tx, 1920 - tx - SAFE_X) if plot else '',
                              'tw': 1920 - tx - SAFE_X, 'text': TEXT, 'soft': 'D9EDEDED', 'shadow': 'CC000000',
                              'accent': ACCENT, 'bar_y': INFO_H - 10, 'bar_w': 1920 - 2 * left,
-                             'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W}
+                             'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W,
+                             'ph': LOGO_BOX_W * 9 // 16, 'bx': left + 12, 'by': 14 + LOGO_BOX_W * 9 // 16 - 12 - 40,
+                             'picture': BANNER_PICTURE, 'picture_or': '[%s]' % BANNER_PICTURE,
+                             'live': live_tag('!Player.ChannelPreviewActive + ' + genre_live('VideoPlayer'))}
 
 
 # The channel name's widest in the banner's info row: what's left of the row
@@ -647,6 +676,52 @@ CHANNEL_MAX_W = 600
 
 FPS = (('59.9', '60'), ('60', '60'), ('50', '50'), ('48', '48'), ('29.9', '30'), ('30', '30'), ('25', '25'),
        ('23.9', '24'), ('24', '24'))
+
+
+LIVE_RED = 'FFE0262F'  # Sky's red for a live event
+
+
+def live_tag(condition, top=4, indent='                    '):
+    """Sky's LIVE tag: white on red, a rounded tag for a programme shown as it
+    happens (the guide's Live category: Kodi's genre, with IPTV Simple's
+    useEpgGenreText), a disabled button so it fits any row of facts."""
+    return '''
+%(p)s<control type="button">
+%(p)s    <top>%(top)d</top><width>auto</width><height>32</height>
+%(p)s    <label>LIVE</label>
+%(p)s    <font>silo_badge</font>
+%(p)s    <textoffsetx>10</textoffsetx>
+%(p)s    <aligny>center</aligny>
+%(p)s    <enable>false</enable>
+%(p)s    <disabledcolor>FFFFFFFF</disabledcolor>
+%(p)s    <texturenofocus border="8" colordiffuse="%(red)s">silo/badge_solid.png</texturenofocus>
+%(p)s    <texturefocus border="8" colordiffuse="%(red)s">silo/badge_solid.png</texturefocus>
+%(p)s    <visible>%(condition)s</visible>
+%(p)s</control>''' % {'p': indent, 'top': top, 'red': LIVE_RED, 'condition': condition}
+
+
+def live_badge(condition, indent='                        '):
+    """The LIVE tag inside a list's item layout, where Kodi draws no buttons:
+    an image and a label."""
+    return '''
+%(p)s<control type="image">
+%(p)s    <width>60</width><height>28</height>
+%(p)s    <texture border="8" colordiffuse="%(red)s">silo/badge_solid.png</texture>
+%(p)s    <visible>%(c)s</visible>
+%(p)s</control>
+%(p)s<control type="label">
+%(p)s    <width>60</width><height>28</height>
+%(p)s    <align>center</align><aligny>center</aligny>
+%(p)s    <font>silo_badge</font>
+%(p)s    <textcolor>FFFFFFFF</textcolor>
+%(p)s    <label>LIVE</label>
+%(p)s    <visible>%(c)s</visible>
+%(p)s</control>''' % {'p': indent, 'red': LIVE_RED, 'c': condition}
+
+
+def genre_live(item):
+    """An item shown live: the guide's Live category in its genre."""
+    return 'String.Contains(%s.Genre,Live)' % item
 
 
 def stream_badges():
@@ -835,6 +910,7 @@ CONTROLS = 5610               # the OK screen's playback bar (Up from the tiles)
 CONTROLS_OPEN = 'ControlGroup(%d).HasFocus()' % CONTROLS
 # The OK screen's row of channels, as TiviMate's: compact tiles at the bottom.
 TILE_W, TILE_H, TILE_GAP = 234, 180, 18
+TILE_PIC_H = TILE_W * 9 // 16  # the tile's picture, 16:9, with what's on under it
 ROW_Y = 1080 - 88 - TILE_H     # the row's top
 
 
@@ -1034,16 +1110,29 @@ def programme_card(item, timeline, visible):
                 <width>%(cw)d</width><height>260</height>
                 <texture border="28">silo/menu_panel.png</texture>
             </control>
+            <!-- The programme's picture (Sky's), else its channel's logo. -->
+            <control type="image">
+                <left>30</left><top>24</top><width>170</width><height>96</height>
+                <aspectratio>scale</aspectratio>
+                <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[%(item)s.EpgEventIcon]</texture>
+                <visible>!String.IsEmpty(%(item)s.EpgEventIcon)</visible>
+            </control>
+            <control type="image">
+                <left>30</left><top>24</top><width>170</width><height>96</height>
+                <aspectratio>keep</aspectratio>
+                <texture background="true">$INFO[%(item)s.Icon]</texture>
+                <visible>String.IsEmpty(%(item)s.EpgEventIcon)</visible>
+            </control>
             <control type="textbox">
-                <left>30</left><top>22</top><width>%(cw2)d</width><height>96</height>
+                <left>222</left><top>22</top><width>%(cw3)d</width><height>96</height>
                 <font>silo_meta</font>
                 <textcolor>%(text)s</textcolor>
                 <label fallback="19055">%(title)s</label>
             </control>
             <control type="grouplist">
-                <left>30</left><top>126</top><width>%(cw2)d</width><height>34</height>
+                <left>30</left><top>130</top><width>%(cw2)d</width><height>34</height>
                 <orientation>horizontal</orientation>
-                <itemgap>18</itemgap>%(timeline)s
+                <itemgap>18</itemgap>%(live)s%(timeline)s
             </control>
             <control type="textbox">
                 <left>30</left><top>170</top><width>%(cw2)d</width><height>66</height>
@@ -1052,6 +1141,8 @@ def programme_card(item, timeline, visible):
                 <label>%(plot)s</label>
             </control>
         </control>''' % {'cx': 1920 - SAFE_X - CARD_PANEL_W, 'cw': CARD_PANEL_W, 'cw2': CARD_PANEL_W - 60, 'text': TEXT,
+                         'cw3': CARD_PANEL_W - 252, 'item': item,
+                         'live': live_tag(genre_live(item), top=1, indent='                '),
                          'visible': visible, 'timeline': timeline,
                          'title': '$INFO[%s.Title]' % item if item.startswith('Container(11)') else '$INFO[%s.Label]' % item,
                          'plot': '$INFO[%s.Plot]' % item if item.startswith('Container(11)') else '$INFO[%s.Property(silo.plot)]' % item}
@@ -1514,33 +1605,65 @@ def playback_bar():
 
 
 def recent_card(focused):
-    """A recently watched channel, as TiviMate's tile: its logo, and what's
-    on under it inside the tile; focused, the tile grows with Silo's veil
-    and rim."""
+    """A recently watched channel, as the TV page's cards: the programme's
+    picture (Sky's) with the channel's logo in its corner, how far through
+    and LIVE; with no picture, the logo on the panel. What's on under it."""
     from build_home import focus_sheen, focus_zoom
     lit = 'Control.HasFocus(%d)' % RECENT_LIST
+    has = '!String.IsEmpty(ListItem.Property(silo.picture))'
     return '''
                 <control type="group">%(zoom)s
                     <control type="image">
-                        <width>%(w)d</width><height>%(h)d</height>
+                        <width>%(w)d</width><height>%(ph)d</height>
                         <texture border="20" colordiffuse="E6%(panel)s">silo/card_landscape_mask.png</texture>
                     </control>
                     <control type="image">
-                        <left>22</left><top>18</top><width>%(lw)d</width><height>92</height>
+                        <width>%(w)d</width><height>%(ph)d</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Property(silo.picture)]</texture>
+                        <visible>%(has)s</visible>
+                    </control>
+                    <control type="image">
+                        <width>%(w)d</width><height>%(ph)d</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                        <visible>%(has)s</visible>
+                    </control>
+                    <control type="image">
+                        <left>12</left><top>%(ly)d</top><width>96</width><height>34</height>
+                        <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                        <texture>$INFO[ListItem.Icon]</texture>
+                        <visible>%(has)s</visible>
+                    </control>
+                    <control type="image">
+                        <left>22</left><top>16</top><width>%(lw)d</width><height>%(lh)d</height>
                         <aspectratio>keep</aspectratio>
                         <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
+                        <visible>!%(has)s</visible>
+                    </control>
+                    <control type="group">
+                        <left>10</left><top>10</top>%(live)s
+                    </control>
+                    <control type="progress">
+                        <left>14</left><top>%(bar)d</top><width>%(bw)d</width><height>5</height>
+                        <texturebg colordiffuse="33FFFFFF">colors/white.png</texturebg>
+                        <midtexture colordiffuse="%(text)s">colors/white.png</midtexture>
+                        <info>ListItem.Property(silo.progress)</info>
+                        <visible>Integer.IsGreater(ListItem.Property(silo.progress),0)</visible>
                     </control>%(sheen)s
                     <control type="label">
-                        <left>16</left><top>124</top><width>%(tw)d</width><height>40</height>
+                        <left>4</left><top>%(ty)d</top><width>%(tw)d</width><height>34</height>
                         <aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>%(colour)s</textcolor>
                         <selectedcolor>%(colour)s</selectedcolor>
                         <label>$INFO[ListItem.Property(silo.now)]</label>
                     </control>
-                </control>''' % {'zoom': focus_zoom(lit, 16) if focused else '', 'w': TILE_W, 'h': TILE_H,
-                                  'panel': PANEL, 'lw': TILE_W - 44, 'tw': TILE_W - 32,
-                                  'sheen': focus_sheen(TILE_W, TILE_H, 'silo/card_landscape_mask.png',
+                </control>''' % {'zoom': focus_zoom(lit, 16) if focused else '', 'w': TILE_W, 'ph': TILE_PIC_H,
+                                  'panel': PANEL, 'lw': TILE_W - 44, 'lh': TILE_PIC_H - 32, 'has': has,
+                                  'ly': TILE_PIC_H - 12 - 34, 'bar': TILE_PIC_H - 5, 'bw': TILE_W - 28,
+                                  'tw': TILE_W - 8, 'ty': TILE_PIC_H + 6, 'text': TEXT,
+                                  'live': live_badge('String.IsEqual(ListItem.Property(silo.live),1)'),
+                                  'sheen': focus_sheen(TILE_W, TILE_PIC_H, 'silo/card_landscape_mask.png',
                                                        'silo/card_landscape_rim.png', lit, 16) if focused else '',
                                   'colour': TEXT if focused else 'D9EDEDED'}
 
@@ -1808,34 +1931,63 @@ def mini_row(focused):
         'text': 'FFEDEDED' if focused else 'B3EDEDED', 'nw': MINI_CHANNEL_W - 200, 'cells': cells}
 
 
+MINI_PIC_W, MINI_PIC_H = 210, 118  # the focused programme's picture, beside its details
+
+
 def mini_details():
-    """Above the grid: the focused programme's title, day and times, and plot."""
+    """Above the grid: the focused programme's picture (Sky's; else its
+    channel's logo), then its title, LIVE with its day and times, and plot."""
     out = ''
+    item = 'Container(%d).ListItem' % MINI_LIST
+    x = 88 + MINI_PIC_W + 28
     for column in range(MINI_COLUMNS):
-        p = 'Container(%d).ListItem.Property(silo.c%d.%%s)' % (MINI_LIST, column)
+        p = '%s.Property(silo.c%d.%%s)' % (item, column)
+        has = '!String.IsEmpty(%s)' % (p % 'picture')
         out += '''
             <control type="group">
                 <visible>%(lit)s</visible>
+                <control type="image">
+                    <left>88</left><top>%(t1)d</top><width>%(pw)d</width><height>%(ph)d</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[%(picture)s]</texture>
+                    <visible>%(has)s</visible>
+                </control>
+                <control type="image">
+                    <left>88</left><top>%(t1)d</top><width>%(pw)d</width><height>%(ph)d</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture background="true">$INFO[%(item)s.Icon]</texture>
+                    <visible>!%(has)s</visible>
+                </control>
                 <control type="label">
-                    <left>88</left><top>%(t1)d</top><width>1200</width><height>48</height>
+                    <left>%(x)d</left><top>%(t1)d</top><width>%(tw)d</width><height>48</height>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[%(title)s]</label>
                 </control>
-                <control type="label">
-                    <left>88</left><top>%(t2)d</top><width>1744</width><height>34</height>
-                    <font>silo_detail</font>
-                    <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label>$INFO[%(timeline)s]</label>
+                <control type="grouplist">
+                    <left>%(x)d</left><top>%(t2)d</top><width>%(w)d</width><height>34</height>
+                    <orientation>horizontal</orientation>
+                    <itemgap>16</itemgap>%(live)s
+                    <control type="label">
+                        <width>auto</width><height>34</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>$INFO[%(timeline)s]</label>
+                    </control>
                 </control>
                 <control type="label">
-                    <left>88</left><top>%(t3)d</top><width>1744</width><height>34</height>
+                    <left>%(x)d</left><top>%(t3)d</top><width>%(w)d</width><height>34</height>
                     <font>silo_detail</font>
                     <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[%(plot)s]</label>
                 </control>
             </control>''' % {'lit': mini_lit(column), 'title': p % 'title', 'timeline': p % 'timeline',
-                             'plot': p % 'plot', 't1': MINI_TOP - 186, 't2': MINI_TOP - 138, 't3': MINI_TOP - 102}
+                             'plot': p % 'plot', 'picture': p % 'picture', 'has': has, 'item': item, 'x': x,
+                             'tw': 1832 - x - 300, 'w': 1832 - x, 'pw': MINI_PIC_W, 'ph': MINI_PIC_H,
+                             't1': MINI_TOP - 186, 't2': MINI_TOP - 138, 't3': MINI_TOP - 102,
+                             'live': live_tag('String.IsEqual(%s,1)' % (p % 'live'), top=1,
+                                              indent='                    ')}
     return out
 
 
