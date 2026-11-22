@@ -921,3 +921,27 @@ msgstr ""
 msgctxt "#31611"
 msgid "System"
 msgstr ""
+
+#: /xml/SkinSettings.xml
+#. Skyline: Settings > Home > Plays on opening, its dialog's heading (Skin.SelectBool takes string ids only)
+msgctxt "#31900"
+msgid "Plays on opening"
+msgstr ""
+
+#: /xml/SkinSettings.xml
+#. Skyline: Plays on opening, the TV tab plays the last channel watched
+msgctxt "#31901"
+msgid "The last channel"
+msgstr ""
+
+#: /xml/SkinSettings.xml
+#. Skyline: Plays on opening, nothing until Watch has focus
+msgctxt "#31902"
+msgid "When Watch is chosen"
+msgstr ""
+
+#: /xml/SkinSettings.xml
+#. Skyline: Plays on opening, nothing plays
+msgctxt "#31903"
+msgid "Nothing"
+msgstr ""

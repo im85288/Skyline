@@ -705,8 +705,10 @@ HOME_SETTINGS = (
               enable='!Skin.HasSetting(SkylineHideTvTab)', visible=TV)
     # As Sky's "Default to live TV": what the TV tab plays as it opens.
     + setting('button', 774, '- Plays on opening',
-              'Skin.SelectBool(Plays on opening,The last channel|SkylineTvAutoplayLast,'
-              'When Watch is chosen|SkylineTvAutoplayWatch,Nothing|SkylineTvAutoplayOff)',
+              # Kodi reads SelectBool's heading and labels as string ids (text
+              # became string 0, "Programs"): Skyline's strings 31900-31903.
+              'Skin.SelectBool(31900,31901|SkylineTvAutoplayLast,'
+              '31902|SkylineTvAutoplayWatch,31903|SkylineTvAutoplayOff)',
               label2='$VAR[SkylineTvAutoplay]', enable='!Skin.HasSetting(SkylineHideTvTab)', visible=TV)
     + setting('radiobutton', 786, 'Episode pictures on Home', 'Skin.ToggleSetting(SkylineEpisodeStills)',
               selected='Skin.HasSetting(SkylineEpisodeStills)', visible=SILO))
