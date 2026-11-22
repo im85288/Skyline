@@ -46,31 +46,30 @@
             <control type="group">
                 <top>604</top>
                 <!-- The programme's picture (Sky's, as Sky's banner), the channel's
-                     logo in its corner; browsing another channel (Up/Down), or with
-                     no picture, the channel's logo alone: Kodi's picture is the
-                     playing programme's. -->
+                     logo in its corner, for the channel shown, browsed or playing;
+                     with no picture, the channel's logo alone. -->
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>138</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[PVR.EpgEventIcon]</texture>
-                    <visible>!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)</visible>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Window(Home).Property(silokodi.tv.banner_picture)]</texture>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>138</height>
                     <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
-                    <visible>!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)</visible>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
                 </control>
                 <control type="image">
                     <left>92</left><top>100</top><width>110</width><height>40</height>
                     <aspectratio align="left" aligny="bottom">keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
-                    <visible>!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)</visible>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>106</height>
                     <aspectratio>keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
-                    <visible>![!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)]</visible>
+                    <visible>![!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]</visible>
                 </control>
                 <control type="label">
                     <left>358</left><width>1474</width><height>60</height>
@@ -92,7 +91,7 @@
                         <disabledcolor>FFFFFFFF</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
-                        <visible>!Player.ChannelPreviewActive + String.Contains(VideoPlayer.Genre,Live)</visible>
+                        <visible>String.IsEqual(Window(Home).Property(silokodi.tv.banner_live),1)</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
@@ -222,31 +221,30 @@
             <control type="group">
                 <top>685</top>
                 <!-- The programme's picture (Sky's, as Sky's banner), the channel's
-                     logo in its corner; browsing another channel (Up/Down), or with
-                     no picture, the channel's logo alone: Kodi's picture is the
-                     playing programme's. -->
+                     logo in its corner, for the channel shown, browsed or playing;
+                     with no picture, the channel's logo alone. -->
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>138</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[PVR.EpgEventIcon]</texture>
-                    <visible>!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)</visible>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Window(Home).Property(silokodi.tv.banner_picture)]</texture>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>138</height>
                     <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
-                    <visible>!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)</visible>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
                 </control>
                 <control type="image">
                     <left>92</left><top>100</top><width>110</width><height>40</height>
                     <aspectratio align="left" aligny="bottom">keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
-                    <visible>!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)</visible>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))</visible>
                 </control>
                 <control type="image">
                     <left>80</left><top>14</top><width>246</width><height>106</height>
                     <aspectratio>keep</aspectratio>
                     <texture>$INFO[Player.Icon]</texture>
-                    <visible>![!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)]</visible>
+                    <visible>![!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]</visible>
                 </control>
                 <control type="label">
                     <left>358</left><width>1474</width><height>60</height>
@@ -268,7 +266,7 @@
                         <disabledcolor>FFFFFFFF</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
-                        <visible>!Player.ChannelPreviewActive + String.Contains(VideoPlayer.Genre,Live)</visible>
+                        <visible>String.IsEqual(Window(Home).Property(silokodi.tv.banner_live),1)</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>

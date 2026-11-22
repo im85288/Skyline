@@ -537,7 +537,10 @@ BANNER_H = 196
 LOGO_BOX_W, LOGO_BOX_H = 246, 106
 
 
-BANNER_PICTURE = '!Player.ChannelPreviewActive + !String.IsEmpty(PVR.EpgEventIcon)'
+# KodiConnectForSilo's picture and live flag for the channel the banner shows,
+# browsed (Up/Down) or playing: Kodi gives only the playing programme's.
+BANNER_PICTURE = '!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))'
+BANNER_LIVE = 'String.IsEqual(Window(Home).Property(silokodi.tv.banner_live),1)'
 
 
 def infobar(top, plot=False):
@@ -554,13 +557,12 @@ def infobar(top, plot=False):
             <control type="group">
                 <top>%(top)d</top>
                 <!-- The programme's picture (Sky's, as Sky's banner), the channel's
-                     logo in its corner; browsing another channel (Up/Down), or with
-                     no picture, the channel's logo alone: Kodi's picture is the
-                     playing programme's. -->
+                     logo in its corner, for the channel shown, browsed or playing;
+                     with no picture, the channel's logo alone. -->
                 <control type="image">
                     <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(ph)d</height>
                     <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[PVR.EpgEventIcon]</texture>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Window(Home).Property(silokodi.tv.banner_picture)]</texture>
                     <visible>%(picture)s</visible>
                 </control>
                 <control type="image">
@@ -666,7 +668,7 @@ def infobar(top, plot=False):
                              'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W,
                              'ph': LOGO_BOX_W * 9 // 16, 'bx': left + 12, 'by': 14 + LOGO_BOX_W * 9 // 16 - 12 - 40,
                              'picture': BANNER_PICTURE, 'picture_or': '[%s]' % BANNER_PICTURE,
-                             'live': live_tag('!Player.ChannelPreviewActive + ' + genre_live('VideoPlayer'))}
+                             'live': live_tag(BANNER_LIVE)}
 
 
 # The channel name's widest in the banner's info row: what's left of the row
@@ -820,6 +822,16 @@ def banner():
 				<left>0</left><top>640</top><width>1920</width><height>440</height>
 				<texture>silo/scrim_bottom.png</texture>
 			</control>
+			<!-- A 60%% black band behind the text from just above it, as the mini
+			     guide's: channels' own tickers showed through the faint gradient. -->
+			<control type="image">
+				<left>0</left><top>%(band_fade)d</top><width>1920</width><height>120</height>
+				<texture colordiffuse="99FFFFFF">silo/scrim_bottom.png</texture>
+			</control>
+			<control type="image">
+				<left>0</left><top>%(band_y)d</top><width>1920</width><height>%(band_h)d</height>
+				<texture colordiffuse="99000000">colors/white.png</texture>
+			</control>
 			<control type="image">
 				<left>0</left><top>0</top><width>1920</width><height>200</height>
 				<texture flipy="true">silo/scrim_bottom.png</texture>
@@ -827,7 +839,9 @@ def banner():
 			</control>%(corners)s%(info)s
 		</control>
 		<!-- end Silo Skyline Live TV banner -->
-''' % {'recent': RECENT_ID, 'corners': corners(), 'info': infobar(1080 - 40 - BANNER_H, plot=True)}
+''' % {'recent': RECENT_ID, 'corners': corners(), 'info': infobar(1080 - 40 - BANNER_H, plot=True),
+       'band_fade': 1080 - 40 - BANNER_H - 144, 'band_y': 1080 - 40 - BANNER_H - 24,
+       'band_h': BANNER_H + 64}
 
 
 TIMER_START, TIMER_END = '    <!-- Silo Skyline TV (tools/build_tv.py) -->\n', '    <!-- end Silo Skyline TV -->\n'
