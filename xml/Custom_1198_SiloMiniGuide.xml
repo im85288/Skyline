@@ -254,25 +254,25 @@
                 </control>
             </control>
             <control type="label">
-                <left>444</left><top>602</top><width>327</width><height>40</height>
+                <left>300</left><top>602</top><width>363</width><height>40</height>
                 <font>silo_detail</font>
                 <textcolor>99EDEDED</textcolor>
                 <label>$INFO[Window(Home).Property(silokodi.mini_head0)]</label>
             </control>
             <control type="label">
-                <left>795</left><top>602</top><width>327</width><height>40</height>
+                <left>687</left><top>602</top><width>363</width><height>40</height>
                 <font>silo_detail</font>
                 <textcolor>99EDEDED</textcolor>
                 <label>$INFO[Window(Home).Property(silokodi.mini_head1)]</label>
             </control>
             <control type="label">
-                <left>1146</left><top>602</top><width>327</width><height>40</height>
+                <left>1074</left><top>602</top><width>363</width><height>40</height>
                 <font>silo_detail</font>
                 <textcolor>99EDEDED</textcolor>
                 <label>$INFO[Window(Home).Property(silokodi.mini_head2)]</label>
             </control>
             <control type="label">
-                <left>1497</left><top>602</top><width>327</width><height>40</height>
+                <left>1461</left><top>602</top><width>363</width><height>40</height>
                 <font>silo_detail</font>
                 <textcolor>99EDEDED</textcolor>
                 <label>$INFO[Window(Home).Property(silokodi.mini_head3)]</label>
@@ -320,7 +320,7 @@
                 <onclick condition="String.IsEqual(Window(Home).Property(silo.mini.col),3) + String.IsEqual(Container(5700).ListItem.Property(silo.c3.archive),1)">Dialog.Close(1198)</onclick>
                 <itemlayout width="1744" height="78">
                     <control type="image">
-                        <width>332</width><height>70</height>
+                        <width>188</width><height>70</height>
                         <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
                     </control>
                     <control type="image">
@@ -328,50 +328,47 @@
                         <texture colordiffuse="FFF2D46B">colors/white.png</texture>
                         <visible>String.IsEqual(ListItem.Property(silo.playing),1)</visible>
                     </control>
+                    <!-- The number, yellow on the playing channel; the logo names it
+                         (the names were all cut to "Sky Sport...", taking the
+                         programmes' room). -->
                     <control type="label">
                         <left>16</left><top>0</top><width>64</width><height>70</height>
                         <aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>80EDEDED</textcolor>
                         <label>$INFO[ListItem.Property(silo.number)]</label>
+                        <visible>!String.IsEqual(ListItem.Property(silo.playing),1)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>0</top><width>64</width><height>70</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFF2D46B</textcolor>
+                        <label>$INFO[ListItem.Property(silo.number)]</label>
+                        <visible>String.IsEqual(ListItem.Property(silo.playing),1)</visible>
                     </control>
                     <control type="image">
                         <left>80</left><top>9</top><width>96</width><height>52</height>
                         <aspectratio>keep</aspectratio>
                         <texture>$INFO[ListItem.Icon]</texture>
                     </control>
-                    <control type="label">
-                        <left>188</left><top>0</top><width>140</width><height>70</height>
-                        <aligny>center</aligny>
-                        <font>silo_detail</font>
-                        <textcolor>B3EDEDED</textcolor>
-                        <label>$INFO[ListItem.Label]</label>
-                        <visible>!String.IsEqual(ListItem.Property(silo.playing),1)</visible>
-                    </control>
-                    <control type="label">
-                        <left>188</left><top>0</top><width>140</width><height>70</height>
-                        <aligny>center</aligny>
-                        <font>silo_detail</font>
-                        <textcolor>FFF2D46B</textcolor>
-                        <label>$INFO[ListItem.Label]</label>
-                        <visible>String.IsEqual(ListItem.Property(silo.playing),1)</visible>
-                    </control>
+
                     <control type="group">
-                        <left>340</left>
+                        <left>196</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c0.title))</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>D9EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c0.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c0.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>80EDEDED</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c0.title)]</label>
@@ -383,14 +380,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c0.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c0.times)]$INFO[ListItem.Property(silo.c0.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c0.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c0.times)]$INFO[ListItem.Property(silo.c0.left),  ·  , min left]</label>
@@ -398,21 +395,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>691</left>
+                        <left>583</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c1.title))</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>D9EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c1.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c1.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>80EDEDED</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c1.title)]</label>
@@ -424,14 +421,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c1.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c1.times)]$INFO[ListItem.Property(silo.c1.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c1.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c1.times)]$INFO[ListItem.Property(silo.c1.left),  ·  , min left]</label>
@@ -439,21 +436,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>1042</left>
+                        <left>970</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c2.title))</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>D9EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c2.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c2.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>80EDEDED</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c2.title)]</label>
@@ -465,14 +462,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c2.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c2.times)]$INFO[ListItem.Property(silo.c2.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c2.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c2.times)]$INFO[ListItem.Property(silo.c2.left),  ·  , min left]</label>
@@ -480,21 +477,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>1393</left>
+                        <left>1357</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c3.title))</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="12FFFFFF">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>D9EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c3.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c3.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>80EDEDED</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c3.title)]</label>
@@ -506,14 +503,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c3.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c3.times)]$INFO[ListItem.Property(silo.c3.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c3.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c3.times)]$INFO[ListItem.Property(silo.c3.left),  ·  , min left]</label>
@@ -523,7 +520,7 @@
                 </itemlayout>
                 <focusedlayout width="1744" height="78">
                     <control type="image">
-                        <width>332</width><height>70</height>
+                        <width>188</width><height>70</height>
                         <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
                     </control>
                     <control type="image">
@@ -531,50 +528,47 @@
                         <texture colordiffuse="FFF2D46B">colors/white.png</texture>
                         <visible>String.IsEqual(ListItem.Property(silo.playing),1)</visible>
                     </control>
+                    <!-- The number, yellow on the playing channel; the logo names it
+                         (the names were all cut to "Sky Sport...", taking the
+                         programmes' room). -->
                     <control type="label">
                         <left>16</left><top>0</top><width>64</width><height>70</height>
                         <aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>B3EDEDED</textcolor>
                         <label>$INFO[ListItem.Property(silo.number)]</label>
+                        <visible>!String.IsEqual(ListItem.Property(silo.playing),1)</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>0</top><width>64</width><height>70</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>FFF2D46B</textcolor>
+                        <label>$INFO[ListItem.Property(silo.number)]</label>
+                        <visible>String.IsEqual(ListItem.Property(silo.playing),1)</visible>
                     </control>
                     <control type="image">
                         <left>80</left><top>9</top><width>96</width><height>52</height>
                         <aspectratio>keep</aspectratio>
                         <texture>$INFO[ListItem.Icon]</texture>
                     </control>
-                    <control type="label">
-                        <left>188</left><top>0</top><width>140</width><height>70</height>
-                        <aligny>center</aligny>
-                        <font>silo_detail</font>
-                        <textcolor>FFEDEDED</textcolor>
-                        <label>$INFO[ListItem.Label]</label>
-                        <visible>!String.IsEqual(ListItem.Property(silo.playing),1)</visible>
-                    </control>
-                    <control type="label">
-                        <left>188</left><top>0</top><width>140</width><height>70</height>
-                        <aligny>center</aligny>
-                        <font>silo_detail</font>
-                        <textcolor>FFF2D46B</textcolor>
-                        <label>$INFO[ListItem.Label]</label>
-                        <visible>String.IsEqual(ListItem.Property(silo.playing),1)</visible>
-                    </control>
+
                     <control type="group">
-                        <left>340</left>
+                        <left>196</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c0.title)) + [String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),0)]</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>SkylineFocusText</textcolor>
                             <label>$INFO[ListItem.Property(silo.c0.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c0.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c0.title)]</label>
@@ -586,14 +580,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c0.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>$INFO[ListItem.Property(silo.c0.times)]$INFO[ListItem.Property(silo.c0.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c0.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>$INFO[ListItem.Property(silo.c0.times)]$INFO[ListItem.Property(silo.c0.left),  ·  , min left]</label>
@@ -601,21 +595,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>340</left>
+                        <left>196</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c0.title)) + ![String.IsEmpty(Window(Home).Property(silo.mini.col)) | String.IsEqual(Window(Home).Property(silo.mini.col),0)]</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>FFEDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c0.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c0.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c0.title)]</label>
@@ -627,14 +621,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c0.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>B3EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c0.times)]$INFO[ListItem.Property(silo.c0.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c0.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>B3EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c0.times)]$INFO[ListItem.Property(silo.c0.left),  ·  , min left]</label>
@@ -642,21 +636,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>691</left>
+                        <left>583</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c1.title)) + String.IsEqual(Window(Home).Property(silo.mini.col),1)</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>SkylineFocusText</textcolor>
                             <label>$INFO[ListItem.Property(silo.c1.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c1.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c1.title)]</label>
@@ -668,14 +662,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c1.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>$INFO[ListItem.Property(silo.c1.times)]$INFO[ListItem.Property(silo.c1.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c1.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>$INFO[ListItem.Property(silo.c1.times)]$INFO[ListItem.Property(silo.c1.left),  ·  , min left]</label>
@@ -683,21 +677,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>691</left>
+                        <left>583</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c1.title)) + !String.IsEqual(Window(Home).Property(silo.mini.col),1)</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>FFEDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c1.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c1.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c1.title)]</label>
@@ -709,14 +703,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c1.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>B3EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c1.times)]$INFO[ListItem.Property(silo.c1.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c1.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>B3EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c1.times)]$INFO[ListItem.Property(silo.c1.left),  ·  , min left]</label>
@@ -724,21 +718,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>1042</left>
+                        <left>970</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c2.title)) + String.IsEqual(Window(Home).Property(silo.mini.col),2)</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>SkylineFocusText</textcolor>
                             <label>$INFO[ListItem.Property(silo.c2.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c2.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c2.title)]</label>
@@ -750,14 +744,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c2.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>$INFO[ListItem.Property(silo.c2.times)]$INFO[ListItem.Property(silo.c2.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c2.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>$INFO[ListItem.Property(silo.c2.times)]$INFO[ListItem.Property(silo.c2.left),  ·  , min left]</label>
@@ -765,21 +759,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>1042</left>
+                        <left>970</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c2.title)) + !String.IsEqual(Window(Home).Property(silo.mini.col),2)</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>FFEDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c2.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c2.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c2.title)]</label>
@@ -791,14 +785,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c2.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>B3EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c2.times)]$INFO[ListItem.Property(silo.c2.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c2.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>B3EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c2.times)]$INFO[ListItem.Property(silo.c2.left),  ·  , min left]</label>
@@ -806,21 +800,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>1393</left>
+                        <left>1357</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c3.title)) + String.IsEqual(Window(Home).Property(silo.mini.col),3)</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>SkylineFocusText</textcolor>
                             <label>$INFO[ListItem.Property(silo.c3.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c3.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c3.title)]</label>
@@ -832,14 +826,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c3.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>$INFO[ListItem.Property(silo.c3.times)]$INFO[ListItem.Property(silo.c3.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c3.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>SkylineFocusTextDim</textcolor>
                             <label>$INFO[ListItem.Property(silo.c3.times)]$INFO[ListItem.Property(silo.c3.left),  ·  , min left]</label>
@@ -847,21 +841,21 @@
                         </control>
                     </control>
                     <control type="group">
-                        <left>1393</left>
+                        <left>1357</left>
                         <visible>!String.IsEmpty(ListItem.Property(silo.c3.title)) + !String.IsEqual(Window(Home).Property(silo.mini.col),3)</visible>
                         <control type="image">
-                            <width>343</width><height>70</height>
+                            <width>379</width><height>70</height>
                             <texture border="14" colordiffuse="24FFFFFF">silo/card_landscape_mask.png</texture>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>FFEDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c3.title)]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c3.cont),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>6</top><width>311</width><height>36</height>
+                            <left>16</left><top>6</top><width>347</width><height>36</height>
                             <font>silo_meta</font>
                             <textcolor>99EDEDED</textcolor>
                             <label>… $INFO[ListItem.Property(silo.c3.title)]</label>
@@ -873,14 +867,14 @@
                             <visible>String.IsEqual(ListItem.Property(silo.c3.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>16</left><top>42</top><width>311</width><height>28</height>
+                            <left>16</left><top>42</top><width>347</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>B3EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c3.times)]$INFO[ListItem.Property(silo.c3.left),  ·  , min left]</label>
                             <visible>!String.IsEqual(ListItem.Property(silo.c3.archive),1)</visible>
                         </control>
                         <control type="label">
-                            <left>46</left><top>42</top><width>281</width><height>28</height>
+                            <left>46</left><top>42</top><width>317</width><height>28</height>
                             <font>silo_detail</font>
                             <textcolor>B3EDEDED</textcolor>
                             <label>$INFO[ListItem.Property(silo.c3.times)]$INFO[ListItem.Property(silo.c3.left),  ·  , min left]</label>

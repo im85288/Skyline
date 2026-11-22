@@ -1925,7 +1925,7 @@ def add_leave_timer():
 MINI_ID = 1198               # the mini guide (long OK in Live TV), as Sky's
 MINI_LIST = 5700
 MINI_ROWS, MINI_ROW = 5, 78
-MINI_CHANNEL_W = 340
+MINI_CHANNEL_W = 196  # number and logo
 MINI_COLUMNS = 4             # half hours (KodiConnectForSilo's GRID_COLUMNS)
 MINI_CELL_W = (1920 - 2 * 88 - MINI_CHANNEL_W) // MINI_COLUMNS
 MINI_TOP = 1080 - 40 - MINI_ROWS * MINI_ROW
@@ -2019,37 +2019,34 @@ def mini_row(focused):
                         <texture colordiffuse="%(accent)s">colors/white.png</texture>
                         <visible>%(playing)s</visible>
                     </control>
+                    <!-- The number, yellow on the playing channel; the logo names it
+                         (the names were all cut to "Sky Sport...", taking the
+                         programmes' room). -->
                     <control type="label">
                         <left>16</left><top>0</top><width>64</width><height>%(h)d</height>
                         <aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>%(soft)s</textcolor>
                         <label>$INFO[ListItem.Property(silo.number)]</label>
+                        <visible>!%(playing)s</visible>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>0</top><width>64</width><height>%(h)d</height>
+                        <aligny>center</aligny>
+                        <font>silo_detail</font>
+                        <textcolor>%(accent)s</textcolor>
+                        <label>$INFO[ListItem.Property(silo.number)]</label>
+                        <visible>%(playing)s</visible>
                     </control>
                     <control type="image">
                         <left>80</left><top>9</top><width>96</width><height>52</height>
                         <aspectratio>keep</aspectratio>
                         <texture>$INFO[ListItem.Icon]</texture>
                     </control>
-                    <control type="label">
-                        <left>188</left><top>0</top><width>%(nw)d</width><height>%(h)d</height>
-                        <aligny>center</aligny>
-                        <font>silo_detail</font>
-                        <textcolor>%(text)s</textcolor>
-                        <label>$INFO[ListItem.Label]</label>
-                        <visible>!%(playing)s</visible>
-                    </control>
-                    <control type="label">
-                        <left>188</left><top>0</top><width>%(nw)d</width><height>%(h)d</height>
-                        <aligny>center</aligny>
-                        <font>silo_detail</font>
-                        <textcolor>%(accent)s</textcolor>
-                        <label>$INFO[ListItem.Label]</label>
-                        <visible>%(playing)s</visible>
-                    </control>%(cells)s''' % {
+%(cells)s''' % {
         'cw': MINI_CHANNEL_W - 8, 'h': MINI_ROW - 8, 'bar': MINI_ROW - 36, 'accent': ACCENT, 'playing': playing,
         'fill': '24FFFFFF' if focused else '12FFFFFF', 'soft': 'B3EDEDED' if focused else '80EDEDED',
-        'text': 'FFEDEDED' if focused else 'B3EDEDED', 'nw': MINI_CHANNEL_W - 200, 'cells': cells}
+        'cells': cells}
 
 
 MINI_PIC_W, MINI_PIC_H = 210, 118  # the focused programme's picture, beside its details
