@@ -127,18 +127,18 @@
             <ondown>Action(Number0)</ondown>
             <onfocus>ClearProperty(silo.guide.timeline,home)</onfocus>
             <scrolltime tween="cubic" easing="out">200</scrolltime>
-            <itemlayout width="312" height="52">
+            <itemlayout width="249" height="52">
                     <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
                     </control>
                     <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
                         <visible>ListItem.IsSelected</visible>
                     </control>
                     <control type="label">
-                        <left>22</left><width>256</width><height>52</height>
+                        <left>16</left><width>205</width><height>52</height>
                         <align>center</align><aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>99EDEDED</textcolor>
@@ -146,14 +146,14 @@
                         <label>$INFO[ListItem.Label]</label>
                     </control>
             </itemlayout>
-            <focusedlayout width="312" height="52">
+            <focusedlayout width="249" height="52">
                     <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texture>
                         <visible>Control.HasFocus(11)</visible>
                     </control>
                     <control type="label">
-                        <left>22</left><width>256</width><height>52</height>
+                        <left>16</left><width>205</width><height>52</height>
                         <align>center</align><aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>SkylineFocusText</textcolor>
@@ -162,16 +162,16 @@
                         <visible>Control.HasFocus(11)</visible>
                     </control>
                     <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="26" colordiffuse="E6262A33">silo/pill_26.png</texture>
                         <visible>!Control.HasFocus(11)</visible>
                     </control>                    <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
                         <visible>!Control.HasFocus(11)</visible>
                     </control>
                     <control type="label">
-                        <left>22</left><width>256</width><height>52</height>
+                        <left>16</left><width>205</width><height>52</height>
                         <align>center</align><aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>FFEDEDED</textcolor>

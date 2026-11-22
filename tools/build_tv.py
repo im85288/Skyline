@@ -162,17 +162,18 @@ def add_variables():
 
 def group_pill(focused):
     """A channel group: Silo's pill, the chosen group outlined, the focused
-    one white. Dark, not see-through: they sit on the programme's picture."""
+    one white. Dark, not see-through: they sit on the programme's picture.
+    249 px a pill, so seven groups fit across without the last cut off."""
     chosen = 'ListItem.IsSelected'
     if focused:
         return '''
                     <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="26" colordiffuse="%(text)s">silo/pill_26.png</texture>
                         <visible>Control.HasFocus(%(id)d)</visible>
                     </control>
                     <control type="label">
-                        <left>22</left><width>256</width><height>52</height>
+                        <left>16</left><width>205</width><height>52</height>
                         <align>center</align><aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>FF000000</textcolor>
@@ -181,16 +182,16 @@ def group_pill(focused):
                         <visible>Control.HasFocus(%(id)d)</visible>
                     </control>
                     <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="26" colordiffuse="%(pill_bg)s">silo/pill_26.png</texture>
                         <visible>!Control.HasFocus(%(id)d)</visible>
                     </control>                    <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
                         <visible>!Control.HasFocus(%(id)d)</visible>
                     </control>
                     <control type="label">
-                        <left>22</left><width>256</width><height>52</height>
+                        <left>16</left><width>205</width><height>52</height>
                         <align>center</align><aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>%(text)s</textcolor>
@@ -200,16 +201,16 @@ def group_pill(focused):
                     </control>''' % {'text': TEXT, 'id': GROUPS_ID, 'pill_bg': PILL_BG}
     return '''
                     <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="26" colordiffuse="%(pill_bg)s">silo/pill_26.png</texture>
                     </control>
                     <control type="image">
-                        <width>300</width><height>52</height>
+                        <width>237</width><height>52</height>
                         <texture border="28" colordiffuse="D9FFFFFF">silo/season_ring.png</texture>
                         <visible>%(chosen)s</visible>
                     </control>
                     <control type="label">
-                        <left>22</left><width>256</width><height>52</height>
+                        <left>16</left><width>205</width><height>52</height>
                         <align>center</align><aligny>center</aligny>
                         <font>silo_detail</font>
                         <textcolor>%(dim)s</textcolor>
@@ -340,9 +341,9 @@ def build():
             <ondown>Action(Number0)</ondown>
             <onfocus>ClearProperty(silo.guide.timeline,home)</onfocus>
             <scrolltime tween="cubic" easing="out">200</scrolltime>
-            <itemlayout width="312" height="52">%(pill)s
+            <itemlayout width="249" height="52">%(pill)s
             </itemlayout>
-            <focusedlayout width="312" height="52">%(pill_focused)s
+            <focusedlayout width="249" height="52">%(pill_focused)s
             </focusedlayout>
         </control>
 
