@@ -28,14 +28,19 @@
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/guide_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
-        <!-- The day and times on a dark backing, faded in from above, so they
-             read over the picture. -->
+        <!-- The day and times on a dark backing (a little see-through), faded in
+             from above, so they read over the picture. -->
         <control type="image">
             <left>0</left><top>392</top><width>1920</width><height>90</height>
             <texture colordiffuse="SkylineBackground">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
             <left>0</left><top>482</top><width>1920</width><height>46</height>
+            <texture colordiffuse="D90D0F12">colors/white.png</texture>
+        </control>
+        <!-- Left of the glass, the page: the picture's edge showed there. -->
+        <control type="image">
+            <left>0</left><top>528</top><width>72</width><height>592</height>
             <texture colordiffuse="SkylineBackground">colors/white.png</texture>
         </control>
 

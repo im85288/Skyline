@@ -277,14 +277,19 @@ def build():
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/guide_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
-        <!-- The day and times on a dark backing, faded in from above, so they
-             read over the picture. -->
+        <!-- The day and times on a dark backing (a little see-through), faded in
+             from above, so they read over the picture. -->
         <control type="image">
             <left>0</left><top>%(ruler_fade_y)d</top><width>1920</width><height>%(ruler_fade_h)d</height>
             <texture colordiffuse="%(background)s">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
             <left>0</left><top>%(grid_y)d</top><width>1920</width><height>%(ruler_h)d</height>
+            <texture colordiffuse="%(ruler_bg)s">colors/white.png</texture>
+        </control>
+        <!-- Left of the glass, the page: the picture's edge showed there. -->
+        <control type="image">
+            <left>0</left><top>%(band_y)d</top><width>%(panel_x)d</width><height>%(band_h)d</height>
             <texture colordiffuse="%(background)s">colors/white.png</texture>
         </control>
 
@@ -479,6 +484,7 @@ def build():
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 36 - 214 - 14,
        'band': BAND, 'band_y': GRID_Y + RULER_H, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
+       'ruler_bg': 'D9' + BACKGROUND[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
        'edge_x': PANEL_X + 20, 'edge_w': 1920 - PANEL_X - 20,
