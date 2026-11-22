@@ -444,12 +444,12 @@ def build():
             </focusedlayout>
         </control>
 
-        <!-- The time row's first, cut-off time (")0" of 22:00) under the page's
-             colour: Kodi clips a half-hour that began before the grid's left
-             edge. The picture is near clear there, so the cover doesn't show. -->
+        <!-- The time row's first, cut-off time (")0" of 22:00) faded into the
+             page's colour: Kodi clips a half-hour that began before the grid's
+             left edge. A fade, not a block: a block showed against the picture. -->
         <control type="image">
-            <left>%(cw)d</left><top>%(grid_y)d</top><width>90</width><height>%(ruler_h)d</height>
-            <texture colordiffuse="%(background)s">colors/white.png</texture>
+            <left>%(cw)d</left><top>%(grid_y)d</top><width>110</width><height>%(ruler_h)d</height>
+            <texture colordiffuse="%(background)s">silo/scrim_side.png</texture>
         </control>
 
         <!-- Kodi's labels for the window's own use. -->
