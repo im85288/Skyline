@@ -69,6 +69,20 @@ def hero_mask(width=640, height=400):
     write_png('hero_cover.png', width, height, lambda x, y: 1.0 - alpha(x, y))
 
 
+def guide_mask(width=640, height=360):
+    """The TV guide's picture, full screen (build_tv.py): in the top half it
+    fades out to the left, clear at the left edge to solid at 62% of the
+    width, as Home's hero art, so the title and plot read; from the rows down
+    (the guide's glass, 51% of the height) it is solid edge to edge, so it
+    shows through the channels' glass as through the programmes'. A straight
+    blend between the two over 8% of the height."""
+    def alpha(x, y):
+        from_left = min(1.0, x / (width * 0.62))
+        blend = min(1.0, max(0.0, (y / float(height) - 0.43) / 0.08))
+        return from_left + (1.0 - from_left) * blend
+    write_png('guide_mask.png', width, height, alpha)
+
+
 def tint_wash(width=192, height=108):
     """Silo's ambient wash, drawn in white for the skin to colour with the
     title's tint: diagonal from the top right (opaque) to the bottom left
@@ -315,6 +329,7 @@ if __name__ == '__main__':
     menu_panel()
     menu_panel('glass_pill.png', 72, 36)
     epg_now()
+    guide_mask()
     # Sky's guide shades nothing: what has finished is dimmed text instead (build_tv.py).
     # Clear for the time row's 46 px, so the line starts at the rows (border="0,58,18,0").
     epg_now('epg_now_line.png', height=72, shade=0, gap=46)

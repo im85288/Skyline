@@ -19,11 +19,14 @@
              right, faded into the page as the Home hero's art (Sky's, from the
              playlist's guide: ListItem.EpgEventIcon). No live video: the channel
              plays on in sound only while the guide is open, as Sky's. -->
+        <!-- Full screen (guide_mask): faded to the left in the top half for the
+             details, edge to edge behind the rows, so it shows through both
+             sides of the glass. -->
         <control type="image">
-            <left>576</left><top>0</top><width>1344</width><height>756</height>
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
             <aspectratio>scale</aspectratio>
             <fadetime>200</fadetime>
-            <texture background="true" diffuse="silo/hero_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
+            <texture background="true" diffuse="silo/guide_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
         <!-- Sky's glass under the rows (the day and times above stay on the
              picture): the programmes on see-through navy, the channels on the

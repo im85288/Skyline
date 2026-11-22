@@ -26,7 +26,6 @@ GRID_Y = PILLS_Y + 74      # 482: the ruler and 8 rows of 69 end at the screen's
 CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
 ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
-BACKDROP_X, BACKDROP_W, BACKDROP_H = 576, 1344, 756  # the programme's picture, as the Home hero's art
 BAND = 'B30A1555'           # the programmes' glass: Sky Stream's deep navy, the picture faint behind
 CHANNEL_BAND = BAND         # the channels' glass: the programmes' own
 PANEL_X = SAFE_X - 16       # the glass starts just left of the channel names (the focus outline's edge)
@@ -269,11 +268,14 @@ def build():
              right, faded into the page as the Home hero's art (Sky's, from the
              playlist's guide: ListItem.EpgEventIcon). No live video: the channel
              plays on in sound only while the guide is open, as Sky's. -->
+        <!-- Full screen (guide_mask): faded to the left in the top half for the
+             details, edge to edge behind the rows, so it shows through both
+             sides of the glass. -->
         <control type="image">
-            <left>%(bx)d</left><top>0</top><width>%(bw)d</width><height>%(bh)d</height>
+            <left>0</left><top>0</top><width>1920</width><height>1080</height>
             <aspectratio>scale</aspectratio>
             <fadetime>200</fadetime>
-            <texture background="true" diffuse="silo/hero_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
+            <texture background="true" diffuse="silo/guide_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
         <!-- Sky's glass under the rows (the day and times above stay on the
              picture): the programmes on see-through navy, the channels on the
@@ -465,7 +467,7 @@ def build():
        'name_shown': '[String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 36 - 214 - 14,
-       'bx': BACKDROP_X, 'bw': BACKDROP_W, 'bh': BACKDROP_H, 'band': BAND, 'band_y': GRID_Y + RULER_H,
+       'band': BAND, 'band_y': GRID_Y + RULER_H,
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
        'edge_x': PANEL_X + 20, 'edge_w': 1920 - PANEL_X - 20,
