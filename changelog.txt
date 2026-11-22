@@ -1,3 +1,6 @@
+[B]0.18.1[/B]
+• Live TV: Back dismisses Start from the beginning or Coming up next while it shows, rather than stopping the channel; the start is offered once a channel (KodiConnectForSilo 0.26.1)
+
 [B]0.18.0[/B]
 • Live TV, as Sky's (KodiConnectForSilo 0.26.0): Left and Right step the banner through the channel's earlier and later programmes; OK watches one from catch-up or sets a reminder
 • Live TV: Start from the beginning when you tune in partway through a programme on a catch-up channel (OK), and Coming up next near a programme's end
