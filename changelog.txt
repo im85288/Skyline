@@ -1,3 +1,8 @@
+[B]0.19.0[/B]
+• TV guide in Sky Stream's look: the programme's picture across the screen behind its title, LIVE, length, "Started at" and plot, with the channel's logo (KodiConnectForSilo 0.27.0)
+• TV guide: channel names in full without numbers, the rows on see-through navy glass, finished programmes dimmed, the focused one a lighter band; "Today" above the channels
+• TV guide: no live video box (the channel plays on in sound) and no group pills; Back with nothing playing leaves the guide
+
 [B]0.18.1[/B]
 • Live TV: Back dismisses Start from the beginning or Coming up next while it shows, rather than stopping the channel; the start is offered once a channel (KodiConnectForSilo 0.26.1)
 
