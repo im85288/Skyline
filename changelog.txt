@@ -1,3 +1,10 @@
+[B]0.18.0[/B]
+• Live TV, as Sky's (KodiConnectForSilo 0.26.0): Left and Right step the banner through the channel's earlier and later programmes; OK watches one from catch-up or sets a reminder
+• Live TV: Start from the beginning when you tune in partway through a programme on a catch-up channel (OK), and Coming up next near a programme's end
+• Live TV: the banner, OK screen and guide show the programme's picture, the channel's logo and a red LIVE tag, on a dark band
+• Live TV: Back stops the channel; hold OK for the TV guide; the quick guide and mini guide are gone
+• TV page: Recent channels, then a row for each of the guide's groups
+
 [B]0.17.0[/B]
 • TV: the channel's logo above the hero's title; with the playlist's programme pictures (Sky's), the hero and cards show the programme
 • TV guide: the focused programme's picture in the box beside it, rather than the channel's logo
