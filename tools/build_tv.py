@@ -1808,19 +1808,19 @@ def mini_details():
                 <control type="label">
                     <left>88</left><top>%(t1)d</top><width>1200</width><height>48</height>
                     <font>silo_meta</font>
-                    <textcolor>FFEDEDED</textcolor>
+                    <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[%(title)s]</label>
                 </control>
                 <control type="label">
                     <left>88</left><top>%(t2)d</top><width>1744</width><height>34</height>
                     <font>silo_detail</font>
-                    <textcolor>B3EDEDED</textcolor>
+                    <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[%(timeline)s]</label>
                 </control>
                 <control type="label">
                     <left>88</left><top>%(t3)d</top><width>1744</width><height>34</height>
                     <font>silo_detail</font>
-                    <textcolor>D9EDEDED</textcolor>
+                    <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[%(plot)s]</label>
                 </control>
             </control>''' % {'lit': mini_lit(column), 'title': p % 'title', 'timeline': p % 'timeline',
@@ -1882,7 +1882,8 @@ def build_mini():
     return MINI_WINDOW % {
         'restart': restart, 'accent': ACCENT,
         'window': MINI_ID, 'list': MINI_LIST, 'top': MINI_TOP, 'h': MINI_ROWS * MINI_ROW, 'row': MINI_ROW,
-        'details': mini_details(), 'header': header, 'hint_y': MINI_TOP - 186, 'plugin': MINI_PLUGIN,
+        'details': mini_details(), 'header': header, 'hint_y': MINI_TOP - 186,
+        'band_fade': MINI_TOP - 330, 'band_y': MINI_TOP - 210, 'band_h': 1080 - (MINI_TOP - 210), 'plugin': MINI_PLUGIN,
         'left': ''.join('\n                <onleft condition="%s">%s</onleft>' % pair for pair in left),
         'right': ''.join('\n                <onright condition="%s">%s</onright>' % pair for pair in right),
         'clicks': clicks, 'card': mini_row(False), 'card_focused': mini_row(True)}
@@ -1912,11 +1913,22 @@ MINI_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
                 <left>0</left><top>440</top><width>1920</width><height>640</height>
                 <texture>silo/scrim_bottom.png</texture>
             </control>
+            <!-- The details and the hint read on any picture (bright video
+                 showed through the gradients' faint top): a 60%% black band
+                 from just above them, its top edge blended. -->
+            <control type="image">
+                <left>0</left><top>%(band_fade)d</top><width>1920</width><height>120</height>
+                <texture colordiffuse="99FFFFFF">silo/scrim_bottom.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>%(band_y)d</top><width>1920</width><height>%(band_h)d</height>
+                <texture colordiffuse="99000000">colors/white.png</texture>
+            </control>
             <control type="label">
                 <right>88</right><top>%(hint_y)d</top><width>700</width><height>48</height>
                 <align>right</align><aligny>center</aligny>
                 <font>silo_detail</font>
-                <textcolor>99EDEDED</textcolor>
+                <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                 <label>OK  Watch     ◀ ▶  Earlier, later</label>
                 <visible>!%(restart)s</visible>
             </control>
@@ -1924,7 +1936,7 @@ MINI_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
                 <right>88</right><top>%(hint_y)d</top><width>700</width><height>48</height>
                 <align>right</align><aligny>center</aligny>
                 <font>silo_detail</font>
-                <textcolor>99EDEDED</textcolor>
+                <textcolor>B3EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                 <label>[COLOR %(accent)s]OK  Start over[/COLOR]     ◀ ▶  Earlier, later</label>
                 <visible>%(restart)s</visible>
             </control>%(details)s%(header)s
