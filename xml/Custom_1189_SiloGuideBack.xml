@@ -8,7 +8,7 @@
     <onload condition="Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">PlayerControl(Stop)</onload>
     <onload condition="Skin.TimerIsRunning(silo_guide_leave)">ActivateWindow(Home)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">Action(FullScreen)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + String.IsEmpty(Window(Home).Property(silo.guide.timeline))">Action(Back)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + !String.IsEmpty(Window(Home).Property(silo.guide.timeline))">SetFocus(11)</onload>
+    <!-- Nothing playing: Kodi's own Back (leave the guide); its groups no longer show. -->
+    <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo">Action(Back)</onload>
     <controls />
 </window>

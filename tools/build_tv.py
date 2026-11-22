@@ -28,7 +28,7 @@ ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
 BACKDROP_X, BACKDROP_W, BACKDROP_H = 576, 1344, 756  # the programme's picture, as the Home hero's art
 BAND = 'C40A1555'           # the programmes' band: Sky Stream's deep navy, the picture faint behind
-CHANNEL_BAND = 'D9060914'   # the channels' band: darker still, a near-black navy
+CHANNEL_BAND = 'D90D1440'   # the channels' band: a darker navy than the programmes', not black
 LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
 PREVIEW_W, PREVIEW_H = 496, 279
@@ -363,6 +363,8 @@ def build():
              time of the programme selected before, which can be hours ago.
              Back: window 1189 (GUIDE_BACK). -->
         <control type="list" id="%(groups)d">
+            <!-- Hidden, as Sky Stream's guide has none (Kodi still fills it). -->
+            <visible>false</visible>
             <left>%(x)d</left><top>%(pills_y)d</top><width>%(gw)d</width><height>52</height>
             <orientation>horizontal</orientation>
             <ondown>SetFocus(%(grid)d)</ondown>
@@ -380,7 +382,6 @@ def build():
             <viewtype label="19298">list</viewtype>
             <timeblocks>%(blocks)d</timeblocks>
             <rulerunit>6</rulerunit>
-            <onup>%(groups)d</onup>
             <!-- Where Back goes (window 1189) depends on the timeline having focus. -->
             <onfocus>SetProperty(silo.guide.timeline,1,home)</onfocus>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
@@ -2011,8 +2012,8 @@ GUIDE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
     <onload condition="Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">PlayerControl(Stop)</onload>
     <onload condition="Skin.TimerIsRunning(silo_guide_leave)">ActivateWindow(Home)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + Player.HasVideo">Action(FullScreen)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + String.IsEmpty(Window(Home).Property(silo.guide.timeline))">Action(Back)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo + !String.IsEmpty(Window(Home).Property(silo.guide.timeline))">SetFocus(%(groups)d)</onload>
+    <!-- Nothing playing: Kodi's own Back (leave the guide); its groups no longer show. -->
+    <onload condition="!Skin.TimerIsRunning(silo_guide_leave) + !Player.HasVideo">Action(Back)</onload>
     <controls />
 </window>
 '''
