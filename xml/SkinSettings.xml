@@ -134,14 +134,6 @@
 					<onclick>Skin.ToggleSetting(SkylineHideTvTab)</onclick>
 					<visible>PVR.HasTVChannels</visible>
 				</control>
-				<control type="button" id="772">
-					<label>- Live sport groups</label>
-					<label2>Playlist groups to look in</label2>
-					<include>DefaultSettingButton</include>
-					<onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=tv_sport_groups)</onclick>
-					<enable>!Skin.HasSetting(SkylineHideTvTab)</enable>
-					<visible>PVR.HasTVChannels + System.HasAddon(plugin.video.kodiconnectforsilo)</visible>
-				</control>
 				<control type="button" id="773">
 					<label>- My teams</label>
 					<label2>$INFO[Skin.String(SkylineTvTeams)]</label2>

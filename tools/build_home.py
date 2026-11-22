@@ -70,7 +70,8 @@ PAGE_FIELDS = {
 # Rows a page can show; Requests has Silo's Discover rows (six title rows,
 # then Studios, Networks and Genres), and every slot costs Home.xml size.
 # Silo's libraries have 6 rows each: fewer slots keep Home.xml quick to load.
-PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 4, 'custom': WIDGETS}
+# TV: KodiConnectForSilo's Recent channels, up to five guide groups, Catch up and My teams.
+PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 8, 'custom': WIDGETS}
 
 
 def published(page, slot):
@@ -1784,7 +1785,7 @@ def tv_hero():
     sit: Watch (what's playing, full screen; else the last channel watched),
     Start again (Apple TV's: the playing programme from its start, where its
     channel has catch-up) and Guide."""
-    on_now = 'Window(Home).Property(silo.tv.1.1.tv.play)'  # On now's first: the last channel watched (tvrows.ROWS)
+    on_now = 'Window(Home).Property(silo.tv.1.1.tv.play)'  # Recent channels' first: the last channel watched (tvrows.ROWS)
     restart = '%s + VideoPlayer.Content(LiveTV) + %s' % (TV_PLAYING, TV_ARCHIVE)
     # Left and Right step over Start again when it's hidden.
     watch_moves = hero_pill_moves(TV_TAB, 'tv', 'noop', 'noop', TV_TAB) + (

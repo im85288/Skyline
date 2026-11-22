@@ -699,8 +699,6 @@ HOME_SETTINGS = (
               selected='!Skin.HasSetting(SkylineHideRequestsTab)', visible=SILO)
     + setting('radiobutton', 781, 'TV tab', 'Skin.ToggleSetting(SkylineHideTvTab)',
               selected='!Skin.HasSetting(SkylineHideTvTab)', visible='PVR.HasTVChannels')
-    + setting('button', 772, '- Live sport groups', 'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=tv_sport_groups)',
-              label2='Playlist groups to look in', enable='!Skin.HasSetting(SkylineHideTvTab)', visible=TV)
     + setting('button', 773, '- My teams', SILO_CHOICE % 'tv_teams', label2='$INFO[Skin.String(SkylineTvTeams)]',
               enable='!Skin.HasSetting(SkylineHideTvTab)', visible=TV)
     # As Sky's "Default to live TV": what the TV tab plays as it opens.
@@ -750,7 +748,6 @@ SETTING_HELP = (
     (794, 'Choose which Home rows show big numbers beside their first ten posters, as a chart does.'),
     (780, "Show the Requests tab in Home's bar, to find and request films and shows through Silo."),
     (781, "Show the TV tab in Home's bar, with live channels and the guide."),
-    (772, "The TV tab's Live sport now row shows matches only on channels in the playlist groups ticked here."),
     (773, "Teams whose matches the TV tab's My teams row looks for, in any group. Several: separate them with commas."),
     (774, "What the TV tab plays behind its rows as it opens: the last channel you watched, nothing until Watch has focus, or nothing at all (a channel then plays only when you choose one)."),
     (786, "Episodes in the rows on Home, Movies and Series, such as Continue Watching, show their own picture instead of their show's artwork."),
