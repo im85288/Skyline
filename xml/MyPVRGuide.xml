@@ -33,7 +33,7 @@
         <control type="image">
             <left>72</left><top>528</top><width>488</width><height>592</height>
             <!-- Rounded on the left only: no right slice keeps the right corners square. -->
-            <texture border="20,20,0,20" colordiffuse="CC0A1555">silo/card_landscape_mask.png</texture>
+            <texture border="20,20,0,20" colordiffuse="B30A1555">silo/card_landscape_mask.png</texture>
         </control>
         <control type="image">
             <left>560</left><top>528</top><width>1360</width><height>592</height>
