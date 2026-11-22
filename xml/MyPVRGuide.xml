@@ -29,11 +29,11 @@
              picture): the channels on a dark one, the programmes on blue. -->
         <control type="image">
             <left>0</left><top>528</top><width>560</width><height>552</height>
-            <texture colordiffuse="E60A0C11">colors/white.png</texture>
+            <texture colordiffuse="D9060914">colors/white.png</texture>
         </control>
         <control type="image">
             <left>560</left><top>528</top><width>1360</width><height>552</height>
-            <texture colordiffuse="E0182F78">colors/white.png</texture>
+            <texture colordiffuse="C40A1555">colors/white.png</texture>
         </control>
         <control type="label">
             <right>88</right><top>40</top><width>400</width><height>48</height>
