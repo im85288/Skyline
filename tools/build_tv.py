@@ -27,8 +27,9 @@ CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
 ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
 BACKDROP_X, BACKDROP_W, BACKDROP_H = 576, 1344, 756  # the programme's picture, as the Home hero's art
-GUIDE_BG = 'FF0A0F22'       # the guide's page: Sky Stream's dark navy, not Skyline's near-black
 BAND = 'B30A1555'           # the programmes' glass: Sky Stream's deep navy, the picture faint behind
+CHANNEL_BAND = 'CC0A1555'   # the channels' glass: the same navy, a little less see-through
+PANEL_X = SAFE_X - 16       # the glass starts just left of the channel names (the focus outline's edge)
 LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
 PREVIEW_W, PREVIEW_H = 496, 279
@@ -274,20 +275,26 @@ def build():
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/hero_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
-        <!-- Sky's glass under the programmes (the day and times above stay on the
-             picture): see-through navy, a sheen and a fine light edge along its
-             top. The channel names sit on the page itself, as Sky's do. Kodi
-             can't blur what's behind, so the glass is this. -->
+        <!-- Sky's glass under the rows (the day and times above stay on the
+             picture): the programmes on see-through navy, the channels on the
+             same a little less see-through, from just left of their names (a
+             rounded corner there); a sheen and a fine light edge along the top.
+             Kodi can't blur what's behind, so the glass is this. -->
+        <control type="image">
+            <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(cw_panel)d</width><height>%(band_h)d</height>
+            <!-- Rounded on the left only: no right slice keeps the right corners square. -->
+            <texture border="20,20,0,20" colordiffuse="%(channel_band)s">silo/card_landscape_mask.png</texture>
+        </control>
         <control type="image">
             <left>%(cw)d</left><top>%(band_y)d</top><width>%(pw_band)d</width><height>%(band_h)d</height>
             <texture colordiffuse="%(band)s">colors/white.png</texture>
         </control>
         <control type="image">
-            <left>%(cw)d</left><top>%(band_y)d</top><width>%(pw_band)d</width><height>180</height>
-            <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
+            <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(panel_w)d</width><height>180</height>
+            <texture border="20,20,0,0" flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
-            <left>%(cw)d</left><top>%(band_y)d</top><width>%(pw_band)d</width><height>2</height>
+            <left>%(edge_x)d</left><top>%(band_y)d</top><width>%(edge_w)d</width><height>2</height>
             <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
         </control>
         <control type="label">
@@ -451,7 +458,7 @@ def build():
         <control type="label" id="30"><visible>false</visible></control>
     </controls>
 </window>
-''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': GUIDE_BG, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
+''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': BACKGROUND, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
        'logo_shown': '[!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        # Only a channel with no logo shows its name: until the logo is known, neither.
@@ -459,7 +466,9 @@ def build():
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 36 - 214 - 14,
        'bx': BACKDROP_X, 'bw': BACKDROP_W, 'bh': BACKDROP_H, 'band': BAND, 'band_y': GRID_Y + RULER_H,
-       'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W,
+       'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
+       'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
+       'edge_x': PANEL_X + 20, 'edge_w': 1920 - PANEL_X - 20,
 
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
        'soft': 'D9EDEDED',

@@ -8,11 +8,11 @@
     <onunload>ClearProperty(silo.guide.fromplayer,home)</onunload>
     <defaultcontrol always="true">51</defaultcontrol>
     <views>51</views>
-    <backgroundcolor>FF0A0F22</backgroundcolor>
+    <backgroundcolor>SkylineBackground</backgroundcolor>
     <controls>
         <control type="image">
             <left>0</left><top>0</top><width>1920</width><height>1080</height>
-            <texture colordiffuse="FF0A0F22">colors/white.png</texture>
+            <texture colordiffuse="SkylineBackground">colors/white.png</texture>
         </control>
 
         <!-- Sky Stream's guide: the focused programme's picture across the top
@@ -25,20 +25,26 @@
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/hero_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
         </control>
-        <!-- Sky's glass under the programmes (the day and times above stay on the
-             picture): see-through navy, a sheen and a fine light edge along its
-             top. The channel names sit on the page itself, as Sky's do. Kodi
-             can't blur what's behind, so the glass is this. -->
+        <!-- Sky's glass under the rows (the day and times above stay on the
+             picture): the programmes on see-through navy, the channels on the
+             same a little less see-through, from just left of their names (a
+             rounded corner there); a sheen and a fine light edge along the top.
+             Kodi can't blur what's behind, so the glass is this. -->
+        <control type="image">
+            <left>72</left><top>528</top><width>488</width><height>592</height>
+            <!-- Rounded on the left only: no right slice keeps the right corners square. -->
+            <texture border="20,20,0,20" colordiffuse="CC0A1555">silo/card_landscape_mask.png</texture>
+        </control>
         <control type="image">
             <left>560</left><top>528</top><width>1360</width><height>592</height>
             <texture colordiffuse="B30A1555">colors/white.png</texture>
         </control>
         <control type="image">
-            <left>560</left><top>528</top><width>1360</width><height>180</height>
-            <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
+            <left>72</left><top>528</top><width>1848</width><height>180</height>
+            <texture border="20,20,0,0" flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
-            <left>560</left><top>528</top><width>1360</width><height>2</height>
+            <left>92</left><top>528</top><width>1828</width><height>2</height>
             <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
         </control>
         <control type="label">
@@ -699,7 +705,7 @@
              left edge. A fade, not a block: a block showed against the picture. -->
         <control type="image">
             <left>560</left><top>482</top><width>110</width><height>46</height>
-            <texture colordiffuse="FF0A0F22">silo/scrim_side.png</texture>
+            <texture colordiffuse="SkylineBackground">silo/scrim_side.png</texture>
         </control>
 
         <!-- Kodi's labels for the window's own use. -->
