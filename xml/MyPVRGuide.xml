@@ -578,9 +578,10 @@
             <!-- Where Back goes (window 1189) depends on the timeline having focus. -->
             <onfocus>SetProperty(silo.guide.timeline,1,home)</onfocus>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
-            <!-- Now: a white line at the current time with TiviMate's dot at its top; what has aired isn't
-                 shaded (Sky's dims its titles instead). -->
-            <progresstexture border="0,16,18,0" colordiffuse="F2FFFFFF">silo/epg_now_line.png</progresstexture>
+            <!-- Now: a white line at the current time from the rows down (clear over
+                 the time row), its dot at the rows' top; what has aired isn't shaded
+                 (Sky's dims its titles instead). -->
+            <progresstexture border="0,58,18,0" colordiffuse="F2FFFFFF">silo/epg_now_line.png</progresstexture>
             <!-- The ruler's first cell is the day, above the channels; the others
                  are the times (the only cells with a colon). -->
             <rulerlayout height="46" width="1400">

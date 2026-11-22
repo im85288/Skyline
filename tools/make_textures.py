@@ -144,15 +144,17 @@ def menu_panel(name='menu_panel.png', size=96, radius=24, rim=1.5):
     write_png(name, size, size, pixel)
 
 
-def epg_now(name='epg_now.png', width=28, height=28, dot=12, line=3, shade=0.4):
+def epg_now(name='epg_now.png', width=28, height=28, dot=12, line=3, shade=0.4, gap=0):
     """The guide's "now" marker: Kodi stretches it from the grid's start to
     the current time. Its right edge is a white line with a yellow dot at
     its top, as TiviMate's (border="0,16,18,0": the dot and the line's column keep
     their size); left of the line, a see-through black shades what has
     already aired, as TiviMate does."""
-    cx, cy = width - dot / 2.0, dot / 2.0
+    cx, cy = width - dot / 2.0, gap + dot / 2.0
 
     def alpha(x, y):
+        if y < gap:  # clear over the guide's time row: the line starts at the rows
+            return 0.0
         in_dot = (x - cx) ** 2 + (y - cy) ** 2 <= (dot / 2.0) ** 2
         in_line = abs(x - cx) <= line / 2.0
         if in_dot:
@@ -314,7 +316,8 @@ if __name__ == '__main__':
     menu_panel('glass_pill.png', 72, 36)
     epg_now()
     # Sky's guide shades nothing: what has finished is dimmed text instead (build_tv.py).
-    epg_now('epg_now_line.png', shade=0)
+    # Clear for the time row's 46 px, so the line starts at the rows (border="0,58,18,0").
+    epg_now('epg_now_line.png', height=72, shade=0, gap=46)
     play_circle()
     # Silo's skip pill outline (Up Next's Skip intro), stretched with border="48".
     focus_ring('pill_ring.png', 96, 96, 48, 4)
