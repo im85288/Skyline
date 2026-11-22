@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Generate Skyline's TV guide (xml/MyPVRGuide.xml) and programme information
-(xml/DialogPVRInfo.xml), the guide as TiviMate lays one out
+(xml/DialogPVRInfo.xml), the guide as Sky Stream lays one out
 in Silo's look:
 
     python3 tools/build_tv.py
 
-The focused programme at the top (channel, title, time, progress, plot) with
-a preview of what's playing at the right; the channel groups as Silo's
-pills; then the timeline: channels down the left, programmes across, the
-focused one a white bar, a white line at the current time. Kodi fills the
+The focused programme at the top (channel, title, Sky's line, plot) over its
+picture, which fills the top right; the channel groups as Silo's pills; then
+the timeline on a dark blue band: channel names and numbers down the left,
+programme titles across (finished ones dimmed), the focused one a lighter
+band, a white line at the current time. Kodi fills the
 groups (control 11) and the grid; the bar's TV tab opens it (Live TV only).
 """
 import os
@@ -20,12 +21,13 @@ from build_home import BACKGROUND, ROOT, SAFE_X, TEXT  # noqa: E402
 
 GROUPS_ID, GRID_ID = 11, 51
 DIM = '99EDEDED'
-TOP_H = 330                 # the programme's details and the preview
-PILLS_Y = TOP_H + 6
-GRID_Y = PILLS_Y + 76
-CHANNEL_W = 620
-ROW_H = 78                  # TiviMate's rows: 8 channels on screen, easy to read from the sofa
-GRID_ROWS = 8               # the grid ends 2 px below the screen for the 8th to be whole
+PILLS_Y = 404               # under the programme's details (Sky Stream's top half)
+GRID_Y = PILLS_Y + 74
+CHANNEL_W = 420             # Sky's: the channel's name and number, no logo
+ROW_H = 66                  # 8 channels on screen
+GRID_ROWS = 8
+BACKDROP_X, BACKDROP_W, BACKDROP_H = 576, 1344, 756  # the programme's picture, as the Home hero's art
+BAND = 'E00C1322'           # the grid's dark blue band, as Sky's
 LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
 PREVIEW_W, PREVIEW_H = 496, 279
@@ -33,6 +35,7 @@ BLOCK_W = 60                # a 5-minute block
 # TiviMate's yellow: the playing channel, the programme on now, today.
 ACCENT = 'FFF2D46B'
 PLAYING = 'ListItem.IsPlaying'
+ENDED = 'Integer.IsEqual(ListItem.Progress,100)'  # a programme that has finished
 
 
 def two_tone(control, colour, accent, condition, also=''):
@@ -63,64 +66,60 @@ def playing_mark(left, top, size=24, colour=ACCENT, also='true'):
 
 
 def channel(focused):
-    """A channel down the left on one line, as TiviMate's: logo, number and
-    name, and its history icon when it has catch-up; the focused row's
-    channel lit while the grid has focus."""
+    """A channel down the left, as Sky Stream's: its name, the number at the
+    right, no logo; the playing channel's name in the accent, the focused
+    row's outlined while the timeline has focus."""
     colour = TEXT if focused else 'C7EDEDED'
-    return '''
+    rim = '''
                     <control type="image">
-                        <left>%(x)d</left><top>5</top><width>%(w)d</width><height>%(h)d</height>
-                        <texture border="16" colordiffuse="%(fill)s">silo/card_landscape_mask.png</texture>
-                    </control>
-                    <control type="image">
-                        <left>%(lx)d</left><top>%(ly)d</top><width>%(lw)d</width><height>%(lh)d</height>
-                        <aspectratio>keep</aspectratio>
-                        <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
-                    </control>
-%(name)s
-                    <!-- Catch-up: past programmes can be played (TiviMate's clock). -->
-                    <control type="image">
-                        <left>%(ax)d</left><top>%(iy)d</top><width>26</width><height>26</height>
-                        <texture colordiffuse="%(dim)s">silo/menu_history.png</texture>
-                        <visible>ListItem.HasArchive</visible>
-                    </control>%(playing)s''' % {'x': SAFE_X - 6, 'w': CHANNEL_W - SAFE_X + 2, 'h': ROW_H - 10,
-                                     'playing': playing_mark(CHANNEL_W - 74, (ROW_H - 28) // 2, 28),
-                                     'ly': (ROW_H - LOGO_H) // 2, 'lw': LOGO_W, 'lh': LOGO_H, 'iy': (ROW_H - 26) // 2,
-                                     'name': two_tone('''
+                        <left>%d</left><top>6</top><width>%d</width><height>%d</height>
+                        <texture border="16" colordiffuse="%s">silo/card_landscape_rim.png</texture>
+                        <visible>Control.HasFocus(%d)</visible>
+                    </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12, TEXT, GRID_ID) if focused else ''
+    return rim + two_tone('''
                     <control type="label">
-                        <left>%d</left><top>5</top><width>%d</width><height>%d</height>
+                        <left>%d</left><top>0</top><width>%d</width><height>%d</height>
                         <aligny>center</aligny>%s
                         <font>silo_meta</font>
                         <textcolor>{colour}</textcolor>
                         <selectedcolor>{colour}</selectedcolor>
-                        <label>$INFO[ListItem.ChannelNumberLabel,[COLOR {also}],[/COLOR]  ]$INFO[ListItem.Label]</label>
+                        <label>$INFO[ListItem.Label]</label>
                         {visible}
-                    </control>''' % (SAFE_X + LOGO_W + 18, CHANNEL_W - SAFE_X - LOGO_W - 100, ROW_H - 10,
-                                     # The focused channel's whole name: an event channel's says what's on.
-                                     '\n                        <scroll>true</scroll>' if focused else ''),
-                                                      colour, ACCENT, PLAYING, DIM),
-                                     'fill': '1FFFFFFF' if focused else '0DFFFFFF', 'lx': SAFE_X + 4,
-                                     'dim': DIM, 
-                                     'ax': CHANNEL_W - 40}
+                    </control>''' % (SAFE_X, CHANNEL_W - SAFE_X - 96, ROW_H,
+                         # The focused channel's whole name: an event channel's says what's on.
+                         '\n                        <scroll>true</scroll>' if focused else ''),
+        colour, ACCENT, PLAYING) + '''
+                    <control type="label">
+                        <left>%d</left><top>0</top><width>64</width><height>%d</height>
+                        <align>right</align><aligny>center</aligny>
+                        <font>silo_meta</font>
+                        <textcolor>%s</textcolor>
+                        <selectedcolor>%s</selectedcolor>
+                        <label>$INFO[ListItem.ChannelNumberLabel]</label>
+                    </control>''' % (CHANNEL_W - 96, ROW_H, colour, colour)
 
 
 def programme(focused):
-    """A programme: a dark rounded block with its title; focused, a white bar
-    with dark text (Silo's focus) while the grid has focus. Kodi stretches
-    only the image with id 2 and the label with id 1 to the programme's
-    length, so the block's colour and the title's come from variables."""
+    """A programme, as Sky Stream's: its title on the band, a faint line
+    between programmes; focused (the timeline having focus), a lighter
+    rounded band. Kodi stretches only the image with id 2 and the label with
+    id 1 to the programme's length, so the colours come from variables."""
     return '''
+                    <control type="image">
+                        <left>0</left><top>18</top><width>2</width><height>%(line)d</height>
+                        <texture colordiffuse="1FFFFFFF">colors/white.png</texture>
+                    </control>
                     <control type="image" id="2">
-                        <left>3</left><top>5</top><width>%(w)d</width><height>%(h)d</height>
+                        <left>3</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
                         <texture border="16" colordiffuse="%(fill)s">silo/card_landscape_mask.png</texture>
                     </control>
                     <control type="label" id="1">
-                        <left>18</left><top>5</top><width>%(lw)d</width><height>%(h)d</height>
+                        <left>18</left><top>6</top><width>%(lw)d</width><height>%(h)d</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <label>%(label)s</label>
-                    </control>''' % {'w': BLOCK_W - 6, 'lw': BLOCK_W - 30, 'h': ROW_H - 10,
-                                      'fill': '$VAR[SiloGuideCell]' if focused else '17FFFFFF',
+                    </control>''' % {'w': BLOCK_W - 6, 'lw': BLOCK_W - 30, 'h': ROW_H - 12, 'line': ROW_H - 36,
+                                      'fill': '$VAR[SiloGuideCell]' if focused else '00FFFFFF',
                                       'label': '$VAR[SiloGuideTitle]' if focused else '$VAR[SiloGuideTitleRest]'}
 
 
@@ -131,21 +130,30 @@ def variables():
     return ('    <!-- Silo Skyline TV guide (tools/build_tv.py) -->\n'
             # The theme's names: tools/build_colours.py doesn't reach a variable's values.
             '    <variable name="SiloGuideCell">\n'
-            '        <value condition="%(lit)s">SkylineFocus</value>\n'
-            '        <value>17FFFFFF</value>\n'
+            '        <value condition="%(lit)s">40FFFFFF</value>\n'
+            '        <value>00FFFFFF</value>\n'
             '    </variable>\n'
-            # A channel with no guide data: "No information", as TiviMate.
+            # A channel with no guide data: "No information", as TiviMate. What has
+            # finished is dimmed, as Sky's.
             '    <variable name="SiloGuideTitle">\n'
-            '        <value condition="%(lit)s + String.IsEmpty(ListItem.Label)">[COLOR SkylineFocusTextDim]No information[/COLOR]</value>\n'
-            '        <value condition="%(lit)s">[COLOR SkylineFocusText]$INFO[ListItem.Label][/COLOR]</value>\n'
+            '        <value condition="%(lit)s + String.IsEmpty(ListItem.Label)">[COLOR B3FFFFFF]No information[/COLOR]</value>\n'
+            '        <value condition="%(lit)s">[COLOR FFFFFFFF]$INFO[ListItem.Label][/COLOR]</value>\n'
             '        <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>\n'
+            '        <value condition="%(ended)s">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '        <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '    </variable>\n'
             '    <variable name="SiloGuideTitleRest">\n'
             '        <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>\n'
+            '        <value condition="%(ended)s">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '        <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '    </variable>\n'
-            ) % {'lit': lit, } + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
+            # Sky's "Started at 1.00pm": when the focused programme starts or started.
+            '    <variable name="SiloGuideWhen">\n'
+            '        <value condition="%(ended)s">Was on at $INFO[ListItem.StartTime]</value>\n'
+            '        <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>\n'
+            '        <value condition="!String.IsEmpty(ListItem.StartTime)">Starts at $INFO[ListItem.StartTime]</value>\n'
+            '    </variable>\n'
+            ) % {'lit': lit, 'ended': ENDED} + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
 
 
 def add_variables():
@@ -234,83 +242,79 @@ def build():
             <texture colordiffuse="%(background)s">colors/white.png</texture>
         </control>
 
-        <!-- At the left: what's playing (TiviMate's preview), else the
-             programme's or channel's picture. -->
-        <control type="group">
-            <left>%(x)d</left><top>%(py)d</top>
-            <control type="image">
-                <width>%(pw)d</width><height>%(ph)d</height>
-                <texture border="20" colordiffuse="FF000000">silo/card_landscape_mask.png</texture>
-            </control>
-            <control type="videowindow">
-                <width>%(pw)d</width><height>%(ph)d</height>
-                <visible>Player.HasVideo</visible>
-            </control>
-            <!-- The programme's own picture (Sky's, from the playlist's guide:
-                 ListItem.EpgEventIcon), filling the box; with none, the channel's
-                 logo (ListItem.Icon) as before. No logo on the picture: with a
-                 picture, Kodi's ListItem.Icon is the picture too, and the channel
-                 column beside it has the logo. -->
-            <control type="image">
-                <width>%(pw)d</width><height>%(ph)d</height>
-                <aspectratio>scale</aspectratio>
-                <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
-                <visible>!Player.HasVideo + !String.IsEmpty(ListItem.EpgEventIcon)</visible>
-            </control>
-            <control type="image">
-                <width>%(pw)d</width><height>%(ph)d</height>
-                <aspectratio>keep</aspectratio>
-                <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Icon]</texture>
-                <visible>!Player.HasVideo + String.IsEmpty(ListItem.EpgEventIcon)</visible>
-            </control>
+        <!-- Sky Stream's guide: the focused programme's picture across the top
+             right, faded into the page as the Home hero's art (Sky's, from the
+             playlist's guide: ListItem.EpgEventIcon). No live video: the channel
+             plays on in sound only while the guide is open, as Sky's. -->
+        <control type="image">
+            <left>%(bx)d</left><top>0</top><width>%(bw)d</width><height>%(bh)d</height>
+            <aspectratio>scale</aspectratio>
+            <fadetime>200</fadetime>
+            <texture background="true" diffuse="silo/hero_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
+        </control>
+        <!-- The grid's band, Sky's dark blue, over the picture's foot. -->
+        <control type="image">
+            <left>0</left><top>%(band_y)d</top><width>1920</width><height>%(band_h)d</height>
+            <texture colordiffuse="%(band)s">colors/white.png</texture>
+        </control>
+        <control type="label">
+            <right>%(x)d</right><top>40</top><width>400</width><height>48</height>
+            <align>right</align><aligny>center</aligny>
+            <font>silo_meta</font>
+            <textcolor>%(text)s</textcolor>
+            <label>$INFO[System.Time]</label>
         </control>
 
-        <!-- Beside it, the focused programme as TiviMate's guide shows it: the
-             title on up to two lines, its times, how far through, and its plot. -->
+        <!-- At the left, over the picture's fade: the channel, the title, Sky's
+             line (LIVE, length, when it started) and the plot. -->
         <control type="group">
-            <left>%(dx)d</left><top>%(py)d</top>
-            <control type="textbox">
-                <width>%(dw)d</width><height>112</height>
+            <left>%(x)d</left><top>52</top>
+            <control type="label">
+                <width>%(dw)d</width><height>40</height>
+                <aligny>center</aligny>
+                <font>silo_meta</font>
+                <textcolor>%(dim)s</textcolor>
+                <label>$INFO[ListItem.ChannelNumberLabel,,  ]$INFO[ListItem.ChannelName]</label>
+            </control>
+            <control type="label">
+                <top>44</top><width>%(dw)d</width><height>72</height>
+                <aligny>center</aligny>
                 <font>silo_osd_title</font>
                 <textcolor>%(text)s</textcolor>
                 <label>$INFO[ListItem.Label]</label>
-                <autoscroll>false</autoscroll>
                 <visible>!String.IsEmpty(ListItem.Label)</visible>
             </control>
             <!-- No programme (the guide has none): the channel's name, which on an
                  event channel says what's on. -->
-            <control type="textbox">
-                <width>%(dw)d</width><height>112</height>
+            <control type="label">
+                <top>44</top><width>%(dw)d</width><height>72</height>
+                <aligny>center</aligny>
                 <font>silo_osd_title</font>
                 <textcolor>%(text)s</textcolor>
                 <label>$INFO[ListItem.ChannelName]</label>
-                <autoscroll>false</autoscroll>
                 <visible>String.IsEmpty(ListItem.Label)</visible>
             </control>
             <control type="grouplist">
-                <top>132</top><width>%(dw)d</width><height>36</height>
+                <top>128</top><width>%(dw)d</width><height>36</height>
                 <orientation>horizontal</orientation>
-                <itemgap>18</itemgap>%(guide_live)s
+                <itemgap>20</itemgap>%(guide_live)s
                 <control type="label">
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>%(text)s</textcolor>
-                    <selectedcolor>%(text)s</selectedcolor>
-                    <label>$INFO[ListItem.StartTime]$INFO[ListItem.EndTime, – ,]</label>
+                    <label>$INFO[ListItem.Duration(mins),, min]</label>
                 </control>
-                <!-- On now: how far through, as Silo's progress bars (Kodi gives guide
-                     programmes no time left: EpgEventRemainingTime is for channels). -->
-                <control type="progress">
-                    <top>15</top><width>180</width><height>6</height>
-                    <texturebg colordiffuse="33FFFFFF">colors/white.png</texturebg>
-                    <midtexture colordiffuse="%(text)s">colors/white.png</midtexture>
-                    <info>ListItem.Progress</info>
-                    <visible>%(on_now)s</visible>
+                <control type="label">
+                    <width>auto</width><height>36</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>%(text)s</textcolor>
+                    <label>$VAR[SiloGuideWhen]</label>
                 </control>
             </control>
             <control type="textbox">
-                <top>180</top><width>%(dw)d</width><height>%(plot_h)d</height>
+                <top>178</top><width>%(dw)d</width><height>%(plot_h)d</height>
                 <font>silo_plot</font>
                 <textcolor>%(soft)s</textcolor>
                 <label>$INFO[ListItem.Plot]</label>
@@ -368,7 +372,7 @@ def build():
                     <font>silo_detail</font>
                     <textcolor>%(accent)s</textcolor>
                     <selectedcolor>%(accent)s</selectedcolor>
-                    <label>$INFO[System.Date(ddd d mmm)]$INFO[System.Time,  ·  ,]</label>
+                    <label>$INFO[System.Date(ddd d mmm)]</label>
                     <visible>!String.Contains(ListItem.Label,:)</visible>
                 </control>
             </rulerlayout>
@@ -388,10 +392,11 @@ def build():
     </controls>
 </window>
 ''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': BACKGROUND, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
-       'pw': PREVIEW_W, 'ph': PREVIEW_H, 'pills_y': PILLS_Y, 'py': (PILLS_Y - PREVIEW_H) // 2,
-       'dx': SAFE_X + PREVIEW_W + 48, 'dw': 1920 - 2 * SAFE_X - PREVIEW_W - 48, 'plot_h': PILLS_Y - 194,
+       'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 52 - 178 - 12,
+       'bx': BACKDROP_X, 'bw': BACKDROP_W, 'bh': BACKDROP_H, 'band': BAND, 'band_y': GRID_Y - 8,
+       'band_h': 1080 - GRID_Y + 8,
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
-       'soft': 'D9EDEDED', 'accent': ACCENT, 'on_now': 'Integer.IsGreater(ListItem.Progress,0) + Integer.IsLess(ListItem.Progress,100)',
+       'soft': 'D9EDEDED', 'accent': ACCENT,
        'gw': 1920 - 2 * SAFE_X, 'pill': group_pill(False), 'pill_focused': group_pill(True),
        'grid_y': GRID_Y, 'grid_h': grid_h, 'ruler_h': RULER_H, 'row_h': ROW_H, 'cw': CHANNEL_W,
        'date_x': SAFE_X + 4, 'date_w': CHANNEL_W - SAFE_X - 4,

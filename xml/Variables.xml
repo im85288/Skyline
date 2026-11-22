@@ -10216,18 +10216,25 @@
     <!-- end Silo Skyline person -->
     <!-- Silo Skyline TV guide (tools/build_tv.py) -->
     <variable name="SiloGuideCell">
-        <value condition="Control.HasFocus(51)">SkylineFocus</value>
-        <value>17FFFFFF</value>
+        <value condition="Control.HasFocus(51)">40FFFFFF</value>
+        <value>00FFFFFF</value>
     </variable>
     <variable name="SiloGuideTitle">
-        <value condition="Control.HasFocus(51) + String.IsEmpty(ListItem.Label)">[COLOR SkylineFocusTextDim]No information[/COLOR]</value>
-        <value condition="Control.HasFocus(51)">[COLOR SkylineFocusText]$INFO[ListItem.Label][/COLOR]</value>
+        <value condition="Control.HasFocus(51) + String.IsEmpty(ListItem.Label)">[COLOR B3FFFFFF]No information[/COLOR]</value>
+        <value condition="Control.HasFocus(51)">[COLOR FFFFFFFF]$INFO[ListItem.Label][/COLOR]</value>
         <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>
+        <value condition="Integer.IsEqual(ListItem.Progress,100)">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>
         <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>
     </variable>
     <variable name="SiloGuideTitleRest">
         <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>
+        <value condition="Integer.IsEqual(ListItem.Progress,100)">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>
         <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>
+    </variable>
+    <variable name="SiloGuideWhen">
+        <value condition="Integer.IsEqual(ListItem.Progress,100)">Was on at $INFO[ListItem.StartTime]</value>
+        <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>
+        <value condition="!String.IsEmpty(ListItem.StartTime)">Starts at $INFO[ListItem.StartTime]</value>
     </variable>
     <variable name="SiloSchedulePath">
         <value condition="[Control.HasFocus(14) | Control.HasFocus(13) | String.IsEqual(Window(Home).Property(silo.sched.want),1)]">plugin://plugin.video.kodiconnectforsilo/?mode=schedule&amp;full=1&amp;number=$INFO[Window(Home).Property(silo.sched.number)]&amp;name=$INFO[Window(Home).Property(silo.sched.name)]</value>
