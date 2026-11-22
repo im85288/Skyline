@@ -1,3 +1,10 @@
+[B]0.17.0[/B]
+• TV: the channel's logo above the hero's title; with the playlist's programme pictures (Sky's), the hero and cards show the programme
+• TV guide: the focused programme's picture in the box beside it, rather than the channel's logo
+• Mini guide: a dark band behind its details and hint, so they read over any picture
+• Every pill (buttons, OK to watch, chips) is a clean capsule at its own height; the smaller ones had lumpy ends
+• Settings > Home > Plays on opening: its dialog showed "Programs" for its heading and choices
+
 [B]0.16.0[/B]
 • TV: a Catch up row of matches and programmes that have just ended, on channels with catch-up (KodiConnectForSilo 0.25.0)
 • TV: live cards say how long is left; Start again beside Watch for a programme on a catch-up channel
