@@ -140,7 +140,7 @@ def chip(focused, view_id):
         return '''
                     <control type="image">
                         <width>%(w)d</width><height>%(h)d</height>
-                        <texture border="32" colordiffuse="%(fill)s">silo/pill.png</texture>%(v)s
+                        <texture border="32" colordiffuse="%(fill)s">silo/pill_32.png</texture>%(v)s
                     </control>
                     <control type="label">
                         <left>24</left><width>%(lw)d</width><height>%(h)d</height>
@@ -415,14 +415,14 @@ def extra_row(focused):
     return '''
                 <control type="image">
                     <left>4</left><top>4</top><width>%(w)d</width><height>%(h)d</height>
-                    <texture border="34" colordiffuse="%(text)s">silo/pill.png</texture>
+                    <texture border="%(r)d" colordiffuse="%(text)s">silo/pill_%(r)d.png</texture>
                     <visible>%(lit)s + !%(coloured)s</visible>
                 </control>
                 <control type="image">
                     <left>4</left><top>4</top><width>%(w)d</width><height>%(h)d</height>
-                    <texture border="34" colordiffuse="%(pill)s">silo/pill.png</texture>
+                    <texture border="%(r)d" colordiffuse="%(pill)s">silo/pill_%(r)d.png</texture>
                     <visible>%(lit)s + %(coloured)s</visible>
-                </control>''' % {'w': EXTRA_LIST_W - 8, 'h': EXTRA_ROW - 8, 'text': TEXT, 'lit': lit, 'coloured': COLOURED,
+                </control>''' % {'w': EXTRA_LIST_W - 8, 'h': EXTRA_ROW - 8, 'r': (EXTRA_ROW - 8) // 2, 'text': TEXT, 'lit': lit, 'coloured': COLOURED,
                                   'pill': COLOURED_PILL} \
         + parts('FF000000', '8C000000', '%s + !%s' % (lit, COLOURED)) \
         + parts(TEXT, TEXT_DIM, '[!%s | %s]' % (lit, COLOURED)) + tick
@@ -597,14 +597,14 @@ def detail_row(focused):
     return '''
                 <control type="image">
                     <left>4</left><top>4</top><width>%(w)d</width><height>%(h)d</height>
-                    <texture border="28" colordiffuse="%(text)s">silo/pill.png</texture>
+                    <texture border="%(r)d" colordiffuse="%(text)s">silo/pill_%(r)d.png</texture>
                     <visible>%(lit)s + !%(coloured)s</visible>
                 </control>
                 <control type="image">
                     <left>4</left><top>4</top><width>%(w)d</width><height>%(h)d</height>
-                    <texture border="28" colordiffuse="%(pill)s">silo/pill.png</texture>
+                    <texture border="%(r)d" colordiffuse="%(pill)s">silo/pill_%(r)d.png</texture>
                     <visible>%(lit)s + %(coloured)s</visible>
-                </control>''' % {'w': DETAIL_LIST_W - 8, 'h': DETAIL_ROW - 8, 'text': TEXT, 'lit': lit, 'coloured': COLOURED,
+                </control>''' % {'w': DETAIL_LIST_W - 8, 'h': DETAIL_ROW - 8, 'r': (DETAIL_ROW - 8) // 2, 'text': TEXT, 'lit': lit, 'coloured': COLOURED,
                                   'pill': COLOURED_PILL} \
         + parts('FF000000', '8C000000', '%s + !%s' % (lit, COLOURED)) + parts(TEXT, TEXT_DIM, '[!%s | %s]' % (lit, COLOURED))
 

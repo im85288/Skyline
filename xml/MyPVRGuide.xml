@@ -102,7 +102,7 @@
             <itemlayout width="312" height="52">
                     <control type="image">
                         <width>300</width><height>52</height>
-                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill.png</texture>
+                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill_26.png</texture>
                         <visible>!ListItem.IsSelected</visible>
                     </control>
                     <control type="image">
@@ -122,7 +122,7 @@
             <focusedlayout width="312" height="52">
                     <control type="image">
                         <width>300</width><height>52</height>
-                        <texture border="26" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                        <texture border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texture>
                         <visible>Control.HasFocus(11)</visible>
                     </control>
                     <control type="label">

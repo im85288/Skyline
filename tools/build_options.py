@@ -172,8 +172,8 @@ def tab_button(index, key, title):
                 <align>center</align><aligny>center</aligny>
                 <textcolor>%(selected_or_dim)s</textcolor>
                 <focusedcolor>FF000000</focusedcolor>
-                <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-                <texturenofocus border="28" colordiffuse="%(nofocus)s">silo/pill.png</texturenofocus>
+                <texturefocus border="28" colordiffuse="%(text)s">silo/pill_28.png</texturefocus>
+                <texturenofocus border="28" colordiffuse="%(nofocus)s">silo/pill_28.png</texturenofocus>
                 <onfocus>SetProperty(silo.options.tab,%(key)s,home)</onfocus>
                 <ondown>%(panel)d</ondown>
             </control>''' % {'id': control_id, 'title': title, 'key': key, 'text': TEXT, 'panel': 201 + index,

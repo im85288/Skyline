@@ -872,7 +872,7 @@ def show_pill():
                     <align>center</align><aligny>center</aligny>
                     <textcolor>%(dim)s</textcolor>
                     <focusedcolor>FF000000</focusedcolor>
-                    <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
+                    <texturefocus border="28" colordiffuse="%(text)s">silo/pill_28.png</texturefocus>
                     <texturenofocus border="28" colordiffuse="59FFFFFF">silo/season_ring.png</texturenofocus>
                     <onup>5000</onup>
                     <onright>65</onright>
@@ -909,9 +909,9 @@ def season(focused, list_id=60):
                                          'visible': '<visible>%s</visible>' % visible if visible else ''}
     has = 'Control.HasFocus(%d)' % list_id
     if focused:
-        return (pill('silo/pill.png', TEXT, has) + label('FF000000', has) +
-                pill('silo/pill.png', '38FFFFFF', '!' + has) + label(TEXT, '!' + has))
-    return pill('silo/pill.png', '14FFFFFF') + label(TEXT)
+        return (pill('silo/pill_28.png', TEXT, has) + label('FF000000', has) +
+                pill('silo/pill_28.png', '38FFFFFF', '!' + has) + label(TEXT, '!' + has))
+    return pill('silo/pill_28.png', '14FFFFFF') + label(TEXT)
 
 
 def episode_title(scroll, visible):

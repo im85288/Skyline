@@ -426,9 +426,9 @@ def sort_controls():
         return '''
                     <control type="image">
                         <left>4</left><top>4</top><width>%(w)d</width><height>%(h)d</height>
-                        <texture border="28" colordiffuse="%(text)s">silo/pill.png</texture>
+                        <texture border="%(r)d" colordiffuse="%(text)s">silo/pill_%(r)d.png</texture>
                         <visible>%(lit)s</visible>
-                    </control>''' % {'w': SORT_W - 40, 'h': SORT_ROW - 8, 'text': TEXT, 'lit': lit} \
+                    </control>''' % {'w': SORT_W - 40, 'h': SORT_ROW - 8, 'r': (SORT_ROW - 8) // 2, 'text': TEXT, 'lit': lit} \
             + parts('FF000000', '8C000000', lit) + parts(TEXT, '99EDEDED', '!' + lit)
     # OK or Down opens the list on the current sort (its place among the
     # sorts the kind offers).
@@ -467,8 +467,8 @@ def sort_controls():
             <aligny>center</aligny>
             <textcolor>%(text)s</textcolor>
             <focusedcolor>FF000000</focusedcolor>
-            <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-            <texturenofocus border="28" colordiffuse="26FFFFFF">silo/pill.png</texturenofocus>
+            <texturefocus border="28" colordiffuse="%(text)s">silo/pill_28.png</texturefocus>
+            <texturenofocus border="28" colordiffuse="26FFFFFF">silo/pill_28.png</texturenofocus>
             <visible>!%(personal)s</visible>
 %(open_list)s
             <onleft>noop</onleft><onup>noop</onup>
@@ -603,7 +603,7 @@ def view_controls():
         return """
                     <control type="image">
                         <left>4</left><top>4</top><width>%(w)d</width><height>%(h)d</height>
-                        <texture border="28" colordiffuse="%(text)s">silo/pill.png</texture>
+                        <texture border="28" colordiffuse="%(text)s">silo/pill_28.png</texture>
                         <visible>%(lit)s</visible>
                     </control>""" % {'w': VIEW_W - 40, 'h': SORT_ROW - 8, 'text': TEXT, 'lit': lit} \
             + parts('FF000000', lit) + parts(TEXT, '!' + lit)
@@ -620,8 +620,8 @@ def view_controls():
             <align>center</align><aligny>center</aligny>
             <textcolor>%(text)s</textcolor>
             <focusedcolor>FF000000</focusedcolor>
-            <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-            <texturenofocus border="28" colordiffuse="26FFFFFF">silo/pill.png</texturenofocus>
+            <texturefocus border="28" colordiffuse="%(text)s">silo/pill_28.png</texturefocus>
+            <texturenofocus border="28" colordiffuse="26FFFFFF">silo/pill_28.png</texturenofocus>
             <visible>!%(personal)s</visible>
 %(open_list)s            <onleft>%(unwatched)d</onleft><onright>noop</onright><onup>noop</onup>
         </control>
@@ -634,8 +634,8 @@ def view_controls():
             <align>center</align><aligny>center</aligny>
             <textcolor>%(text)s</textcolor>
             <focusedcolor>FF000000</focusedcolor>
-            <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-            <texturenofocus border="28" colordiffuse="26FFFFFF">silo/pill.png</texturenofocus>
+            <texturefocus border="28" colordiffuse="%(text)s">silo/pill_28.png</texturefocus>
+            <texturenofocus border="28" colordiffuse="26FFFFFF">silo/pill_28.png</texturenofocus>
             <visible>!%(personal)s</visible>
             <onclick>Skin.ToggleSetting(silo.unwatched)</onclick>
 %(unwatched_down)s            <onleft condition="Control.IsVisible(%(shuffle)d)">%(shuffle)d</onleft>
@@ -648,8 +648,8 @@ def view_controls():
             <right>%(shx)d</right><top>%(top)d</top>
             <width>56</width><height>56</height>
             <label />
-            <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-            <texturenofocus border="28" colordiffuse="26FFFFFF">silo/pill.png</texturenofocus>
+            <texturefocus border="28" colordiffuse="%(text)s">silo/pill_28.png</texturefocus>
+            <texturenofocus border="28" colordiffuse="26FFFFFF">silo/pill_28.png</texturenofocus>
             <visible>%(shuffle_shown)s</visible>
             <onclick condition="String.IsEqual(%(type)s,movies)">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=shuffle&amp;scope=movies)</onclick>
             <onclick condition="String.IsEqual(%(type)s,tvshows)">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=shuffle&amp;scope=tvshows)</onclick>
@@ -873,9 +873,9 @@ def list_row(focused):
     return """
                 <control type="image">
                     <left>4</left><top>4</top><width>772</width><height>%(h)d</height>
-                    <texture border="28" colordiffuse="%(text)s">silo/pill.png</texture>
+                    <texture border="%(r)d" colordiffuse="%(text)s">silo/pill_%(r)d.png</texture>
                     <visible>%(lit)s</visible>
-                </control>""" % {'h': LIST_ROW - 8, 'text': TEXT, 'lit': lit} \
+                </control>""" % {'h': LIST_ROW - 8, 'r': (LIST_ROW - 8) // 2, 'text': TEXT, 'lit': lit} \
         + parts('FF000000', '8C000000', lit) + parts(TEXT, TEXT_DIM, '!' + lit)
 
 
@@ -1001,8 +1001,8 @@ def collection_hero(is_one):
                 <control type="button" id="%(id)d">
                     <width>200</width><height>56</height>
                     <label></label>
-                    <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-                    <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="28" colordiffuse="%(text)s">silo/pill_28.png</texturefocus>
+                    <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill_28.png</texturenofocus>
                     <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=shuffle&amp;scope=collection)</onclick>
                     <ondown>%(grid)d</ondown>
                     <onup>noop</onup><onleft>noop</onleft><onright>noop</onright>

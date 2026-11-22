@@ -36,8 +36,8 @@
                     <aligny>center</aligny>
                     <enable>false</enable>
                     <disabledcolor>FFEDEDED</disabledcolor>
-                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturenofocus>
-                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturefocus>
+                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturenofocus>
+                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturefocus>
                     <visible>!String.IsEmpty(Window(Home).Property(silo.person.born))</visible>
                 </control>
                 <control type="button">
@@ -48,8 +48,8 @@
                     <aligny>center</aligny>
                     <enable>false</enable>
                     <disabledcolor>FFEDEDED</disabledcolor>
-                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturenofocus>
-                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturefocus>
+                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturenofocus>
+                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturefocus>
                     <visible>!String.IsEmpty(Window(Home).Property(silo.person.died))</visible>
                 </control>
                 <control type="button">
@@ -60,8 +60,8 @@
                     <aligny>center</aligny>
                     <enable>false</enable>
                     <disabledcolor>FFEDEDED</disabledcolor>
-                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturenofocus>
-                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturefocus>
+                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturenofocus>
+                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturefocus>
                     <visible>!String.IsEmpty(Window(Home).Property(silo.person.age))</visible>
                 </control>
                 <control type="button">
@@ -72,8 +72,8 @@
                     <aligny>center</aligny>
                     <enable>false</enable>
                     <disabledcolor>FFEDEDED</disabledcolor>
-                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturenofocus>
-                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturefocus>
+                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturenofocus>
+                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturefocus>
                     <visible>!String.IsEmpty(Window(Home).Property(silo.person.place))</visible>
                 </control>
             </control>
@@ -114,7 +114,7 @@
                     <width>84</width><height>52</height>
                     <control type="image">
                         <width>84</width><height>52</height>
-                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill.png</texture>
+                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill_26.png</texture>
                         <visible>!String.IsEmpty(Window(Home).Property(silo.person.type))</visible>
                     </control>
                     <control type="image">
@@ -129,7 +129,7 @@
                         <align>center</align><aligny>center</aligny>
                         <textcolor>99EDEDED</textcolor>
                         <focusedcolor>SkylineFocusText</focusedcolor>
-                        <texturefocus border="26" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
+                        <texturefocus border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texturefocus>
                         <texturenofocus />
                         <onclick>SetProperty(silo.person.type,,home)</onclick>
                         <onright>5311</onright>
@@ -140,7 +140,7 @@
                     <width>128</width><height>52</height>
                     <control type="image">
                         <width>128</width><height>52</height>
-                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill.png</texture>
+                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill_26.png</texture>
                         <visible>!String.IsEqual(Window(Home).Property(silo.person.type),movie)</visible>
                     </control>
                     <control type="image">
@@ -155,7 +155,7 @@
                         <align>center</align><aligny>center</aligny>
                         <textcolor>99EDEDED</textcolor>
                         <focusedcolor>SkylineFocusText</focusedcolor>
-                        <texturefocus border="26" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
+                        <texturefocus border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texturefocus>
                         <texturenofocus />
                         <onclick>SetProperty(silo.person.type,movie,home)</onclick>
                         <onleft>5310</onleft>
@@ -167,7 +167,7 @@
                     <width>120</width><height>52</height>
                     <control type="image">
                         <width>120</width><height>52</height>
-                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill.png</texture>
+                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill_26.png</texture>
                         <visible>!String.IsEqual(Window(Home).Property(silo.person.type),series)</visible>
                     </control>
                     <control type="image">
@@ -182,7 +182,7 @@
                         <align>center</align><aligny>center</aligny>
                         <textcolor>99EDEDED</textcolor>
                         <focusedcolor>SkylineFocusText</focusedcolor>
-                        <texturefocus border="26" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
+                        <texturefocus border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texturefocus>
                         <texturenofocus />
                         <onclick>SetProperty(silo.person.type,series,home)</onclick>
                         <onleft>5311</onleft>
@@ -195,7 +195,7 @@
                     <visible>System.HasAddon(plugin.video.themoviedb.helper) + !String.IsEmpty(Window(Home).Property(silo.person.tmdb))</visible>
                     <control type="image">
                         <width>190</width><height>52</height>
-                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill.png</texture>
+                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill_26.png</texture>
                         <visible>!String.IsEqual(Window(Home).Property(silo.person.type),missing)</visible>
                     </control>
                     <control type="image">
@@ -210,7 +210,7 @@
                         <align>center</align><aligny>center</aligny>
                         <textcolor>99EDEDED</textcolor>
                         <focusedcolor>SkylineFocusText</focusedcolor>
-                        <texturefocus border="26" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
+                        <texturefocus border="26" colordiffuse="SkylineFocus">silo/pill_26.png</texturefocus>
                         <texturenofocus />
                         <onclick>SetProperty(silo.person.type,missing,home)</onclick>
                         <onleft>5312</onleft>

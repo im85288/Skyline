@@ -186,6 +186,19 @@ def pill(size=60):
     write_png('pill.png', size, size, lambda x, y: rounded_rect_coverage(x, y, size, size, size / 2.0))
 
 
+# Pills drawn at other heights: a pill 2N high takes border="N" and pill_N.png,
+# whose curve has that radius (pill.png's is 30: a smaller border cut its
+# curve and stretched the cut, a lumpy end, as Live TV's "OK to watch").
+PILL_SIZES = [18, 20, 24, 26, 28, 29, 32, 34, 36]
+
+
+def pills():
+    for radius in PILL_SIZES:
+        width, height = 2 * radius + 4, 2 * radius
+        write_png('pill_%d.png' % radius, width, height,
+                  lambda x, y, w=width, h=height, r=radius: rounded_rect_coverage(x, y, w, h, r))
+
+
 def switches(width=112, height=56):
     """An on/off switch drawn at twice its size on screen (56x28): on is a
     filled track with a cut-out knob on the right, off an outlined track with
@@ -306,6 +319,7 @@ if __name__ == '__main__':
     # Silo's season pills: a 2 px outline at the pills' own size, border="28".
     focus_ring('season_ring.png', 56, 56, 28, 2)
     pill()
+    pills()
     switches()
     scrim()
     # Cast photos: round, with a ring 6 px outside the photo.

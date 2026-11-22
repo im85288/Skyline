@@ -1091,7 +1091,7 @@ def dropdown(x, list_id, back, heading, content, shown, rows, fit=False, header=
         return ('''
                     <control type="image">
                         <left>4</left><top>4</top><width>%d</width><height>%d</height>
-                        <texture border="28" colordiffuse="%s">silo/pill.png</texture>%s
+                        <texture border="28" colordiffuse="%s">silo/pill_28.png</texture>%s
                     </control>''' % (DROP_W - 40, DROP_ROW - 8, TEXT, on) + body('FF000000', on) + body(TEXT, off))
     def frame(n, visible):
         return '''
@@ -1296,8 +1296,8 @@ def page_pills():
                     <align>center</align><aligny>center</aligny>
                     <textcolor>%(colour)s</textcolor>
                     <focusedcolor>FF000000</focusedcolor>
-                    <texturefocus border="24" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="%(rest)s">silo/pill.png</texturenofocus>%(clicks)s
+                    <texturefocus border="24" colordiffuse="%(text)s">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="%(rest)s">silo/pill_24.png</texturenofocus>%(clicks)s
                 </control>''' % {'id': gid * 10 + number, 'h': PILL_H, 'label': label, 'text': TEXT, 'clicks': clicks,
                                  'colour': colour, 'rest': rest}
         rows = page_rows(index, range(1, min(LOOKAHEAD, rows_of(PAGES[index])) + 1)) + ([collection_id(index)] if page in COLLECTION_PAGES else [])
@@ -1341,8 +1341,8 @@ def request_search_box(gid, tab, rows):
                         <aligny>center</aligny>
                         <textcolor>%(dim)s</textcolor>
                         <focusedcolor>FF000000</focusedcolor>
-                        <texturefocus border="24" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-                        <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                        <texturefocus border="24" colordiffuse="%(text)s">silo/pill_24.png</texturefocus>
+                        <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                         <onclick>SetProperty(silo.search.mode,requests,home)</onclick>
                         <!-- A new search: the keyboard starts empty (the bar's Search reopens on the last). -->
                         <onclick>Skin.Reset(silo.search)</onclick>
@@ -1383,7 +1383,7 @@ def custom_pills():
             return '''
                     <control type="image">
                         <width>%(w)d</width><height>%(h)d</height>
-                        <texture border="24" colordiffuse="%(fill)s">silo/pill.png</texture>%(v)s
+                        <texture border="24" colordiffuse="%(fill)s">silo/pill_24.png</texture>%(v)s
                     </control>
                     <control type="label">
                         <left>20</left><width>%(lw)d</width><height>%(h)d</height>
@@ -1735,8 +1735,8 @@ def hero_pill(control_id, label, icon, clicks, width, moves, visible=None):
                     <control type="button" id="%(id)d">
                         <width>%(w)d</width><height>56</height>
                         <label />
-                        <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>%(clicks)s%(moves)s
+                        <texturefocus border="28" colordiffuse="%(text)s">silo/pill_28.png</texturefocus>
+                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill_28.png</texturenofocus>%(clicks)s%(moves)s
                     </control>
                     <control type="image">
                         <left>26</left><top>15</top><width>26</width><height>26</height>
@@ -1845,8 +1845,8 @@ def hero_buttons():
                     <control type="button" id="%(id)d">
                         <width>%(w)d</width><height>56</height>
                         <label />
-                        <texturefocus border="28" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                        <texturefocus border="28" colordiffuse="%(text)s">silo/pill_28.png</texturefocus>
+                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill_28.png</texturenofocus>
                         <onclick>%(action)s</onclick>
 %(ups)s
                         <onleft>%(left)s</onleft><onright>%(right)s</onright>

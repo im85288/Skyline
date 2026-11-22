@@ -31,8 +31,8 @@
                 <align>center</align><aligny>center</aligny>
                 <textcolor>$VAR[SiloRequestPillMovies]</textcolor>
                 <focusedcolor>SkylineFocusText</focusedcolor>
-                <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                <texturenofocus border="24" colordiffuse="$VAR[SiloRequestPillFillMovies]">silo/pill.png</texturenofocus>
+                <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                <texturenofocus border="24" colordiffuse="$VAR[SiloRequestPillFillMovies]">silo/pill_24.png</texturenofocus>
                 <onleft>noop</onleft><onright>71</onright>
                 <ondown>50</ondown>
                 <onclick>ClearProperty(silo.rbrowse.media,home)</onclick>
@@ -45,8 +45,8 @@
                 <align>center</align><aligny>center</aligny>
                 <textcolor>$VAR[SiloRequestPillSeries]</textcolor>
                 <focusedcolor>SkylineFocusText</focusedcolor>
-                <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                <texturenofocus border="24" colordiffuse="$VAR[SiloRequestPillFillSeries]">silo/pill.png</texturenofocus>
+                <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                <texturenofocus border="24" colordiffuse="$VAR[SiloRequestPillFillSeries]">silo/pill_24.png</texturenofocus>
                 <onleft>70</onleft><onright>noop</onright>
                 <ondown>50</ondown>
                 <onclick>SetProperty(silo.rbrowse.media,series,home)</onclick>

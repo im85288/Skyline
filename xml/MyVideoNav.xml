@@ -1539,12 +1539,12 @@
             <focusedlayout width="780" height="66">
                 <control type="image">
                     <left>4</left><top>4</top><width>772</width><height>58</height>
-                    <texture border="28" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                    <texture border="29" colordiffuse="SkylineFocus">silo/pill_29.png</texture>
                     <visible>Control.HasFocus(56) + !String.Contains(ListItem.Label,COLOR)</visible>
                 </control>
                 <control type="image">
                     <left>4</left><top>4</top><width>772</width><height>58</height>
-                    <texture border="28" colordiffuse="FF3F444D">silo/pill.png</texture>
+                    <texture border="29" colordiffuse="FF3F444D">silo/pill_29.png</texture>
                     <visible>Control.HasFocus(56) + String.Contains(ListItem.Label,COLOR)</visible>
                 </control>
                 <control type="label">
@@ -1771,7 +1771,7 @@
             <itemlayout width="276" height="80">
                     <control type="image">
                         <width>260</width><height>64</height>
-                        <texture border="32" colordiffuse="12FFFFFF">silo/pill.png</texture>
+                        <texture border="32" colordiffuse="12FFFFFF">silo/pill_32.png</texture>
                     </control>
                     <control type="label">
                         <left>24</left><width>212</width><height>64</height>
@@ -1784,7 +1784,7 @@
             <focusedlayout width="276" height="80">
                     <control type="image">
                         <width>260</width><height>64</height>
-                        <texture border="32" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                        <texture border="32" colordiffuse="SkylineFocus">silo/pill_32.png</texture>
                         <visible>Control.HasFocus(54)</visible>
                     </control>
                     <control type="label">
@@ -1797,7 +1797,7 @@
                     </control>
                     <control type="image">
                         <width>260</width><height>64</height>
-                        <texture border="32" colordiffuse="12FFFFFF">silo/pill.png</texture>
+                        <texture border="32" colordiffuse="12FFFFFF">silo/pill_32.png</texture>
                         <visible>!Control.HasFocus(54)</visible>
                     </control>
                     <control type="label">
@@ -2165,12 +2165,12 @@
             <focusedlayout width="1064" height="80">
                 <control type="image">
                     <left>4</left><top>4</top><width>1056</width><height>72</height>
-                    <texture border="34" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                    <texture border="36" colordiffuse="SkylineFocus">silo/pill_36.png</texture>
                     <visible>Control.HasFocus(58) + !String.Contains(ListItem.Label,COLOR)</visible>
                 </control>
                 <control type="image">
                     <left>4</left><top>4</top><width>1056</width><height>72</height>
-                    <texture border="34" colordiffuse="FF3F444D">silo/pill.png</texture>
+                    <texture border="36" colordiffuse="FF3F444D">silo/pill_36.png</texture>
                     <visible>Control.HasFocus(58) + String.Contains(ListItem.Label,COLOR)</visible>
                 </control>
                 <control type="label">

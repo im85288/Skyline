@@ -317,8 +317,8 @@
                     <control type="button" id="4801">
                         <width>180</width><height>56</height>
                         <label />
-                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill_28.png</texturenofocus>
                         <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=playitem&amp;type=$VAR[SiloHeroType]&amp;dbid=$VAR[SiloHeroDbid])</onclick>
                         <onup condition="[String.IsEmpty(Window(Home).Property(silo.page)) | String.IsEqual(Window(Home).Property(silo.page),home)]">SetFocus(9002)</onup>
                         <onup condition="String.IsEqual(Window(Home).Property(silo.page),movies)">SetFocus(4601)</onup>
@@ -359,8 +359,8 @@
                     <control type="button" id="4802">
                         <width>230</width><height>56</height>
                         <label />
-                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill_28.png</texturenofocus>
                         <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=info&amp;type=$VAR[SiloHeroType]&amp;dbid=$VAR[SiloHeroDbid])</onclick>
                         <onup condition="[String.IsEmpty(Window(Home).Property(silo.page)) | String.IsEqual(Window(Home).Property(silo.page),home)]">SetFocus(9002)</onup>
                         <onup condition="String.IsEqual(Window(Home).Property(silo.page),movies)">SetFocus(4601)</onup>
@@ -411,8 +411,8 @@
                     <control type="button" id="4810">
                         <width>190</width><height>56</height>
                         <label />
-                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill_28.png</texturenofocus>
                         <onclick condition="Player.HasVideo">ActivateWindow(fullscreenvideo)</onclick>
                         <onclick condition="!Player.HasVideo + !String.IsEmpty(Window(Home).Property(silo.tv.1.1.tv.play))">RunPlugin($INFO[Window(Home).Property(silo.tv.1.1.tv.play)])</onclick>
                         <onup>SetFocus(9006)</onup>
@@ -459,8 +459,8 @@
                     <control type="button" id="4812">
                         <width>250</width><height>56</height>
                         <label />
-                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill_28.png</texturenofocus>
                         <onclick>PVR.SeekPercentage(0)</onclick>
                         <onclick>ActivateWindow(fullscreenvideo)</onclick>
                         <onup>SetFocus(9006)</onup>
@@ -503,8 +503,8 @@
                     <control type="button" id="4811">
                         <width>190</width><height>56</height>
                         <label />
-                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                        <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                        <texturenofocus border="28" colordiffuse="33FFFFFF">silo/pill_28.png</texturenofocus>
                         <onclick>ActivateWindow(TVGuide)</onclick>
                         <onup>SetFocus(9006)</onup>
                         <ondown condition="$EXP[SiloRow5401]">SetFocus(5401)</ondown>
@@ -7476,8 +7476,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>FFEDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="33FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>noop</onclick>
                 </control>
                 <control type="button" id="46011">
@@ -7488,8 +7488,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>SetProperty(silo.browse.type,movies,home)</onclick>
                     <onclick>ClearProperty(silo.browse.letter,home)</onclick>
                     <onclick>ClearProperty(silo.browse.list,home)</onclick>
@@ -7513,8 +7513,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>Skin.SetString(silo.sort.movies,dateadded)</onclick>
                     <onclick>Skin.SetBool(silo.sort.movies.desc)</onclick>
                     <onclick>SetProperty(silo.browse.type,movies,home)</onclick>
@@ -7540,8 +7540,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>SetProperty(silo.browse.type,genres,home)</onclick>
                     <onclick>ClearProperty(silo.browse.from,home)</onclick>
                     <onclick>ClearProperty(silo.browse.letter,home)</onclick>
@@ -7567,8 +7567,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>SetProperty(silo.browse.type,boxsets,home)</onclick>
                     <onclick>ClearProperty(silo.browse.from,home)</onclick>
                     <onclick>ClearProperty(silo.browse.letter,home)</onclick>
@@ -7591,8 +7591,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>SetProperty(silo.browse.type,collections,home)</onclick>
                     <onclick>ClearProperty(silo.browse.letter,home)</onclick>
                     <onclick>ClearProperty(silo.browse.list.watchlist,home)</onclick>
@@ -7637,8 +7637,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>FFEDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="33FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>noop</onclick>
                 </control>
                 <control type="button" id="46021">
@@ -7649,8 +7649,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>SetProperty(silo.browse.type,tvshows,home)</onclick>
                     <onclick>ClearProperty(silo.browse.letter,home)</onclick>
                     <onclick>ClearProperty(silo.browse.list,home)</onclick>
@@ -7674,8 +7674,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>Skin.SetString(silo.sort.tvshows,dateadded)</onclick>
                     <onclick>Skin.SetBool(silo.sort.tvshows.desc)</onclick>
                     <onclick>SetProperty(silo.browse.type,tvshows,home)</onclick>
@@ -7701,8 +7701,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>SetProperty(silo.browse.type,genres,home)</onclick>
                     <onclick>ClearProperty(silo.browse.from,home)</onclick>
                     <onclick>ClearProperty(silo.browse.letter,home)</onclick>
@@ -7728,8 +7728,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>SetProperty(silo.browse.type,comingsoon,home)</onclick>
                     <onclick>ClearProperty(silo.browse.from,home)</onclick>
                     <onclick>ClearProperty(silo.browse.letter,home)</onclick>
@@ -7752,8 +7752,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>B3EDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                     <onclick>SetProperty(silo.browse.type,collections,home)</onclick>
                     <onclick>ClearProperty(silo.browse.letter,home)</onclick>
                     <onclick>ClearProperty(silo.browse.list.watchlist,home)</onclick>
@@ -7795,8 +7795,8 @@
                         <aligny>center</aligny>
                         <textcolor>B3EDEDED</textcolor>
                         <focusedcolor>SkylineFocusText</focusedcolor>
-                        <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                        <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill.png</texturenofocus>
+                        <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                        <texturenofocus border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texturenofocus>
                         <onclick>SetProperty(silo.search.mode,requests,home)</onclick>
                         <!-- A new search: the keyboard starts empty (the bar's Search reopens on the last). -->
                         <onclick>Skin.Reset(silo.search)</onclick>
@@ -7832,8 +7832,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>$VAR[SiloRequestsPill0]</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="$VAR[SiloRequestsPillFill0]">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="$VAR[SiloRequestsPillFill0]">silo/pill_24.png</texturenofocus>
                     <onclick>ClearProperty(silo.requests.view,home)</onclick>
                     <onclick>ClearProperty(silo.row,home)</onclick>
                 </control>
@@ -7845,8 +7845,8 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>$VAR[SiloRequestsPill1]</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                    <texturenofocus border="24" colordiffuse="$VAR[SiloRequestsPillFill1]">silo/pill.png</texturenofocus>
+                    <texturefocus border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texturefocus>
+                    <texturenofocus border="24" colordiffuse="$VAR[SiloRequestsPillFill1]">silo/pill_24.png</texturenofocus>
                     <onclick>SetProperty(silo.requests.view,yours,home)</onclick>
                     <onclick>ClearProperty(silo.row,home)</onclick>
                 </control>
@@ -7871,7 +7871,7 @@
             <itemlayout width="312" height="48">
                     <control type="image">
                         <width>300</width><height>48</height>
-                        <texture border="24" colordiffuse="12FFFFFF">silo/pill.png</texture>
+                        <texture border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texture>
                     </control>
                     <control type="label">
                         <left>20</left><width>260</width><height>48</height>
@@ -7884,7 +7884,7 @@
             <focusedlayout width="312" height="48">
                     <control type="image">
                         <width>300</width><height>48</height>
-                        <texture border="24" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                        <texture border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texture>
                         <visible>Control.HasFocus(4699)</visible>
                     </control>
                     <control type="label">
@@ -7897,7 +7897,7 @@
                     </control>
                     <control type="image">
                         <width>300</width><height>48</height>
-                        <texture border="24" colordiffuse="12FFFFFF">silo/pill.png</texture>
+                        <texture border="24" colordiffuse="12FFFFFF">silo/pill_24.png</texture>
                         <visible>!Control.HasFocus(4699)</visible>
                     </control>
                     <control type="label">
@@ -9037,7 +9037,7 @@
                 <focusedlayout width="428" height="64">
                     <control type="image">
                         <left>4</left><top>4</top><width>420</width><height>56</height>
-                        <texture border="28" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                        <texture border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texture>
                         <visible>Control.HasFocus(9211)</visible>
                     </control>
                     <control type="image">

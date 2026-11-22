@@ -35,8 +35,8 @@
                 <align>center</align><aligny>center</aligny>
                 <textcolor>BFEDEDED</textcolor>
                 <focusedcolor>SkylineFocusText</focusedcolor>
-                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabInfo]">silo/pill.png</texturenofocus>
+                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabInfo]">silo/pill_28.png</texturenofocus>
                 <onfocus>SetProperty(silo.options.tab,info,home)</onfocus>
                 <ondown>201</ondown>
             </control>
@@ -48,8 +48,8 @@
                 <align>center</align><aligny>center</aligny>
                 <textcolor>BFEDEDED</textcolor>
                 <focusedcolor>SkylineFocusText</focusedcolor>
-                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabAudio]">silo/pill.png</texturenofocus>
+                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabAudio]">silo/pill_28.png</texturenofocus>
                 <onfocus>SetProperty(silo.options.tab,audio,home)</onfocus>
                 <ondown>202</ondown>
             </control>
@@ -61,8 +61,8 @@
                 <align>center</align><aligny>center</aligny>
                 <textcolor>BFEDEDED</textcolor>
                 <focusedcolor>SkylineFocusText</focusedcolor>
-                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabSubtitles]">silo/pill.png</texturenofocus>
+                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabSubtitles]">silo/pill_28.png</texturenofocus>
                 <onfocus>SetProperty(silo.options.tab,subtitles,home)</onfocus>
                 <ondown>203</ondown>
             </control>
@@ -74,8 +74,8 @@
                 <align>center</align><aligny>center</aligny>
                 <textcolor>BFEDEDED</textcolor>
                 <focusedcolor>SkylineFocusText</focusedcolor>
-                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabVideo]">silo/pill.png</texturenofocus>
+                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabVideo]">silo/pill_28.png</texturenofocus>
                 <onfocus>SetProperty(silo.options.tab,video,home)</onfocus>
                 <ondown>204</ondown>
             </control>
@@ -87,8 +87,8 @@
                 <align>center</align><aligny>center</aligny>
                 <textcolor>BFEDEDED</textcolor>
                 <focusedcolor>SkylineFocusText</focusedcolor>
-                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
-                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabChapters]">silo/pill.png</texturenofocus>
+                <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
+                <texturenofocus border="28" colordiffuse="$VAR[SiloOptionsTabChapters]">silo/pill_28.png</texturenofocus>
                 <onfocus>SetProperty(silo.options.tab,chapters,home)</onfocus>
                 <ondown>205</ondown>
             </control>

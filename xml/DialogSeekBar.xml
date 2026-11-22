@@ -145,8 +145,8 @@
                         <aligny>center</aligny>
                         <enable>false</enable>
                         <disabledcolor>SkylineFocusText</disabledcolor>
-                        <texturenofocus border="18" colordiffuse="SkylineFocus">silo/pill.png</texturenofocus>
-                        <texturefocus border="18" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
+                        <texturenofocus border="18" colordiffuse="SkylineFocus">silo/pill_18.png</texturenofocus>
+                        <texturefocus border="18" colordiffuse="SkylineFocus">silo/pill_18.png</texturefocus>
                         <visible>Player.ChannelPreviewActive</visible>
                     </control>
                 </control>

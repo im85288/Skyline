@@ -41,7 +41,7 @@ THEMED = {
     'FF33373E': 'SkylineLiveBar',
 }
 # Textures that show focus (or Silo's white primary button), in Silo's white.
-FOCUS_TEXTURES = ('silo/pill.png', 'silo/dialog_button.png', 'silo/dialog_row_focus.png', 'silo/card_landscape_mask.png',
+FOCUS_TEXTURES = ('silo/pill.png', 'silo/pill_18.png', 'silo/pill_20.png', 'silo/pill_24.png', 'silo/pill_26.png', 'silo/pill_28.png', 'silo/pill_29.png', 'silo/pill_32.png', 'silo/pill_34.png', 'silo/pill_36.png', 'silo/dialog_button.png', 'silo/dialog_row_focus.png', 'silo/card_landscape_mask.png',
                   'silo/card_landscape_focus.png', 'silo/card_poster_focus.png', 'silo/season_ring.png',
                   'silo/avatar_ring.png', 'silo/person_ring.png', 'buttons/thumbnail_focused.png',
                   'silo/round_button.png')

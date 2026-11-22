@@ -43,8 +43,8 @@ def chip(fact):
                     <aligny>center</aligny>
                     <enable>false</enable>
                     <disabledcolor>%(text)s</disabledcolor>
-                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturenofocus>
-                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill.png</texturefocus>
+                    <texturenofocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturenofocus>
+                    <texturefocus border="20" colordiffuse="1FFFFFFF">silo/pill_20.png</texturefocus>
                     <visible>!String.IsEmpty(%(fact)s)</visible>
                 </control>''' % {'fact': PERSON % fact, 'text': TEXT}
 
@@ -68,7 +68,7 @@ def filter_pill(index, kind, label):
                     <width>%(w)d</width><height>52</height>%(shown)s
                     <control type="image">
                         <width>%(w)d</width><height>52</height>
-                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill.png</texture>
+                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill_26.png</texture>
                         <visible>!%(chosen)s</visible>
                     </control>
                     <control type="image">
@@ -83,7 +83,7 @@ def filter_pill(index, kind, label):
                         <align>center</align><aligny>center</aligny>
                         <textcolor>99EDEDED</textcolor>
                         <focusedcolor>FF000000</focusedcolor>
-                        <texturefocus border="26" colordiffuse="%(text)s">silo/pill.png</texturefocus>
+                        <texturefocus border="26" colordiffuse="%(text)s">silo/pill_26.png</texturefocus>
                         <texturenofocus />
                         <onclick>SetProperty(silo.person.type,%(kind)s,home)</onclick>%(neighbours)s
                         <ondown>%(grid)d</ondown>

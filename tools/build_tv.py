@@ -165,7 +165,7 @@ def group_pill(focused):
         return '''
                     <control type="image">
                         <width>300</width><height>52</height>
-                        <texture border="26" colordiffuse="%(text)s">silo/pill.png</texture>
+                        <texture border="26" colordiffuse="%(text)s">silo/pill_26.png</texture>
                         <visible>Control.HasFocus(%(id)d)</visible>
                     </control>
                     <control type="label">
@@ -194,7 +194,7 @@ def group_pill(focused):
     return '''
                     <control type="image">
                         <width>300</width><height>52</height>
-                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill.png</texture>
+                        <texture border="26" colordiffuse="2EFFFFFF">silo/pill_26.png</texture>
                         <visible>!%(chosen)s</visible>
                     </control>
                     <control type="image">
@@ -667,8 +667,8 @@ def stream_badges():
                         <aligny>center</aligny>
                         <enable>false</enable>
                         <disabledcolor>SkylineFocusText</disabledcolor>
-                        <texturenofocus border="18" colordiffuse="FFEDEDED">silo/pill.png</texturenofocus>
-                        <texturefocus border="18" colordiffuse="FFEDEDED">silo/pill.png</texturefocus>
+                        <texturenofocus border="18" colordiffuse="FFEDEDED">silo/pill_18.png</texturenofocus>
+                        <texturefocus border="18" colordiffuse="FFEDEDED">silo/pill_18.png</texturefocus>
                         <visible>Player.ChannelPreviewActive</visible>
                     </control>'''
 

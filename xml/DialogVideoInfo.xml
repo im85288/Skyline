@@ -1124,7 +1124,7 @@
                     <itemlayout width="184" height="56">
                         <control type="image">
                             <width>168</width><height>56</height>
-                            <texture border="28" colordiffuse="14FFFFFF">silo/pill.png</texture>
+                            <texture border="28" colordiffuse="14FFFFFF">silo/pill_28.png</texture>
                         </control>
                         <control type="label">
                             <width>168</width><height>56</height>
@@ -1137,7 +1137,7 @@
                     <focusedlayout width="184" height="56">
                         <control type="image">
                             <width>168</width><height>56</height>
-                            <texture border="28" colordiffuse="SkylineFocus">silo/pill.png</texture><visible>Control.HasFocus(60)</visible>
+                            <texture border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texture><visible>Control.HasFocus(60)</visible>
                         </control>
                         <control type="label">
                             <width>168</width><height>56</height>
@@ -1148,7 +1148,7 @@
                         </control>
                         <control type="image">
                             <width>168</width><height>56</height>
-                            <texture border="28" colordiffuse="38FFFFFF">silo/pill.png</texture><visible>!Control.HasFocus(60)</visible>
+                            <texture border="28" colordiffuse="38FFFFFF">silo/pill_28.png</texture><visible>!Control.HasFocus(60)</visible>
                         </control>
                         <control type="label">
                             <width>168</width><height>56</height>
@@ -1325,7 +1325,7 @@
                     <align>center</align><aligny>center</aligny>
                     <textcolor>BFEDEDED</textcolor>
                     <focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill.png</texturefocus>
+                    <texturefocus border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texturefocus>
                     <texturenofocus border="28" colordiffuse="59FFFFFF">silo/season_ring.png</texturenofocus>
                     <onup>5000</onup>
                     <onright>65</onright>
@@ -1350,7 +1350,7 @@
                     <itemlayout width="184" height="56">
                         <control type="image">
                             <width>168</width><height>56</height>
-                            <texture border="28" colordiffuse="14FFFFFF">silo/pill.png</texture>
+                            <texture border="28" colordiffuse="14FFFFFF">silo/pill_28.png</texture>
                         </control>
                         <control type="label">
                             <width>168</width><height>56</height>
@@ -1363,7 +1363,7 @@
                     <focusedlayout width="184" height="56">
                         <control type="image">
                             <width>168</width><height>56</height>
-                            <texture border="28" colordiffuse="SkylineFocus">silo/pill.png</texture><visible>Control.HasFocus(65)</visible>
+                            <texture border="28" colordiffuse="SkylineFocus">silo/pill_28.png</texture><visible>Control.HasFocus(65)</visible>
                         </control>
                         <control type="label">
                             <width>168</width><height>56</height>
@@ -1374,7 +1374,7 @@
                         </control>
                         <control type="image">
                             <width>168</width><height>56</height>
-                            <texture border="28" colordiffuse="38FFFFFF">silo/pill.png</texture><visible>!Control.HasFocus(65)</visible>
+                            <texture border="28" colordiffuse="38FFFFFF">silo/pill_28.png</texture><visible>!Control.HasFocus(65)</visible>
                         </control>
                         <control type="label">
                             <width>168</width><height>56</height>

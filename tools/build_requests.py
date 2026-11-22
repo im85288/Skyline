@@ -34,8 +34,8 @@ def pill(control_id, label, media, left, right):
                 <align>center</align><aligny>center</aligny>
                 <textcolor>$VAR[SiloRequestPill%(name)s]</textcolor>
                 <focusedcolor>FF000000</focusedcolor>
-                <texturefocus border="24" colordiffuse="%(text)s">silo/pill.png</texturefocus>
-                <texturenofocus border="24" colordiffuse="$VAR[SiloRequestPillFill%(name)s]">silo/pill.png</texturenofocus>
+                <texturefocus border="24" colordiffuse="%(text)s">silo/pill_24.png</texturefocus>
+                <texturenofocus border="24" colordiffuse="$VAR[SiloRequestPillFill%(name)s]">silo/pill_24.png</texturenofocus>
                 <onleft>%(left)s</onleft><onright>%(right)s</onright>
                 <ondown>%(grid)d</ondown>
                 <onclick>%(click)s</onclick>
