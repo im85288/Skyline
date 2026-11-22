@@ -115,6 +115,15 @@
                 <label>$VAR[SiloTitle]</label>
                 <visible>!String.IsEqual(Window(Home).Property(silo.page),tv)</visible>
             </control>
+            <!-- The TV page's channel logo, above its title (as a Sky Stream tile's). -->
+            <control type="image">
+                <top>150</top>
+                <width>340</width><height>72</height>
+                <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                <fadetime>200</fadetime>
+                <texture background="true">$VAR[SiloTvLogo]</texture>
+                <visible>String.IsEqual(Window(Home).Property(silo.page),tv)</visible>
+            </control>
             <!-- The TV page's: programmes' and matches' titles run long ("Saturday
                  Night Football : Nottingham Forest v Manchester City"), so smaller,
                  on up to two lines. Centred, just above the info line: Kodi tops a

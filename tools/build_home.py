@@ -1698,7 +1698,8 @@ TV_GUIDE = 4811
 TV_HERO_PLAYING = '%s + [ControlGroup(%d).HasFocus() | String.IsEmpty(Window(Home).Property(silo.row))]' % (
     TV_PLAYING, TV_BUTTONS)
 # The title without the guide's live mark (KodiConnectForSilo's), as the cards'.
-TV_HERO = {'SiloTitle': '$INFO[Window(Home).Property(silokodi.tv.playing_title)]',
+TV_HERO = {'SiloTvLogo': '$INFO[Player.Icon]',
+           'SiloTitle': '$INFO[Window(Home).Property(silokodi.tv.playing_title)]',
            'SiloHeroFacts': '$INFO[VideoPlayer.ChannelName]$INFO[VideoPlayer.StartTime,  ·  ,]$INFO[VideoPlayer.EndTime, – ,]',
            'SiloPlot': '$INFO[VideoPlayer.Plot]', 'SiloDetail': '', 'SiloLogoArt': '', 'SiloHeroArt': ''}
 
@@ -2232,6 +2233,15 @@ def build():
                 <label>$VAR[SiloTitle]</label>
                 <visible>!%(tv_page)s</visible>
             </control>
+            <!-- The TV page's channel logo, above its title (as a Sky Stream tile's). -->
+            <control type="image">
+                <top>150</top>
+                <width>340</width><height>72</height>
+                <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                <fadetime>200</fadetime>
+                <texture background="true">$VAR[SiloTvLogo]</texture>
+                <visible>%(tv_page)s</visible>
+            </control>
             <!-- The TV page's: programmes' and matches' titles run long ("Saturday
                  Night Football : Nottingham Forest v Manchester City"), so smaller,
                  on up to two lines. Centred, just above the info line: Kodi tops a
@@ -2472,6 +2482,9 @@ HERO_DV = {'SiloBadge%d' % n: ('badge%d' % n, 'dv') for n in (1, 2, 3)}
 HERO_STATIC = {'SiloHeroType': 'home.type', 'SiloHeroDbid': 'home.dbid', 'SiloHeroArt': 'home.art.fanart', 'SiloLogoArt': 'home.art.clearlogo', 'SiloTitle': 'home.hero.title', 'SiloMetaLine': 'home.hero.meta', 'SiloHeroFacts': 'home.hero.facts', 'SiloHeroImdb': 'home.rating.imdb', 'SiloHeroTmdb': 'home.rating.tmdb', 'SiloHeroRtCritic': 'home.rating.rtcritic', 'SiloPlot': 'home.plot', 'SiloDetail': 'home.hero.detail', 'SiloMpaa': 'home.mpaa', 'SiloHeroTint': 'home.tint', 'SiloBadge1': 'home.badge1', 'SiloBadge2': 'home.badge2', 'SiloBadge3': 'home.badge3'}
 
 HERO = [
+    # The TV page's channel logo above its title: the focused card's channel
+    # (KodiConnectForSilo's tv.logo), or the playing channel's (TV_HERO).
+    ('SiloTvLogo', [(None, '$INFO[LI.Property(home.tv.logo)]')]),
     # The hero's title for its Play and More info buttons (a library title's).
     ('SiloHeroType', [(None, '$INFO[LI.DBType]')]),
     ('SiloHeroDbid', [(None, '$INFO[LI.DBID]')]),
