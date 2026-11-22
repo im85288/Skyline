@@ -838,7 +838,9 @@ def banner():
     as TiviMate's in Silo's look; Estuary's stays for its own OSD."""
     return '''		<!-- Silo Skyline Live TV banner (tools/build_tv.py) -->
 		<control type="group">
-			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d)</visible>
+			<!-- Up also while Left/Right have stepped to a programme (as Sky's, it stays
+			     while you move; KodiConnectForSilo clears that after 8 s idle). -->
+			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive | !String.IsEmpty(Window(Home).Property(silokodi.banner.title))] + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d)</visible>
 			<animation effect="slide" start="0,120" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<!-- Twice, so the text reads over bright pictures; the top for the corners. -->
