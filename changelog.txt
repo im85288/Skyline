@@ -1,3 +1,8 @@
+[B]0.20.0[/B]
+• TV page: a Coming up live row of live events starting soon (KodiConnectForSilo 0.28.0)
+• Live TV: a long press on the OK screen opens the channel's menu again (Remove from recent channels); elsewhere it still opens the TV guide
+• TV guide: tighter corners on the focused channel and programme, as Sky's; square glass, and the time row lined up with the grid
+
 [B]0.19.2[/B]
 • Tidy-up: the mini guide window and the TV guide's "press Back again to leave" timer are gone; Back in the guide returns to what's playing, else leaves it (KodiConnectForSilo 0.27.1)
 
