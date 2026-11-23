@@ -453,8 +453,10 @@ def tv_logo(card, near=None):
     channel's logo, centred on a dark tile at the logo's own shape; cropped
     to fill a landscape card, a logo is a mess."""
     shown = '!String.IsEmpty(ListItem.Property(home.tv.logo)) + String.IsEmpty(ListItem.Property(home.art.landscape))'
+    badge = '!String.IsEmpty(ListItem.Property(home.tv.logo)) + !String.IsEmpty(ListItem.Property(home.art.landscape))'
     if near:
         shown += ' + ' + near
+        badge += ' + ' + near
     return '''
                         <control type="image">
                             <left>6</left><top>6</top>
@@ -468,9 +470,25 @@ def tv_logo(card, near=None):
                             <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
                             <aspectratio>keep</aspectratio>
                             <visible>%(shown)s</visible>
+                        </control>
+                        <!-- With a picture, the channel's logo as a badge at its top left, as
+                             Sky Stream's cards: a dark tag so a white logo reads on any picture. -->
+                        <control type="image">
+                            <left>14</left><top>14</top><width>%(bw)d</width><height>%(bh)d</height>
+                            <texture border="8" colordiffuse="B3000000">silo/guide_cell.png</texture>
+                            <visible>%(badge)s</visible>
+                        </control>
+                        <control type="image">
+                            <left>20</left><top>18</top><width>%(blw)d</width><height>%(blh)d</height>
+                            <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
+                            <aspectratio>keep</aspectratio>
+                            <visible>%(badge)s</visible>
                         </control>''' % {'w': card['width'], 'h': card['height'], 'mask': card['mask'], 'shown': shown,
                                         'lx': 6 + card['width'] // 4, 'ly': 6 + card['height'] // 5,
-                                        'lw': card['width'] // 2, 'lh': card['height'] * 3 // 5}
+                                        'lw': card['width'] // 2, 'lh': card['height'] * 3 // 5,
+                                        'bw': card['width'] * 3 // 10, 'bh': card['height'] // 5,
+                                        'blw': card['width'] * 3 // 10 - 12, 'blh': card['height'] // 5 - 8,
+                                        'badge': badge}
 
 
 def card_body(card, focused, control_id='$PARAM[id]', near=None):
