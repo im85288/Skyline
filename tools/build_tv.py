@@ -158,6 +158,13 @@ def variables():
             '        <value condition="%(on_rail)s">$INFO[Container(%(rail)d).ListItem.Property(silo.plot)]</value>\n'
             '        <value>$INFO[ListItem.Plot]</value>\n'
             '    </variable>\n'
+            # Sky's length: "30m", "2h", "1h 30m".
+            '    <variable name="SiloGuideLength">\n'
+            '        <value condition="String.IsEmpty(ListItem.Duration)"></value>\n'
+            '        <value condition="Integer.IsGreater(ListItem.Duration(h),0) + Integer.IsGreater(ListItem.Duration(m),0)">$INFO[ListItem.Duration(h)]h $INFO[ListItem.Duration(m)]m</value>\n'
+            '        <value condition="Integer.IsGreater(ListItem.Duration(h),0)">$INFO[ListItem.Duration(h)]h</value>\n'
+            '        <value>$INFO[ListItem.Duration(m)]m</value>\n'
+            '    </variable>\n'
             # Sky's "Started at 1.00pm": when the focused programme starts or started.
             '    <variable name="SiloGuideWhen">\n'
             '        <value condition="%(ended)s">Was on at $INFO[ListItem.StartTime]</value>\n'
@@ -275,11 +282,13 @@ def rail_items():
                     <property name="silo.started">$INFO[%(started)s]</property>
                     <property name="silo.plot">$INFO[%(plot)s]</property>
                     <property name="silo.minutes">$INFO[%(minutes)s]</property>
+                    <property name="silo.length">$INFO[%(length)s]</property>
+                    <property name="silo.quality">$INFO[%(quality)s]</property>
                     <property name="silo.live">$INFO[%(live)s]</property>
                     <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[%(channelid)s]&amp;start=$INFO[%(start)s])</onclick>
                     <visible>!String.IsEmpty(%(title)s)</visible>
-                </item>''' % {k: p % k for k in ('title', 'thumb', 'logo', 'started', 'plot', 'minutes', 'live',
-                                                  'channelid', 'start')}
+                </item>''' % {k: p % k for k in ('title', 'thumb', 'logo', 'started', 'plot', 'minutes', 'length',
+                                                  'quality', 'live', 'channelid', 'start')}
     return out
 
 
@@ -486,8 +495,8 @@ def build():
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>%(text)s</textcolor>
-                    <label>$INFO[Container(%(rail)d).ListItem.Property(silo.minutes),, min]</label>
-                </control>
+                    <label>$INFO[Container(%(rail)d).ListItem.Property(silo.length)]</label>
+                </control>%(rail_quality)s
                 <control type="label">
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
@@ -506,8 +515,8 @@ def build():
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>%(text)s</textcolor>
-                    <label>$INFO[ListItem.Duration(mins),, min]</label>
-                </control>
+                    <label>$VAR[SiloGuideLength]</label>
+                </control>%(guide_quality)s
                 <control type="label">
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
@@ -665,6 +674,10 @@ def build():
        'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X, 'left_y': RAIL_Y - 12, 'left_h': 1080 - RAIL_Y + 12,
 
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
+       'guide_quality': quality_badge('String.Contains(Window(Home).Property(silokodi.tv.uhd),ListItem.ChannelName)',
+                                      '!String.IsEmpty(ListItem.ChannelName)'),
+       'rail_quality': quality_badge('String.IsEqual(Container(%d).ListItem.Property(silo.quality),UHD)' % RAIL_ID,
+                                     '!String.IsEmpty(Container(%d).ListItem.Property(silo.quality))' % RAIL_ID),
        'soft': 'D9EDEDED',
        'gw': 1920 - 2 * SAFE_X, 'pill_layouts': pill_layouts(),
        'grid_y': GRID_Y, 'grid_h': grid_h, 'ruler_h': RULER_H, 'row_h': ROW_H, 'cw': CHANNEL_W,
@@ -1024,6 +1037,28 @@ CHANNEL_MAX_W = 600
 
 FPS = (('59.9', '60'), ('60', '60'), ('50', '50'), ('48', '48'), ('29.9', '30'), ('30', '30'), ('25', '25'),
        ('23.9', '24'), ('24', '24'))
+
+
+def quality_badge(uhd, shown):
+    """Sky's HD / UHD badge beside a programme's length: outlined, in a
+    grouplist (UHD for the channels the playlist plays in UHD: uhd)."""
+    return ''.join('''
+                <control type="group">
+                    <width>%(w)d</width><height>36</height>
+                    <visible>%(when)s</visible>
+                    <control type="image">
+                        <top>4</top><width>%(w)d</width><height>28</height>
+                        <texture border="8" colordiffuse="%(text)s">silo/badge_outline.png</texture>
+                    </control>
+                    <control type="label">
+                        <top>4</top><width>%(w)d</width><height>28</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>%(text)s</textcolor>
+                        <label>%(label)s</label>
+                    </control>
+                </control>''' % {'w': w, 'label': label, 'text': TEXT, 'when': '%s + %s' % (shown, when)}
+                   for label, w, when in (('UHD', 62, uhd), ('HD', 46, '!' + uhd)))
 
 
 LIVE_RED = 'FFE0262F'  # Sky's red for a live event

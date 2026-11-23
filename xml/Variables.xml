@@ -10321,6 +10321,12 @@
         <value condition="Control.HasFocus(52)">$INFO[Container(52).ListItem.Property(silo.plot)]</value>
         <value>$INFO[ListItem.Plot]</value>
     </variable>
+    <variable name="SiloGuideLength">
+        <value condition="String.IsEmpty(ListItem.Duration)"></value>
+        <value condition="Integer.IsGreater(ListItem.Duration(h),0) + Integer.IsGreater(ListItem.Duration(m),0)">$INFO[ListItem.Duration(h)]h $INFO[ListItem.Duration(m)]m</value>
+        <value condition="Integer.IsGreater(ListItem.Duration(h),0)">$INFO[ListItem.Duration(h)]h</value>
+        <value>$INFO[ListItem.Duration(m)]m</value>
+    </variable>
     <variable name="SiloGuideWhen">
         <value condition="Integer.IsEqual(ListItem.Progress,100)">Was on at $INFO[ListItem.StartTime]</value>
         <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>
