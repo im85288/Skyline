@@ -66,6 +66,11 @@
             <left>92</left><top>528</top><width>1828</width><height>2</height>
             <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
         </control>
+        <!-- A dark fade along the top, so the clock reads over a bright picture. -->
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>200</height>
+            <texture flipy="true" colordiffuse="B30D0F12">silo/scrim_bottom.png</texture>
+        </control>
         <control type="label">
             <right>88</right><top>40</top><width>400</width><height>48</height>
             <align>right</align><aligny>center</aligny>

@@ -315,6 +315,11 @@ def build():
             <left>%(edge_x)d</left><top>%(band_y)d</top><width>%(edge_w)d</width><height>2</height>
             <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
         </control>
+        <!-- A dark fade along the top, so the clock reads over a bright picture. -->
+        <control type="image">
+            <left>0</left><top>0</top><width>1920</width><height>200</height>
+            <texture flipy="true" colordiffuse="%(top_fade)s">silo/scrim_bottom.png</texture>
+        </control>
         <control type="label">
             <right>%(x)d</right><top>40</top><width>400</width><height>48</height>
             <align>right</align><aligny>center</aligny>
@@ -484,7 +489,7 @@ def build():
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 36 - 214 - 14,
        'band': BAND, 'band_y': GRID_Y + RULER_H, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
-       'ruler_bg': 'D9' + BACKGROUND[2:],
+       'ruler_bg': 'D9' + BACKGROUND[2:], 'top_fade': 'B3' + BACKGROUND[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
        'edge_x': PANEL_X + 20, 'edge_w': 1920 - PANEL_X - 20,
