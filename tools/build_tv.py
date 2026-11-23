@@ -17,7 +17,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from build_home import BACKGROUND, ROOT, SAFE_X, TEXT  # noqa: E402
+from build_home import BACKGROUND, ROOT, SAFE_X, TEXT, focus_zoom  # noqa: E402
 
 GROUPS_ID, GRID_ID = 11, 51
 DIM = '99EDEDED'
@@ -259,16 +259,11 @@ def pill_layouts():
 def rail_card(focused):
     """A restart card, as Sky Stream's: the programme's picture, the channel's
     logo on a dark tag at its top left, its title and "Started at 19:00" over
-    a shade along its foot; focused, Sky's thin white outline."""
-    rim = '''
-                <control type="image">
-                    <left>6</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
-                    <texture border="8" colordiffuse="%(text)s">silo/guide_rim.png</texture>
-                    <visible>Control.HasFocus(%(rail)d)</visible>
-                </control>''' % {'w': RAIL_CARD_W + 12, 'h': RAIL_CARD_H + 12, 'text': TEXT, 'rail': RAIL_ID} if focused else ''
+    a shade along its foot; focused, larger, as the skin's other cards."""
+    zoom = focus_zoom('Control.HasFocus(%d)' % RAIL_ID, indent=20) if focused else ''
     return '''
                 <control type="group">
-                    <left>12</left><top>12</top>
+                    <left>12</left><top>12</top>%(zoom)s
                     <control type="image">
                         <width>%(w)d</width><height>%(h)d</height>
                         <texture border="8" colordiffuse="FF1A1D24">silo/guide_cell.png</texture>
@@ -306,9 +301,9 @@ def rail_card(focused):
                         <textcolor>D9EDEDED</textcolor>
                         <label>$INFO[ListItem.Property(silo.started)]</label>
                     </control>
-                </control>%(rim)s''' % {'w': RAIL_CARD_W, 'h': RAIL_CARD_H, 'shade_y': RAIL_CARD_H - 110, 'shade_h': 110,
+                </control>''' % {'zoom': zoom, 'w': RAIL_CARD_W, 'h': RAIL_CARD_H, 'shade_y': RAIL_CARD_H - 110, 'shade_h': 110,
                                          'title_y': RAIL_CARD_H - 82, 'sub_y': RAIL_CARD_H - 44, 'tw': RAIL_CARD_W - 32,
-                                         'text': TEXT, 'rim': rim}
+                                         'text': TEXT}
 
 
 def build():

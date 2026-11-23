@@ -277,6 +277,7 @@
             <focusedlayout width="408" height="240">
                 <control type="group">
                     <left>12</left><top>12</top>
+                    <animation effect="zoom" start="100" end="110" time="180" tween="sine" easing="out" center="auto" condition="Control.HasFocus(52)">Conditional</animation>
                     <control type="image">
                         <width>384</width><height>216</height>
                         <texture border="8" colordiffuse="FF1A1D24">silo/guide_cell.png</texture>
@@ -314,11 +315,6 @@
                         <textcolor>D9EDEDED</textcolor>
                         <label>$INFO[ListItem.Property(silo.started)]</label>
                     </control>
-                </control>
-                <control type="image">
-                    <left>6</left><top>6</top><width>396</width><height>228</height>
-                    <texture border="8" colordiffuse="FFEDEDED">silo/guide_rim.png</texture>
-                    <visible>Control.HasFocus(52)</visible>
                 </control>
             </focusedlayout>
         </control>
