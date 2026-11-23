@@ -1,3 +1,7 @@
+[B]0.19.1[/B]
+• TV guide: the rows on the skin's own grey glass rather than navy (it follows the colour themes); a dark fade at the top so the clock reads over a bright picture
+• Live TV: Start from the beginning and Coming up next sit on the same glass as the player's other panels
+
 [B]0.19.0[/B]
 • TV guide in Sky Stream's look: the programme's picture across the screen behind its title, LIVE, length, "Started at" and plot, with the channel's logo (KodiConnectForSilo 0.27.0)
 • TV guide: channel names in full without numbers, the rows on see-through navy glass, finished programmes dimmed, the focused one a lighter band; "Today" above the channels
