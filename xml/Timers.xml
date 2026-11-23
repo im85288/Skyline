@@ -441,7 +441,7 @@
          once it has loaded, nothing can have focus there: the grid. -->
     <timer>
         <name>silo_guide_rail</name>
-        <start reset="true">Window.IsActive(tvguide) + !Control.HasFocus(52) + !Control.HasFocus(51) + !Container(52).IsUpdating + Integer.IsEqual(Container(52).NumItems,0)</start>
+        <start reset="true">Window.IsActive(tvguide) + !Control.HasFocus(52) + !Control.HasFocus(51) + Integer.IsEqual(Container(52).NumItems,0)</start>
         <onstart>SetFocus(51)</onstart>
         <stop>true</stop>
     </timer>

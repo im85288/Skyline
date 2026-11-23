@@ -231,8 +231,142 @@
             <animation effect="fade" start="100" end="0" time="160">Hidden</animation>
             <ondown>SetFocus(51)</ondown>
             <scrolltime tween="cubic" easing="out">200</scrolltime>
-            <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=restart_now&amp;t=$INFO[System.Time(hh:mm)]</content>
-            <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[ListItem.Property(silo.channelid)]&amp;start=$INFO[ListItem.Property(silo.start)])</onclick>
+            <!-- The service keeps the cards ready (silokodi.restart.N.*): a plugin
+                 listing took about 5 s to arrive as the guide opened. -->
+            <content>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.1.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.1.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.1.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.1.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.1.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.1.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.1.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.1.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.1.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.1.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.2.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.2.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.2.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.2.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.2.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.2.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.2.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.2.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.2.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.2.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.3.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.3.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.3.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.3.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.3.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.3.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.3.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.3.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.3.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.3.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.4.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.4.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.4.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.4.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.4.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.4.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.4.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.4.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.4.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.4.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.5.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.5.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.5.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.5.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.5.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.5.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.5.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.5.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.5.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.5.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.6.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.6.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.6.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.6.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.6.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.6.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.6.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.6.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.6.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.6.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.7.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.7.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.7.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.7.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.7.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.7.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.7.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.7.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.7.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.7.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.8.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.8.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.8.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.8.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.8.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.8.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.8.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.8.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.8.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.8.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.9.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.9.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.9.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.9.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.9.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.9.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.9.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.9.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.9.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.9.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.10.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.10.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.10.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.10.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.10.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.10.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.10.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.10.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.10.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.10.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.11.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.11.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.11.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.11.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.11.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.11.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.11.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.11.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.11.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.11.title))</visible>
+                </item>
+                <item>
+                    <label>$INFO[Window(Home).Property(silokodi.restart.12.title)]</label>
+                    <thumb>$INFO[Window(Home).Property(silokodi.restart.12.thumb)]</thumb>
+                    <property name="silo.logo">$INFO[Window(Home).Property(silokodi.restart.12.logo)]</property>
+                    <property name="silo.started">$INFO[Window(Home).Property(silokodi.restart.12.started)]</property>
+                    <property name="silo.plot">$INFO[Window(Home).Property(silokodi.restart.12.plot)]</property>
+                    <property name="silo.minutes">$INFO[Window(Home).Property(silokodi.restart.12.minutes)]</property>
+                    <property name="silo.live">$INFO[Window(Home).Property(silokodi.restart.12.live)]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[Window(Home).Property(silokodi.restart.12.channelid)]&amp;start=$INFO[Window(Home).Property(silokodi.restart.12.start)])</onclick>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.restart.12.title))</visible>
+                </item>
+            </content>
             <itemlayout width="408" height="240">
                 <control type="group">
                     <left>12</left><top>12</top>

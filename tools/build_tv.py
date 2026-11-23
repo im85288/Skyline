@@ -259,6 +259,31 @@ def pill_layouts():
             </focusedlayout>''' % (group_pill(False), group_pill(True))
 
 
+RAIL_CARDS = 12  # KodiConnectForSilo's plugin.RESTART_CARDS
+
+
+def rail_items():
+    """The restart row's cards: one static item each, from silokodi.restart.N.*,
+    shown while it has a title; OK plays it from its start."""
+    out = ''
+    for n in range(1, RAIL_CARDS + 1):
+        p = 'Window(Home).Property(silokodi.restart.%d.%%s)' % n
+        out += '''
+                <item>
+                    <label>$INFO[%(title)s]</label>
+                    <thumb>$INFO[%(thumb)s]</thumb>
+                    <property name="silo.logo">$INFO[%(logo)s]</property>
+                    <property name="silo.started">$INFO[%(started)s]</property>
+                    <property name="silo.plot">$INFO[%(plot)s]</property>
+                    <property name="silo.minutes">$INFO[%(minutes)s]</property>
+                    <property name="silo.live">$INFO[%(live)s]</property>
+                    <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[%(channelid)s]&amp;start=$INFO[%(start)s])</onclick>
+                    <visible>!String.IsEmpty(%(title)s)</visible>
+                </item>''' % {k: p % k for k in ('title', 'thumb', 'logo', 'started', 'plot', 'minutes', 'live',
+                                                  'channelid', 'start')}
+    return out
+
+
 def rail_card(focused):
     """A restart card, as Sky Stream's: the programme's picture, the channel's
     logo on a dark tag at its top left, its title and "Started at 19:00" over
@@ -523,8 +548,10 @@ def build():
             <animation effect="fade" start="100" end="0" time="160">Hidden</animation>
             <ondown>SetFocus(%(grid)d)</ondown>
             <scrolltime tween="cubic" easing="out">200</scrolltime>
-            <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=restart_now&amp;t=$INFO[System.Time(hh:mm)]</content>
-            <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[ListItem.Property(silo.channelid)]&amp;start=$INFO[ListItem.Property(silo.start)])</onclick>
+            <!-- The service keeps the cards ready (silokodi.restart.N.*): a plugin
+                 listing took about 5 s to arrive as the guide opened. -->
+            <content>%(rail_items)s
+            </content>
             <itemlayout width="%(slot)d" height="%(rail_h)d">%(rail_card)s
             </itemlayout>
             <focusedlayout width="%(slot)d" height="%(rail_h)d">%(rail_card_focused)s
@@ -628,7 +655,7 @@ def build():
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': 112,
        'rail': RAIL_ID, 'on_rail': ON_RAIL, 'off_grid': OFF_GRID, 'shift': RAIL_SHIFT, 'rail_head_y': RAIL_HEAD_Y, 'rail_y': RAIL_Y,
        'rail_x': SAFE_X - 12, 'rail_w': 1920 - SAFE_X + 12, 'rail_h': RAIL_CARD_H + 24, 'slot': RAIL_CARD_W + RAIL_GAP,
-       'rail_card': rail_card(False), 'rail_card_focused': rail_card(True),
+       'rail_card': rail_card(False), 'rail_card_focused': rail_card(True), 'rail_items': rail_items(),
        'rail_live': live_tag('!String.IsEmpty(Container(%d).ListItem.Property(silo.live))' % RAIL_ID, top=2,
                              indent='                '),
        'band': BAND, 'band_y': GRID_Y + RULER_H, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
@@ -1246,7 +1273,7 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
          once it has loaded, nothing can have focus there: the grid. -->
     <timer>
         <name>silo_guide_rail</name>
-        <start reset="true">Window.IsActive(tvguide) + !Control.HasFocus(%(rail)d) + !Control.HasFocus(%(grid)d) + !Container(%(rail)d).IsUpdating + Integer.IsEqual(Container(%(rail)d).NumItems,0)</start>
+        <start reset="true">Window.IsActive(tvguide) + !Control.HasFocus(%(rail)d) + !Control.HasFocus(%(grid)d) + Integer.IsEqual(Container(%(rail)d).NumItems,0)</start>
         <onstart>SetFocus(%(grid)d)</onstart>
         <stop>true</stop>
     </timer>
