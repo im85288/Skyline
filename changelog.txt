@@ -1,3 +1,9 @@
+[B]0.21.0[/B]
+• TV guide: Sky Stream's Restart what's on now row above the grid; the guide opens on it, Down for the full grid; OK plays a programme from its start, Back stops it (KodiConnectForSilo 0.29.0)
+• Live TV: Left/Right rewind or fast-forward 10 s, held 5 minutes; with the banner up they step its programmes as before
+• Live TV banner: the next two programmes alongside, with their pictures; the Start from the beginning note is gone
+• TV page: the channel's logo as a badge on each card's picture
+
 [B]0.20.0[/B]
 • TV page: a Coming up live row of live events starting soon (KodiConnectForSilo 0.28.0)
 • Live TV: a long press on the OK screen opens the channel's menu again (Remove from recent channels); elsewhere it still opens the TV guide
