@@ -467,17 +467,13 @@ PAUSE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
      (leave the video for the menus), unless Showcase's pause screen has shown
      since the video paused, which Back only dismisses. From Live TV, Back
      stops the channel (back to wherever it was started), unless a Live TV
-     note shows, which Back dismisses. Just after Live TV's
-     mini guide closes (timer silo_mini_closed, 4 s), Back does nothing: one
-     meant for the mini guide as it closed by itself. -->
+     note shows, which Back dismisses. -->
 <window type="dialog" id="%(id)d">
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown)">Dialog.Close(%(id)d,true)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !Skin.TimerIsRunning(silo_mini_closed) + !VideoPlayer.Content(LiveTV)">Action(Back)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !Skin.TimerIsRunning(silo_mini_closed) + VideoPlayer.Content(LiveTV) + !%(note)s">PlayerControl(Stop)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !VideoPlayer.Content(LiveTV)">Action(Back)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV) + !%(note)s">PlayerControl(Stop)</onload>
     <onload condition="VideoPlayer.Content(LiveTV) + %(note)s">ClearProperty(silokodi.startover.title,home)</onload>
     <onload condition="VideoPlayer.Content(LiveTV) + %(note)s">ClearProperty(silokodi.next.title,home)</onload>
-    <onload condition="Skin.TimerIsRunning(silo_mini_closed)">ClearProperty(silo.mini.wasopen,home)</onload>
-    <onload condition="Skin.TimerIsRunning(silo_mini_closed)">Skin.TimerStop(silo_mini_closed)</onload>
     <onload>ClearProperty(silo.tv.fromcard,home)</onload>
     <onload condition="Skin.TimerIsRunning(silo_pause_shown)">Skin.TimerStop(silo_pause_shown)</onload>
     <onload>Dialog.Close(%(id)d,true)</onload>
