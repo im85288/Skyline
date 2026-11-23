@@ -1,3 +1,7 @@
+[B]0.21.1[/B]
+• TV guide, as Sky's: each channel and programme on a tile of its own with a gap between; the focused channel's tile lights up as its programme's, in place of the outline
+• TV guide: lengths as 30m, 2h or 1h 30m, and an HD or UHD badge for the channel (UHD for the channels the playlist plays in UHD; needs KodiConnectForSilo 0.29.2)
+
 [B]0.21.0[/B]
 • TV guide: Sky Stream's Restart what's on now row above the grid; the guide opens on it, Down for the full grid; OK plays a programme from its start, Back stops it (KodiConnectForSilo 0.29.0)
 • Live TV: Left/Right rewind or fast-forward 10 s, held 5 minutes; with the banner up they step its programmes as before
