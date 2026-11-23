@@ -1273,7 +1273,6 @@ def sky_banner():
         'tx': tx, 'tw': tw, 'title_y': y + 14, 'text_h': 16 + SKY_PIC_H - 14 - 6,
         'row_y': y + 16 + SKY_PIC_H + 17,
         'text': TEXT, 'shadow': 'CC000000', 'accent': ACCENT, 'playing': playing,
-        'stepped': BANNER_STEPPED,
         'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
         'live': live_tag(BANNER_SHOWS_LIVE, top=4, indent='                '),
         'quality': outline_badge('$VAR[SiloBannerQuality]',
