@@ -322,6 +322,9 @@ if __name__ == '__main__':
     # Silo's Apple TV focus: a thin rim just inside the card, at the card's size.
     focus_ring('card_poster_rim.png', 176, 264, 18, 1)
     focus_ring('card_landscape_rim.png', 360, 202, 20, 1)
+    # The TV guide's focus, Sky's tighter corners (8 px; border="8"): the channel's outline, the programme's band.
+    focus_ring('guide_rim.png', 32, 32, 8, 1)
+    card_mask('guide_cell.png', 32, 32, 8)
     # Badges: a 2 px outline, stretched with border="8".
     focus_ring('badge_outline.png', 32, 32, 8, 2)
     badge_fill()

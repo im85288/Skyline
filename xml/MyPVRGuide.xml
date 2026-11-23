@@ -660,7 +660,7 @@
             <focusedchannellayout height="69" width="560">
                     <control type="image">
                         <left>72</left><top>6</top><width>476</width><height>57</height>
-                        <texture border="16" colordiffuse="FFEDEDED">silo/card_landscape_rim.png</texture>
+                        <texture border="8" colordiffuse="FFEDEDED">silo/guide_rim.png</texture>
                         <visible>Control.HasFocus(51)</visible>
                     </control>
                     <control type="label">
@@ -689,7 +689,7 @@
                     </control>
                     <control type="image" id="2">
                         <left>3</left><top>6</top><width>54</width><height>57</height>
-                        <texture border="16" colordiffuse="00FFFFFF">silo/card_landscape_mask.png</texture>
+                        <texture border="8" colordiffuse="00FFFFFF">silo/guide_cell.png</texture>
                     </control>
                     <control type="label" id="1">
                         <left>18</left><top>6</top><width>30</width><height>57</height>
@@ -705,7 +705,7 @@
                     </control>
                     <control type="image" id="2">
                         <left>3</left><top>6</top><width>54</width><height>57</height>
-                        <texture border="16" colordiffuse="$VAR[SiloGuideCell]">silo/card_landscape_mask.png</texture>
+                        <texture border="8" colordiffuse="$VAR[SiloGuideCell]">silo/guide_cell.png</texture>
                     </control>
                     <control type="label" id="1">
                         <left>18</left><top>6</top><width>30</width><height>57</height>

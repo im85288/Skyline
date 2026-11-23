@@ -75,7 +75,7 @@ def channel(focused):
     rim = '''
                     <control type="image">
                         <left>%d</left><top>6</top><width>%d</width><height>%d</height>
-                        <texture border="16" colordiffuse="%s">silo/card_landscape_rim.png</texture>
+                        <texture border="8" colordiffuse="%s">silo/guide_rim.png</texture>
                         <visible>Control.HasFocus(%d)</visible>
                     </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12, TEXT, GRID_ID) if focused else ''
     return rim + two_tone('''
@@ -106,7 +106,7 @@ def programme(focused):
                     </control>
                     <control type="image" id="2">
                         <left>3</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
-                        <texture border="16" colordiffuse="%(fill)s">silo/card_landscape_mask.png</texture>
+                        <texture border="8" colordiffuse="%(fill)s">silo/guide_cell.png</texture>
                     </control>
                     <control type="label" id="1">
                         <left>18</left><top>6</top><width>%(lw)d</width><height>%(h)d</height>
