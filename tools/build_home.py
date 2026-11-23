@@ -62,9 +62,10 @@ PAGE_FIELDS = {
     'requests': tuple(f for f in HOME_CARD_FIELDS if f not in ('card.wide_sub', 'art.landscape', 'art.still', 'episodes_left', 'new', 'left',
                                                                       'dismiss', 'rank', 'place')),
     # The TV page's cards (KodiConnectForSilo's tvrows.py): a match or a
-    # channel, what OK does (tv.play), and how far through it is.
+    # channel, what OK does (tv.play), how far through it is, and its
+    # picture's tint (the playlist server's), for the backdrop's wash.
     'tv': ('type', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta', 'hero.facts', 'hero.detail', 'plot',
-           'percent', 'left',
+           'percent', 'left', 'tint',
            'art.landscape', 'art.fanart', 'tv.play', 'tv.logo', 'tv.recent'),
 }
 # Rows a page can show; Requests has Silo's Discover rows (six title rows,
