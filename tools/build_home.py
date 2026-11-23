@@ -71,7 +71,7 @@ PAGE_FIELDS = {
 # then Studios, Networks and Genres), and every slot costs Home.xml size.
 # Silo's libraries have 6 rows each: fewer slots keep Home.xml quick to load.
 # TV: KodiConnectForSilo's Recent channels, up to five guide groups, Catch up and My teams.
-PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 8, 'custom': WIDGETS}
+PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 9, 'custom': WIDGETS}
 
 
 def published(page, slot):
