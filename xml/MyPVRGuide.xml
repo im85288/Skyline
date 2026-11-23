@@ -26,16 +26,16 @@
         <!-- The day and times on a dark backing (a little see-through), faded in
              from above, so they read over the picture. -->
         <control type="image">
-            <left>0</left><top>392</top><width>1920</width><height>90</height>
+            <left>72</left><top>392</top><width>1848</width><height>90</height>
             <texture colordiffuse="SkylineBackground">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
-            <left>0</left><top>482</top><width>1920</width><height>46</height>
+            <left>72</left><top>482</top><width>1848</width><height>46</height>
             <texture colordiffuse="D90D0F12">colors/white.png</texture>
         </control>
-        <!-- Left of the glass, the page: the picture's edge showed there. -->
+        <!-- Left of the glass and the time row, the page: the picture's edge showed there. -->
         <control type="image">
-            <left>0</left><top>528</top><width>72</width><height>592</height>
+            <left>0</left><top>482</top><width>72</width><height>638</height>
             <texture colordiffuse="SkylineBackground">colors/white.png</texture>
         </control>
 
@@ -46,8 +46,8 @@
              Kodi can't blur what's behind, so the glass is this. -->
         <control type="image">
             <left>72</left><top>528</top><width>488</width><height>592</height>
-            <!-- Rounded on the left only: no right slice keeps the right corners square. -->
-            <texture border="20,20,0,20" colordiffuse="SkylineLiveVeil">silo/card_landscape_mask.png</texture>
+            <!-- Square: a rounded corner let the picture show through as coloured triangles. -->
+            <texture colordiffuse="SkylineLiveVeil">colors/white.png</texture>
         </control>
         <control type="image">
             <left>560</left><top>528</top><width>1360</width><height>592</height>
@@ -55,10 +55,10 @@
         </control>
         <control type="image">
             <left>72</left><top>528</top><width>1848</width><height>180</height>
-            <texture border="20,20,0,0" flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
+            <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
-            <left>92</left><top>528</top><width>1828</width><height>2</height>
+            <left>72</left><top>528</top><width>1848</width><height>2</height>
             <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
         </control>
         <!-- A dark fade along the top, so the clock reads over a bright picture. -->

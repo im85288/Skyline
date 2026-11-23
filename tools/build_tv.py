@@ -275,16 +275,16 @@ def build():
         <!-- The day and times on a dark backing (a little see-through), faded in
              from above, so they read over the picture. -->
         <control type="image">
-            <left>0</left><top>%(ruler_fade_y)d</top><width>1920</width><height>%(ruler_fade_h)d</height>
+            <left>%(panel_x)d</left><top>%(ruler_fade_y)d</top><width>%(panel_w)d</width><height>%(ruler_fade_h)d</height>
             <texture colordiffuse="%(background)s">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
-            <left>0</left><top>%(grid_y)d</top><width>1920</width><height>%(ruler_h)d</height>
+            <left>%(panel_x)d</left><top>%(grid_y)d</top><width>%(panel_w)d</width><height>%(ruler_h)d</height>
             <texture colordiffuse="%(ruler_bg)s">colors/white.png</texture>
         </control>
-        <!-- Left of the glass, the page: the picture's edge showed there. -->
+        <!-- Left of the glass and the time row, the page: the picture's edge showed there. -->
         <control type="image">
-            <left>0</left><top>%(band_y)d</top><width>%(panel_x)d</width><height>%(band_h)d</height>
+            <left>0</left><top>%(grid_y)d</top><width>%(panel_x)d</width><height>%(left_h)d</height>
             <texture colordiffuse="%(background)s">colors/white.png</texture>
         </control>
 
@@ -295,8 +295,8 @@ def build():
              Kodi can't blur what's behind, so the glass is this. -->
         <control type="image">
             <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(cw_panel)d</width><height>%(band_h)d</height>
-            <!-- Rounded on the left only: no right slice keeps the right corners square. -->
-            <texture border="20,20,0,20" colordiffuse="%(channel_band)s">silo/card_landscape_mask.png</texture>
+            <!-- Square: a rounded corner let the picture show through as coloured triangles. -->
+            <texture colordiffuse="%(channel_band)s">colors/white.png</texture>
         </control>
         <control type="image">
             <left>%(cw)d</left><top>%(band_y)d</top><width>%(pw_band)d</width><height>%(band_h)d</height>
@@ -304,7 +304,7 @@ def build():
         </control>
         <control type="image">
             <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(panel_w)d</width><height>180</height>
-            <texture border="20,20,0,0" flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
+            <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
             <left>%(edge_x)d</left><top>%(band_y)d</top><width>%(edge_w)d</width><height>2</height>
@@ -484,7 +484,7 @@ def build():
        'ruler_bg': 'D9' + BACKGROUND[2:], 'top_fade': 'B3' + BACKGROUND[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
-       'edge_x': PANEL_X + 20, 'edge_w': 1920 - PANEL_X - 20,
+       'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X, 'left_h': 1080 - GRID_Y + 40,
 
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
        'soft': 'D9EDEDED',
