@@ -968,12 +968,7 @@
             <focusedchannellayout height="69" width="560">
                     <control type="image">
                         <left>72</left><top>6</top><width>476</width><height>57</height>
-                        <texture border="8" colordiffuse="1AFFFFFF">silo/guide_cell.png</texture>
-                    </control>
-                    <control type="image">
-                        <left>72</left><top>6</top><width>476</width><height>57</height>
-                        <texture border="8" colordiffuse="FFEDEDED">silo/guide_rim.png</texture>
-                        <visible>Control.HasFocus(51)</visible>
+                        <texture border="8" colordiffuse="$VAR[SiloGuideCell]">silo/guide_cell.png</texture>
                     </control>
                     <control type="label">
                         <left>88</left><top>0</top><width>444</width><height>69</height>

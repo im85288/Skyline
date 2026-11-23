@@ -78,21 +78,17 @@ def playing_mark(left, top, size=24, colour=ACCENT, also='true'):
 
 def channel(focused):
     """A channel down the left, as Sky Stream's: its name only (fixed numbers
-    aren't needed to find one); the playing channel's name in the accent, the
-    focused row's outlined while the timeline has focus."""
+    aren't needed to find one) on a tile of its own; the playing channel's
+    name in the accent; the focused row's tile lighter, as its programme's,
+    while the timeline has focus."""
     colour = TEXT if focused else 'C7EDEDED'
     tile = '''
                     <control type="image">
                         <left>%d</left><top>6</top><width>%d</width><height>%d</height>
                         <texture border="8" colordiffuse="%s">silo/guide_cell.png</texture>
-                    </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12, TILE)
-    rim = '''
-                    <control type="image">
-                        <left>%d</left><top>6</top><width>%d</width><height>%d</height>
-                        <texture border="8" colordiffuse="%s">silo/guide_rim.png</texture>
-                        <visible>Control.HasFocus(%d)</visible>
-                    </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12, TEXT, GRID_ID) if focused else ''
-    return tile + rim + two_tone('''
+                    </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12,
+                         '$VAR[SiloGuideCell]' if focused else TILE)
+    return tile + two_tone('''
                     <control type="label">
                         <left>%d</left><top>0</top><width>%d</width><height>%d</height>
                         <aligny>center</aligny>%s
@@ -102,7 +98,7 @@ def channel(focused):
                         <label>$INFO[ListItem.Label]</label>
                         {visible}
                     </control>''' % (SAFE_X, CHANNEL_W - SAFE_X - 28, ROW_H,
-                         # No scrolling inside the outline, as Sky's: the details above
+                         # No scrolling on the tile, as Sky's: the details above
                          # carry the whole name.
                          ''),
         colour, ACCENT, PLAYING)
