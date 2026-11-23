@@ -885,9 +885,10 @@ def infobar(top, plot=False):
                     <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
                     <visible>%(stepped)s</visible>
                 </control>
+                <!-- What's next on a line (the OK screen); the banner shows it as a card. -->
                 <control type="grouplist">
                     <left>%(tx)d</left><top>%(next_y)d</top><width>%(tw)d</width><height>40</height>
-                    <visible>!%(stepped)s</visible>
+                    <visible>!%(stepped)s%(no_next_line)s</visible>
                     <orientation>horizontal</orientation>
                     <itemgap>22</itemgap>
                     <control type="label">
@@ -923,9 +924,9 @@ def infobar(top, plot=False):
                     <font>silo_detail</font>
                     <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$VAR[SiloBannerPlot]</label>
-                </control>''' % (tx, 1920 - tx - SAFE_X) if plot else '',
+                </control>''' % (tx, 1920 - tx - SAFE_X - NEXT_STRIP_W - 40) if plot else '',
                              'tw': 1920 - tx - SAFE_X - (NEXT_STRIP_W + 40 if plot else 0), 'text': TEXT,
-                             'next_strip': next_strip() if plot else '', 'soft': 'D9EDEDED', 'shadow': 'CC000000',
+                             'next_strip': next_strip() if plot else '', 'no_next_line': ' + false' if plot else '', 'soft': 'D9EDEDED', 'shadow': 'CC000000',
                              'accent': ACCENT, 'bar_y': INFO_H - 10, 'bar_w': 1920 - 2 * left,
                              'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W,
                              'ph': LOGO_BOX_W * 9 // 16, 'bx': left + 12, 'by': 14 + LOGO_BOX_W * 9 // 16 - 12 - 40,

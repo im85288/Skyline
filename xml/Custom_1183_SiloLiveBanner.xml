@@ -177,7 +177,7 @@
                 </control>
 
                 <control type="label">
-                    <left>358</left><top>110</top><width>1474</width><height>40</height>
+                    <left>358</left><top>110</top><width>918</width><height>40</height>
                     <aligny>center</aligny>
                     <font>silo_detail</font>
                     <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
@@ -191,9 +191,10 @@
                     <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
                     <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
+                <!-- What's next on a line (the OK screen); the banner shows it as a card. -->
                 <control type="grouplist">
                     <left>358</left><top>154</top><width>918</width><height>40</height>
-                    <visible>String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                    <visible>String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + false</visible>
                     <orientation>horizontal</orientation>
                     <itemgap>22</itemgap>
                     <control type="label">

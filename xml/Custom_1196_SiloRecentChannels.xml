@@ -199,6 +199,7 @@
                     <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
                     <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
+                <!-- What's next on a line (the OK screen); the banner shows it as a card. -->
                 <control type="grouplist">
                     <left>358</left><top>110</top><width>1474</width><height>40</height>
                     <visible>String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
@@ -384,6 +385,7 @@
                     <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
                     <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
+                <!-- What's next on a line (the OK screen); the banner shows it as a card. -->
                 <control type="grouplist">
                     <left>358</left><top>110</top><width>1474</width><height>40</height>
                     <visible>String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
