@@ -1127,8 +1127,25 @@ def banner():
 TIMER_START, TIMER_END = '    <!-- Silo Skyline TV (tools/build_tv.py) -->\n', '    <!-- end Silo Skyline TV -->\n'
 # The OK screen closes after 5 s without a key (TiviMate: 3 s, too quick from the sofa).
 TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets silo.live.step),
-         as Sky's banner: note the channel the banner shows (browsed or playing),
-         open Skyline's banner window (it holds the keys after) and step. -->
+         as Sky Stream's: while watching, 10 s back or on; with the banner up
+         (Info, a channel change or browsing), the banner's programmes: note the
+         channel it shows, open Skyline's banner window (it holds the keys after)
+         and step. -->
+    <!-- Held Left / Right (silo.live.step -2 / 2): skip 5 minutes back or on, as Sky's. -->
+    <timer>
+        <name>silo_live_skip_back</name>
+        <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-2)</start>
+        <onstart>ClearProperty(silo.live.step,home)</onstart>
+        <onstart>Seek(-300)</onstart>
+        <stop>true</stop>
+    </timer>
+    <timer>
+        <name>silo_live_skip_on</name>
+        <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),2)</start>
+        <onstart>ClearProperty(silo.live.step,home)</onstart>
+        <onstart>Seek(300)</onstart>
+        <stop>true</stop>
+    </timer>
     <timer>
         <name>silo_live_banner_idle</name>
         <start reset="true">Window.IsActive(%(banner_window)d) + System.IdleTime(8)</start>
@@ -1139,18 +1156,20 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <name>silo_live_left</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="!Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
-        <onstart condition="!Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
-        <onstart>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
+        <onstart condition="!%(banner_up)s">Seek(-10)</onstart>
+        <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
+        <onstart condition="%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
         <stop>true</stop>
     </timer>
     <timer>
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="!Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
-        <onstart condition="!Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
-        <onstart>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
+        <onstart condition="!%(banner_up)s">Seek(10)</onstart>
+        <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
+        <onstart condition="%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
         <stop>true</stop>
     </timer>
     <!-- Long OK in Live TV (KodiConnectForSilo's keymap sets silo.live.longok):
@@ -1232,7 +1251,7 @@ def add_timers():
     text = open(path, encoding='utf-8').read()
     if TIMER_START in text:
         text = text[:text.index(TIMER_START)] + text[text.index(TIMER_END) + len(TIMER_END):]
-    text = text.replace('</timers>', TIMER_START + TIMERS % {'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': RECENT_ID, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
+    text = text.replace('</timers>', TIMER_START + TIMERS % {'banner_up': BANNER_UP, 'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': RECENT_ID, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
                         + TIMER_END + '</timers>')
     open(path, 'w', encoding='utf-8').write(text)
 
@@ -2207,6 +2226,8 @@ GUIDE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 # banner (DialogSeekBar) timed out mid-step, and holding it open gave the
 # keys to its seek bar.
 BANNER_WINDOW = 1183
+# The banner is up: Kodi's (Info, a channel change, browsing) or Skyline's window.
+BANNER_UP = '[Window.IsActive(%d) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)]' % BANNER_WINDOW
 LIVE_BANNER_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated by tools/build_tv.py: edit that, not this. Live TV's banner for Left/Right. -->
 <window type="dialog" id="%(id)d">
