@@ -348,10 +348,10 @@ def build():
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <texture colordiffuse="%(ruler_bg)s">colors/white.png</texture>
         </control>
-        <!-- Left of the glass and the time row, the page: the picture's edge showed there. -->
+        <!-- Left of the restart row, the time row and the glass, the page: the
+             picture's edge showed there. It stays put as the grid slides. -->
         <control type="image">
-            <left>0</left><top>%(grid_y)d</top><width>%(panel_x)d</width><height>%(left_h)d</height>
-            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
+            <left>0</left><top>%(left_y)d</top><width>%(panel_x)d</width><height>%(left_h)d</height>
             <texture colordiffuse="%(background)s">colors/white.png</texture>
         </control>
 
@@ -631,7 +631,7 @@ def build():
        'ruler_bg': 'D9' + BACKGROUND[2:], 'top_fade': 'B3' + BACKGROUND[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
-       'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X, 'left_h': 1080 - GRID_Y + 40,
+       'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X, 'left_y': RAIL_Y - 12, 'left_h': 1080 - RAIL_Y + 12,
 
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
        'soft': 'D9EDEDED',

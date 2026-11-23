@@ -35,10 +35,10 @@
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <texture colordiffuse="D90D0F12">colors/white.png</texture>
         </control>
-        <!-- Left of the glass and the time row, the page: the picture's edge showed there. -->
+        <!-- Left of the restart row, the time row and the glass, the page: the
+             picture's edge showed there. It stays put as the grid slides. -->
         <control type="image">
-            <left>0</left><top>482</top><width>72</width><height>638</height>
-            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
+            <left>0</left><top>434</top><width>72</width><height>646</height>
             <texture colordiffuse="SkylineBackground">colors/white.png</texture>
         </control>
 
