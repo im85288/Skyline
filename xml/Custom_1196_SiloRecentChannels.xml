@@ -219,6 +219,7 @@
                         <label>$INFO[VideoPlayer.NextTitle]</label>
                     </control>
                 </control>
+
                 <!-- TiviMate's full-width bar: yellow as far as the programme has got. -->
                 <control type="progress">
                     <left>80</left><top>166</top><width>1760</width><height>4</height>
@@ -403,6 +404,7 @@
                         <label>$INFO[VideoPlayer.NextTitle]</label>
                     </control>
                 </control>
+
                 <!-- TiviMate's full-width bar: yellow as far as the programme has got. -->
                 <control type="progress">
                     <left>80</left><top>166</top><width>1760</width><height>4</height>

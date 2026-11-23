@@ -910,6 +910,7 @@ def infobar(top, plot=False):
                         <label>$INFO[VideoPlayer.NextTitle]</label>
                     </control>
                 </control>
+%(next_strip)s
                 <!-- TiviMate's full-width bar: yellow as far as the programme has got. -->
                 <control type="progress">
                     <left>%(left)d</left><top>%(bar_y)d</top><width>%(bar_w)d</width><height>4</height>
@@ -928,12 +929,65 @@ def infobar(top, plot=False):
                     <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$VAR[SiloBannerPlot]</label>
                 </control>''' % (tx, 1920 - tx - SAFE_X) if plot else '',
-                             'tw': 1920 - tx - SAFE_X, 'text': TEXT, 'soft': 'D9EDEDED', 'shadow': 'CC000000',
+                             'tw': 1920 - tx - SAFE_X - (NEXT_STRIP_W + 40 if plot else 0), 'text': TEXT,
+                             'next_strip': next_strip() if plot else '', 'soft': 'D9EDEDED', 'shadow': 'CC000000',
                              'accent': ACCENT, 'bar_y': INFO_H - 10, 'bar_w': 1920 - 2 * left,
                              'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W,
                              'ph': LOGO_BOX_W * 9 // 16, 'bx': left + 12, 'by': 14 + LOGO_BOX_W * 9 // 16 - 12 - 40,
                              'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
                              'live': live_tag(BANNER_SHOWS_LIVE), 'stepped': BANNER_STEPPED}
+
+
+NEXT_CARD_W, NEXT_CARD_H, NEXT_GAP = 248, 140, 20
+NEXT_STRIP_W = 2 * NEXT_CARD_W + NEXT_GAP
+
+
+def next_strip():
+    """Sky Stream's banner: the next two programmes alongside, at the right:
+    each's picture (else a dark card), its start time over the picture's
+    foot, its title under it (KodiConnectForSilo's tv.nextN, or banner.nextN
+    for the programme Left/Right stepped to)."""
+    out = ''
+    for n in (1, 2):
+        x = 1920 - SAFE_X - NEXT_STRIP_W + (n - 1) * (NEXT_CARD_W + NEXT_GAP)
+        shown = ('[[%(s)s + !String.IsEmpty(Window(Home).Property(silokodi.banner.next%(n)d.title))] | '
+                 '[!%(s)s + !String.IsEmpty(Window(Home).Property(silokodi.tv.next%(n)d.title))]]'
+                 % {'s': BANNER_STEPPED, 'n': n})
+        out += '''
+                <control type="group">
+                    <left>%(x)d</left><top>14</top>
+                    <visible>%(shown)s</visible>
+                    <control type="image">
+                        <width>%(w)d</width><height>%(h)d</height>
+                        <texture border="8" colordiffuse="E61A1D24">silo/guide_cell.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>%(w)d</width><height>%(h)d</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerNext%(n)dPicture]</texture>
+                    </control>
+                    <control type="image">
+                        <top>%(shade_y)d</top><width>%(w)d</width><height>60</height>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="D9000000">silo/scrim_bottom.png</texture>
+                    </control>
+                    <control type="label">
+                        <left>12</left><top>%(time_y)d</top><width>%(lw)d</width><height>32</height>
+                        <aligny>center</aligny>
+                        <font>silo_card_sub</font>
+                        <textcolor>%(text)s</textcolor>
+                        <label>$VAR[SiloBannerNext%(n)dTime]</label>
+                    </control>
+                    <control type="label">
+                        <top>%(title_y)d</top><width>%(w)d</width><height>34</height>
+                        <aligny>center</aligny>
+                        <font>silo_card_sub</font>
+                        <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>$VAR[SiloBannerNext%(n)dTitle]</label>
+                    </control>
+                </control>''' % {'x': x, 'shown': shown, 'w': NEXT_CARD_W, 'h': NEXT_CARD_H, 'n': n,
+                                 'shade_y': NEXT_CARD_H - 60, 'time_y': NEXT_CARD_H - 38, 'lw': NEXT_CARD_W - 24,
+                                 'title_y': NEXT_CARD_H + 4, 'text': TEXT}
+    return out
 
 
 # The channel name's widest in the banner's info row: what's left of the row
@@ -1036,6 +1090,9 @@ def banner_variables():
             var('SiloBannerPlot', 'plot', '$INFO[VideoPlayer.Plot]') +
             var('SiloBannerPicture', 'picture', '$INFO[Window(Home).Property(silokodi.tv.banner_picture)]') +
             var('SiloBannerLogo', 'logo', '$INFO[Player.Icon]') +
+            ''.join(var('SiloBannerNext%d%s' % (n, key.title()), 'next%d.%s' % (n, key),
+                        '$INFO[Window(Home).Property(silokodi.tv.next%d.%s)]' % (n, key))
+                    for n in (1, 2) for key in ('title', 'time', 'picture')) +
             '    <variable name="SiloBannerChannel">\n        <value condition="%s">$INFO[%s,,  ]$INFO[%s]</value>\n'
             '        <value>$INFO[VideoPlayer.ChannelNumberLabel,,  ]$INFO[VideoPlayer.ChannelName]</value>\n'
             '    </variable>\n' % (BANNER_STEPPED, STEPPED % 'number', STEPPED % 'channel'))

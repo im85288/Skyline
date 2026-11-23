@@ -10391,6 +10391,30 @@
         <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.logo)]</value>
         <value>$INFO[Player.Icon]</value>
     </variable>
+    <variable name="SiloBannerNext1Title">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.next1.title)]</value>
+        <value>$INFO[Window(Home).Property(silokodi.tv.next1.title)]</value>
+    </variable>
+    <variable name="SiloBannerNext1Time">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.next1.time)]</value>
+        <value>$INFO[Window(Home).Property(silokodi.tv.next1.time)]</value>
+    </variable>
+    <variable name="SiloBannerNext1Picture">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.next1.picture)]</value>
+        <value>$INFO[Window(Home).Property(silokodi.tv.next1.picture)]</value>
+    </variable>
+    <variable name="SiloBannerNext2Title">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.next2.title)]</value>
+        <value>$INFO[Window(Home).Property(silokodi.tv.next2.title)]</value>
+    </variable>
+    <variable name="SiloBannerNext2Time">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.next2.time)]</value>
+        <value>$INFO[Window(Home).Property(silokodi.tv.next2.time)]</value>
+    </variable>
+    <variable name="SiloBannerNext2Picture">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.next2.picture)]</value>
+        <value>$INFO[Window(Home).Property(silokodi.tv.next2.picture)]</value>
+    </variable>
     <variable name="SiloBannerChannel">
         <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.number),,  ]$INFO[Window(Home).Property(silokodi.banner.channel)]</value>
         <value>$INFO[VideoPlayer.ChannelNumberLabel,,  ]$INFO[VideoPlayer.ChannelName]</value>
