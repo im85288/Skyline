@@ -21,21 +21,24 @@
             <left>0</left><top>0</top><width>1920</width><height>1080</height>
             <aspectratio>scale</aspectratio>
             <fadetime>200</fadetime>
-            <texture background="true" diffuse="silo/guide_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
+            <texture background="true" diffuse="silo/guide_mask.png">$VAR[SiloGuidePicture]</texture>
         </control>
         <!-- The day and times on a dark backing (a little see-through), faded in
              from above, so they read over the picture. -->
         <control type="image">
             <left>72</left><top>392</top><width>1848</width><height>90</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <texture colordiffuse="SkylineBackground">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
             <left>72</left><top>482</top><width>1848</width><height>46</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <texture colordiffuse="D90D0F12">colors/white.png</texture>
         </control>
         <!-- Left of the glass and the time row, the page: the picture's edge showed there. -->
         <control type="image">
             <left>0</left><top>482</top><width>72</width><height>638</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <texture colordiffuse="SkylineBackground">colors/white.png</texture>
         </control>
 
@@ -46,19 +49,23 @@
              Kodi can't blur what's behind, so the glass is this. -->
         <control type="image">
             <left>72</left><top>528</top><width>488</width><height>592</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <!-- Square: a rounded corner let the picture show through as coloured triangles. -->
             <texture colordiffuse="SkylineLiveVeil">colors/white.png</texture>
         </control>
         <control type="image">
             <left>560</left><top>528</top><width>1360</width><height>592</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <texture colordiffuse="SkylineLiveVeil">colors/white.png</texture>
         </control>
         <control type="image">
             <left>72</left><top>528</top><width>1848</width><height>180</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
             <left>72</left><top>528</top><width>1848</width><height>2</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
         </control>
         <!-- A dark fade along the top, so the clock reads over a bright picture. -->
@@ -84,7 +91,13 @@
                 <width>320</width><height>72</height>
                 <aspectratio align="left">keep</aspectratio>
                 <texture background="true">$INFO[Window(Home).Property(silokodi.guide.logo)]</texture>
-                <visible>[!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]</visible>
+                <visible>[!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)] + !Control.HasFocus(52)</visible>
+            </control>
+            <control type="image">
+                <width>320</width><height>72</height>
+                <aspectratio align="left">keep</aspectratio>
+                <texture background="true">$INFO[ListItem.Property(silo.logo)]</texture>
+                <visible>Control.HasFocus(52)</visible>
             </control>
             <control type="label">
                 <width>1000</width><height>72</height>
@@ -92,7 +105,7 @@
                 <font>silo_meta</font>
                 <textcolor>99EDEDED</textcolor>
                 <label>$INFO[ListItem.ChannelName]</label>
-                <visible>[String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]</visible>
+                <visible>[String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)] + !Control.HasFocus(52)</visible>
             </control>
             <control type="label">
                 <top>80</top><width>1000</width><height>72</height>
@@ -110,12 +123,45 @@
                 <font>silo_osd_title</font>
                 <textcolor>FFEDEDED</textcolor>
                 <label>$INFO[ListItem.ChannelName]</label>
-                <visible>String.IsEmpty(ListItem.Label)</visible>
+                <visible>String.IsEmpty(ListItem.Label) + !Control.HasFocus(52)</visible>
             </control>
             <control type="grouplist">
                 <top>164</top><width>1000</width><height>36</height>
                 <orientation>horizontal</orientation>
                 <itemgap>20</itemgap>
+                <visible>Control.HasFocus(52)</visible>
+                <control type="button">
+                    <top>2</top><width>auto</width><height>32</height>
+                    <label>LIVE</label>
+                    <font>silo_badge</font>
+                    <textoffsetx>10</textoffsetx>
+                    <aligny>center</aligny>
+                    <enable>false</enable>
+                    <disabledcolor>FFFFFFFF</disabledcolor>
+                    <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
+                    <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
+                    <visible>!String.IsEmpty(ListItem.Property(silo.live))</visible>
+                </control>
+                <control type="label">
+                    <width>auto</width><height>36</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>$INFO[ListItem.Property(silo.minutes),, min]</label>
+                </control>
+                <control type="label">
+                    <width>auto</width><height>36</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>$INFO[ListItem.Property(silo.started)]</label>
+                </control>
+            </control>
+            <control type="grouplist">
+                <top>164</top><width>1000</width><height>36</height>
+                <orientation>horizontal</orientation>
+                <itemgap>20</itemgap>
+                <visible>!Control.HasFocus(52)</visible>
                 <control type="button">
                     <top>2</top><width>auto</width><height>32</height>
                     <label>LIVE</label>
@@ -144,12 +190,127 @@
                 </control>
             </control>
             <control type="textbox">
-                <top>214</top><width>1000</width><height>144</height>
+                <top>214</top><width>1000</width><height>112</height>
                 <font>silo_plot</font>
                 <textcolor>D9EDEDED</textcolor>
-                <label>$INFO[ListItem.Plot]</label>
+                <label>$VAR[SiloGuidePlot]</label>
                 <autoscroll>false</autoscroll>
             </control>
+        </control>
+
+        <!-- Sky Stream's "Restart what's on now": programmes on now on catch-up
+             channels (KodiConnectForSilo's restart_now), OK from the start. The
+             guide opens on it (timer silo_guide_rail); Down to the grid, which
+             then takes the screen, Up from its first channel back here. -->
+        <control type="label">
+            <left>88</left><top>400</top><width>800</width><height>40</height>
+            <aligny>center</aligny>
+            <font>silo_meta</font>
+            <textcolor>FFEDEDED</textcolor>
+            <label>Restart what's on now</label>
+            <visible>Control.HasFocus(52)</visible>
+            <animation effect="fade" start="0" end="100" time="200">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="160">Hidden</animation>
+        </control>
+        <control type="list" id="52">
+            <left>76</left><top>446</top><width>1844</width><height>240</height>
+            <orientation>horizontal</orientation>
+            <visible allowhiddenfocus="true">Control.HasFocus(52)</visible>
+            <animation effect="fade" start="0" end="100" time="200">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="160">Hidden</animation>
+            <ondown>SetFocus(51)</ondown>
+            <scrolltime tween="cubic" easing="out">200</scrolltime>
+            <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=restart_now&amp;t=$INFO[System.Time(hh:mm)]</content>
+            <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[ListItem.Property(silo.channelid)]&amp;start=$INFO[ListItem.Property(silo.start)])</onclick>
+            <itemlayout width="408" height="240">
+                <control type="group">
+                    <left>12</left><top>12</top>
+                    <control type="image">
+                        <width>384</width><height>216</height>
+                        <texture border="8" colordiffuse="FF1A1D24">silo/guide_cell.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>384</width><height>216</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Art(thumb)]</texture>
+                    </control>
+                    <control type="image">
+                        <top>106</top><width>384</width><height>110</height>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="E6000000">silo/scrim_bottom.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>12</left><top>12</top><width>124</width><height>44</height>
+                        <texture border="8" colordiffuse="B3000000">silo/guide_cell.png</texture>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.logo))</visible>
+                    </control>
+                    <control type="image">
+                        <left>18</left><top>16</top><width>112</width><height>36</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture background="true">$INFO[ListItem.Property(silo.logo)]</texture>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>134</top><width>352</width><height>40</height>
+                        <aligny>center</aligny>
+                        <font>silo_card_title</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>172</top><width>352</width><height>32</height>
+                        <aligny>center</aligny>
+                        <font>silo_card_sub</font>
+                        <textcolor>D9EDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(silo.started)]</label>
+                    </control>
+                </control>
+            </itemlayout>
+            <focusedlayout width="408" height="240">
+                <control type="group">
+                    <left>12</left><top>12</top>
+                    <control type="image">
+                        <width>384</width><height>216</height>
+                        <texture border="8" colordiffuse="FF1A1D24">silo/guide_cell.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>384</width><height>216</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Art(thumb)]</texture>
+                    </control>
+                    <control type="image">
+                        <top>106</top><width>384</width><height>110</height>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="E6000000">silo/scrim_bottom.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>12</left><top>12</top><width>124</width><height>44</height>
+                        <texture border="8" colordiffuse="B3000000">silo/guide_cell.png</texture>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.logo))</visible>
+                    </control>
+                    <control type="image">
+                        <left>18</left><top>16</top><width>112</width><height>36</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture background="true">$INFO[ListItem.Property(silo.logo)]</texture>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>134</top><width>352</width><height>40</height>
+                        <aligny>center</aligny>
+                        <font>silo_card_title</font>
+                        <textcolor>FFEDEDED</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>172</top><width>352</width><height>32</height>
+                        <aligny>center</aligny>
+                        <font>silo_card_sub</font>
+                        <textcolor>D9EDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(silo.started)]</label>
+                    </control>
+                </control>
+                <control type="image">
+                    <left>6</left><top>6</top><width>396</width><height>228</height>
+                    <texture border="8" colordiffuse="FFEDEDED">silo/guide_rim.png</texture>
+                    <visible>Control.HasFocus(52)</visible>
+                </control>
+            </focusedlayout>
         </control>
 
         <!-- Channel groups (Kodi fills list 11): Silo's pills. Down to the
@@ -594,11 +755,13 @@
         <!-- The timeline: channels down the left, programmes across. -->
         <control type="epggrid" id="51">
             <left>0</left><top>482</top><width>1920</width><height>598</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <!-- Kodi's "vertical": channels down, time across (TiviMate's timeline). -->
             <orientation>vertical</orientation>
             <viewtype label="19298">list</viewtype>
             <timeblocks>22</timeblocks>
             <rulerunit>6</rulerunit>
+            <onup>SetFocus(52)</onup>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
             <!-- Now: a white line at the current time from the rows down (clear over
                  the time row), its dot at the rows' top; what has aired isn't shaded
@@ -721,6 +884,7 @@
              grid's left edge. -->
         <control type="image">
             <left>560</left><top>482</top><width>110</width><height>46</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <texture colordiffuse="SkylineBackground">silo/scrim_side.png</texture>
         </control>
 

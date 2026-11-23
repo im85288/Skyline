@@ -10313,6 +10313,14 @@
         <value condition="Integer.IsEqual(ListItem.Progress,100)">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>
         <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>
     </variable>
+    <variable name="SiloGuidePicture">
+        <value condition="Control.HasFocus(52)">$INFO[ListItem.Art(thumb)]</value>
+        <value>$INFO[ListItem.EpgEventIcon]</value>
+    </variable>
+    <variable name="SiloGuidePlot">
+        <value condition="Control.HasFocus(52)">$INFO[ListItem.Property(silo.plot)]</value>
+        <value>$INFO[ListItem.Plot]</value>
+    </variable>
     <variable name="SiloGuideWhen">
         <value condition="Integer.IsEqual(ListItem.Progress,100)">Was on at $INFO[ListItem.StartTime]</value>
         <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>

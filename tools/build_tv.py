@@ -21,6 +21,11 @@ from build_home import BACKGROUND, ROOT, SAFE_X, TEXT  # noqa: E402
 
 GROUPS_ID, GRID_ID = 11, 51
 DIM = '99EDEDED'
+RAIL_ID = 52                # the guide's "Restart what's on now" row (KodiConnectForSilo's restart_now)
+RAIL_HEAD_Y, RAIL_Y = 400, 446
+RAIL_CARD_W, RAIL_CARD_H, RAIL_GAP = 384, 216, 24
+RAIL_SHIFT = 222            # how far the grid sits lower while the row has focus (Sky's)
+ON_RAIL = 'Control.HasFocus(%d)' % RAIL_ID
 PILLS_Y = 408               # under the programme's details (Sky Stream's top half)
 GRID_Y = PILLS_Y + 74      # 482: the ruler and 8 rows of 69 end at the screen's foot
 CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
@@ -142,13 +147,22 @@ def variables():
             '        <value condition="%(ended)s">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '        <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '    </variable>\n'
+            # The picture and plot of what has focus: a restart card's, else the programme's.
+            '    <variable name="SiloGuidePicture">\n'
+            '        <value condition="%(on_rail)s">$INFO[ListItem.Art(thumb)]</value>\n'
+            '        <value>$INFO[ListItem.EpgEventIcon]</value>\n'
+            '    </variable>\n'
+            '    <variable name="SiloGuidePlot">\n'
+            '        <value condition="%(on_rail)s">$INFO[ListItem.Property(silo.plot)]</value>\n'
+            '        <value>$INFO[ListItem.Plot]</value>\n'
+            '    </variable>\n'
             # Sky's "Started at 1.00pm": when the focused programme starts or started.
             '    <variable name="SiloGuideWhen">\n'
             '        <value condition="%(ended)s">Was on at $INFO[ListItem.StartTime]</value>\n'
             '        <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>\n'
             '        <value condition="!String.IsEmpty(ListItem.StartTime)">Starts at $INFO[ListItem.StartTime]</value>\n'
             '    </variable>\n'
-            ) % {'lit': lit, 'ended': ENDED} + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
+            ) % {'lit': lit, 'ended': ENDED, 'on_rail': ON_RAIL} + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
 
 
 def add_variables():
@@ -242,6 +256,61 @@ def pill_layouts():
             </focusedlayout>''' % (group_pill(False), group_pill(True))
 
 
+def rail_card(focused):
+    """A restart card, as Sky Stream's: the programme's picture, the channel's
+    logo on a dark tag at its top left, its title and "Started at 19:00" over
+    a shade along its foot; focused, Sky's thin white outline."""
+    rim = '''
+                <control type="image">
+                    <left>6</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
+                    <texture border="8" colordiffuse="%(text)s">silo/guide_rim.png</texture>
+                    <visible>Control.HasFocus(%(rail)d)</visible>
+                </control>''' % {'w': RAIL_CARD_W + 12, 'h': RAIL_CARD_H + 12, 'text': TEXT, 'rail': RAIL_ID} if focused else ''
+    return '''
+                <control type="group">
+                    <left>12</left><top>12</top>
+                    <control type="image">
+                        <width>%(w)d</width><height>%(h)d</height>
+                        <texture border="8" colordiffuse="FF1A1D24">silo/guide_cell.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>%(w)d</width><height>%(h)d</height>
+                        <aspectratio>scale</aspectratio>
+                        <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Art(thumb)]</texture>
+                    </control>
+                    <control type="image">
+                        <top>%(shade_y)d</top><width>%(w)d</width><height>%(shade_h)d</height>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="E6000000">silo/scrim_bottom.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>12</left><top>12</top><width>124</width><height>44</height>
+                        <texture border="8" colordiffuse="B3000000">silo/guide_cell.png</texture>
+                        <visible>!String.IsEmpty(ListItem.Property(silo.logo))</visible>
+                    </control>
+                    <control type="image">
+                        <left>18</left><top>16</top><width>112</width><height>36</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture background="true">$INFO[ListItem.Property(silo.logo)]</texture>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>%(title_y)d</top><width>%(tw)d</width><height>40</height>
+                        <aligny>center</aligny>
+                        <font>silo_card_title</font>
+                        <textcolor>%(text)s</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                    <control type="label">
+                        <left>16</left><top>%(sub_y)d</top><width>%(tw)d</width><height>32</height>
+                        <aligny>center</aligny>
+                        <font>silo_card_sub</font>
+                        <textcolor>D9EDEDED</textcolor>
+                        <label>$INFO[ListItem.Property(silo.started)]</label>
+                    </control>
+                </control>%(rim)s''' % {'w': RAIL_CARD_W, 'h': RAIL_CARD_H, 'shade_y': RAIL_CARD_H - 110, 'shade_h': 110,
+                                         'title_y': RAIL_CARD_H - 82, 'sub_y': RAIL_CARD_H - 44, 'tw': RAIL_CARD_W - 32,
+                                         'text': TEXT, 'rim': rim}
+
+
 def build():
     # Whole rows: Kodi's page is the rows that fit in full, and it loads the
     # logo of a row past the page only once scrolled to. 1080 - GRID_Y held
@@ -270,21 +339,24 @@ def build():
             <left>0</left><top>0</top><width>1920</width><height>1080</height>
             <aspectratio>scale</aspectratio>
             <fadetime>200</fadetime>
-            <texture background="true" diffuse="silo/guide_mask.png">$INFO[ListItem.EpgEventIcon]</texture>
+            <texture background="true" diffuse="silo/guide_mask.png">$VAR[SiloGuidePicture]</texture>
         </control>
         <!-- The day and times on a dark backing (a little see-through), faded in
              from above, so they read over the picture. -->
         <control type="image">
             <left>%(panel_x)d</left><top>%(ruler_fade_y)d</top><width>%(panel_w)d</width><height>%(ruler_fade_h)d</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <texture colordiffuse="%(background)s">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
             <left>%(panel_x)d</left><top>%(grid_y)d</top><width>%(panel_w)d</width><height>%(ruler_h)d</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <texture colordiffuse="%(ruler_bg)s">colors/white.png</texture>
         </control>
         <!-- Left of the glass and the time row, the page: the picture's edge showed there. -->
         <control type="image">
             <left>0</left><top>%(grid_y)d</top><width>%(panel_x)d</width><height>%(left_h)d</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <texture colordiffuse="%(background)s">colors/white.png</texture>
         </control>
 
@@ -295,19 +367,23 @@ def build():
              Kodi can't blur what's behind, so the glass is this. -->
         <control type="image">
             <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(cw_panel)d</width><height>%(band_h)d</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <!-- Square: a rounded corner let the picture show through as coloured triangles. -->
             <texture colordiffuse="%(channel_band)s">colors/white.png</texture>
         </control>
         <control type="image">
             <left>%(cw)d</left><top>%(band_y)d</top><width>%(pw_band)d</width><height>%(band_h)d</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <texture colordiffuse="%(band)s">colors/white.png</texture>
         </control>
         <control type="image">
             <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(panel_w)d</width><height>180</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
         </control>
         <control type="image">
             <left>%(edge_x)d</left><top>%(band_y)d</top><width>%(edge_w)d</width><height>2</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
         </control>
         <!-- A dark fade along the top, so the clock reads over a bright picture. -->
@@ -333,7 +409,13 @@ def build():
                 <width>320</width><height>72</height>
                 <aspectratio align="left">keep</aspectratio>
                 <texture background="true">$INFO[Window(Home).Property(silokodi.guide.logo)]</texture>
-                <visible>%(logo_shown)s</visible>
+                <visible>%(logo_shown)s + !%(on_rail)s</visible>
+            </control>
+            <control type="image">
+                <width>320</width><height>72</height>
+                <aspectratio align="left">keep</aspectratio>
+                <texture background="true">$INFO[ListItem.Property(silo.logo)]</texture>
+                <visible>%(on_rail)s</visible>
             </control>
             <control type="label">
                 <width>%(dw)d</width><height>72</height>
@@ -341,7 +423,7 @@ def build():
                 <font>silo_meta</font>
                 <textcolor>%(dim)s</textcolor>
                 <label>$INFO[ListItem.ChannelName]</label>
-                <visible>%(name_shown)s</visible>
+                <visible>%(name_shown)s + !%(on_rail)s</visible>
             </control>
             <control type="label">
                 <top>80</top><width>%(dw)d</width><height>72</height>
@@ -359,12 +441,33 @@ def build():
                 <font>silo_osd_title</font>
                 <textcolor>%(text)s</textcolor>
                 <label>$INFO[ListItem.ChannelName]</label>
-                <visible>String.IsEmpty(ListItem.Label)</visible>
+                <visible>String.IsEmpty(ListItem.Label) + !%(on_rail)s</visible>
             </control>
             <control type="grouplist">
                 <top>164</top><width>%(dw)d</width><height>36</height>
                 <orientation>horizontal</orientation>
-                <itemgap>20</itemgap>%(guide_live)s
+                <itemgap>20</itemgap>
+                <visible>%(on_rail)s</visible>%(rail_live)s
+                <control type="label">
+                    <width>auto</width><height>36</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>%(text)s</textcolor>
+                    <label>$INFO[ListItem.Property(silo.minutes),, min]</label>
+                </control>
+                <control type="label">
+                    <width>auto</width><height>36</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>%(text)s</textcolor>
+                    <label>$INFO[ListItem.Property(silo.started)]</label>
+                </control>
+            </control>
+            <control type="grouplist">
+                <top>164</top><width>%(dw)d</width><height>36</height>
+                <orientation>horizontal</orientation>
+                <itemgap>20</itemgap>
+                <visible>!%(on_rail)s</visible>%(guide_live)s
                 <control type="label">
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
@@ -384,9 +487,39 @@ def build():
                 <top>214</top><width>%(dw)d</width><height>%(plot_h)d</height>
                 <font>silo_plot</font>
                 <textcolor>%(soft)s</textcolor>
-                <label>$INFO[ListItem.Plot]</label>
+                <label>$VAR[SiloGuidePlot]</label>
                 <autoscroll>false</autoscroll>
             </control>
+        </control>
+
+        <!-- Sky Stream's "Restart what's on now": programmes on now on catch-up
+             channels (KodiConnectForSilo's restart_now), OK from the start. The
+             guide opens on it (timer silo_guide_rail); Down to the grid, which
+             then takes the screen, Up from its first channel back here. -->
+        <control type="label">
+            <left>%(x)d</left><top>%(rail_head_y)d</top><width>800</width><height>40</height>
+            <aligny>center</aligny>
+            <font>silo_meta</font>
+            <textcolor>%(text)s</textcolor>
+            <label>Restart what's on now</label>
+            <visible>%(on_rail)s</visible>
+            <animation effect="fade" start="0" end="100" time="200">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="160">Hidden</animation>
+        </control>
+        <control type="list" id="%(rail)d">
+            <left>%(rail_x)d</left><top>%(rail_y)d</top><width>%(rail_w)d</width><height>%(rail_h)d</height>
+            <orientation>horizontal</orientation>
+            <visible allowhiddenfocus="true">%(on_rail)s</visible>
+            <animation effect="fade" start="0" end="100" time="200">Visible</animation>
+            <animation effect="fade" start="100" end="0" time="160">Hidden</animation>
+            <ondown>SetFocus(%(grid)d)</ondown>
+            <scrolltime tween="cubic" easing="out">200</scrolltime>
+            <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=restart_now&amp;t=$INFO[System.Time(hh:mm)]</content>
+            <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_catchup&amp;channel=$INFO[ListItem.Property(silo.channelid)]&amp;start=$INFO[ListItem.Property(silo.start)])</onclick>
+            <itemlayout width="%(slot)d" height="%(rail_h)d">%(rail_card)s
+            </itemlayout>
+            <focusedlayout width="%(slot)d" height="%(rail_h)d">%(rail_card_focused)s
+            </focusedlayout>
         </control>
 
         <!-- Channel groups (Kodi fills list 11): Silo's pills. Down to the
@@ -407,11 +540,13 @@ def build():
         <!-- The timeline: channels down the left, programmes across. -->
         <control type="epggrid" id="%(grid)d">
             <left>0</left><top>%(grid_y)d</top><width>1920</width><height>%(grid_h)d</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <!-- Kodi's "vertical": channels down, time across (TiviMate's timeline). -->
             <orientation>vertical</orientation>
             <viewtype label="19298">list</viewtype>
             <timeblocks>%(blocks)d</timeblocks>
             <rulerunit>6</rulerunit>
+            <onup>SetFocus(%(rail)d)</onup>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
             <!-- Now: a white line at the current time from the rows down (clear over
                  the time row), its dot at the rows' top; what has aired isn't shaded
@@ -465,6 +600,7 @@ def build():
              grid's left edge. -->
         <control type="image">
             <left>%(cw)d</left><top>%(grid_y)d</top><width>110</width><height>%(ruler_h)d</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <texture colordiffuse="%(background)s">silo/scrim_side.png</texture>
         </control>
 
@@ -479,7 +615,11 @@ def build():
        # Only a channel with no logo shows its name: until the logo is known, neither.
        'name_shown': '[String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
-       'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': PILLS_Y - 36 - 214 - 14,
+       'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': 112,
+       'rail': RAIL_ID, 'on_rail': ON_RAIL, 'shift': RAIL_SHIFT, 'rail_head_y': RAIL_HEAD_Y, 'rail_y': RAIL_Y,
+       'rail_x': SAFE_X - 12, 'rail_w': 1920 - SAFE_X + 12, 'rail_h': RAIL_CARD_H + 24, 'slot': RAIL_CARD_W + RAIL_GAP,
+       'rail_card': rail_card(False), 'rail_card_focused': rail_card(True),
+       'rail_live': live_tag('!String.IsEmpty(ListItem.Property(silo.live))', top=2, indent='                '),
        'band': BAND, 'band_y': GRID_Y + RULER_H, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
        'ruler_bg': 'D9' + BACKGROUND[2:], 'top_fade': 'B3' + BACKGROUND[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
@@ -1014,6 +1154,21 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <onstart condition="!Window.IsActive(%(window)d)">ActivateWindow(TVGuide)</onstart>
         <stop>true</stop>
     </timer>
+    <!-- The guide opens on its restart row, as Sky's, once the row has cards (the
+         grid has focus first: it's the window's default, for when there are none). -->
+    <timer>
+        <name>silo_guide_rail</name>
+        <start reset="true">Window.IsActive(tvguide) + String.IsEmpty(Window(Home).Property(silo.guide.railed)) + Integer.IsGreater(Container(%(rail)d).NumItems,0)</start>
+        <onstart>SetProperty(silo.guide.railed,1,home)</onstart>
+        <onstart>SetFocus(%(rail)d)</onstart>
+        <stop>true</stop>
+    </timer>
+    <timer>
+        <name>silo_guide_unrail</name>
+        <start reset="true">!Window.IsActive(tvguide) + !String.IsEmpty(Window(Home).Property(silo.guide.railed))</start>
+        <onstart>ClearProperty(silo.guide.railed,home)</onstart>
+        <stop>true</stop>
+    </timer>
     <timer>
         <name>silo_recent_autoclose</name>
         <start reset="true">Window.IsActive(%(window)d)</start>
@@ -1066,7 +1221,7 @@ def add_timers():
     text = open(path, encoding='utf-8').read()
     if TIMER_START in text:
         text = text[:text.index(TIMER_START)] + text[text.index(TIMER_END) + len(TIMER_END):]
-    text = text.replace('</timers>', TIMER_START + TIMERS % {'banner_window': BANNER_WINDOW, 'window': RECENT_ID, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
+    text = text.replace('</timers>', TIMER_START + TIMERS % {'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': RECENT_ID, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
                         + TIMER_END + '</timers>')
     open(path, 'w', encoding='utf-8').write(text)
 
@@ -1850,20 +2005,16 @@ def recent_card(focused):
                                   'colour': TEXT if focused else 'D9EDEDED'}
 
 
-STARTOVER = '!String.IsEmpty(Window(Home).Property(silokodi.startover.title))'
 NEXT_UP = '!String.IsEmpty(Window(Home).Property(silokodi.next.title))'
-STARTOVER_OK = ('!Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + '
-                + STARTOVER)
 NOTES_ID = 1182  # the notes' dialog
 NOTE_W, NOTE_X, NOTE_Y = 640, 88, 120  # under the banner's clock, top right
 NOTES_START, NOTES_END = '\t\t<!-- Silo Skyline Live TV notes (tools/build_tv.py) -->\n', '\t\t<!-- end Silo Skyline Live TV notes -->\n'
 
 
 def live_notes():
-    """Sky's two notes over full-screen Live TV, top right (KodiConnectForSilo's
-    liveprompts.py says when): Start from the beginning just after tuning in
-    partway through a catch-up programme (OK, window %d, seeks to it), and
-    Coming up next in a programme's last two minutes. Not over the menus
+    """Sky's Coming up next over full-screen Live TV, top right (KodiConnectForSilo's
+    liveprompts.py says when), in a programme's last two minutes (window %d:
+    the OK screen, which hides it). Not over the menus
     Live TV opens, nor while browsing channels. A dialog of their own: drawn
     in Kodi's player window (VideoFullScreen.xml), they never showed. On the
     skin's glass (menu_panel.png, themed), as the player's other panels.""" % RECENT_ID
@@ -1875,39 +2026,12 @@ def live_notes():
 <!-- Kodi opens and closes this dialog by its visible condition; with nothing
      to focus, the keys go on to the player. -->
 <window type="dialog" id="%(id)d">
-	<visible>Window.IsActive(fullscreenvideo) + VideoPlayer.Content(LiveTV) + [%(startover)s | %(next)s]</visible>
+	<visible>Window.IsActive(fullscreenvideo) + VideoPlayer.Content(LiveTV) + %(next)s</visible>
 	<zorder>1</zorder>
 	<controls>
 		<control type="group">
-			<left>%(x)d</left><top>%(y)d</top><width>%(w)d</width><height>112</height>
-			<visible>%(hidden)s + %(startover)s</visible>
-			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
-			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
-			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
-			<control type="image">
-				<width>%(w)d</width><height>112</height>
-				<texture border="28">silo/menu_panel.png</texture>
-			</control>
-			<control type="image">
-				<left>28</left><top>32</top><width>48</width><height>48</height>
-				<texture colordiffuse="%(text)s">silo/start_over.png</texture>
-			</control>
-			<control type="label">
-				<left>100</left><top>16</top><width>%(tw)d</width><height>44</height>
-				<font>silo_card_title</font>
-				<textcolor>%(text)s</textcolor>
-				<label>Start from the beginning</label>
-			</control>
-			<control type="label">
-				<left>100</left><top>58</top><width>%(tw)d</width><height>38</height>
-				<font>silo_card_sub</font>
-				<textcolor>%(dim)s</textcolor>
-				<label>[COLOR %(accent)s]OK[/COLOR]  ·  $INFO[Window(Home).Property(silokodi.startover.title)]</label>
-			</control>
-		</control>
-		<control type="group">
 			<left>%(x)d</left><top>%(y)d</top><width>%(w)d</width><height>150</height>
-			<visible>%(hidden)s + %(next)s + !%(startover)s</visible>
+			<visible>%(hidden)s + %(next)s</visible>
 			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
@@ -1948,8 +2072,8 @@ def live_notes():
 		</control>
 	</controls>
 </window>
-''' % {'id': NOTES_ID, 'x': 1920 - NOTE_X - NOTE_W, 'y': NOTE_Y, 'w': NOTE_W, 'tw': NOTE_W - 128, 'nw': NOTE_W - 264, 'hidden': hidden,
-       'startover': STARTOVER, 'next': NEXT_UP, 'text': TEXT, 'dim': DIM, 'accent': ACCENT}
+''' % {'id': NOTES_ID, 'x': 1920 - NOTE_X - NOTE_W, 'y': NOTE_Y, 'w': NOTE_W, 'nw': NOTE_W - 264, 'hidden': hidden,
+       'next': NEXT_UP, 'text': TEXT, 'dim': DIM, 'accent': ACCENT}
 
 
 def add_live_notes():
@@ -1979,11 +2103,6 @@ def build_recent():
          browsed or on the playing channel: catch-up or a reminder, not this screen. -->
     <onload condition="!Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Dialog.Close(%(window)d,true)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onload>
-    <!-- Just tuned in partway through a catch-up programme (KodiConnectForSilo's
-         Start from the beginning note): OK seeks it to the start, as Sky's. -->
-    <onload condition="%(startover)s">Dialog.Close(%(window)d,true)</onload>
-    <onload condition="%(startover)s">PVR.SeekPercentage(0)</onload>
-    <onload condition="%(startover)s">SetProperty(silokodi.startover.done,1,home)</onload>
     <controls>
         <!-- The top's shade and corners fade in place (sliding, the shade crossed the picture). -->
         <control type="group">
@@ -2044,7 +2163,7 @@ def build_recent():
         </control>%(bar)s
     </controls>
 </window>
-''' % {'startover': STARTOVER_OK, 'window': RECENT_ID, 'list': RECENT_LIST, 'bg': BACKGROUND[2:], 
+''' % {'window': RECENT_ID, 'list': RECENT_LIST, 'bg': BACKGROUND[2:], 
        'corners': corners(), 'info': infobar(ROW_Y - 32 - INFO_H),
        'lx': SAFE_X - 8, 'ly': ROW_Y, 'lw': 1920 - SAFE_X + 8, 'iw': TILE_W + TILE_GAP, 'ih': TILE_H,
        'card': recent_card(False), 'card_focused': recent_card(True),

@@ -8,9 +8,8 @@
 <window type="dialog" id="1188">
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown)">Dialog.Close(1188,true)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !VideoPlayer.Content(LiveTV)">Action(Back)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV) + ![!String.IsEmpty(Window(Home).Property(silokodi.startover.title)) | !String.IsEmpty(Window(Home).Property(silokodi.next.title))]">PlayerControl(Stop)</onload>
-    <onload condition="VideoPlayer.Content(LiveTV) + [!String.IsEmpty(Window(Home).Property(silokodi.startover.title)) | !String.IsEmpty(Window(Home).Property(silokodi.next.title))]">ClearProperty(silokodi.startover.title,home)</onload>
-    <onload condition="VideoPlayer.Content(LiveTV) + [!String.IsEmpty(Window(Home).Property(silokodi.startover.title)) | !String.IsEmpty(Window(Home).Property(silokodi.next.title))]">ClearProperty(silokodi.next.title,home)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV) + String.IsEmpty(Window(Home).Property(silokodi.next.title))">PlayerControl(Stop)</onload>
+    <onload condition="VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(silokodi.next.title))">ClearProperty(silokodi.next.title,home)</onload>
     <onload>ClearProperty(silo.tv.fromcard,home)</onload>
     <onload condition="Skin.TimerIsRunning(silo_pause_shown)">Skin.TimerStop(silo_pause_shown)</onload>
     <onload>Dialog.Close(1188,true)</onload>
