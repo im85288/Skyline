@@ -10431,6 +10431,12 @@
         <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.next2.picture)]</value>
         <value>$INFO[Window(Home).Property(silokodi.tv.next2.picture)]</value>
     </variable>
+    <variable name="SiloBannerAction">
+        <value condition="String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch from the start)">Watch from the start</value>
+        <value condition="String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Remind me)">Remind me</value>
+        <value condition="String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch)">Watch</value>
+        <value condition="String.IsEqual(Window(Home).Property(silokodi.banner.hint),Reminder set  ·  OK to remove)">Remove reminder</value>
+    </variable>
     <variable name="SiloBannerChannelName">
         <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.channel)]</value>
         <value>$INFO[VideoPlayer.ChannelName]</value>

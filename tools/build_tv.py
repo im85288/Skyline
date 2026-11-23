@@ -1103,6 +1103,43 @@ def sky_next(n, y):
                              'time_y': 52 + SKY_NEXT_H + 10, 'text': TEXT, 'shadow': 'CC000000'}
 
 
+HINT = 'Window(Home).Property(silokodi.banner.hint)'
+# KodiConnectForSilo's hints (banner.py hint()) as Sky shows a key: the key
+# in an outline, then what it does, in white.
+HINT_ACTIONS = (('OK  Watch from the start', 'Watch from the start'), ('OK  Remind me', 'Remind me'),
+                ('OK  Watch', 'Watch'), ('Reminder set  ·  OK to remove', 'Remove reminder'))
+
+
+def sky_key(key, text, condition):
+    """A key and what it does, as Sky's: the key outlined, the words in white."""
+    return outline_badge(key, condition) + """
+                <control type="label">
+                    <width>auto</width><height>38</height>
+                    <aligny>center</aligny>
+                    <font>silo_card_sub</font>
+                    <textcolor>%s</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <label>%s</label>
+                    <visible>%s</visible>
+                </control>""" % (TEXT, text, condition)
+
+
+def sky_keys():
+    """The row's keys: OK (watch, remind, watch from the start) and Left/Right
+    while stepping; OK to watch while browsing channels."""
+    ok = '%s + [%s]' % (BANNER_STEPPED, ' | '.join('String.IsEqual(%s,%s)' % (HINT, h) for h, _ in HINT_ACTIONS))
+    return (sky_key('OK', '$VAR[SiloBannerAction]', ok) +
+            sky_key('OK', 'Watch', 'Player.ChannelPreviewActive + !%s' % BANNER_STEPPED) + """
+                <control type="label">
+                    <width>auto</width><height>38</height>
+                    <aligny>center</aligny>
+                    <font>silo_card_sub</font>
+                    <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <label>Not on catch-up</label>
+                    <visible>%s + String.IsEqual(%s,Not on catch-up)</visible>
+                </control>""" % (BANNER_STEPPED, HINT) +
+            sky_key('◀ ▶', 'Earlier, later', BANNER_STEPPED))
+
+
 def sky_banner():
     """Live TV's banner, as Sky Stream's: at the left the channel (its name,
     the day and time under it; no number or arrows, for the card's room); a glass
@@ -1223,26 +1260,7 @@ def sky_banner():
                     <label>$VAR[SiloBannerLeft]</label>
                     <visible>%(playing)s</visible>
                 </control>%(badges)s
-                <control type="label">
-                    <width>auto</width><height>38</height>
-                    <aligny>center</aligny>
-                    <font>silo_card_sub</font>
-                    <textcolor>%(accent)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                    <label>$INFO[Window(Home).Property(silokodi.banner.hint),,     ]◀ ▶  Earlier, later</label>
-                    <visible>%(stepped)s</visible>
-                </control>
-                <control type="button">
-                    <top>1</top><width>auto</width><height>36</height>
-                    <label>OK  to watch</label>
-                    <font>silo_badge</font>
-                    <textoffsetx>14</textoffsetx>
-                    <aligny>center</aligny>
-                    <enable>false</enable>
-                    <disabledcolor>SkylineFocusText</disabledcolor>
-                    <texturenofocus border="18" colordiffuse="FFEDEDED">silo/pill_18.png</texturenofocus>
-                    <texturefocus border="18" colordiffuse="FFEDEDED">silo/pill_18.png</texturefocus>
-                    <visible>Player.ChannelPreviewActive</visible>
-                </control>
+%(keys)s
             </control>%(nexts)s""" % {
         'y': y, 'card_x': SKY_CARD_X, 'card_w': SKY_CARD_W, 'card_h': SKY_H,
         'col_x': SKY_COL_X, 'col_w': SKY_COL_W, 'name_w': SKY_COL_W, 'name_y': y + 86,
@@ -1264,6 +1282,7 @@ def sky_banner():
         'badges': ''.join(outline_badge(label, '%s + !%s + !Player.ChannelPreviewActive' % (cond, BANNER_STEPPED))
                           for label, cond in (('$VAR[SiloLiveHdr]', '!String.IsEmpty(VideoPlayer.HdrType)'),
                                               ('$VAR[SiloLiveAudio]', '!String.IsEmpty(VideoPlayer.AudioChannels)'))),
+        'keys': sky_keys(),
         'nexts': sky_next(1, y) + sky_next(2, y)}
 
 
@@ -1392,6 +1411,9 @@ def banner_variables():
             ''.join(var('SiloBannerNext%d%s' % (n, key.title()), 'next%d.%s' % (n, key),
                         '$INFO[Window(Home).Property(silokodi.tv.next%d.%s)]' % (n, key))
                     for n in (1, 2) for key in ('title', 'time', 'picture')) +
+            '    <variable name="SiloBannerAction">\n' + ''.join(
+                '        <value condition="String.IsEqual(%s,%s)">%s</value>\n' % (HINT, h, a) for h, a in HINT_ACTIONS) +
+            '    </variable>\n' +
             '    <variable name="SiloBannerChannelName">\n        <value condition="%s">$INFO[%s]</value>\n'
             '        <value>$INFO[VideoPlayer.ChannelName]</value>\n    </variable>\n' % (BANNER_STEPPED, STEPPED % 'channel') +
             # Sky's time left: "55m left", "1h 20m left".

@@ -161,25 +161,74 @@
                         <texturefocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturefocus>
                         <visible>!String.IsEmpty(VideoPlayer.AudioChannels) + String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !Player.ChannelPreviewActive</visible>
                     </control>
+
+                    <control type="button">
+                        <top>4</top><width>auto</width><height>30</height>
+                        <label>OK</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>8</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>FFEDEDED</disabledcolor>
+                        <texturenofocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturenofocus>
+                        <texturefocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturefocus>
+                        <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + [String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch from the start) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Remind me) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),Reminder set  ·  OK to remove)]</visible>
+                    </control>
                 <control type="label">
                     <width>auto</width><height>38</height>
                     <aligny>center</aligny>
                     <font>silo_card_sub</font>
-                    <textcolor>FFF2D46B</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label>$INFO[Window(Home).Property(silokodi.banner.hint),,     ]◀ ▶  Earlier, later</label>
-                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                    <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <label>$VAR[SiloBannerAction]</label>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + [String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch from the start) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Remind me) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),Reminder set  ·  OK to remove)]</visible>
                 </control>
-                <control type="button">
-                    <top>1</top><width>auto</width><height>36</height>
-                    <label>OK  to watch</label>
-                    <font>silo_badge</font>
-                    <textoffsetx>14</textoffsetx>
+                    <control type="button">
+                        <top>4</top><width>auto</width><height>30</height>
+                        <label>OK</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>8</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>FFEDEDED</disabledcolor>
+                        <texturenofocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturenofocus>
+                        <texturefocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturefocus>
+                        <visible>Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                    </control>
+                <control type="label">
+                    <width>auto</width><height>38</height>
                     <aligny>center</aligny>
-                    <enable>false</enable>
-                    <disabledcolor>SkylineFocusText</disabledcolor>
-                    <texturenofocus border="18" colordiffuse="SkylineFocus">silo/pill_18.png</texturenofocus>
-                    <texturefocus border="18" colordiffuse="SkylineFocus">silo/pill_18.png</texturefocus>
-                    <visible>Player.ChannelPreviewActive</visible>
+                    <font>silo_card_sub</font>
+                    <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <label>Watch</label>
+                    <visible>Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                </control>
+                <control type="label">
+                    <width>auto</width><height>38</height>
+                    <aligny>center</aligny>
+                    <font>silo_card_sub</font>
+                    <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <label>Not on catch-up</label>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEqual(Window(Home).Property(silokodi.banner.hint),Not on catch-up)</visible>
+                </control>
+                    <control type="button">
+                        <top>4</top><width>auto</width><height>30</height>
+                        <label>◀ ▶</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>8</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>FFEDEDED</disabledcolor>
+                        <texturenofocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturenofocus>
+                        <texturefocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturefocus>
+                        <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                    </control>
+                <control type="label">
+                    <width>auto</width><height>38</height>
+                    <aligny>center</aligny>
+                    <font>silo_card_sub</font>
+                    <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <label>Earlier, later</label>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
             </control>
             <control type="group">
