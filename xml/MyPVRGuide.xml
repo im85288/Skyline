@@ -224,7 +224,7 @@
             <animation effect="fade" start="100" end="0" time="160">Hidden</animation>
         </control>
         <control type="list" id="52">
-            <left>76</left><top>446</top><width>1844</width><height>240</height>
+            <left>60</left><top>446</top><width>1860</width><height>240</height>
             <orientation>horizontal</orientation>
             <visible allowhiddenfocus="true">!Control.HasFocus(51)</visible>
             <animation effect="fade" start="0" end="100" time="200">Visible</animation>

@@ -654,7 +654,8 @@ def build():
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': 112,
        'rail': RAIL_ID, 'on_rail': ON_RAIL, 'off_grid': OFF_GRID, 'shift': RAIL_SHIFT, 'rail_head_y': RAIL_HEAD_Y, 'rail_y': RAIL_Y,
-       'rail_x': SAFE_X - 12, 'rail_w': 1920 - SAFE_X + 12, 'rail_h': RAIL_CARD_H + 24, 'slot': RAIL_CARD_W + RAIL_GAP,
+       # The row's cards from the glass's left edge: no gap there for the picture to show through.
+       'rail_x': PANEL_X - 12, 'rail_w': 1920 - PANEL_X + 12, 'rail_h': RAIL_CARD_H + 24, 'slot': RAIL_CARD_W + RAIL_GAP,
        'rail_card': rail_card(False), 'rail_card_focused': rail_card(True), 'rail_items': rail_items(),
        'rail_live': live_tag('!String.IsEmpty(Container(%d).ListItem.Property(silo.live))' % RAIL_ID, top=2,
                              indent='                '),
