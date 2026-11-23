@@ -437,19 +437,12 @@
         <onstart condition="!Window.IsActive(1196)">ActivateWindow(TVGuide)</onstart>
         <stop>true</stop>
     </timer>
-    <!-- The guide opens on its restart row, as Sky's, once the row has cards (the
-         grid has focus first: it's the window's default, for when there are none). -->
+    <!-- The guide opens on its restart row (the window's default); with no cards
+         once it has loaded, nothing can have focus there: the grid. -->
     <timer>
         <name>silo_guide_rail</name>
-        <start reset="true">Window.IsActive(tvguide) + String.IsEmpty(Window(Home).Property(silo.guide.railed)) + Integer.IsGreater(Container(52).NumItems,0)</start>
-        <onstart>SetProperty(silo.guide.railed,1,home)</onstart>
-        <onstart>SetFocus(52)</onstart>
-        <stop>true</stop>
-    </timer>
-    <timer>
-        <name>silo_guide_unrail</name>
-        <start reset="true">!Window.IsActive(tvguide) + !String.IsEmpty(Window(Home).Property(silo.guide.railed))</start>
-        <onstart>ClearProperty(silo.guide.railed,home)</onstart>
+        <start reset="true">Window.IsActive(tvguide) + !Control.HasFocus(52) + !Control.HasFocus(51) + !Container(52).IsUpdating + Integer.IsEqual(Container(52).NumItems,0)</start>
+        <onstart>SetFocus(51)</onstart>
         <stop>true</stop>
     </timer>
     <timer>
