@@ -149,11 +149,11 @@ def variables():
             '    </variable>\n'
             # The picture and plot of what has focus: a restart card's, else the programme's.
             '    <variable name="SiloGuidePicture">\n'
-            '        <value condition="%(on_rail)s">$INFO[ListItem.Art(thumb)]</value>\n'
+            '        <value condition="%(on_rail)s">$INFO[Container(%(rail)d).ListItem.Art(thumb)]</value>\n'
             '        <value>$INFO[ListItem.EpgEventIcon]</value>\n'
             '    </variable>\n'
             '    <variable name="SiloGuidePlot">\n'
-            '        <value condition="%(on_rail)s">$INFO[ListItem.Property(silo.plot)]</value>\n'
+            '        <value condition="%(on_rail)s">$INFO[Container(%(rail)d).ListItem.Property(silo.plot)]</value>\n'
             '        <value>$INFO[ListItem.Plot]</value>\n'
             '    </variable>\n'
             # Sky's "Started at 1.00pm": when the focused programme starts or started.
@@ -162,7 +162,7 @@ def variables():
             '        <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>\n'
             '        <value condition="!String.IsEmpty(ListItem.StartTime)">Starts at $INFO[ListItem.StartTime]</value>\n'
             '    </variable>\n'
-            ) % {'lit': lit, 'ended': ENDED, 'on_rail': ON_RAIL} + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
+            ) % {'lit': lit, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
 
 
 def add_variables():
@@ -414,7 +414,7 @@ def build():
             <control type="image">
                 <width>320</width><height>72</height>
                 <aspectratio align="left">keep</aspectratio>
-                <texture background="true">$INFO[ListItem.Property(silo.logo)]</texture>
+                <texture background="true">$INFO[Container(%(rail)d).ListItem.Property(silo.logo)]</texture>
                 <visible>%(on_rail)s</visible>
             </control>
             <control type="label">
@@ -431,7 +431,17 @@ def build():
                 <font>silo_osd_title</font>
                 <textcolor>%(text)s</textcolor>
                 <label>$INFO[ListItem.Label]</label>
-                <visible>!String.IsEmpty(ListItem.Label)</visible>
+                <visible>!String.IsEmpty(ListItem.Label) + !%(on_rail)s</visible>
+            </control>
+            <!-- In the guide window ListItem is the grid's, whatever has focus: the row's
+                 card is Container(%(rail)d)'s. -->
+            <control type="label">
+                <top>80</top><width>%(dw)d</width><height>72</height>
+                <aligny>center</aligny>
+                <font>silo_osd_title</font>
+                <textcolor>%(text)s</textcolor>
+                <label>$INFO[Container(%(rail)d).ListItem.Label]</label>
+                <visible>%(on_rail)s</visible>
             </control>
             <!-- No programme (the guide has none): the channel's name, which on an
                  event channel says what's on. -->
@@ -453,14 +463,14 @@ def build():
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>%(text)s</textcolor>
-                    <label>$INFO[ListItem.Property(silo.minutes),, min]</label>
+                    <label>$INFO[Container(%(rail)d).ListItem.Property(silo.minutes),, min]</label>
                 </control>
                 <control type="label">
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>%(text)s</textcolor>
-                    <label>$INFO[ListItem.Property(silo.started)]</label>
+                    <label>$INFO[Container(%(rail)d).ListItem.Property(silo.started)]</label>
                 </control>
             </control>
             <control type="grouplist">
@@ -619,7 +629,8 @@ def build():
        'rail': RAIL_ID, 'on_rail': ON_RAIL, 'shift': RAIL_SHIFT, 'rail_head_y': RAIL_HEAD_Y, 'rail_y': RAIL_Y,
        'rail_x': SAFE_X - 12, 'rail_w': 1920 - SAFE_X + 12, 'rail_h': RAIL_CARD_H + 24, 'slot': RAIL_CARD_W + RAIL_GAP,
        'rail_card': rail_card(False), 'rail_card_focused': rail_card(True),
-       'rail_live': live_tag('!String.IsEmpty(ListItem.Property(silo.live))', top=2, indent='                '),
+       'rail_live': live_tag('!String.IsEmpty(Container(%d).ListItem.Property(silo.live))' % RAIL_ID, top=2,
+                             indent='                '),
        'band': BAND, 'band_y': GRID_Y + RULER_H, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
        'ruler_bg': 'D9' + BACKGROUND[2:], 'top_fade': 'B3' + BACKGROUND[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,

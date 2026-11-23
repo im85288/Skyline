@@ -96,7 +96,7 @@
             <control type="image">
                 <width>320</width><height>72</height>
                 <aspectratio align="left">keep</aspectratio>
-                <texture background="true">$INFO[ListItem.Property(silo.logo)]</texture>
+                <texture background="true">$INFO[Container(52).ListItem.Property(silo.logo)]</texture>
                 <visible>Control.HasFocus(52)</visible>
             </control>
             <control type="label">
@@ -113,7 +113,17 @@
                 <font>silo_osd_title</font>
                 <textcolor>FFEDEDED</textcolor>
                 <label>$INFO[ListItem.Label]</label>
-                <visible>!String.IsEmpty(ListItem.Label)</visible>
+                <visible>!String.IsEmpty(ListItem.Label) + !Control.HasFocus(52)</visible>
+            </control>
+            <!-- In the guide window ListItem is the grid's, whatever has focus: the row's
+                 card is Container(52)'s. -->
+            <control type="label">
+                <top>80</top><width>1000</width><height>72</height>
+                <aligny>center</aligny>
+                <font>silo_osd_title</font>
+                <textcolor>FFEDEDED</textcolor>
+                <label>$INFO[Container(52).ListItem.Label]</label>
+                <visible>Control.HasFocus(52)</visible>
             </control>
             <!-- No programme (the guide has none): the channel's name, which on an
                  event channel says what's on. -->
@@ -140,21 +150,21 @@
                     <disabledcolor>FFFFFFFF</disabledcolor>
                     <texturenofocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturenofocus>
                     <texturefocus border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texturefocus>
-                    <visible>!String.IsEmpty(ListItem.Property(silo.live))</visible>
+                    <visible>!String.IsEmpty(Container(52).ListItem.Property(silo.live))</visible>
                 </control>
                 <control type="label">
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor>
-                    <label>$INFO[ListItem.Property(silo.minutes),, min]</label>
+                    <label>$INFO[Container(52).ListItem.Property(silo.minutes),, min]</label>
                 </control>
                 <control type="label">
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor>
-                    <label>$INFO[ListItem.Property(silo.started)]</label>
+                    <label>$INFO[Container(52).ListItem.Property(silo.started)]</label>
                 </control>
             </control>
             <control type="grouplist">

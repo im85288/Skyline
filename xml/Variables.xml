@@ -10314,11 +10314,11 @@
         <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>
     </variable>
     <variable name="SiloGuidePicture">
-        <value condition="Control.HasFocus(52)">$INFO[ListItem.Art(thumb)]</value>
+        <value condition="Control.HasFocus(52)">$INFO[Container(52).ListItem.Art(thumb)]</value>
         <value>$INFO[ListItem.EpgEventIcon]</value>
     </variable>
     <variable name="SiloGuidePlot">
-        <value condition="Control.HasFocus(52)">$INFO[ListItem.Property(silo.plot)]</value>
+        <value condition="Control.HasFocus(52)">$INFO[Container(52).ListItem.Property(silo.plot)]</value>
         <value>$INFO[ListItem.Plot]</value>
     </variable>
     <variable name="SiloGuideWhen">
