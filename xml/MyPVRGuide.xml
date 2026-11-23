@@ -891,9 +891,10 @@
 
         <!-- The time row's first, cut-off time (")0" of 22:00) faded into the
              row's dark backing: Kodi clips a half-hour that began before the
-             grid's left edge. -->
+             grid's left edge; 56 px, the most a cut-off label reaches in (wider, it faded
+             a whole time sitting near the edge). -->
         <control type="image">
-            <left>560</left><top>482</top><width>110</width><height>46</height>
+            <left>560</left><top>482</top><width>56</width><height>46</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="Control.HasFocus(52)">Conditional</animation>
             <texture colordiffuse="SkylineBackground">silo/scrim_side.png</texture>
         </control>

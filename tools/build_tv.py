@@ -607,9 +607,10 @@ def build():
 
         <!-- The time row's first, cut-off time (")0" of 22:00) faded into the
              row's dark backing: Kodi clips a half-hour that began before the
-             grid's left edge. -->
+             grid's left edge; 56 px, the most a cut-off label reaches in (wider, it faded
+             a whole time sitting near the edge). -->
         <control type="image">
-            <left>%(cw)d</left><top>%(grid_y)d</top><width>110</width><height>%(ruler_h)d</height>
+            <left>%(cw)d</left><top>%(grid_y)d</top><width>56</width><height>%(ruler_h)d</height>
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(on_rail)s">Conditional</animation>
             <texture colordiffuse="%(background)s">silo/scrim_side.png</texture>
         </control>
