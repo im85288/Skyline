@@ -26,7 +26,7 @@ GRID_Y = PILLS_Y + 74      # 482: the ruler and 8 rows of 69 end at the screen's
 CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
 ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
-BAND = 'D10A1555'           # the glass: Sky Stream's deep navy, the picture faint behind
+BAND = 'CC272A30'           # the glass: the skin's Live TV veil (themed: SkylineLiveVeil), the picture faint behind
 CHANNEL_BAND = BAND         # the channels' glass: the programmes' own
 PANEL_X = SAFE_X - 16       # the glass starts just left of the channel names (the focus outline's edge)
 LOGO_W, LOGO_H = 92, 52
@@ -1856,7 +1856,8 @@ def live_notes():
     partway through a catch-up programme (OK, window %d, seeks to it), and
     Coming up next in a programme's last two minutes. Not over the menus
     Live TV opens, nor while browsing channels. A dialog of their own: drawn
-    in Kodi's player window (VideoFullScreen.xml), they never showed.""" % RECENT_ID
+    in Kodi's player window (VideoFullScreen.xml), they never showed. On the
+    skin's glass (menu_panel.png, themed), as the player's other panels.""" % RECENT_ID
     hidden = ('VideoPlayer.Content(LiveTV) + !Player.ChannelPreviewActive + !Window.IsActive(videoosd) + '
               '!Window.IsActive(pvrosdchannels) + !Window.IsActive(%d) + !Window.IsActive(%d) + '
               '!Window.IsActive(tvguide)' % (RECENT_ID, BANNER_WINDOW))
@@ -1876,7 +1877,7 @@ def live_notes():
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<control type="image">
 				<width>%(w)d</width><height>112</height>
-				<texture border="28" colordiffuse="EB707070">silo/menu_panel.png</texture>
+				<texture border="28">silo/menu_panel.png</texture>
 			</control>
 			<control type="image">
 				<left>28</left><top>32</top><width>48</width><height>48</height>
@@ -1903,7 +1904,7 @@ def live_notes():
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<control type="image">
 				<width>%(w)d</width><height>150</height>
-				<texture border="28" colordiffuse="EB707070">silo/menu_panel.png</texture>
+				<texture border="28">silo/menu_panel.png</texture>
 			</control>
 			<!-- The next programme's picture, else the channel's logo. -->
 			<control type="image">
