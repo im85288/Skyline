@@ -10346,6 +10346,11 @@
         <value condition="String.IsEmpty(ListItem.Title)">No information</value>
         <value>$INFO[ListItem.Title]</value>
     </variable>
+    <variable name="SiloLiveQuality">
+        <value condition="String.IsEqual(VideoPlayer.VideoResolution,4K)">UHD</value>
+        <value condition="String.IsEqual(VideoPlayer.VideoResolution,1080) | String.IsEqual(VideoPlayer.VideoResolution,720)">HD</value>
+        <value>SD</value>
+    </variable>
     <variable name="SiloLiveResolution">
         <value condition="String.IsEqual(VideoPlayer.VideoResolution,1080)">FHD</value>
         <value condition="String.IsEqual(VideoPlayer.VideoResolution,720)">HD</value>
@@ -10420,6 +10425,15 @@
     <variable name="SiloBannerNext2Picture">
         <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.next2.picture)]</value>
         <value>$INFO[Window(Home).Property(silokodi.tv.next2.picture)]</value>
+    </variable>
+    <variable name="SiloBannerChannelName">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.channel)]</value>
+        <value>$INFO[VideoPlayer.ChannelName]</value>
+    </variable>
+    <variable name="SiloBannerLeft">
+        <value condition="Integer.IsGreater(PVR.EpgEventRemainingTime(h),0) + Integer.IsGreater(PVR.EpgEventRemainingTime(m),0)">$INFO[PVR.EpgEventRemainingTime(h)]h $INFO[PVR.EpgEventRemainingTime(m)]m left</value>
+        <value condition="Integer.IsGreater(PVR.EpgEventRemainingTime(h),0)">$INFO[PVR.EpgEventRemainingTime(h)]h left</value>
+        <value condition="!String.IsEmpty(PVR.EpgEventRemainingTime(m))">$INFO[PVR.EpgEventRemainingTime(m)]m left</value>
     </variable>
     <variable name="SiloBannerChannel">
         <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.number),,  ]$INFO[Window(Home).Property(silokodi.banner.channel)]</value>

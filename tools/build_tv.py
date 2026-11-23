@@ -1030,6 +1030,232 @@ def next_strip():
     return out
 
 
+# Sky Stream's banner (Sky Glass/Stream's): a channel column at the left, the
+# programme on a glass card, the next programmes cut off at the screen's edge.
+SKY_Y, SKY_H = 1080 - 36 - 266, 266          # the card
+SKY_COL_X, SKY_COL_W = SAFE_X - 40, 300       # the channel column: its name (no number or arrows)
+SKY_CARD_X, SKY_CARD_W = SAFE_X - 40 + 300 + 24, 1160
+SKY_PIC_W, SKY_PIC_H = 352, 198
+SKY_NEXT_X, SKY_NEXT_W, SKY_NEXT_H, SKY_NEXT_GAP = SKY_CARD_X + SKY_CARD_W + 24, 280, 158, 24
+
+
+def outline_badge(label, condition, top=4):
+    """Sky's badge (HD, UHD, 5.1): white text in a thin white outline, as wide as its text."""
+    return """
+                    <control type="button">
+                        <top>%(top)d</top><width>auto</width><height>30</height>
+                        <label>%(label)s</label>
+                        <font>silo_badge</font>
+                        <textoffsetx>8</textoffsetx>
+                        <aligny>center</aligny>
+                        <enable>false</enable>
+                        <disabledcolor>%(text)s</disabledcolor>
+                        <texturenofocus border="8" colordiffuse="%(text)s">silo/badge_outline.png</texturenofocus>
+                        <texturefocus border="8" colordiffuse="%(text)s">silo/badge_outline.png</texturefocus>
+                        <visible>%(condition)s</visible>
+                    </control>""" % {'top': top, 'label': label, 'condition': condition, 'text': TEXT}
+
+
+def sky_next(n, y):
+    """A next programme at the banner's right, as Sky's: title above, picture, time below."""
+    x = SKY_NEXT_X + (n - 1) * (SKY_NEXT_W + SKY_NEXT_GAP)
+    shown = ('[[%(s)s + !String.IsEmpty(Window(Home).Property(silokodi.banner.next%(n)d.title))] | '
+             '[!%(s)s + !String.IsEmpty(Window(Home).Property(silokodi.tv.next%(n)d.title))]]'
+             % {'s': BANNER_STEPPED, 'n': n})
+    return """
+            <control type="group">
+                <left>%(x)d</left><top>%(y)d</top>
+                <visible>%(shown)s</visible>
+                <control type="label">
+                    <top>4</top><width>%(w)d</width><height>40</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                    <label>$VAR[SiloBannerNext%(n)dTitle]</label>
+                </control>
+                <control type="image">
+                    <top>52</top><width>%(w)d</width><height>%(h)d</height>
+                    <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
+                </control>
+                <control type="image">
+                    <top>52</top><width>%(w)d</width><height>%(h)d</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerNext%(n)dPicture]</texture>
+                </control>
+                <control type="label">
+                    <top>%(time_y)d</top><width>%(w)d</width><height>40</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                    <label>$VAR[SiloBannerNext%(n)dTime]</label>
+                </control>
+            </control>""" % {'x': x, 'y': y, 'shown': shown, 'n': n, 'w': SKY_NEXT_W, 'h': SKY_NEXT_H,
+                             'time_y': 52 + SKY_NEXT_H + 10, 'text': TEXT, 'shadow': 'CC000000'}
+
+
+def sky_banner():
+    """Live TV's banner, as Sky Stream's: at the left the channel (its name,
+    the day and time under it; no number or arrows, for the card's room); a glass
+    card with the programme's picture (the channel's logo on it, the progress
+    line, its times and HD/UHD under it), its title, three lines of plot and a
+    row of LIVE, the time left and the sound and HDR badges; the next
+    programmes at the right, title above, time below, the second cut off by
+    the screen's edge. Left/Right's stepped programme (silokodi.banner.*) shows
+    in the card, with its hint on the row."""
+    y, px = SKY_Y, SKY_CARD_X + 16
+    tx = px + SKY_PIC_W + 28
+    tw = SKY_CARD_X + SKY_CARD_W - 24 - tx
+    playing = '!String.IsEmpty(VideoPlayer.EndTime) + !%s' % BANNER_STEPPED
+    return """
+            <!-- The channel column. -->
+            <control type="label">
+                <left>%(col_x)d</left><top>%(name_y)d</top><width>%(name_w)d</width><height>76</height>
+                <aligny>center</aligny>
+                <wrapmultiline>true</wrapmultiline>
+                <font>silo_card_title</font>
+                <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                <label>$VAR[SiloBannerChannelName]</label>
+            </control>
+            <control type="label">
+                <left>%(col_x)d</left><top>%(date_y)d</top><width>%(col_w)d</width><height>40</height>
+                <aligny>center</aligny>
+                <font>silo_card_sub</font>
+                <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                <label>$INFO[System.Date(dddd)]$INFO[System.Time,  ·  ,]</label>
+            </control>
+            <!-- The card: glass with a faint rim, as Sky's. -->
+            <control type="image">
+                <left>%(card_x)d</left><top>%(y)d</top><width>%(card_w)d</width><height>%(card_h)d</height>
+                <texture border="8" colordiffuse="A6141820">silo/guide_cell.png</texture>
+            </control>
+            <control type="image">
+                <left>%(card_x)d</left><top>%(y)d</top><width>%(card_w)d</width><height>%(card_h)d</height>
+                <texture border="8" colordiffuse="66FFFFFF">silo/guide_rim.png</texture>
+            </control>
+            <!-- The picture, the channel's logo on it; no picture, the logo alone. -->
+            <control type="image">
+                <left>%(px)d</left><top>%(pic_y)d</top><width>%(pw)d</width><height>%(ph)d</height>
+                <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
+            </control>
+            <control type="image">
+                <left>%(px)d</left><top>%(pic_y)d</top><width>%(pw)d</width><height>%(ph)d</height>
+                <aspectratio>scale</aspectratio>
+                <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerPicture]</texture>
+                <visible>%(picture)s</visible>
+            </control>
+            <control type="image">
+                <left>%(px)d</left><top>%(pic_y)d</top><width>%(pw)d</width><height>%(ph)d</height>
+                <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                <visible>%(picture)s</visible>
+            </control>
+            <control type="image">
+                <left>%(logo_x)d</left><top>%(logo_y)d</top><width>130</width><height>44</height>
+                <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                <texture>$VAR[SiloBannerLogo]</texture>
+                <visible>%(picture)s</visible>
+            </control>
+            <control type="image">
+                <left>%(logo_alone_x)d</left><top>%(logo_alone_y)d</top><width>%(logo_alone_w)d</width><height>%(logo_alone_h)d</height>
+                <aspectratio>keep</aspectratio>
+                <texture>$VAR[SiloBannerLogo]</texture>
+                <visible>!%(picture_or)s</visible>
+            </control>
+            <control type="progress">
+                <left>%(px)d</left><top>%(bar_y)d</top><width>%(pw)d</width><height>4</height>
+                <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
+                <midtexture colordiffuse="%(accent)s">colors/white.png</midtexture>
+                <info>PVR.EpgEventProgress</info>
+                <visible>%(playing)s</visible>
+            </control>
+            <control type="label">
+                <left>%(px)d</left><top>%(times_y)d</top><width>%(pw)d</width><height>36</height>
+                <aligny>center</aligny>
+                <font>silo_card_sub</font>
+                <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                <label>$VAR[SiloBannerTimes]</label>
+            </control>
+            <control type="grouplist">
+                <left>%(px)d</left><top>%(times_y)d</top><width>%(pw)d</width><height>36</height>
+                <orientation>horizontal</orientation><align>right</align>
+                <itemgap>8</itemgap>%(quality)s
+            </control>
+            <!-- The title (a long one on two lines, as no scrolling) and the plot
+                 under it, as much as fits; then the row. -->
+            <control type="grouplist">
+                <left>%(tx)d</left><top>%(title_y)d</top><width>%(tw)d</width><height>%(text_h)d</height>
+                <orientation>vertical</orientation>
+                <itemgap>6</itemgap>
+                <usecontrolcoords>false</usecontrolcoords>
+                <control type="textbox">
+                    <width>%(tw)d</width><height max="88">auto</height>
+                    <font>silo_row</font>
+                    <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                    <label>$VAR[SiloBannerTitle]</label>
+                    <autoscroll>false</autoscroll>
+                </control>
+                <control type="textbox">
+                    <width>%(tw)d</width><height max="108">auto</height>
+                    <font>silo_plot</font>
+                    <textcolor>E6EDEDED</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                    <label>$VAR[SiloBannerPlot]</label>
+                    <autoscroll>false</autoscroll>
+                </control>
+            </control>
+            <control type="grouplist">
+                <left>%(tx)d</left><top>%(row_y)d</top><width>%(tw)d</width><height>38</height>
+                <orientation>horizontal</orientation>
+                <itemgap>16</itemgap>%(live)s
+                <control type="label">
+                    <width>auto</width><height>38</height>
+                    <aligny>center</aligny>
+                    <font>silo_card_sub</font>
+                    <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                    <label>$VAR[SiloBannerLeft]</label>
+                    <visible>%(playing)s</visible>
+                </control>%(badges)s
+                <control type="label">
+                    <width>auto</width><height>38</height>
+                    <aligny>center</aligny>
+                    <font>silo_card_sub</font>
+                    <textcolor>%(accent)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                    <label>$INFO[Window(Home).Property(silokodi.banner.hint),,     ]◀ ▶  Earlier, later</label>
+                    <visible>%(stepped)s</visible>
+                </control>
+                <control type="button">
+                    <top>1</top><width>auto</width><height>36</height>
+                    <label>OK  to watch</label>
+                    <font>silo_badge</font>
+                    <textoffsetx>14</textoffsetx>
+                    <aligny>center</aligny>
+                    <enable>false</enable>
+                    <disabledcolor>SkylineFocusText</disabledcolor>
+                    <texturenofocus border="18" colordiffuse="FFEDEDED">silo/pill_18.png</texturenofocus>
+                    <texturefocus border="18" colordiffuse="FFEDEDED">silo/pill_18.png</texturefocus>
+                    <visible>Player.ChannelPreviewActive</visible>
+                </control>
+            </control>%(nexts)s""" % {
+        'y': y, 'card_x': SKY_CARD_X, 'card_w': SKY_CARD_W, 'card_h': SKY_H,
+        'col_x': SKY_COL_X, 'col_w': SKY_COL_W, 'name_w': SKY_COL_W, 'name_y': y + 86,
+        'date_y': y + 214,
+        'px': px, 'pic_y': y + 16, 'pw': SKY_PIC_W, 'ph': SKY_PIC_H,
+        'logo_x': px + 14, 'logo_y': y + 16 + SKY_PIC_H - 14 - 44,
+        'logo_alone_x': px + 40, 'logo_alone_y': y + 46, 'logo_alone_w': SKY_PIC_W - 80,
+        'logo_alone_h': SKY_PIC_H - 60,
+        'bar_y': y + 16 + SKY_PIC_H + 8, 'times_y': y + 16 + SKY_PIC_H + 18,
+        'tx': tx, 'tw': tw, 'title_y': y + 14, 'text_h': 16 + SKY_PIC_H - 14 - 6,
+        'row_y': y + 16 + SKY_PIC_H + 17,
+        'text': TEXT, 'shadow': 'CC000000', 'accent': ACCENT, 'playing': playing,
+        'stepped': BANNER_STEPPED,
+        'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
+        'live': live_tag(BANNER_SHOWS_LIVE, top=4, indent='                '),
+        'quality': outline_badge('$VAR[SiloLiveQuality]',
+                                 '!String.IsEmpty(VideoPlayer.VideoResolution) + !%s' % BANNER_STEPPED),
+        'badges': ''.join(outline_badge(label, '%s + !%s + !Player.ChannelPreviewActive' % (cond, BANNER_STEPPED))
+                          for label, cond in (('$VAR[SiloLiveHdr]', '!String.IsEmpty(VideoPlayer.HdrType)'),
+                                              ('$VAR[SiloLiveAudio]', '!String.IsEmpty(VideoPlayer.AudioChannels)'))),
+        'nexts': sky_next(1, y) + sky_next(2, y)}
+
+
 # The channel name's widest in the banner's info row: what's left of the row
 # (1466 wide) after the times, the progress bar, the minutes left and the four
 # badges (FHD, 60 FPS, HDR10, 5.1) with their gaps.
@@ -1155,6 +1381,14 @@ def banner_variables():
             ''.join(var('SiloBannerNext%d%s' % (n, key.title()), 'next%d.%s' % (n, key),
                         '$INFO[Window(Home).Property(silokodi.tv.next%d.%s)]' % (n, key))
                     for n in (1, 2) for key in ('title', 'time', 'picture')) +
+            '    <variable name="SiloBannerChannelName">\n        <value condition="%s">$INFO[%s]</value>\n'
+            '        <value>$INFO[VideoPlayer.ChannelName]</value>\n    </variable>\n' % (BANNER_STEPPED, STEPPED % 'channel') +
+            # Sky's time left: "55m left", "1h 20m left".
+            '    <variable name="SiloBannerLeft">\n'
+            '        <value condition="Integer.IsGreater(PVR.EpgEventRemainingTime(h),0) + Integer.IsGreater(PVR.EpgEventRemainingTime(m),0)">$INFO[PVR.EpgEventRemainingTime(h)]h $INFO[PVR.EpgEventRemainingTime(m)]m left</value>\n'
+            '        <value condition="Integer.IsGreater(PVR.EpgEventRemainingTime(h),0)">$INFO[PVR.EpgEventRemainingTime(h)]h left</value>\n'
+            '        <value condition="!String.IsEmpty(PVR.EpgEventRemainingTime(m))">$INFO[PVR.EpgEventRemainingTime(m)]m left</value>\n'
+            '    </variable>\n' +
             '    <variable name="SiloBannerChannel">\n        <value condition="%s">$INFO[%s,,  ]$INFO[%s]</value>\n'
             '        <value>$INFO[VideoPlayer.ChannelNumberLabel,,  ]$INFO[VideoPlayer.ChannelName]</value>\n'
             '    </variable>\n' % (BANNER_STEPPED, STEPPED % 'number', STEPPED % 'channel'))
@@ -1163,7 +1397,12 @@ def banner_variables():
 def stream_variables():
     fps = ''.join('        <value condition="String.StartsWith(Player.Process(videofps),%s)">%s</value>\n' % pair for pair in FPS)
     # TiviMate's names: 4K, FHD (1080), HD (720), SD; STEREO for 2.0.
-    return ('    <variable name="SiloLiveResolution">\n'
+    return ('    <variable name="SiloLiveQuality">\n'  # Sky's badge: UHD, HD or SD
+            '        <value condition="String.IsEqual(VideoPlayer.VideoResolution,4K)">UHD</value>\n'
+            '        <value condition="String.IsEqual(VideoPlayer.VideoResolution,1080) | String.IsEqual(VideoPlayer.VideoResolution,720)">HD</value>\n'
+            '        <value>SD</value>\n'
+            '    </variable>\n'
+            '    <variable name="SiloLiveResolution">\n'
             '        <value condition="String.IsEqual(VideoPlayer.VideoResolution,1080)">FHD</value>\n'
             '        <value condition="String.IsEqual(VideoPlayer.VideoResolution,720)">HD</value>\n'
             '        <value condition="String.IsEqual(VideoPlayer.VideoResolution,576) | String.IsEqual(VideoPlayer.VideoResolution,540) | String.IsEqual(VideoPlayer.VideoResolution,480)">SD</value>\n'
@@ -1213,35 +1452,14 @@ def banner():
 			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d) + !Window.IsActive(%(banner_window)d)</visible>
 			<animation effect="slide" start="0,120" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
-			<!-- Twice, so the text reads over bright pictures; the top for the corners. -->
+			<!-- As Sky's: a light fade under the banner, no black band, nothing at the top. -->
 			<control type="image">
-				<left>0</left><top>480</top><width>1920</width><height>600</height>
-				<texture>silo/scrim_bottom.png</texture>
-			</control>
-			<control type="image">
-				<left>0</left><top>640</top><width>1920</width><height>440</height>
-				<texture>silo/scrim_bottom.png</texture>
-			</control>
-			<!-- A 60%% black band behind the text from just above it, as the mini
-			     guide's: channels' own tickers showed through the faint gradient. -->
-			<control type="image">
-				<left>0</left><top>%(band_fade)d</top><width>1920</width><height>120</height>
-				<texture colordiffuse="99FFFFFF">silo/scrim_bottom.png</texture>
-			</control>
-			<control type="image">
-				<left>0</left><top>%(band_y)d</top><width>1920</width><height>%(band_h)d</height>
-				<texture colordiffuse="99000000">colors/white.png</texture>
-			</control>
-			<control type="image">
-				<left>0</left><top>0</top><width>1920</width><height>200</height>
-				<texture flipy="true">silo/scrim_bottom.png</texture>
-				<animation effect="slide" start="0,-120" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
-			</control>%(corners)s%(info)s
+				<left>0</left><top>560</top><width>1920</width><height>520</height>
+				<texture colordiffuse="B3FFFFFF">silo/scrim_bottom.png</texture>
+			</control>%(info)s
 		</control>
 		<!-- end Silo Skyline Live TV banner -->
-''' % {'recent': RECENT_ID, 'banner_window': BANNER_WINDOW, 'corners': corners(), 'info': infobar(1080 - 40 - BANNER_H, plot=True),
-       'band_fade': 1080 - 40 - BANNER_H - 144, 'band_y': 1080 - 40 - BANNER_H - 24,
-       'band_h': BANNER_H + 64}
+''' % {'recent': RECENT_ID, 'banner_window': BANNER_WINDOW, 'info': sky_banner()}
 
 
 TIMER_START, TIMER_END = '    <!-- Silo Skyline TV (tools/build_tv.py) -->\n', '    <!-- end Silo Skyline TV -->\n'
@@ -2349,21 +2567,9 @@ LIVE_BANNER_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
     <defaultcontrol always="true">100</defaultcontrol>
     <controls>
         <control type="image">
-            <left>0</left><top>480</top><width>1920</width><height>600</height>
-            <texture>silo/scrim_bottom.png</texture>
-        </control>
-        <control type="image">
-            <left>0</left><top>%(band_fade)d</top><width>1920</width><height>120</height>
-            <texture colordiffuse="99FFFFFF">silo/scrim_bottom.png</texture>
-        </control>
-        <control type="image">
-            <left>0</left><top>%(band_y)d</top><width>1920</width><height>%(band_h)d</height>
-            <texture colordiffuse="99000000">colors/white.png</texture>
-        </control>
-        <control type="image">
-            <left>0</left><top>0</top><width>1920</width><height>200</height>
-            <texture flipy="true">silo/scrim_bottom.png</texture>
-        </control>%(corners)s%(info)s
+            <left>0</left><top>560</top><width>1920</width><height>520</height>
+            <texture colordiffuse="B3FFFFFF">silo/scrim_bottom.png</texture>
+        </control>%(info)s
         <!-- The keys: an unseen button with focus. -->
         <control type="button" id="100">
             <left>-20</left><top>-20</top><width>1</width><height>1</height>
@@ -2385,10 +2591,7 @@ if __name__ == '__main__':
     with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloGuideBack.xml' % GUIDE_BACK), 'w', encoding='utf-8') as handle:
         handle.write(GUIDE_BACK_WINDOW % {'id': GUIDE_BACK, 'groups': GROUPS_ID})
     with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloLiveBanner.xml' % BANNER_WINDOW), 'w', encoding='utf-8') as handle:
-        handle.write(LIVE_BANNER_WINDOW % {'id': BANNER_WINDOW, 'corners': corners(),
-                                           'info': infobar(1080 - 40 - BANNER_H, plot=True),
-                                           'band_fade': 1080 - 40 - BANNER_H - 144, 'band_y': 1080 - 40 - BANNER_H - 24,
-                                           'band_h': BANNER_H + 64})
+        handle.write(LIVE_BANNER_WINDOW % {'id': BANNER_WINDOW, 'info': sky_banner()})
     with open(os.path.join(ROOT, 'xml', 'DialogPVRInfo.xml'), 'w', encoding='utf-8') as handle:
         handle.write(build_info())
     with open(os.path.join(ROOT, 'xml', 'DialogPVRChannelsOSD.xml'), 'w', encoding='utf-8') as handle:
