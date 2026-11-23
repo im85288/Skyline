@@ -65,7 +65,7 @@ PAGE_FIELDS = {
     # channel, what OK does (tv.play), and how far through it is.
     'tv': ('type', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta', 'hero.facts', 'hero.detail', 'plot',
            'percent', 'left',
-           'art.landscape', 'art.fanart', 'tv.play', 'tv.logo'),
+           'art.landscape', 'art.fanart', 'tv.play', 'tv.logo', 'tv.recent'),
 }
 # Rows a page can show; Requests has Silo's Discover rows (six title rows,
 # then Studios, Networks and Genres), and every slot costs Home.xml size.

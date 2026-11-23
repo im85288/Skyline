@@ -1002,6 +1002,18 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <onstart>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
         <stop>true</stop>
     </timer>
+    <!-- Long OK in Live TV (KodiConnectForSilo's keymap sets silo.live.longok):
+         the OK screen's channel menu (Remove from recent channels) while it's
+         open, else the TV guide. The keymap's Live TV section catches long OK
+         in the OK screen too, so it can't tell them apart itself. -->
+    <timer>
+        <name>silo_live_longok</name>
+        <start reset="true">String.IsEqual(Window(Home).Property(silo.live.longok),1)</start>
+        <onstart>ClearProperty(silo.live.longok,home)</onstart>
+        <onstart condition="Window.IsActive(%(window)d)">Action(ContextMenu)</onstart>
+        <onstart condition="!Window.IsActive(%(window)d)">ActivateWindow(TVGuide)</onstart>
+        <stop>true</stop>
+    </timer>
     <timer>
         <name>silo_recent_autoclose</name>
         <start reset="true">Window.IsActive(%(window)d)</start>
