@@ -1,3 +1,6 @@
+[B]0.19.2[/B]
+• Tidy-up: the mini guide window and the TV guide's "press Back again to leave" timer are gone; Back in the guide returns to what's playing, else leaves it (KodiConnectForSilo 0.27.1)
+
 [B]0.19.1[/B]
 • TV guide: the rows on the skin's own grey glass rather than navy (it follows the colour themes); a dark fade at the top so the clock reads over a bright picture
 • Live TV: Start from the beginning and Coming up next sit on the same glass as the player's other panels
