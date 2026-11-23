@@ -36,6 +36,7 @@ ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
 BAND = 'CC272A30'           # the glass: the skin's Live TV veil (themed: SkylineLiveVeil), the picture faint behind
 CHANNEL_BAND = BAND         # the channels' glass: the programmes' own
+TILE = '1AFFFFFF'           # Sky's: each channel and programme a faint tile of its own, apart from the next
 PANEL_X = SAFE_X - 16       # the glass starts just left of the channel names (the focus outline's edge)
 LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
@@ -80,13 +81,18 @@ def channel(focused):
     aren't needed to find one); the playing channel's name in the accent, the
     focused row's outlined while the timeline has focus."""
     colour = TEXT if focused else 'C7EDEDED'
+    tile = '''
+                    <control type="image">
+                        <left>%d</left><top>6</top><width>%d</width><height>%d</height>
+                        <texture border="8" colordiffuse="%s">silo/guide_cell.png</texture>
+                    </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12, TILE)
     rim = '''
                     <control type="image">
                         <left>%d</left><top>6</top><width>%d</width><height>%d</height>
                         <texture border="8" colordiffuse="%s">silo/guide_rim.png</texture>
                         <visible>Control.HasFocus(%d)</visible>
                     </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12, TEXT, GRID_ID) if focused else ''
-    return rim + two_tone('''
+    return tile + rim + two_tone('''
                     <control type="label">
                         <left>%d</left><top>0</top><width>%d</width><height>%d</height>
                         <aligny>center</aligny>%s
@@ -103,15 +109,12 @@ def channel(focused):
 
 
 def programme(focused):
-    """A programme, as Sky Stream's: its title on the band, a faint line
-    between programmes; focused (the timeline having focus), a lighter
-    rounded band. Kodi stretches only the image with id 2 and the label with
-    id 1 to the programme's length, so the colours come from variables."""
+    """A programme, as Sky Stream's: its title on a faint tile of its own,
+    a gap from the next (Kodi widens the image with id 2 and the label with
+    id 1 by the programme's length less the layout's, so its 3 px either
+    side stay); focused (the timeline having focus), a lighter tile. The
+    colours come from variables."""
     return '''
-                    <control type="image">
-                        <left>0</left><top>18</top><width>2</width><height>%(line)d</height>
-                        <texture colordiffuse="1FFFFFFF">colors/white.png</texture>
-                    </control>
                     <control type="image" id="2">
                         <left>3</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
                         <texture border="8" colordiffuse="%(fill)s">silo/guide_cell.png</texture>
@@ -121,8 +124,8 @@ def programme(focused):
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <label>%(label)s</label>
-                    </control>''' % {'w': BLOCK_W - 6, 'lw': BLOCK_W - 30, 'h': ROW_H - 12, 'line': ROW_H - 36,
-                                      'fill': '$VAR[SiloGuideCell]' if focused else '00FFFFFF',
+                    </control>''' % {'w': BLOCK_W - 6, 'lw': BLOCK_W - 30, 'h': ROW_H - 12,
+                                      'fill': '$VAR[SiloGuideCell]' if focused else TILE,
                                       'label': '$VAR[SiloGuideTitle]' if focused else '$VAR[SiloGuideTitleRest]'}
 
 
@@ -134,7 +137,7 @@ def variables():
             # The theme's names: tools/build_colours.py doesn't reach a variable's values.
             '    <variable name="SiloGuideCell">\n'
             '        <value condition="%(lit)s">40FFFFFF</value>\n'
-            '        <value>00FFFFFF</value>\n'
+            '        <value>%(tile)s</value>\n'
             '    </variable>\n'
             # A channel with no guide data: "No information", as TiviMate. What has
             # finished is dimmed, as Sky's.
@@ -165,7 +168,7 @@ def variables():
             '        <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>\n'
             '        <value condition="!String.IsEmpty(ListItem.StartTime)">Starts at $INFO[ListItem.StartTime]</value>\n'
             '    </variable>\n'
-            ) % {'lit': lit, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
+            ) % {'lit': lit, 'tile': TILE, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
 
 
 def add_variables():

@@ -10299,7 +10299,7 @@
     <!-- Silo Skyline TV guide (tools/build_tv.py) -->
     <variable name="SiloGuideCell">
         <value condition="Control.HasFocus(51)">40FFFFFF</value>
-        <value>00FFFFFF</value>
+        <value>1AFFFFFF</value>
     </variable>
     <variable name="SiloGuideTitle">
         <value condition="Control.HasFocus(51) + String.IsEmpty(ListItem.Label)">[COLOR B3FFFFFF]No information[/COLOR]</value>

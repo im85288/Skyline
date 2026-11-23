@@ -942,6 +942,10 @@
                 </control>
             </rulerlayout>
             <channellayout height="69" width="560">
+                    <control type="image">
+                        <left>72</left><top>6</top><width>476</width><height>57</height>
+                        <texture border="8" colordiffuse="1AFFFFFF">silo/guide_cell.png</texture>
+                    </control>
                     <control type="label">
                         <left>88</left><top>0</top><width>444</width><height>69</height>
                         <aligny>center</aligny>
@@ -962,6 +966,10 @@
                     </control>
             </channellayout>
             <focusedchannellayout height="69" width="560">
+                    <control type="image">
+                        <left>72</left><top>6</top><width>476</width><height>57</height>
+                        <texture border="8" colordiffuse="1AFFFFFF">silo/guide_cell.png</texture>
+                    </control>
                     <control type="image">
                         <left>72</left><top>6</top><width>476</width><height>57</height>
                         <texture border="8" colordiffuse="FFEDEDED">silo/guide_rim.png</texture>
@@ -987,13 +995,9 @@
                     </control>
             </focusedchannellayout>
             <itemlayout height="69" width="60">
-                    <control type="image">
-                        <left>0</left><top>18</top><width>2</width><height>33</height>
-                        <texture colordiffuse="1FFFFFFF">colors/white.png</texture>
-                    </control>
                     <control type="image" id="2">
                         <left>3</left><top>6</top><width>54</width><height>57</height>
-                        <texture border="8" colordiffuse="00FFFFFF">silo/guide_cell.png</texture>
+                        <texture border="8" colordiffuse="1AFFFFFF">silo/guide_cell.png</texture>
                     </control>
                     <control type="label" id="1">
                         <left>18</left><top>6</top><width>30</width><height>57</height>
@@ -1003,10 +1007,6 @@
                     </control>
             </itemlayout>
             <focusedlayout height="69" width="60">
-                    <control type="image">
-                        <left>0</left><top>18</top><width>2</width><height>33</height>
-                        <texture colordiffuse="1FFFFFFF">colors/white.png</texture>
-                    </control>
                     <control type="image" id="2">
                         <left>3</left><top>6</top><width>54</width><height>57</height>
                         <texture border="8" colordiffuse="$VAR[SiloGuideCell]">silo/guide_cell.png</texture>
