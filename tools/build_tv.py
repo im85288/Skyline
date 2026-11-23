@@ -1082,6 +1082,12 @@ def sky_next(n, y):
                     <aspectratio>scale</aspectratio>
                     <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerNext%(n)dPicture]</texture>
                 </control>
+                <control type="image">
+                    <left>40</left><top>82</top><width>%(lw)d</width><height>%(lh)d</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture>$VAR[SiloBannerLogo]</texture>
+                    <visible>%(no_picture)s</visible>
+                </control>
                 <control type="label">
                     <top>%(time_y)d</top><width>%(w)d</width><height>40</height>
                     <aligny>center</aligny>
@@ -1090,6 +1096,10 @@ def sky_next(n, y):
                     <label>$VAR[SiloBannerNext%(n)dTime]</label>
                 </control>
             </control>""" % {'x': x, 'y': y, 'shown': shown, 'n': n, 'w': SKY_NEXT_W, 'h': SKY_NEXT_H,
+                             'lw': SKY_NEXT_W - 80, 'lh': SKY_NEXT_H - 60,
+                             'no_picture': ('[[%(s)s + String.IsEmpty(Window(Home).Property(silokodi.banner.next%(n)d.picture))] | '
+                                            '[!%(s)s + String.IsEmpty(Window(Home).Property(silokodi.tv.next%(n)d.picture))]]'
+                                            % {'s': BANNER_STEPPED, 'n': n}),
                              'time_y': 52 + SKY_NEXT_H + 10, 'text': TEXT, 'shadow': 'CC000000'}
 
 
@@ -1248,8 +1258,9 @@ def sky_banner():
         'stepped': BANNER_STEPPED,
         'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
         'live': live_tag(BANNER_SHOWS_LIVE, top=4, indent='                '),
-        'quality': outline_badge('$VAR[SiloLiveQuality]',
-                                 '!String.IsEmpty(VideoPlayer.VideoResolution) + !%s' % BANNER_STEPPED),
+        'quality': outline_badge('$VAR[SiloBannerQuality]',
+                                 '[Player.ChannelPreviewActive | !String.IsEmpty(VideoPlayer.VideoResolution)] + !%s'
+                                 % BANNER_STEPPED),
         'badges': ''.join(outline_badge(label, '%s + !%s + !Player.ChannelPreviewActive' % (cond, BANNER_STEPPED))
                           for label, cond in (('$VAR[SiloLiveHdr]', '!String.IsEmpty(VideoPlayer.HdrType)'),
                                               ('$VAR[SiloLiveAudio]', '!String.IsEmpty(VideoPlayer.AudioChannels)'))),
@@ -1397,7 +1408,12 @@ def banner_variables():
 def stream_variables():
     fps = ''.join('        <value condition="String.StartsWith(Player.Process(videofps),%s)">%s</value>\n' % pair for pair in FPS)
     # TiviMate's names: 4K, FHD (1080), HD (720), SD; STEREO for 2.0.
-    return ('    <variable name="SiloLiveQuality">\n'  # Sky's badge: UHD, HD or SD
+    return ('    <variable name="SiloBannerQuality">\n'  # a browsed channel's: the playlist's UHD ones (KodiConnectForSilo's tv.uhd)
+            '        <value condition="Player.ChannelPreviewActive + String.Contains(Window(Home).Property(silokodi.tv.uhd),VideoPlayer.ChannelName)">UHD</value>\n'
+            '        <value condition="Player.ChannelPreviewActive">HD</value>\n'
+            '        <value>$VAR[SiloLiveQuality]</value>\n'
+            '    </variable>\n'
+            '    <variable name="SiloLiveQuality">\n'  # Sky's badge: UHD, HD or SD
             '        <value condition="String.IsEqual(VideoPlayer.VideoResolution,4K)">UHD</value>\n'
             '        <value condition="String.IsEqual(VideoPlayer.VideoResolution,1080) | String.IsEqual(VideoPlayer.VideoResolution,720)">HD</value>\n'
             '        <value>SD</value>\n'

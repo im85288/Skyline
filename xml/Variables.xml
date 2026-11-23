@@ -10346,6 +10346,11 @@
         <value condition="String.IsEmpty(ListItem.Title)">No information</value>
         <value>$INFO[ListItem.Title]</value>
     </variable>
+    <variable name="SiloBannerQuality">
+        <value condition="Player.ChannelPreviewActive + String.Contains(Window(Home).Property(silokodi.tv.uhd),VideoPlayer.ChannelName)">UHD</value>
+        <value condition="Player.ChannelPreviewActive">HD</value>
+        <value>$VAR[SiloLiveQuality]</value>
+    </variable>
     <variable name="SiloLiveQuality">
         <value condition="String.IsEqual(VideoPlayer.VideoResolution,4K)">UHD</value>
         <value condition="String.IsEqual(VideoPlayer.VideoResolution,1080) | String.IsEqual(VideoPlayer.VideoResolution,720)">HD</value>

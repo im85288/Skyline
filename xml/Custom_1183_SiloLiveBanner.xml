@@ -80,7 +80,7 @@
                 <itemgap>8</itemgap>
                     <control type="button">
                         <top>4</top><width>auto</width><height>30</height>
-                        <label>$VAR[SiloLiveQuality]</label>
+                        <label>$VAR[SiloBannerQuality]</label>
                         <font>silo_badge</font>
                         <textoffsetx>8</textoffsetx>
                         <aligny>center</aligny>
@@ -88,7 +88,7 @@
                         <disabledcolor>FFEDEDED</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturefocus>
-                        <visible>!String.IsEmpty(VideoPlayer.VideoResolution) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                        <visible>[Player.ChannelPreviewActive | !String.IsEmpty(VideoPlayer.VideoResolution)] + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
             </control>
             <!-- The title (a long one on two lines, as no scrolling) and the plot
@@ -201,6 +201,12 @@
                     <aspectratio>scale</aspectratio>
                     <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerNext1Picture]</texture>
                 </control>
+                <control type="image">
+                    <left>40</left><top>82</top><width>200</width><height>98</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture>$VAR[SiloBannerLogo]</texture>
+                    <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEmpty(Window(Home).Property(silokodi.banner.next1.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEmpty(Window(Home).Property(silokodi.tv.next1.picture))]]</visible>
+                </control>
                 <control type="label">
                     <top>220</top><width>280</width><height>40</height>
                     <aligny>center</aligny>
@@ -227,6 +233,12 @@
                     <top>52</top><width>280</width><height>158</height>
                     <aspectratio>scale</aspectratio>
                     <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerNext2Picture]</texture>
+                </control>
+                <control type="image">
+                    <left>40</left><top>82</top><width>200</width><height>98</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture>$VAR[SiloBannerLogo]</texture>
+                    <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEmpty(Window(Home).Property(silokodi.banner.next2.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEmpty(Window(Home).Property(silokodi.tv.next2.picture))]]</visible>
                 </control>
                 <control type="label">
                     <top>220</top><width>280</width><height>40</height>
