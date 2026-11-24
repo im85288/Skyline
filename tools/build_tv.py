@@ -1486,7 +1486,7 @@ def banner():
     return '''		<!-- Silo Skyline Live TV banner (tools/build_tv.py) -->
 		<control type="group">
 			<!-- Not under the banner window (1183, Left/Right), which draws its own. -->
-			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d) + !Window.IsActive(%(banner_window)d)</visible>
+			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d) + !Window.IsActive(%(banner_window)d)</visible>
 			<animation effect="slide" start="0,120" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<!-- As Sky's: a light fade under the banner, no black band, nothing at the top. -->
@@ -1521,10 +1521,14 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <onstart>Seek(300)</onstart>
         <stop>true</stop>
     </timer>
+    <!-- Back hid Kodi's banner (window 1188 or 1183 noted the channel in
+         silo.live.hidden; Kodi's banner can't be closed early, only timed, by
+         Display channel info): once Kodi's own has gone, forget it. Browsing
+         to another channel shows the banner again (the names differ). -->
     <timer>
-        <name>silo_live_banner_idle</name>
-        <start reset="true">Window.IsActive(%(banner_window)d) + System.IdleTime(8)</start>
-        <onstart>Dialog.Close(%(banner_window)d)</onstart>
+        <name>silo_live_unhide</name>
+        <start reset="true">!String.IsEmpty(Window(Home).Property(silo.live.hidden)) + !Player.ShowInfo + !Player.ChannelPreviewActive</start>
+        <onstart>ClearProperty(silo.live.hidden,home)</onstart>
         <stop>true</stop>
     </timer>
     <timer>
@@ -1566,14 +1570,6 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <start reset="true">Window.IsActive(tvguide) + !Control.HasFocus(%(rail)d) + !Control.HasFocus(%(grid)d) + Integer.IsEqual(Container(%(rail)d).NumItems,0)</start>
         <onstart>SetFocus(%(grid)d)</onstart>
         <stop>true</stop>
-    </timer>
-    <timer>
-        <name>silo_recent_autoclose</name>
-        <start reset="true">Window.IsActive(%(window)d)</start>
-        <!-- Not while the playback bar is open (paused, the viewer may be a while). -->
-        <reset>Window.IsActive(%(window)d) + [!System.IdleTime(1) | ControlGroup(%(controls)d).HasFocus()]</reset>
-        <stop>!Window.IsActive(%(window)d) | Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(silo_recent_autoclose),5)</stop>
-        <onstop condition="Window.IsActive(%(window)d)">Dialog.Close(%(window)d)</onstop>
     </timer>
     <timer>
         <name>silo_schedule_now</name>
@@ -2495,8 +2491,8 @@ def build_recent():
     <defaultcontrol always="true">%(list)d</defaultcontrol>
     <!-- Browsing channels in the banner (Up/Down, Kodi's Confirm channel switch):
          OK watches the one shown, as Sky's mini guide, not this screen. -->
-    <onload condition="Player.ChannelPreviewActive">Dialog.Close(%(window)d,true)</onload>
-    <onload condition="Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
+    <onload condition="Player.ChannelPreviewActive + !%(hidden)s">Dialog.Close(%(window)d,true)</onload>
+    <onload condition="Player.ChannelPreviewActive + !%(hidden)s + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
     <!-- On an earlier or later programme the banner stepped to (Left/Right),
          browsed or on the playing channel: catch-up or a reminder, not this screen. -->
     <onload condition="!Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Dialog.Close(%(window)d,true)</onload>
@@ -2561,7 +2557,7 @@ def build_recent():
         </control>%(bar)s
     </controls>
 </window>
-''' % {'window': RECENT_ID, 'list': RECENT_LIST, 'bg': BACKGROUND[2:], 
+''' % {'window': RECENT_ID, 'hidden': LIVE_HIDDEN, 'list': RECENT_LIST, 'bg': BACKGROUND[2:], 
        'corners': corners(), 'info': infobar(ROW_Y - 32 - INFO_H),
        'lx': SAFE_X - 8, 'ly': ROW_Y, 'lw': 1920 - SAFE_X + 8, 'iw': TILE_W + TILE_GAP, 'ih': TILE_H,
        'card': recent_card(False), 'card_focused': recent_card(True),
@@ -2592,16 +2588,22 @@ GUIDE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 # Left and Right in Live TV, as Sky's banner: skin timers (TIMERS,
 # silo_live_left/right) note the channel shown, open this window and step;
 # the window draws the banner and holds the keys (Left/Right step, OK plays
-# or reminds, Back/Up/Down close), and closes after 8 s idle. Kodi's own
+# or reminds, Back/Up/Down close; Back hides Kodi's banner beneath too).
+# It has no timer: it stays until a key closes it. Kodi's own
 # banner (DialogSeekBar) timed out mid-step, and holding it open gave the
 # keys to its seek bar.
 BANNER_WINDOW = 1183
 # The banner is up: Kodi's (Info, a channel change, browsing) or Skyline's window.
-BANNER_UP = '[Window.IsActive(%d) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)]' % BANNER_WINDOW
+# Not once Back has hidden Kodi's (silo.live.hidden, the channel it hid).
+LIVE_HIDDEN = 'String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)'
+BANNER_UP = ('[Window.IsActive(%d) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !%s]]'
+             % (BANNER_WINDOW, LIVE_HIDDEN))
 LIVE_BANNER_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated by tools/build_tv.py: edit that, not this. Live TV's banner for Left/Right. -->
 <window type="dialog" id="%(id)d">
     <defaultcontrol always="true">100</defaultcontrol>
+    <onunload condition="String.IsEmpty(Window(Home).Property(silo.live.keep))">SetProperty(silo.live.hidden,$INFO[VideoPlayer.ChannelName],home)</onunload>
+    <onunload>ClearProperty(silo.live.keep,home)</onunload>
     <controls>
         <control type="image">
             <left>0</left><top>560</top><width>1920</width><height>520</height>
@@ -2614,7 +2616,9 @@ LIVE_BANNER_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
             <onleft>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onleft>
             <onright>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onright>
             <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onclick>
+            <onup>SetProperty(silo.live.keep,1,home)</onup>
             <onup>Dialog.Close(%(id)d)</onup>
+            <ondown>SetProperty(silo.live.keep,1,home)</ondown>
             <ondown>Dialog.Close(%(id)d)</ondown>
         </control>
     </controls>

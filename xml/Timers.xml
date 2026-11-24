@@ -399,30 +399,34 @@
         <onstart>Seek(300)</onstart>
         <stop>true</stop>
     </timer>
+    <!-- Back hid Kodi's banner (window 1188 or 1183 noted the channel in
+         silo.live.hidden; Kodi's banner can't be closed early, only timed, by
+         Display channel info): once Kodi's own has gone, forget it. Browsing
+         to another channel shows the banner again (the names differ). -->
     <timer>
-        <name>silo_live_banner_idle</name>
-        <start reset="true">Window.IsActive(1183) + System.IdleTime(8)</start>
-        <onstart>Dialog.Close(1183)</onstart>
+        <name>silo_live_unhide</name>
+        <start reset="true">!String.IsEmpty(Window(Home).Property(silo.live.hidden)) + !Player.ShowInfo + !Player.ChannelPreviewActive</start>
+        <onstart>ClearProperty(silo.live.hidden,home)</onstart>
         <stop>true</stop>
     </timer>
     <timer>
         <name>silo_live_left</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="![Window.IsActive(1183) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)]">Seek(-10)</onstart>
-        <onstart condition="[Window.IsActive(1183) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
-        <onstart condition="[Window.IsActive(1183) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
-        <onstart condition="[Window.IsActive(1183) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
+        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]]">Seek(-10)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
         <stop>true</stop>
     </timer>
     <timer>
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="![Window.IsActive(1183) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)]">Seek(10)</onstart>
-        <onstart condition="[Window.IsActive(1183) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
-        <onstart condition="[Window.IsActive(1183) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
-        <onstart condition="[Window.IsActive(1183) | Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
+        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]]">Seek(10)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
         <stop>true</stop>
     </timer>
     <!-- Long OK in Live TV (KodiConnectForSilo's keymap sets silo.live.longok):
@@ -444,14 +448,6 @@
         <start reset="true">Window.IsActive(tvguide) + !Control.HasFocus(52) + !Control.HasFocus(51) + Integer.IsEqual(Container(52).NumItems,0)</start>
         <onstart>SetFocus(51)</onstart>
         <stop>true</stop>
-    </timer>
-    <timer>
-        <name>silo_recent_autoclose</name>
-        <start reset="true">Window.IsActive(1196)</start>
-        <!-- Not while the playback bar is open (paused, the viewer may be a while). -->
-        <reset>Window.IsActive(1196) + [!System.IdleTime(1) | ControlGroup(5610).HasFocus()]</reset>
-        <stop>!Window.IsActive(1196) | Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(silo_recent_autoclose),5)</stop>
-        <onstop condition="Window.IsActive(1196)">Dialog.Close(1196)</onstop>
     </timer>
     <timer>
         <name>silo_schedule_now</name>

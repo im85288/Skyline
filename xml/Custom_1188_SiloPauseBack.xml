@@ -4,7 +4,8 @@
      (leave the video for the menus), unless Showcase's pause screen has shown
      since the video paused, which Back only dismisses. From Live TV, Back
      stops the channel (back to wherever it was started), unless a Live TV
-     note shows, which Back dismisses. -->
+     note or Kodi's banner shows, which Back dismisses (the banner is hidden:
+     Kodi's can only time out, after Display channel info's seconds). -->
 <window type="dialog" id="1188">
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown)">Dialog.Close(1188,true)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !VideoPlayer.Content(LiveTV) + !PVR.IsPlayingEpgTag">Action(Back)</onload>
@@ -12,8 +13,9 @@
          Catch up): stopped, as Live TV is; Kodi's Back went to the guide with it
          still playing, and the guide's Back went back to it. -->
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !VideoPlayer.Content(LiveTV) + PVR.IsPlayingEpgTag">PlayerControl(Stop)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV) + String.IsEmpty(Window(Home).Property(silokodi.next.title))">PlayerControl(Stop)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV) + String.IsEmpty(Window(Home).Property(silokodi.next.title)) + ![[Player.ShowInfo | Player.ChannelPreviewActive] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]">PlayerControl(Stop)</onload>
     <onload condition="VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(silokodi.next.title))">ClearProperty(silokodi.next.title,home)</onload>
+    <onload condition="VideoPlayer.Content(LiveTV) + String.IsEmpty(Window(Home).Property(silokodi.next.title)) + [[Player.ShowInfo | Player.ChannelPreviewActive] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]">SetProperty(silo.live.hidden,$INFO[VideoPlayer.ChannelName],home)</onload>
     <onload>ClearProperty(silo.tv.fromcard,home)</onload>
     <onload condition="Skin.TimerIsRunning(silo_pause_shown)">Skin.TimerStop(silo_pause_shown)</onload>
     <onload>Dialog.Close(1188,true)</onload>

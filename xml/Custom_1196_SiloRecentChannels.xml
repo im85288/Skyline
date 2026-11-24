@@ -4,8 +4,8 @@
     <defaultcontrol always="true">5600</defaultcontrol>
     <!-- Browsing channels in the banner (Up/Down, Kodi's Confirm channel switch):
          OK watches the one shown, as Sky's mini guide, not this screen. -->
-    <onload condition="Player.ChannelPreviewActive">Dialog.Close(1196,true)</onload>
-    <onload condition="Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
+    <onload condition="Player.ChannelPreviewActive + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)">Dialog.Close(1196,true)</onload>
+    <onload condition="Player.ChannelPreviewActive + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
     <!-- On an earlier or later programme the banner stepped to (Left/Right),
          browsed or on the playing channel: catch-up or a reminder, not this screen. -->
     <onload condition="!Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Dialog.Close(1196,true)</onload>
