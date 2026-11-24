@@ -1426,7 +1426,13 @@ def banner_variables():
     tint = ('    <variable name="SiloLiveTint">\n'
             '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">'
             '$INFO[Window(Home).Property(silokodi.tv.playing_tint)]</value>\n'
-            '        <value>F2%s</value>\n    </variable>\n' % BACKGROUND[2:])
+            '        <value>F2%s</value>\n    </variable>\n' % BACKGROUND[2:] +
+            '    <variable name="SiloNoteTint">\n'
+            '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.next.tint))">'
+            '$INFO[Window(Home).Property(silokodi.next.tint)]</value>\n'
+            '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">'
+            '$INFO[Window(Home).Property(silokodi.tv.playing_tint)]</value>\n'
+            '        <value>SkylineGlass</value>\n    </variable>\n')
     return (tint + var('SiloBannerTitle', 'title', '$INFO[VideoPlayer.Title]') +
             var('SiloBannerTimes', 'times', '$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]') +
             var('SiloBannerPlot', 'plot', '$INFO[VideoPlayer.Plot]') +
@@ -2466,9 +2472,11 @@ def live_notes():
 			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
+			<!-- The glass in the next programme's colour, else the playing one's
+			     (KodiConnectForSilo's next.tint, tv.playing_tint), else the theme's. -->
 			<control type="image">
 				<width>%(w)d</width><height>150</height>
-				<texture border="28">silo/menu_panel.png</texture>
+				<texture border="28" colordiffuse="$VAR[SiloNoteTint]">silo/menu_panel.png</texture>
 			</control>
 			<!-- The next programme's picture, else the channel's logo. -->
 			<control type="image">
