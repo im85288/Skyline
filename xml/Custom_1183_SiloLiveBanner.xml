@@ -25,10 +25,19 @@
                 <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                 <label>$INFO[System.Date(dddd)]$INFO[System.Time,  ·  ,]</label>
             </control>
-            <!-- The card: glass with a faint rim, as Sky's. -->
+            <!-- The card: glass with a faint rim, as Sky's, in the programme's colour
+                 (KodiConnectForSilo's tv.playing_tint, the browsed channel's while
+                 browsing, as the OK screen's shade) at the glass's 65 per cent; else navy. -->
             <control type="image">
                 <left>372</left><top>778</top><width>1160</width><height>266</height>
                 <texture border="8" colordiffuse="A6141820">silo/guide_cell.png</texture>
+                <visible>String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))</visible>
+            </control>
+            <control type="image">
+                <left>372</left><top>778</top><width>1160</width><height>266</height>
+                <texture border="8" colordiffuse="$INFO[Window(Home).Property(silokodi.tv.playing_tint)]">silo/guide_cell.png</texture>
+                <animation effect="fade" start="65" end="65" time="0" condition="true">Conditional</animation>
+                <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))</visible>
             </control>
             <control type="image">
                 <left>372</left><top>778</top><width>1160</width><height>266</height>
