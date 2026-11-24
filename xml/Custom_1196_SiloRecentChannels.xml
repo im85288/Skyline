@@ -195,7 +195,7 @@
                     <left>358</left><top>110</top><width>1474</width><height>40</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
-                    <textcolor>FFF2D46B</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <textcolor>FF00BC7D</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
                     <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
@@ -221,7 +221,7 @@
                     </control>
                 </control>
 
-                <!-- TiviMate's full-width bar: yellow as far as the programme has got. -->
+                <!-- TiviMate's full-width bar: white as far as the programme has got. -->
                 <control type="progress">
                     <left>80</left><top>166</top><width>1760</width><height>4</height>
                     <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
@@ -381,7 +381,7 @@
                     <left>358</left><top>110</top><width>1474</width><height>40</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
-                    <textcolor>FFF2D46B</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <textcolor>FF00BC7D</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
                     <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
@@ -407,7 +407,7 @@
                     </control>
                 </control>
 
-                <!-- TiviMate's full-width bar: yellow as far as the programme has got. -->
+                <!-- TiviMate's full-width bar: white as far as the programme has got. -->
                 <control type="progress">
                     <left>80</left><top>166</top><width>1760</width><height>4</height>
                     <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>

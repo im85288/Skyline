@@ -42,8 +42,9 @@ LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
 PREVIEW_W, PREVIEW_H = 496, 279
 BLOCK_W = 60                # a 5-minute block
-# TiviMate's yellow: the playing channel, the programme on now, today.
-ACCENT = 'FFF2D46B'
+# Silo's green (#00BC7D, the Silo apps' watched tick): the playing channel,
+# the programme on now, today (TiviMate's places, in its yellow before).
+ACCENT = 'FF00BC7D'
 # Progress bars white, as the player's (DialogSeekBar's SkylineFocus).
 PROGRESS = 'FFEDEDED'
 PLAYING = 'ListItem.IsPlaying'
@@ -953,7 +954,7 @@ def infobar(top, plot=False):
                     </control>
                 </control>
 %(next_strip)s
-                <!-- TiviMate's full-width bar: yellow as far as the programme has got. -->
+                <!-- TiviMate's full-width bar: white as far as the programme has got. -->
                 <control type="progress">
                     <left>%(left)d</left><top>%(bar_y)d</top><width>%(bar_w)d</width><height>4</height>
                     <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
@@ -1656,7 +1657,7 @@ ROW_Y = 1080 - 88 - TILE_H     # the row's top
 def quick_row(focused):
     """A channel in the quick guide: logo, number and name, what's on now
     with how far through it; the focused row a white bar, dark text; the
-    playing channel's name yellow with TiviMate's ▶."""
+    playing channel's name green with TiviMate's ▶."""
     # Not while KodiConnectForSilo switches the guide's group: Kodi focuses the
     # channels for a moment as it rebuilds, which flashed the highlight.
     lit = '[Control.HasFocus(11) + String.IsEmpty(Window(Home).Property(silokodi.quick.switching))]'
@@ -1728,9 +1729,9 @@ FULL_PANEL = DAYS_X + DAYS_W + 24
 
 def schedule_row(focused=False, width=SCHEDULE_W, height=SCHEDULE_ROW, lit_id=None):
     """A programme in the channel's schedule: its start time and title, the
-    one on now yellow with TiviMate's ▶ LIVE, a past one catch-up can play
+    one on now green with TiviMate's ▶ LIVE, a past one catch-up can play
     with the history icon; a day header where the day changes (today's
-    yellow). Focused (lit_id while it has focus), a white bar, dark text."""
+    green). Focused (lit_id while it has focus), a white bar, dark text."""
     header = 'String.IsEqual(ListItem.Property(silo.header),1)'
     lit = 'Control.HasFocus(%d)' % lit_id if lit_id else 'false'
 
@@ -1796,7 +1797,7 @@ def schedule_row(focused=False, width=SCHEDULE_W, height=SCHEDULE_ROW, lit_id=No
 
 
 def day_row(focused):
-    """A day in the schedule's day column: today yellow, the focused
+    """A day in the schedule's day column: today green, the focused
     programme's day on a soft pill; focused, a white pill."""
     lit = 'Control.HasFocus(%d)' % DAYS_ID
     shown = 'String.IsEqual(ListItem.Property(silo.day),Container(%d).ListItem.Property(silo.day))' % SCHEDULE_ID
