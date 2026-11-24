@@ -1432,7 +1432,12 @@ def banner_variables():
             '$INFO[Window(Home).Property(silokodi.next.tint)]</value>\n'
             '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">'
             '$INFO[Window(Home).Property(silokodi.tv.playing_tint)]</value>\n'
-            '        <value>SkylineGlass</value>\n    </variable>\n')
+            '        <value>SkylineGlass</value>\n    </variable>\n'
+            # Its label: white on a tinted panel (the blue read poorly on a blue one), else the accent.
+            '    <variable name="SiloNoteLabel">\n'
+            '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.next.tint)) | '
+            '!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">FFEDEDED</value>\n'
+            '        <value>%s</value>\n    </variable>\n' % ACCENT)
     return (tint + var('SiloBannerTitle', 'title', '$INFO[VideoPlayer.Title]') +
             var('SiloBannerTimes', 'times', '$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]') +
             var('SiloBannerPlot', 'plot', '$INFO[VideoPlayer.Plot]') +
@@ -2493,7 +2498,7 @@ def live_notes():
 			<control type="label">
 				<left>240</left><top>18</top><width>%(nw)d</width><height>34</height>
 				<font>silo_card_sub</font>
-				<textcolor>%(accent)s</textcolor>
+				<textcolor>$VAR[SiloNoteLabel]</textcolor>
 				<label>COMING UP NEXT</label>
 			</control>
 			<control type="label">
@@ -2512,7 +2517,7 @@ def live_notes():
 	</controls>
 </window>
 ''' % {'id': NOTES_ID, 'x': 1920 - NOTE_X - NOTE_W, 'y': NOTE_Y, 'w': NOTE_W, 'nw': NOTE_W - 264, 'hidden': hidden,
-       'next': NEXT_UP, 'text': TEXT, 'dim': DIM, 'accent': ACCENT}
+       'next': NEXT_UP, 'text': TEXT, 'dim': DIM}
 
 
 def add_live_notes():
