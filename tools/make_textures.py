@@ -160,7 +160,7 @@ def menu_panel(name='menu_panel.png', size=96, radius=24, rim=1.5):
 
 def epg_now(name='epg_now.png', width=28, height=28, dot=12, line=3, shade=0.4, gap=0):
     """The guide's "now" marker: Kodi stretches it from the grid's start to
-    the current time. Its right edge is a white line with a green dot at
+    the current time. Its right edge is a white line with a blue dot at
     its top, as TiviMate's (border="0,16,18,0": the dot and the line's column keep
     their size); left of the line, a see-through black shades what has
     already aired, as TiviMate does."""
@@ -172,7 +172,7 @@ def epg_now(name='epg_now.png', width=28, height=28, dot=12, line=3, shade=0.4, 
         in_dot = (x - cx) ** 2 + (y - cy) ** 2 <= (dot / 2.0) ** 2
         in_line = abs(x - cx) <= line / 2.0
         if in_dot:
-            return 1.0, (0, 188, 125)  # Silo's green dot (the guide's ACCENT)
+            return 1.0, (58, 157, 255)  # Sky's blue dot (the guide's ACCENT)
         if in_line:
             return 1.0
         return (shade, (0, 0, 0)) if x < cx else 0.0
@@ -236,6 +236,10 @@ def switches(width=112, height=56):
 def scrim(height=256):
     """Vertical black scrim, opaque at the bottom, for text over artwork."""
     write_png('scrim_bottom.png', 4, height, lambda x, y: smoothstep(y / float(height)) * 0.9, rgb=(0, 0, 0))
+    # The same in white, for a colour of the skin's choosing (colordiffuse
+    # multiplies: a black texture stays black): the OK screen's, in the
+    # playing programme's tint (build_tv.py SiloLiveTint).
+    write_png('scrim_bottom_white.png', 4, height, lambda x, y: smoothstep(y / float(height)) * 0.9, rgb=(255, 255, 255))
     # The Live TV quick guide's edge: solid at the left fading to clear (white, so colordiffuse colours it).
     write_png('scrim_side.png', height, 4, lambda x, y: 1 - smoothstep(x / float(height)))
 

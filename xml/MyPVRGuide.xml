@@ -1034,8 +1034,8 @@
                         <left>88</left><top>0</top><width>444</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
-                        <textcolor>FF00BC7D</textcolor>
-                        <selectedcolor>FF00BC7D</selectedcolor>
+                        <textcolor>FF3A9DFF</textcolor>
+                        <selectedcolor>FF3A9DFF</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
                         <visible>ListItem.IsPlaying</visible>
                     </control>
@@ -1058,8 +1058,8 @@
                         <left>88</left><top>0</top><width>444</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
-                        <textcolor>FF00BC7D</textcolor>
-                        <selectedcolor>FF00BC7D</selectedcolor>
+                        <textcolor>FF3A9DFF</textcolor>
+                        <selectedcolor>FF3A9DFF</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
                         <visible>ListItem.IsPlaying</visible>
                     </control>

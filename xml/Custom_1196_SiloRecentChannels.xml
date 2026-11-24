@@ -4,8 +4,8 @@
     <defaultcontrol always="true">5600</defaultcontrol>
     <!-- Browsing channels in the banner (Up/Down, Kodi's Confirm channel switch):
          OK watches the one shown, as Sky's mini guide, not this screen. -->
-    <onload condition="Player.ChannelPreviewActive + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)">Dialog.Close(1196,true)</onload>
-    <onload condition="Player.ChannelPreviewActive + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
+    <onload condition="Player.ChannelPreviewActive + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]">Dialog.Close(1196,true)</onload>
+    <onload condition="Player.ChannelPreviewActive + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))] + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
     <!-- On an earlier or later programme the banner stepped to (Left/Right),
          browsed or on the playing channel: catch-up or a reminder, not this screen. -->
     <onload condition="!Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Dialog.Close(1196,true)</onload>
@@ -38,11 +38,11 @@
             <animation effect="slide" start="0,0" end="0,320" time="160" tween="cubic" easing="in">WindowClose</animation>
             <control type="image">
                 <left>0</left><top>160</top><width>1920</width><height>920</height>
-                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom.png</texture>
+                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
             </control>
             <control type="image">
                 <left>0</left><top>380</top><width>1920</width><height>700</height>
-                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom.png</texture>
+                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
             </control>
             <!-- What's playing: moved down to the playback bar while it's open (TiviMate's). -->
             <control type="group">
@@ -195,7 +195,7 @@
                     <left>358</left><top>110</top><width>1474</width><height>40</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
-                    <textcolor>FF00BC7D</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <textcolor>FF3A9DFF</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
                     <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
@@ -381,7 +381,7 @@
                     <left>358</left><top>110</top><width>1474</width><height>40</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
-                    <textcolor>FF00BC7D</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <textcolor>FF3A9DFF</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
                     <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>

@@ -404,6 +404,18 @@
          Display channel info): once Kodi's own has gone, forget it. Browsing
          to another channel shows the banner again (the names differ). -->
     <timer>
+        <name>silo_live_switch_seen</name>
+        <start reset="true">String.IsEqual(Window(Home).Property(silokodi.live.switched),1) + Player.ShowInfo</start>
+        <onstart>SetProperty(silokodi.live.switched,2,home)</onstart>
+        <stop>true</stop>
+    </timer>
+    <timer>
+        <name>silo_live_switch_end</name>
+        <start reset="true">!String.IsEmpty(Window(Home).Property(silokodi.live.switched)) + [Player.ChannelPreviewActive | [String.IsEqual(Window(Home).Property(silokodi.live.switched),2) + !Player.ShowInfo]]</start>
+        <onstart>ClearProperty(silokodi.live.switched,home)</onstart>
+        <stop>true</stop>
+    </timer>
+    <timer>
         <name>silo_live_unhide</name>
         <start reset="true">!String.IsEmpty(Window(Home).Property(silo.live.hidden)) + !Player.ShowInfo + !Player.ChannelPreviewActive</start>
         <onstart>ClearProperty(silo.live.hidden,home)</onstart>
@@ -413,20 +425,20 @@
         <name>silo_live_left</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]]">Seek(-10)</onstart>
-        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
-        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
-        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
+        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]]">Seek(-10)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
         <stop>true</stop>
     </timer>
     <timer>
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]]">Seek(10)</onstart>
-        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
-        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
-        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
+        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]]">Seek(10)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
+        <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
         <stop>true</stop>
     </timer>
     <!-- Long OK in Live TV (KodiConnectForSilo's keymap sets silo.live.longok):

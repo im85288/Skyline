@@ -31,7 +31,7 @@
 			<control type="label">
 				<left>240</left><top>18</top><width>376</width><height>34</height>
 				<font>silo_card_sub</font>
-				<textcolor>FF00BC7D</textcolor>
+				<textcolor>FF3A9DFF</textcolor>
 				<label>COMING UP NEXT</label>
 			</control>
 			<control type="label">

@@ -42,12 +42,19 @@ LOGO_W, LOGO_H = 92, 52
 RULER_H = 46
 PREVIEW_W, PREVIEW_H = 496, 279
 BLOCK_W = 60                # a 5-minute block
-# Silo's green (#00BC7D, the Silo apps' watched tick): the playing channel,
-# the programme on now, today (TiviMate's places, in its yellow before).
-ACCENT = 'FF00BC7D'
+# Sky's blue (its highlight, brightened to read on the dark glass): the
+# playing channel, the programme on now, today (TiviMate's places, in its
+# yellow before).
+ACCENT = 'FF3A9DFF'
 # Progress bars white, as the player's (DialogSeekBar's SkylineFocus).
 PROGRESS = 'FFEDEDED'
 PLAYING = 'ListItem.IsPlaying'
+# Kodi's Live TV banner hidden: Back hid it (silo.live.hidden, the channel it
+# hid), or it's the one Kodi shows as a channel starts (KodiConnectForSilo's
+# live.switched; Skyline's timers end it as the viewer browses, or once Kodi's
+# own has gone). Kodi's banner can't be closed early, only timed.
+LIVE_HIDDEN = '[String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]'
+
 PILL_BG = 'E6262A33'          # the group pills' dark fill
 ENDED = 'Integer.IsEqual(ListItem.Progress,100)'  # a programme that has finished
 
@@ -1495,7 +1502,7 @@ def banner():
     return '''		<!-- Silo Skyline Live TV banner (tools/build_tv.py) -->
 		<control type="group">
 			<!-- Not under the banner window (1183, Left/Right), which draws its own. -->
-			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d) + !Window.IsActive(%(banner_window)d)</visible>
+			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !%(hidden)s + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d) + !Window.IsActive(%(banner_window)d)</visible>
 			<animation effect="slide" start="0,120" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<!-- As Sky's: a light fade under the banner, no black band, nothing at the top. -->
@@ -1505,7 +1512,7 @@ def banner():
 			</control>%(info)s
 		</control>
 		<!-- end Silo Skyline Live TV banner -->
-''' % {'recent': RECENT_ID, 'banner_window': BANNER_WINDOW, 'info': sky_banner()}
+''' % {'recent': RECENT_ID, 'banner_window': BANNER_WINDOW, 'info': sky_banner(), 'hidden': LIVE_HIDDEN}
 
 
 TIMER_START, TIMER_END = '    <!-- Silo Skyline TV (tools/build_tv.py) -->\n', '    <!-- end Silo Skyline TV -->\n'
@@ -1534,6 +1541,18 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
          silo.live.hidden; Kodi's banner can't be closed early, only timed, by
          Display channel info): once Kodi's own has gone, forget it. Browsing
          to another channel shows the banner again (the names differ). -->
+    <timer>
+        <name>silo_live_switch_seen</name>
+        <start reset="true">String.IsEqual(Window(Home).Property(silokodi.live.switched),1) + Player.ShowInfo</start>
+        <onstart>SetProperty(silokodi.live.switched,2,home)</onstart>
+        <stop>true</stop>
+    </timer>
+    <timer>
+        <name>silo_live_switch_end</name>
+        <start reset="true">!String.IsEmpty(Window(Home).Property(silokodi.live.switched)) + [Player.ChannelPreviewActive | [String.IsEqual(Window(Home).Property(silokodi.live.switched),2) + !Player.ShowInfo]]</start>
+        <onstart>ClearProperty(silokodi.live.switched,home)</onstart>
+        <stop>true</stop>
+    </timer>
     <timer>
         <name>silo_live_unhide</name>
         <start reset="true">!String.IsEmpty(Window(Home).Property(silo.live.hidden)) + !Player.ShowInfo + !Player.ChannelPreviewActive</start>
@@ -1657,7 +1676,7 @@ ROW_Y = 1080 - 88 - TILE_H     # the row's top
 def quick_row(focused):
     """A channel in the quick guide: logo, number and name, what's on now
     with how far through it; the focused row a white bar, dark text; the
-    playing channel's name green with TiviMate's ▶."""
+    playing channel's name blue with TiviMate's ▶."""
     # Not while KodiConnectForSilo switches the guide's group: Kodi focuses the
     # channels for a moment as it rebuilds, which flashed the highlight.
     lit = '[Control.HasFocus(11) + String.IsEmpty(Window(Home).Property(silokodi.quick.switching))]'
@@ -1729,9 +1748,9 @@ FULL_PANEL = DAYS_X + DAYS_W + 24
 
 def schedule_row(focused=False, width=SCHEDULE_W, height=SCHEDULE_ROW, lit_id=None):
     """A programme in the channel's schedule: its start time and title, the
-    one on now green with TiviMate's ▶ LIVE, a past one catch-up can play
+    one on now blue with TiviMate's ▶ LIVE, a past one catch-up can play
     with the history icon; a day header where the day changes (today's
-    green). Focused (lit_id while it has focus), a white bar, dark text."""
+    blue). Focused (lit_id while it has focus), a white bar, dark text."""
     header = 'String.IsEqual(ListItem.Property(silo.header),1)'
     lit = 'Control.HasFocus(%d)' % lit_id if lit_id else 'false'
 
@@ -1797,7 +1816,7 @@ def schedule_row(focused=False, width=SCHEDULE_W, height=SCHEDULE_ROW, lit_id=No
 
 
 def day_row(focused):
-    """A day in the schedule's day column: today green, the focused
+    """A day in the schedule's day column: today blue, the focused
     programme's day on a soft pill; focused, a white pill."""
     lit = 'Control.HasFocus(%d)' % DAYS_ID
     shown = 'String.IsEqual(ListItem.Property(silo.day),Container(%d).ListItem.Property(silo.day))' % SCHEDULE_ID
@@ -2521,11 +2540,11 @@ def build_recent():
             <animation effect="slide" start="0,0" end="0,320" time="160" tween="cubic" easing="in">WindowClose</animation>
             <control type="image">
                 <left>0</left><top>160</top><width>1920</width><height>920</height>
-                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom.png</texture>
+                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
             </control>
             <control type="image">
                 <left>0</left><top>380</top><width>1920</width><height>700</height>
-                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom.png</texture>
+                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
             </control>
             <!-- What's playing: moved down to the playback bar while it's open (TiviMate's). -->
             <control type="group">
@@ -2603,8 +2622,6 @@ GUIDE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 # keys to its seek bar.
 BANNER_WINDOW = 1183
 # The banner is up: Kodi's (Info, a channel change, browsing) or Skyline's window.
-# Not once Back has hidden Kodi's (silo.live.hidden, the channel it hid).
-LIVE_HIDDEN = 'String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName)'
 BANNER_UP = ('[Window.IsActive(%d) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + !%s]]'
              % (BANNER_WINDOW, LIVE_HIDDEN))
 LIVE_BANNER_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
