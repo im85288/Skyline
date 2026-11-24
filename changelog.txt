@@ -1,3 +1,9 @@
+[B]0.23.0[/B]
+• Live TV: the banner, the OK screen and the Left/Right programme view stay up until Back (Kodi's own banner as long as its Display channel info allows, 15 s at most); Back hides the banner instead of stopping the channel
+• Live TV: no banner as a channel starts (browse with Up/Down or press Info to see it)
+• Live TV: the OK screen, the banner's card and Coming up next take the programme's colour, as the TV page (needs KodiConnectForSilo 0.31.0)
+• Live TV: progress bars white, as the player's; the playing channel, on now and today in Sky's blue instead of TiviMate's yellow
+
 [B]0.22.0[/B]
 • Live TV banner, as Sky Stream's: the channel's name and the time at the left; the programme on a glass card with its picture, progress, times and HD/UHD badge, its title and plot, and LIVE, the time left and the sound badges; the next programmes at the right; a light fade instead of the black band
 • Live TV banner: keys shown as Sky's (OK, the arrows outlined, then what they do); a browsed channel's HD/UHD from the playlist; the channel's logo on next programmes without a picture
