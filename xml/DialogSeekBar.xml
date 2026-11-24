@@ -75,7 +75,7 @@
             <control type="progress">
                 <left>388</left><top>1000</top><width>352</width><height>4</height>
                 <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
-                <midtexture colordiffuse="FFF2D46B">colors/white.png</midtexture>
+                <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                 <info>PVR.EpgEventProgress</info>
                 <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
             </control>

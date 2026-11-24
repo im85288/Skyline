@@ -44,6 +44,8 @@ PREVIEW_W, PREVIEW_H = 496, 279
 BLOCK_W = 60                # a 5-minute block
 # TiviMate's yellow: the playing channel, the programme on now, today.
 ACCENT = 'FFF2D46B'
+# Progress bars white, as the player's (DialogSeekBar's SkylineFocus).
+PROGRESS = 'FFEDEDED'
 PLAYING = 'ListItem.IsPlaying'
 PILL_BG = 'E6262A33'          # the group pills' dark fill
 ENDED = 'Integer.IsEqual(ListItem.Progress,100)'  # a programme that has finished
@@ -955,7 +957,7 @@ def infobar(top, plot=False):
                 <control type="progress">
                     <left>%(left)d</left><top>%(bar_y)d</top><width>%(bar_w)d</width><height>4</height>
                     <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
-                    <midtexture colordiffuse="%(accent)s">colors/white.png</midtexture>
+                    <midtexture colordiffuse="%(progress)s">colors/white.png</midtexture>
                     <info>PVR.EpgEventProgress</info>
                     <visible>!String.IsEmpty(VideoPlayer.EndTime) + !%(stepped)s%(bar)s</visible>
                 </control>
@@ -971,7 +973,7 @@ def infobar(top, plot=False):
                 </control>''' % (tx, 1920 - tx - SAFE_X - NEXT_STRIP_W - 40) if plot else '',
                              'tw': 1920 - tx - SAFE_X - (NEXT_STRIP_W + 40 if plot else 0), 'text': TEXT,
                              'next_strip': next_strip() if plot else '', 'no_next_line': ' + false' if plot else '', 'soft': 'D9EDEDED', 'shadow': 'CC000000',
-                             'accent': ACCENT, 'bar_y': INFO_H - 10, 'bar_w': 1920 - 2 * left,
+                             'accent': ACCENT, 'progress': PROGRESS, 'bar_y': INFO_H - 10, 'bar_w': 1920 - 2 * left,
                              'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W,
                              'ph': LOGO_BOX_W * 9 // 16, 'bx': left + 12, 'by': 14 + LOGO_BOX_W * 9 // 16 - 12 - 40,
                              'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
@@ -1210,7 +1212,7 @@ def sky_banner():
             <control type="progress">
                 <left>%(px)d</left><top>%(bar_y)d</top><width>%(pw)d</width><height>4</height>
                 <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
-                <midtexture colordiffuse="%(accent)s">colors/white.png</midtexture>
+                <midtexture colordiffuse="%(progress)s">colors/white.png</midtexture>
                 <info>PVR.EpgEventProgress</info>
                 <visible>%(playing)s</visible>
             </control>
@@ -1272,7 +1274,7 @@ def sky_banner():
         'bar_y': y + 16 + SKY_PIC_H + 8, 'times_y': y + 16 + SKY_PIC_H + 18,
         'tx': tx, 'tw': tw, 'title_y': y + 14, 'text_h': 16 + SKY_PIC_H - 14 - 6,
         'row_y': y + 16 + SKY_PIC_H + 17,
-        'text': TEXT, 'shadow': 'CC000000', 'accent': ACCENT, 'playing': playing,
+        'text': TEXT, 'shadow': 'CC000000', 'progress': PROGRESS, 'playing': playing,
         'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
         'live': live_tag(BANNER_SHOWS_LIVE, top=4, indent='                '),
         'quality': outline_badge('$VAR[SiloBannerQuality]',
@@ -1402,7 +1404,13 @@ def banner_variables():
     def var(name, stepped, kodi):
         return ('    <variable name="%s">\n        <value condition="%s">$INFO[%s]</value>\n'
                 '        <value>%s</value>\n    </variable>\n' % (name, BANNER_STEPPED, STEPPED % stepped, kodi))
-    return (var('SiloBannerTitle', 'title', '$INFO[VideoPlayer.Title]') +
+    # The OK screen's shade: the playing programme's colour (KodiConnectForSilo's
+    # tv.playing_tint, the TV page's tint for its picture), else the page's near-black.
+    tint = ('    <variable name="SiloLiveTint">\n'
+            '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">'
+            '$INFO[Window(Home).Property(silokodi.tv.playing_tint)]</value>\n'
+            '        <value>F2%s</value>\n    </variable>\n' % BACKGROUND[2:])
+    return (tint + var('SiloBannerTitle', 'title', '$INFO[VideoPlayer.Title]') +
             var('SiloBannerTimes', 'times', '$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]') +
             var('SiloBannerPlot', 'plot', '$INFO[VideoPlayer.Plot]') +
             var('SiloBannerPicture', 'picture', '$INFO[Window(Home).Property(silokodi.tv.banner_picture)]') +
@@ -2512,11 +2520,11 @@ def build_recent():
             <animation effect="slide" start="0,0" end="0,320" time="160" tween="cubic" easing="in">WindowClose</animation>
             <control type="image">
                 <left>0</left><top>160</top><width>1920</width><height>920</height>
-                <texture colordiffuse="F2%(bg)s">silo/scrim_bottom.png</texture>
+                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom.png</texture>
             </control>
             <control type="image">
                 <left>0</left><top>380</top><width>1920</width><height>700</height>
-                <texture colordiffuse="F2%(bg)s">silo/scrim_bottom.png</texture>
+                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom.png</texture>
             </control>
             <!-- What's playing: moved down to the playback bar while it's open (TiviMate's). -->
             <control type="group">
@@ -2557,7 +2565,7 @@ def build_recent():
         </control>%(bar)s
     </controls>
 </window>
-''' % {'window': RECENT_ID, 'hidden': LIVE_HIDDEN, 'list': RECENT_LIST, 'bg': BACKGROUND[2:], 
+''' % {'window': RECENT_ID, 'hidden': LIVE_HIDDEN, 'list': RECENT_LIST, 
        'corners': corners(), 'info': infobar(ROW_Y - 32 - INFO_H),
        'lx': SAFE_X - 8, 'ly': ROW_Y, 'lw': 1920 - SAFE_X + 8, 'iw': TILE_W + TILE_GAP, 'ih': TILE_H,
        'card': recent_card(False), 'card_focused': recent_card(True),

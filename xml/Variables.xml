@@ -10387,6 +10387,10 @@
         <value condition="Integer.IsEqual(VideoPlayer.AudioChannels,8)">7.1</value>
         <value>$INFO[VideoPlayer.AudioChannels,, CH]</value>
     </variable>
+    <variable name="SiloLiveTint">
+        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">$INFO[Window(Home).Property(silokodi.tv.playing_tint)]</value>
+        <value>F20D0F12</value>
+    </variable>
     <variable name="SiloBannerTitle">
         <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.title)]</value>
         <value>$INFO[VideoPlayer.Title]</value>

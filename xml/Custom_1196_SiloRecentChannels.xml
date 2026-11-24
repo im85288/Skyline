@@ -38,11 +38,11 @@
             <animation effect="slide" start="0,0" end="0,320" time="160" tween="cubic" easing="in">WindowClose</animation>
             <control type="image">
                 <left>0</left><top>160</top><width>1920</width><height>920</height>
-                <texture colordiffuse="F20D0F12">silo/scrim_bottom.png</texture>
+                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom.png</texture>
             </control>
             <control type="image">
                 <left>0</left><top>380</top><width>1920</width><height>700</height>
-                <texture colordiffuse="F20D0F12">silo/scrim_bottom.png</texture>
+                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom.png</texture>
             </control>
             <!-- What's playing: moved down to the playback bar while it's open (TiviMate's). -->
             <control type="group">
@@ -225,7 +225,7 @@
                 <control type="progress">
                     <left>80</left><top>166</top><width>1760</width><height>4</height>
                     <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
-                    <midtexture colordiffuse="FFF2D46B">colors/white.png</midtexture>
+                    <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                     <info>PVR.EpgEventProgress</info>
                     <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
@@ -411,7 +411,7 @@
                 <control type="progress">
                     <left>80</left><top>166</top><width>1760</width><height>4</height>
                     <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
-                    <midtexture colordiffuse="FFF2D46B">colors/white.png</midtexture>
+                    <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                     <info>PVR.EpgEventProgress</info>
                     <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                 </control>
