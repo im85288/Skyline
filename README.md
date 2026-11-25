@@ -33,7 +33,7 @@ Community project: not made or endorsed by the Silo team.
 - **Coming Soon** on Series: each show you've started with its next episode's date, from Silo's calendar.
 - **Showcase player** (the default): a richer overlay with Episodes (the season over the buttons) and Next
   Episode, the focused button's name, a Netflix-style pause screen after 10 seconds, and Up Next to match. Silo's own player style is the other choice.
-- **Live TV** laid out as TiviMate, in Silo's look: guide, quick guide (its channel groups on Left), OK screen, catch-up and recent channels.
+- **Live TV** in Silo's look, after Sky Stream's: the TV guide (the playing channel on a blue tile, Restart what's on now), the banner (Left/Right step through a channel's programmes), the OK screen of recent channels, catch-up, and Left/Right with no banner for the channel watched before.
 - **TV page** (with Live TV channels): On now, Live sport now and My teams as rows, with the channel you last
   watched playing behind the page and following the card you rest on; Watch and Guide where Play sits.
 - Silo-style menus, dialogs, keyboard, notifications and settings; **Inter** throughout, as the Silo apps use.
