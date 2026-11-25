@@ -87,10 +87,14 @@ def variables():
     out = property_badge_variables('SiloShowcaseBadge', PLAYING % 'badge%d', PLAYING % 'dv')
     # The pause screen's picture: an episode's still, else the film's backdrop.
     out += variable('SiloShowcaseStill', [
+        ('PVR.IsPlayingEpgTag', '$INFO[Player.Icon]'),  # catch-up: the programme's picture
         ('!String.IsEmpty(VideoPlayer.TVShowTitle) + !String.IsEmpty(Player.Art(thumb))', '$INFO[Player.Art(thumb)]'),
         (None, '$INFO[Player.Art(fanart)]')])
     # Under the logo: "S3 E5 · Unbowed and Unbent", or a film's year and genres.
+    # Catch-up (a programme from Live TV's archive): "Catch up · Sky Sports Main Event · 7:00 – 7:30";
+    # Kodi's genre for it is the guide's (Live), and it has no year.
     out += variable('SiloShowcaseLine', [
+        ('PVR.IsPlayingEpgTag', 'Catch up$INFO[VideoPlayer.ChannelName, · ,]$INFO[VideoPlayer.StartTime, · ,]$INFO[VideoPlayer.EndTime, – ,]'),
         ('!String.IsEmpty(VideoPlayer.TVShowTitle)',
          '$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode, E,]$INFO[VideoPlayer.Title, · ,]'),
         (None, '$INFO[VideoPlayer.Year]$INFO[VideoPlayer.Genre, · ,]')])
@@ -112,6 +116,8 @@ def variables():
         ('!String.IsEmpty(%s)' % PLAYING % 'mpaa', '$INFO[%s]' % PLAYING % 'mpaa'), (None, '$INFO[VideoPlayer.mpaa]')])
     # The pause screen's facts: "Jul 19, 2026 · 60 min" (a film: its year).
     out += variable('SiloShowcaseFacts', [
+        ('PVR.IsPlayingEpgTag', 'Catch up$INFO[VideoPlayer.ChannelName, · ,]$INFO[VideoPlayer.StartTime, · ,]'
+         '$INFO[VideoPlayer.EndTime, – ,]$INFO[VideoPlayer.Duration(mins), · , min]'),
         ('!String.IsEmpty(VideoPlayer.TVShowTitle) + !String.IsEmpty(%s)' % PLAYING % 'air_date',
          '$INFO[%s]$INFO[VideoPlayer.Duration(mins), · , min]' % PLAYING % 'air_date'),
         ('!String.IsEmpty(VideoPlayer.TVShowTitle)', '$INFO[Player.Art(siloaired)]$INFO[VideoPlayer.Duration(mins), · , min]'),
@@ -138,6 +144,10 @@ def variables():
         ('Control.HasFocus(70045)', 'Teletext'),
         ('Control.HasFocus(70047)', '3D')])
     out += '    <expression name="SiloPauseScreen">%s</expression>\n' % PAUSE_SCREEN
+    # Kodi's info flag (Player.ShowInfo), not during catch-up: there it can only be
+    # Live TV's left over (Info opens DialogFullScreenInfo instead), from a banner's
+    # programme played from catch-up, and showed the player's info over it for 15 s.
+    out += '    <expression name="SiloShowInfo">[Player.ShowInfo + !PVR.IsPlayingEpgTag]</expression>\n'
     return '\n' + out + '    '
 
 

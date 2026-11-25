@@ -1538,8 +1538,9 @@ def banner():
 TIMER_START, TIMER_END = '    <!-- Silo Skyline TV (tools/build_tv.py) -->\n', '    <!-- end Silo Skyline TV -->\n'
 # The OK screen closes after 5 s without a key (TiviMate: 3 s, too quick from the sofa).
 TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets silo.live.step),
-         as Sky Stream's: while watching, 10 s back or on; with the banner up
-         (Info, a channel change or browsing), the banner's programmes: note the
+         while watching, the channel watched before (KodiConnectForSilo's
+         last_channel); with the banner up (Info or browsing), the banner's
+         programmes, as Sky Stream's: note the
          channel it shows, open Skyline's banner window (it holds the keys after)
          and step. -->
     <!-- Held Left / Right (silo.live.step -2 / 2): skip 5 minutes back or on, as Sky's. -->
@@ -1583,7 +1584,7 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <name>silo_live_left</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="!%(banner_up)s">Seek(-10)</onstart>
+        <onstart condition="!%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=last_channel)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
         <onstart condition="%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
@@ -1593,7 +1594,7 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="!%(banner_up)s">Seek(10)</onstart>
+        <onstart condition="!%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=last_channel)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
         <onstart condition="%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
