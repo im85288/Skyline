@@ -851,9 +851,8 @@ BANNER_SHOWS_LIVE = '[[%s + String.IsEqual(%s,1)] | [!%s + %s]]' % (
 def infobar(top, plot=False):
     """What's playing, as TiviMate shows it: the channel's logo on a card at
     the left; beside it the programme with the guide's LIVE-style tag, then
-    one line with its times, how far through, the minutes left, the channel
-    and the stream badges, then what's next; under it all, a full-width bar
-    as far as the programme has got. The banner (plot) has a line
+    one line with its times, the minutes left, the channel and the stream
+    badges, then what's next; how far through on the picture's foot. The banner (plot) has a line
     of the programme's plot before what's next, and no bar. Bright text with
     a soft shadow, so it reads over a bright picture."""
     left = SAFE_X - 8
@@ -874,6 +873,15 @@ def infobar(top, plot=False):
                     <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(ph)d</height>
                     <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
                     <visible>%(picture)s</visible>
+                </control>
+                <!-- How far through, on the picture's foot (as the tiles' and the banner's;
+                     a second bar beside the times and a full-width one repeated it). -->
+                <control type="progress">
+                    <left>%(bar_x)d</left><top>%(pbar_y)d</top><width>%(pbar_w)d</width><height>5</height>
+                    <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
+                    <midtexture colordiffuse="%(progress)s">colors/white.png</midtexture>
+                    <info>PVR.EpgEventProgress</info>
+                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + !%(stepped)s</visible>
                 </control>
                 <control type="image">
                     <left>%(bx)d</left><top>%(by)d</top><width>110</width><height>40</height>
@@ -903,13 +911,6 @@ def infobar(top, plot=False):
                         <font>silo_meta</font>
                         <textcolor>%(soft)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
                         <label>$VAR[SiloBannerTimes]</label>
-                    </control>
-                    <control type="progress">
-                        <top>17</top><width>90</width><height>6</height>
-                        <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
-                        <midtexture colordiffuse="%(text)s">colors/white.png</midtexture>
-                        <info>PVR.EpgEventProgress</info>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + !%(stepped)s</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
@@ -961,16 +962,8 @@ def infobar(top, plot=False):
                     </control>
                 </control>
 %(next_strip)s
-                <!-- TiviMate's full-width bar: white as far as the programme has got. -->
-                <control type="progress">
-                    <left>%(left)d</left><top>%(bar_y)d</top><width>%(bar_w)d</width><height>4</height>
-                    <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
-                    <midtexture colordiffuse="%(progress)s">colors/white.png</midtexture>
-                    <info>PVR.EpgEventProgress</info>
-                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + !%(stepped)s%(bar)s</visible>
-                </control>
             </control>''' % {'top': top, 'left': left, 'bw': LOGO_BOX_W, 'bh': LOGO_BOX_H,
-                             'tx': tx, 'next_y': 154 if plot else 110, 'bar': ' + false' if plot else '',
+                             'tx': tx, 'next_y': 154 if plot else 110,
                              'plot': '''
                 <control type="label">
                     <left>%d</left><top>110</top><width>%d</width><height>40</height>
@@ -981,7 +974,8 @@ def infobar(top, plot=False):
                 </control>''' % (tx, 1920 - tx - SAFE_X - NEXT_STRIP_W - 40) if plot else '',
                              'tw': 1920 - tx - SAFE_X - (NEXT_STRIP_W + 40 if plot else 0), 'text': TEXT,
                              'next_strip': next_strip() if plot else '', 'no_next_line': ' + false' if plot else '', 'soft': 'D9EDEDED', 'shadow': 'CC000000',
-                             'accent': ACCENT, 'progress': PROGRESS, 'bar_y': INFO_H - 10, 'bar_w': 1920 - 2 * left,
+                             'accent': ACCENT, 'progress': PROGRESS,
+                             'bar_x': left + 12, 'pbar_y': 14 + LOGO_BOX_W * 9 // 16 - 11, 'pbar_w': LOGO_BOX_W - 24,
                              'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W,
                              'ph': LOGO_BOX_W * 9 // 16, 'bx': left + 12, 'by': 14 + LOGO_BOX_W * 9 // 16 - 12 - 40,
                              'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,

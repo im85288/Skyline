@@ -63,6 +63,15 @@
                     <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
                     <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
+                <!-- How far through, on the picture's foot (as the tiles' and the banner's;
+                     a second bar beside the times and a full-width one repeated it). -->
+                <control type="progress">
+                    <left>92</left><top>141</top><width>222</width><height>5</height>
+                    <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
+                    <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
+                    <info>PVR.EpgEventProgress</info>
+                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                </control>
                 <control type="image">
                     <left>92</left><top>100</top><width>110</width><height>40</height>
                     <aspectratio align="left" aligny="bottom">keep</aspectratio>
@@ -103,13 +112,6 @@
                         <font>silo_meta</font>
                         <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                         <label>$VAR[SiloBannerTimes]</label>
-                    </control>
-                    <control type="progress">
-                        <top>17</top><width>90</width><height>6</height>
-                        <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
-                        <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
-                        <info>PVR.EpgEventProgress</info>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
@@ -221,14 +223,6 @@
                     </control>
                 </control>
 
-                <!-- TiviMate's full-width bar: white as far as the programme has got. -->
-                <control type="progress">
-                    <left>80</left><top>166</top><width>1760</width><height>4</height>
-                    <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
-                    <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
-                    <info>PVR.EpgEventProgress</info>
-                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
-                </control>
             </control>
             </control>
             <control type="group">
@@ -249,6 +243,15 @@
                     <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
                     <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
                 </control>
+                <!-- How far through, on the picture's foot (as the tiles' and the banner's;
+                     a second bar beside the times and a full-width one repeated it). -->
+                <control type="progress">
+                    <left>92</left><top>141</top><width>222</width><height>5</height>
+                    <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
+                    <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
+                    <info>PVR.EpgEventProgress</info>
+                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
+                </control>
                 <control type="image">
                     <left>92</left><top>100</top><width>110</width><height>40</height>
                     <aspectratio align="left" aligny="bottom">keep</aspectratio>
@@ -289,13 +292,6 @@
                         <font>silo_meta</font>
                         <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                         <label>$VAR[SiloBannerTimes]</label>
-                    </control>
-                    <control type="progress">
-                        <top>17</top><width>90</width><height>6</height>
-                        <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
-                        <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
-                        <info>PVR.EpgEventProgress</info>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
                     </control>
                     <control type="label">
                         <width>auto</width><height>40</height>
@@ -407,14 +403,6 @@
                     </control>
                 </control>
 
-                <!-- TiviMate's full-width bar: white as far as the programme has got. -->
-                <control type="progress">
-                    <left>80</left><top>166</top><width>1760</width><height>4</height>
-                    <texturebg colordiffuse="66FFFFFF">colors/white.png</texturebg>
-                    <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
-                    <info>PVR.EpgEventProgress</info>
-                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
-                </control>
             </control>
             </control>
             <control type="list" id="5600">
