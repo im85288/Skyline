@@ -1,3 +1,8 @@
+[B]0.25.0[/B]
+• TV guide: the playing channel on a blue tile with its name and ▶ in white (the ▶ was missing)
+• OK screen: one progress bar, on the programme's picture (a misaligned one beside the times and a full-width one went)
+• Live TV: the old TiviMate-style quick guide is retired; anything that opened it (the C key, a Playlist button) opens the TV guide (with KodiConnectForSilo 0.33.0)
+
 [B]0.24.0[/B]
 • Live TV banner: one wide card, with the channel's logo, name, day and time along its top; a bigger picture, more of the plot, and both next programmes inside the card
 • Live TV: Left/Right with no banner go back to the channel watched before (needs KodiConnectForSilo 0.32.0); held, 5 minutes back or on
