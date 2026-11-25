@@ -646,18 +646,43 @@
                             <aspectratio>keep</aspectratio>
                             <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
                         </control>
-                        <!-- With a picture, the channel's logo as a badge at its top left, as
-                             Sky Stream's cards: a dark tag so a white logo reads on any picture. -->
+                        <!-- With a picture, the channel's logo at its bottom left, as Sky OS
+                             2.0's cards: straight on the picture, no tag behind it. -->
                         <control type="image">
-                            <left>14</left><top>14</top><width>108</width><height>40</height>
-                            <texture border="8" colordiffuse="B3000000">silo/guide_cell.png</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + !String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
-                        </control>
-                        <control type="image">
-                            <left>20</left><top>18</top><width>96</width><height>32</height>
+                            <left>20</left><top>154</top><width>96</width><height>32</height>
                             <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
                             <aspectratio>keep</aspectratio>
                             <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + !String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
+                        </control>
+                        <control type="group">
+                            <left>6</left><top>257</top>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),LIVE) + $PARAM[near]</visible>
+                            <control type="image">
+                                <width>60</width><height>30</height>
+                                <texture border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texture>
+                            </control>
+                            <control type="label">
+                                <width>60</width><height>30</height>
+                                <align>center</align><aligny>center</aligny>
+                                <font>silo_badge</font>
+                                <textcolor>FFFFFFFF</textcolor>
+                                <label>LIVE</label>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <left>6</left><top>257</top>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),UPCOMING) + $PARAM[near]</visible>
+                            <control type="image">
+                                <width>118</width><height>30</height>
+                                <texture border="8" colordiffuse="E65F636B">silo/badge_solid.png</texture>
+                            </control>
+                            <control type="label">
+                                <width>118</width><height>30</height>
+                                <align>center</align><aligny>center</aligny>
+                                <font>silo_badge</font>
+                                <textcolor>FFFFFFFF</textcolor>
+                                <label>UPCOMING</label>
+                            </control>
                         </control>
                         <control type="image">
                             <left>6</left><top>6</top>
@@ -732,6 +757,21 @@
                             <width>360</width><height>32</height>
                             <font>silo_card_sub</font>
                             <textcolor>4AEDEDED</textcolor>
+                            <visible>String.IsEmpty(ListItem.Property(home.tv.tag))</visible>
+                            <label>$VAR[SiloCardEpisode]</label>
+                        </control><control type="label">
+                            <left>76</left><top>256</top>
+                            <width>290</width><height>32</height>
+                            <font>silo_card_sub</font>
+                            <textcolor>4AEDEDED</textcolor>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),LIVE)</visible>
+                            <label>$VAR[SiloCardEpisode]</label>
+                        </control><control type="label">
+                            <left>134</left><top>256</top>
+                            <width>232</width><height>32</height>
+                            <font>silo_card_sub</font>
+                            <textcolor>4AEDEDED</textcolor>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),UPCOMING)</visible>
                             <label>$VAR[SiloCardEpisode]</label>
                         </control>
                         <control type="label">
@@ -770,18 +810,43 @@
                             <aspectratio>keep</aspectratio>
                             <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
                         </control>
-                        <!-- With a picture, the channel's logo as a badge at its top left, as
-                             Sky Stream's cards: a dark tag so a white logo reads on any picture. -->
+                        <!-- With a picture, the channel's logo at its bottom left, as Sky OS
+                             2.0's cards: straight on the picture, no tag behind it. -->
                         <control type="image">
-                            <left>14</left><top>14</top><width>108</width><height>40</height>
-                            <texture border="8" colordiffuse="B3000000">silo/guide_cell.png</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + !String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
-                        </control>
-                        <control type="image">
-                            <left>20</left><top>18</top><width>96</width><height>32</height>
+                            <left>20</left><top>154</top><width>96</width><height>32</height>
                             <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
                             <aspectratio>keep</aspectratio>
                             <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + !String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
+                        </control>
+                        <control type="group">
+                            <left>6</left><top>257</top>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),LIVE) + $PARAM[near]</visible>
+                            <control type="image">
+                                <width>60</width><height>30</height>
+                                <texture border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texture>
+                            </control>
+                            <control type="label">
+                                <width>60</width><height>30</height>
+                                <align>center</align><aligny>center</aligny>
+                                <font>silo_badge</font>
+                                <textcolor>FFFFFFFF</textcolor>
+                                <label>LIVE</label>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <left>6</left><top>257</top>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),UPCOMING) + $PARAM[near]</visible>
+                            <control type="image">
+                                <width>118</width><height>30</height>
+                                <texture border="8" colordiffuse="E65F636B">silo/badge_solid.png</texture>
+                            </control>
+                            <control type="label">
+                                <width>118</width><height>30</height>
+                                <align>center</align><aligny>center</aligny>
+                                <font>silo_badge</font>
+                                <textcolor>FFFFFFFF</textcolor>
+                                <label>UPCOMING</label>
+                            </control>
                         </control>
                         <control type="image">
                             <left>6</left><top>6</top>
@@ -880,6 +945,23 @@
                             <width>360</width><height>32</height>
                             <font>silo_card_sub</font>
                             <textcolor>4AEDEDED</textcolor>
+                            <visible>String.IsEmpty(ListItem.Property(home.tv.tag))</visible>
+                            <label>$VAR[SiloCardEpisode]</label>
+                            <visible>!Control.HasFocus($PARAM[id])</visible>
+                        </control><control type="label">
+                            <left>76</left><top>256</top>
+                            <width>290</width><height>32</height>
+                            <font>silo_card_sub</font>
+                            <textcolor>4AEDEDED</textcolor>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),LIVE)</visible>
+                            <label>$VAR[SiloCardEpisode]</label>
+                            <visible>!Control.HasFocus($PARAM[id])</visible>
+                        </control><control type="label">
+                            <left>134</left><top>256</top>
+                            <width>232</width><height>32</height>
+                            <font>silo_card_sub</font>
+                            <textcolor>4AEDEDED</textcolor>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),UPCOMING)</visible>
                             <label>$VAR[SiloCardEpisode]</label>
                             <visible>!Control.HasFocus($PARAM[id])</visible>
                         </control>
@@ -888,6 +970,25 @@
                             <width>360</width><height>32</height>
                             <font>silo_card_sub</font>
                             <textcolor>FFEDEDED</textcolor>
+                            <visible>String.IsEmpty(ListItem.Property(home.tv.tag))</visible>
+                            <label>$VAR[SiloCardEpisode]</label>
+                            <visible>Control.HasFocus($PARAM[id])</visible>
+                        </control>
+                        <control type="label">
+                            <left>76</left><top>256</top>
+                            <width>290</width><height>32</height>
+                            <font>silo_card_sub</font>
+                            <textcolor>FFEDEDED</textcolor>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),LIVE)</visible>
+                            <label>$VAR[SiloCardEpisode]</label>
+                            <visible>Control.HasFocus($PARAM[id])</visible>
+                        </control>
+                        <control type="label">
+                            <left>134</left><top>256</top>
+                            <width>232</width><height>32</height>
+                            <font>silo_card_sub</font>
+                            <textcolor>FFEDEDED</textcolor>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),UPCOMING)</visible>
                             <label>$VAR[SiloCardEpisode]</label>
                             <visible>Control.HasFocus($PARAM[id])</visible>
                         </control>

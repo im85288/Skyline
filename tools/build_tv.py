@@ -30,7 +30,9 @@ ON_RAIL = 'Control.HasFocus(%d)' % RAIL_ID
 OFF_GRID = '!Control.HasFocus(%d)' % GRID_ID
 PILLS_Y = 408               # under the programme's details (Sky Stream's top half)
 GRID_Y = PILLS_Y + 74      # 482: the ruler and 8 rows of 69 end at the screen's foot
-CHANNEL_W = 560             # Sky's: the channel's name, no logo or number
+CHANNEL_W = 400             # Sky OS 2.0's: the channel's logo (its name without one); no number (no number keys)
+GUIDE_LOGO_W, GUIDE_LOGO_H = 160, 44
+GUIDE_VIDEO_W, GUIDE_VIDEO_H = 352, 198   # what's playing, bottom right (Sky OS 2.0's)
 ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
 BAND = 'CC272A30'           # the glass: the skin's Live TV veil (themed: SkylineLiveVeil), the picture faint behind
@@ -88,8 +90,9 @@ def playing_mark(left, top, size=24, colour=ACCENT, also='true'):
 
 
 def channel(focused):
-    """A channel down the left, as Sky Stream's: its name only (fixed numbers
-    aren't needed to find one) on a tile of its own; the playing channel's
+    """A channel down the left, as Sky OS 2.0's: its logo (its name without
+    one) on a tile of its own, no number (the remote has no number keys);
+    the playing channel's
     tile tinted blue, its name and TiviMate's ▶ white; the focused row's
     tile lighter, as its programme's,
     while the timeline has focus."""
@@ -110,20 +113,29 @@ def channel(focused):
                         <visible>%s</visible>
                     </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12,
                          '$VAR[SiloGuidePlaying]' if focused else PLAYING_TILE, PLAYING)
-    return tile + two_tone('''
+    # The channel's logo (Kodi's channel icon), as Sky OS 2.0's guide; a channel
+    # without one (Kodi's default icon) shows its name instead.
+    no_logo = '[String.IsEmpty(ListItem.Icon) | String.Contains(ListItem.Icon,DefaultTV)]'
+    mark_x = CHANNEL_W - 12 - 44
+    return tile + '''
+                    <control type="image">
+                        <left>%(x)d</left><top>%(ly)d</top><width>%(lw)d</width><height>%(lh)d</height>
+                        <aspectratio align="left">keep</aspectratio>
+                        <texture background="true">$INFO[ListItem.Icon]</texture>
+                        <visible>!%(no_logo)s</visible>
+                    </control>''' % {'x': SAFE_X, 'ly': (ROW_H - GUIDE_LOGO_H) // 2, 'lw': GUIDE_LOGO_W, 'lh': GUIDE_LOGO_H,
+                        'no_logo': no_logo} + ''.join('''
                     <control type="label">
-                        <left>%d</left><top>0</top><width>%d</width><height>%d</height>
-                        <aligny>center</aligny>%s
+                        <left>%(x)d</left><top>0</top><width>%(w)d</width><height>%(h)d</height>
+                        <aligny>center</aligny>
                         <font>silo_meta</font>
-                        <textcolor>{colour}</textcolor>
-                        <selectedcolor>{colour}</selectedcolor>
+                        <textcolor>%(c)s</textcolor>
+                        <selectedcolor>%(c)s</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
-                        {visible}
-                    </control>''' % (SAFE_X, CHANNEL_W - SAFE_X - 28 - 36, ROW_H,
-                         # No scrolling on the tile, as Sky's: the details above
-                         # carry the whole name.
-                         ''),
-        colour, 'FFFFFFFF', PLAYING) + playing_mark(CHANNEL_W - 12 - 44, (ROW_H - 28) // 2, 28, 'FFFFFFFF')
+                        <visible>%(no_logo)s + %(when)s</visible>
+                    </control>''' % {'x': SAFE_X, 'w': mark_x - 8 - SAFE_X, 'h': ROW_H, 'c': c, 'no_logo': no_logo, 'when': when}
+                    for c, when in (('FFFFFFFF', PLAYING), (colour, '!' + PLAYING))) + \
+        playing_mark(mark_x, (ROW_H - 28) // 2, 28, 'FFFFFFFF')
 
 
 def programme(focused):
@@ -675,6 +687,25 @@ def build():
             <texture colordiffuse="%(background)s">silo/scrim_side.png</texture>
         </control>
 
+        <!-- What's playing, in a box at the bottom right over the grid, as Sky
+             OS 2.0's guide: a dark tile behind it (a channel still starting, or
+             letterboxed), the video, then the faint rim the guide's tiles have. -->
+        <control type="group">
+            <left>%(vx)d</left><top>%(vy)d</top>
+            <visible>Player.HasVideo</visible>
+            <control type="image">
+                <left>-4</left><top>-4</top><width>%(vbw)d</width><height>%(vbh)d</height>
+                <texture border="8" colordiffuse="FF0D0F12">silo/guide_cell.png</texture>
+            </control>
+            <control type="videowindow">
+                <width>%(vw)d</width><height>%(vh)d</height>
+            </control>
+            <control type="image">
+                <left>-4</left><top>-4</top><width>%(vbw)d</width><height>%(vbh)d</height>
+                <texture border="8" colordiffuse="66FFFFFF">silo/guide_rim.png</texture>
+            </control>
+        </control>
+
         <!-- Kodi's labels for the window's own use. -->
         <control type="label" id="29"><visible>false</visible></control>
         <control type="label" id="30"><visible>false</visible></control>
@@ -687,6 +718,8 @@ def build():
        'name_shown': '[String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        'pills_y': PILLS_Y, 'dw': 1000, 'plot_h': 112,
+       'vx': 1920 - SAFE_X - GUIDE_VIDEO_W, 'vy': 1080 - 40 - GUIDE_VIDEO_H, 'vw': GUIDE_VIDEO_W, 'vh': GUIDE_VIDEO_H,
+       'vbw': GUIDE_VIDEO_W + 8, 'vbh': GUIDE_VIDEO_H + 8,
        'rail': RAIL_ID, 'on_rail': ON_RAIL, 'off_grid': OFF_GRID, 'shift': RAIL_SHIFT, 'rail_head_y': RAIL_HEAD_Y, 'rail_y': RAIL_Y,
        # The row's cards from the glass's left edge: no gap there for the picture to show through.
        'rail_x': PANEL_X - 12, 'rail_w': 1920 - PANEL_X + 12, 'rail_h': RAIL_CARD_H + 24, 'slot': RAIL_CARD_W + RAIL_GAP,

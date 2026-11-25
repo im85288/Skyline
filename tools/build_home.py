@@ -66,7 +66,7 @@ PAGE_FIELDS = {
     # picture's tint (the playlist server's), for the backdrop's wash.
     'tv': ('type', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta', 'hero.facts', 'hero.detail', 'plot',
            'percent', 'left', 'tint',
-           'art.landscape', 'art.fanart', 'tv.play', 'tv.logo', 'tv.recent'),
+           'art.landscape', 'art.fanart', 'tv.play', 'tv.logo', 'tv.recent', 'tv.tag'),
 }
 # Rows a page can show; Requests has Silo's Discover rows (six title rows,
 # then Studios, Networks and Genres), and every slot costs Home.xml size.
@@ -472,24 +472,61 @@ def tv_logo(card, near=None):
                             <aspectratio>keep</aspectratio>
                             <visible>%(shown)s</visible>
                         </control>
-                        <!-- With a picture, the channel's logo as a badge at its top left, as
-                             Sky Stream's cards: a dark tag so a white logo reads on any picture. -->
+                        <!-- With a picture, the channel's logo at its bottom left, as Sky OS
+                             2.0's cards: straight on the picture, no tag behind it. -->
                         <control type="image">
-                            <left>14</left><top>14</top><width>%(bw)d</width><height>%(bh)d</height>
-                            <texture border="8" colordiffuse="B3000000">silo/guide_cell.png</texture>
-                            <visible>%(badge)s</visible>
-                        </control>
-                        <control type="image">
-                            <left>20</left><top>18</top><width>%(blw)d</width><height>%(blh)d</height>
+                            <left>20</left><top>%(bly)d</top><width>%(blw)d</width><height>%(blh)d</height>
                             <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
                             <aspectratio>keep</aspectratio>
                             <visible>%(badge)s</visible>
                         </control>''' % {'w': card['width'], 'h': card['height'], 'mask': card['mask'], 'shown': shown,
                                         'lx': 6 + card['width'] // 4, 'ly': 6 + card['height'] // 5,
                                         'lw': card['width'] // 2, 'lh': card['height'] * 3 // 5,
-                                        'bw': card['width'] * 3 // 10, 'bh': card['height'] // 5,
+
                                         'blw': card['width'] * 3 // 10 - 12, 'blh': card['height'] // 5 - 8,
-                                        'badge': badge}
+                                        # Above the progress line on the picture's foot.
+                                        'bly': 6 + card['height'] - 18 - card['height'] // 5 + 4,
+                                        'badge': badge} + tv_tags(card, near)
+
+
+# Sky OS 2.0's tags in a TV page card's caption (KodiConnectForSilo's tv.tag):
+# LIVE in Sky's red while it's on, UPCOMING in grey before.
+TV_TAGS = (('LIVE', 'FFE0262F', 60), ('UPCOMING', 'E65F636B', 118))
+
+
+def tv_tags(card, near=None):
+    """The card's LIVE or UPCOMING tag at the start of its caption's second
+    line, before the time, as Sky OS 2.0's ("LIVE Started at 10.30am");
+    the line slides over by the tag (TV_TAG_SHIFT)."""
+    return ''.join('''
+                        <control type="group">
+                            <left>%(x)d</left><top>%(y)d</top>
+                            <visible>String.IsEqual(ListItem.Property(home.tv.tag),%(label)s)%(near)s</visible>
+                            <control type="image">
+                                <width>%(w)d</width><height>30</height>
+                                <texture border="8" colordiffuse="%(fill)s">silo/badge_solid.png</texture>
+                            </control>
+                            <control type="label">
+                                <width>%(w)d</width><height>30</height>
+                                <align>center</align><aligny>center</aligny>
+                                <font>silo_badge</font>
+                                <textcolor>FFFFFFFF</textcolor>
+                                <label>%(label)s</label>
+                            </control>
+                        </control>''' % {'x': 6, 'y': card['height'] + 54 + 1, 'label': label, 'fill': fill, 'w': w,
+                                        'near': ' + ' + near if near else ''} for label, fill, w in TV_TAGS)
+
+
+def tv_tag_subs(label_xml, width):
+    """A caption's second line for each tag (TV_TAGS): starting after the tag
+    and as much narrower, so it ends where the card does; the plain line
+    shows only on a card with no tag."""
+    out = label_xml.replace('<label>', '<visible>String.IsEmpty(ListItem.Property(home.tv.tag))</visible>\n                            <label>', 1)
+    for label, _, w in TV_TAGS:
+        moved = label_xml.replace('<left>6</left>', '<left>%d</left>' % (6 + w + 10), 1)
+        moved = moved.replace('<width>%d</width>' % width, '<width>%d</width>' % (width - w - 10), 1)
+        out += moved.replace('<label>', '<visible>String.IsEqual(ListItem.Property(home.tv.tag),%s)</visible>\n                            <label>' % label, 1)
+    return out
 
 
 def card_body(card, focused, control_id='$PARAM[id]', near=None):
@@ -522,7 +559,9 @@ def card_body(card, focused, control_id='$PARAM[id]', near=None):
                             <visible>Control.HasFocus(%(id)s)</visible>
                         </control>''' % {'t2': card['height'] + 54, 'w': card['width'], 'text': TEXT, 'sub': card['sub'],
                                          'id': control_id}
-    return '''
+        if card is LANDSCAPE:
+            sub_focused = tv_tag_subs(sub_focused, card['width'])
+    body = '''
                     <control type="group">%(zoom)s
                         <control type="image">
                             <left>6</left><top>6</top>
@@ -596,6 +635,13 @@ def card_body(card, focused, control_id='$PARAM[id]', near=None):
                                                + new_tag(card) + (rank_numeral(card) if card['name'] == 'Poster' else ''),
                                     'no_art': no_art_card(card) + request_tags(card),
                                     'dim': watched_dim(card, 'Control.HasFocus(%s)' % control_id if focused else '')}
+    if card is LANDSCAPE:
+        # The caption's unfocused second line, as the focused one: after its tag.
+        start = body.index('<label>%s</label>' % card['sub'])
+        open_at = body.rindex('<control type="label">', 0, start)
+        close_at = body.index('</control>', start) + len('</control>')
+        body = body[:open_at] + tv_tag_subs(body[open_at:close_at], card['width']).lstrip() + body[close_at:]
+    return body
 
 
 def request_tags(card):

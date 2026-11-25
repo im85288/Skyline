@@ -49,13 +49,13 @@
              rounded corner there); a sheen and a fine light edge along the top.
              Kodi can't blur what's behind, so the glass is this. -->
         <control type="image">
-            <left>72</left><top>528</top><width>488</width><height>592</height>
+            <left>72</left><top>528</top><width>328</width><height>592</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
             <!-- Square: a rounded corner let the picture show through as coloured triangles. -->
             <texture colordiffuse="SkylineLiveVeil">colors/white.png</texture>
         </control>
         <control type="image">
-            <left>560</left><top>528</top><width>1360</width><height>592</height>
+            <left>400</left><top>528</top><width>1520</width><height>592</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
             <texture colordiffuse="SkylineLiveVeil">colors/white.png</texture>
         </control>
@@ -984,7 +984,7 @@
             <!-- Kodi's "vertical": channels down, time across (TiviMate's timeline). -->
             <orientation>vertical</orientation>
             <viewtype label="19298">list</viewtype>
-            <timeblocks>22</timeblocks>
+            <timeblocks>25</timeblocks>
             <rulerunit>6</rulerunit>
             <onup>SetFocus(52)</onup>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
@@ -1007,7 +1007,7 @@
                 <!-- The ruler's first cell is the day shown (Kodi's long date, as
                      System.Date's): "Today" for today, as Sky's, in white. -->
                 <control type="label">
-                    <left>92</left><width>468</width><height>46</height>
+                    <left>92</left><width>308</width><height>46</height>
                     <aligny>center</aligny>
                     <font>silo_detail</font>
                     <textcolor>FFEDEDED</textcolor>
@@ -1016,7 +1016,7 @@
                     <visible>!String.Contains(ListItem.Label,:) + String.IsEqual(ListItem.Label,System.Date)</visible>
                 </control>
                 <control type="label">
-                    <left>92</left><width>468</width><height>46</height>
+                    <left>92</left><width>308</width><height>46</height>
                     <aligny>center</aligny>
                     <font>silo_detail</font>
                     <textcolor>FFEDEDED</textcolor>
@@ -1025,36 +1025,42 @@
                     <visible>!String.Contains(ListItem.Label,:) + !String.IsEqual(ListItem.Label,System.Date)</visible>
                 </control>
             </rulerlayout>
-            <channellayout height="69" width="560">
+            <channellayout height="69" width="400">
                     <control type="image">
-                        <left>72</left><top>6</top><width>476</width><height>57</height>
+                        <left>72</left><top>6</top><width>316</width><height>57</height>
                         <texture border="8" colordiffuse="1AFFFFFF">silo/guide_cell.png</texture>
                     </control>
                     <control type="image">
-                        <left>72</left><top>6</top><width>476</width><height>57</height>
+                        <left>72</left><top>6</top><width>316</width><height>57</height>
                         <texture border="8" colordiffuse="523A9DFF">silo/guide_cell.png</texture>
                         <visible>ListItem.IsPlaying</visible>
                     </control>
+                    <control type="image">
+                        <left>88</left><top>12</top><width>160</width><height>44</height>
+                        <aspectratio align="left">keep</aspectratio>
+                        <texture background="true">$INFO[ListItem.Icon]</texture>
+                        <visible>![String.IsEmpty(ListItem.Icon) | String.Contains(ListItem.Icon,DefaultTV)]</visible>
+                    </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>408</width><height>69</height>
+                        <left>88</left><top>0</top><width>248</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFFFFFFF</textcolor>
                         <selectedcolor>FFFFFFFF</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
-                        <visible>ListItem.IsPlaying</visible>
+                        <visible>[String.IsEmpty(ListItem.Icon) | String.Contains(ListItem.Icon,DefaultTV)] + ListItem.IsPlaying</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>408</width><height>69</height>
+                        <left>88</left><top>0</top><width>248</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>C7EDEDED</textcolor>
                         <selectedcolor>C7EDEDED</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
-                        <visible>!ListItem.IsPlaying</visible>
+                        <visible>[String.IsEmpty(ListItem.Icon) | String.Contains(ListItem.Icon,DefaultTV)] + !ListItem.IsPlaying</visible>
                     </control>
                         <control type="label">
-                            <left>504</left><top>20</top><width>28</width><height>28</height>
+                            <left>344</left><top>20</top><width>28</width><height>28</height>
                             <align>center</align><aligny>center</aligny>
                             <font>silo_detail</font>
                             <textcolor>FFFFFFFF</textcolor>
@@ -1064,36 +1070,42 @@
                             <visible>ListItem.IsPlaying + true</visible>
                         </control>
             </channellayout>
-            <focusedchannellayout height="69" width="560">
+            <focusedchannellayout height="69" width="400">
                     <control type="image">
-                        <left>72</left><top>6</top><width>476</width><height>57</height>
+                        <left>72</left><top>6</top><width>316</width><height>57</height>
                         <texture border="8" colordiffuse="$VAR[SiloGuideCell]">silo/guide_cell.png</texture>
                     </control>
                     <control type="image">
-                        <left>72</left><top>6</top><width>476</width><height>57</height>
+                        <left>72</left><top>6</top><width>316</width><height>57</height>
                         <texture border="8" colordiffuse="$VAR[SiloGuidePlaying]">silo/guide_cell.png</texture>
                         <visible>ListItem.IsPlaying</visible>
                     </control>
+                    <control type="image">
+                        <left>88</left><top>12</top><width>160</width><height>44</height>
+                        <aspectratio align="left">keep</aspectratio>
+                        <texture background="true">$INFO[ListItem.Icon]</texture>
+                        <visible>![String.IsEmpty(ListItem.Icon) | String.Contains(ListItem.Icon,DefaultTV)]</visible>
+                    </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>408</width><height>69</height>
+                        <left>88</left><top>0</top><width>248</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFFFFFFF</textcolor>
                         <selectedcolor>FFFFFFFF</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
-                        <visible>ListItem.IsPlaying</visible>
+                        <visible>[String.IsEmpty(ListItem.Icon) | String.Contains(ListItem.Icon,DefaultTV)] + ListItem.IsPlaying</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>408</width><height>69</height>
+                        <left>88</left><top>0</top><width>248</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFEDEDED</textcolor>
                         <selectedcolor>FFEDEDED</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
-                        <visible>!ListItem.IsPlaying</visible>
+                        <visible>[String.IsEmpty(ListItem.Icon) | String.Contains(ListItem.Icon,DefaultTV)] + !ListItem.IsPlaying</visible>
                     </control>
                         <control type="label">
-                            <left>504</left><top>20</top><width>28</width><height>28</height>
+                            <left>344</left><top>20</top><width>28</width><height>28</height>
                             <align>center</align><aligny>center</aligny>
                             <font>silo_detail</font>
                             <textcolor>FFFFFFFF</textcolor>
@@ -1134,9 +1146,28 @@
              grid's left edge; 56 px, the most a cut-off label reaches in (wider, it faded
              a whole time sitting near the edge). -->
         <control type="image">
-            <left>560</left><top>482</top><width>56</width><height>46</height>
+            <left>400</left><top>482</top><width>56</width><height>46</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
             <texture colordiffuse="SkylineBackground">silo/scrim_side.png</texture>
+        </control>
+
+        <!-- What's playing, in a box at the bottom right over the grid, as Sky
+             OS 2.0's guide: a dark tile behind it (a channel still starting, or
+             letterboxed), the video, then the faint rim the guide's tiles have. -->
+        <control type="group">
+            <left>1480</left><top>842</top>
+            <visible>Player.HasVideo</visible>
+            <control type="image">
+                <left>-4</left><top>-4</top><width>360</width><height>206</height>
+                <texture border="8" colordiffuse="SkylineBackground">silo/guide_cell.png</texture>
+            </control>
+            <control type="videowindow">
+                <width>352</width><height>198</height>
+            </control>
+            <control type="image">
+                <left>-4</left><top>-4</top><width>360</width><height>206</height>
+                <texture border="8" colordiffuse="66FFFFFF">silo/guide_rim.png</texture>
+            </control>
         </control>
 
         <!-- Kodi's labels for the window's own use. -->
