@@ -1,3 +1,7 @@
+[B]0.26.0[/B]
+• TV guide, as Sky OS 2.0: each channel shows its logo (its name without one) in a narrower column, and what's playing shows in a box at the bottom right
+• TV page: Sky's red LIVE and grey UPCOMING tags before a card's time (with KodiConnectForSilo 0.34.0); channel logos on cards and the guide's Restart row without a dark tag behind them
+
 [B]0.25.0[/B]
 • TV guide: the playing channel on a blue tile with its name and ▶ in white (the ▶ was missing)
 • OK screen: one progress bar, on the programme's picture (a misaligned one beside the times and a full-width one went)
