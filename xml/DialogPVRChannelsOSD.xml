@@ -115,6 +115,11 @@
                     <orientation>vertical</orientation>
                     <scrolltime tween="cubic" easing="out">200</scrolltime>
                     <itemlayout width="640" height="106">
+                    <control type="image">
+                        <left>30</left><top>4</top><width>592</width><height>98</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>ListItem.IsPlaying</visible>
+                    </control>
                     <control type="group">
                         <control type="image">
                             <left>48</left><top>16</top><width>104</width><height>72</height>
@@ -125,8 +130,8 @@
                         <control type="label">
                             <left>168</left><top>12</top><width>402</width><height>34</height>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
-                            <selectedcolor>FF3A9DFF</selectedcolor>
+                            <textcolor>FFFFFFFF</textcolor>
+                            <selectedcolor>FFFFFFFF</selectedcolor>
                             <label>$INFO[ListItem.ChannelNumberLabel,,  ·  ]$INFO[ListItem.ChannelName]</label>
                             <visible>ListItem.IsPlaying</visible>
                         </control>
@@ -156,14 +161,19 @@
                             <left>574</left><top>18</top><width>28</width><height>28</height>
                             <align>center</align><aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <!-- Kodi marks the playing channel selected: the same colour then. -->
-                            <selectedcolor>FF3A9DFF</selectedcolor>
+                            <selectedcolor>FFFFFFFF</selectedcolor>
                             <label>▶</label>
                             <visible>ListItem.IsPlaying + true</visible>
                         </control>
                     </itemlayout>
                     <focusedlayout width="640" height="106">
+                    <control type="image">
+                        <left>30</left><top>4</top><width>592</width><height>98</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>ListItem.IsPlaying + ![Control.HasFocus(11) + String.IsEmpty(Window(Home).Property(silokodi.quick.switching))]</visible>
+                    </control>
                     <control type="image">
                         <left>30</left><top>4</top><width>592</width><height>98</height>
                         <texture border="20" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
@@ -218,8 +228,8 @@
                         <control type="label">
                             <left>168</left><top>12</top><width>402</width><height>34</height>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
-                            <selectedcolor>FF3A9DFF</selectedcolor>
+                            <textcolor>FFFFFFFF</textcolor>
+                            <selectedcolor>FFFFFFFF</selectedcolor>
                             <label>$INFO[ListItem.ChannelNumberLabel,,  ·  ]$INFO[ListItem.ChannelName]</label>
                             <visible>ListItem.IsPlaying</visible>
                         </control>
@@ -259,9 +269,9 @@
                             <left>574</left><top>18</top><width>28</width><height>28</height>
                             <align>center</align><aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <!-- Kodi marks the playing channel selected: the same colour then. -->
-                            <selectedcolor>FF3A9DFF</selectedcolor>
+                            <selectedcolor>FFFFFFFF</selectedcolor>
                             <label>▶</label>
                             <visible>ListItem.IsPlaying + ![Control.HasFocus(11) + String.IsEmpty(Window(Home).Property(silokodi.quick.switching))]</visible>
                         </control>
@@ -292,6 +302,11 @@
                         <control type="group">
                             <top>0</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.1.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.1.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.1.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.1.silo.header),1)</visible>
                         <control type="label">
@@ -325,7 +340,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.1.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.1.silo.now),1)</visible>
                         </control>
@@ -346,7 +361,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.1.silo.now),1)</visible>
                         </control>
@@ -355,6 +370,11 @@
                         <control type="group">
                             <top>58</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.2.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.2.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.2.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.2.silo.header),1)</visible>
                         <control type="label">
@@ -388,7 +408,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.2.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.2.silo.now),1)</visible>
                         </control>
@@ -409,7 +429,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.2.silo.now),1)</visible>
                         </control>
@@ -418,6 +438,11 @@
                         <control type="group">
                             <top>116</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.3.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.3.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.3.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.3.silo.header),1)</visible>
                         <control type="label">
@@ -451,7 +476,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.3.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.3.silo.now),1)</visible>
                         </control>
@@ -472,7 +497,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.3.silo.now),1)</visible>
                         </control>
@@ -481,6 +506,11 @@
                         <control type="group">
                             <top>174</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.4.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.4.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.4.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.4.silo.header),1)</visible>
                         <control type="label">
@@ -514,7 +544,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.4.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.4.silo.now),1)</visible>
                         </control>
@@ -535,7 +565,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.4.silo.now),1)</visible>
                         </control>
@@ -544,6 +574,11 @@
                         <control type="group">
                             <top>232</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.5.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.5.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.5.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.5.silo.header),1)</visible>
                         <control type="label">
@@ -577,7 +612,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.5.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.5.silo.now),1)</visible>
                         </control>
@@ -598,7 +633,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.5.silo.now),1)</visible>
                         </control>
@@ -607,6 +642,11 @@
                         <control type="group">
                             <top>290</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.6.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.6.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.6.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.6.silo.header),1)</visible>
                         <control type="label">
@@ -640,7 +680,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.6.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.6.silo.now),1)</visible>
                         </control>
@@ -661,7 +701,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.6.silo.now),1)</visible>
                         </control>
@@ -670,6 +710,11 @@
                         <control type="group">
                             <top>348</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.7.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.7.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.7.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.7.silo.header),1)</visible>
                         <control type="label">
@@ -703,7 +748,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.7.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.7.silo.now),1)</visible>
                         </control>
@@ -724,7 +769,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.7.silo.now),1)</visible>
                         </control>
@@ -733,6 +778,11 @@
                         <control type="group">
                             <top>406</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.8.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.8.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.8.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.8.silo.header),1)</visible>
                         <control type="label">
@@ -766,7 +816,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.8.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.8.silo.now),1)</visible>
                         </control>
@@ -787,7 +837,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.8.silo.now),1)</visible>
                         </control>
@@ -796,6 +846,11 @@
                         <control type="group">
                             <top>464</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.9.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.9.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.9.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.9.silo.header),1)</visible>
                         <control type="label">
@@ -829,7 +884,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.9.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.9.silo.now),1)</visible>
                         </control>
@@ -850,7 +905,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.9.silo.now),1)</visible>
                         </control>
@@ -859,6 +914,11 @@
                         <control type="group">
                             <top>522</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.10.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.10.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.10.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.10.silo.header),1)</visible>
                         <control type="label">
@@ -892,7 +952,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.10.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.10.silo.now),1)</visible>
                         </control>
@@ -913,7 +973,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.10.silo.now),1)</visible>
                         </control>
@@ -922,6 +982,11 @@
                         <control type="group">
                             <top>580</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.11.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.11.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.11.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.11.silo.header),1)</visible>
                         <control type="label">
@@ -955,7 +1020,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.11.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.11.silo.now),1)</visible>
                         </control>
@@ -976,7 +1041,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.11.silo.now),1)</visible>
                         </control>
@@ -985,6 +1050,11 @@
                         <control type="group">
                             <top>638</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.12.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.12.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.12.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.12.silo.header),1)</visible>
                         <control type="label">
@@ -1018,7 +1088,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.12.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.12.silo.now),1)</visible>
                         </control>
@@ -1039,7 +1109,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.12.silo.now),1)</visible>
                         </control>
@@ -1048,6 +1118,11 @@
                         <control type="group">
                             <top>696</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.13.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.13.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.13.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.13.silo.header),1)</visible>
                         <control type="label">
@@ -1081,7 +1156,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.13.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.13.silo.now),1)</visible>
                         </control>
@@ -1102,7 +1177,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.13.silo.now),1)</visible>
                         </control>
@@ -1111,6 +1186,11 @@
                         <control type="group">
                             <top>754</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.14.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.14.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.14.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.14.silo.header),1)</visible>
                         <control type="label">
@@ -1144,7 +1224,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.14.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.14.silo.now),1)</visible>
                         </control>
@@ -1165,7 +1245,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.14.silo.now),1)</visible>
                         </control>
@@ -1174,6 +1254,11 @@
                         <control type="group">
                             <top>812</top><height>58</height>
                             <visible>!String.IsEmpty(Window(Home).Property(silokodi.quick.15.label))</visible>
+                    <control type="image">
+                        <top>3</top><width>520</width><height>52</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(Window(Home).Property(silokodi.quick.15.silo.header),1) + String.IsEqual(Window(Home).Property(silokodi.quick.15.silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(Window(Home).Property(silokodi.quick.15.silo.header),1)</visible>
                         <control type="label">
@@ -1207,7 +1292,7 @@
                             <left>130</left><width>290</width><height>58</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[Window(Home).Property(silokodi.quick.15.label)]</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.15.silo.now),1)</visible>
                         </control>
@@ -1228,7 +1313,7 @@
                             <left>428</left><width>76</width><height>58</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(Window(Home).Property(silokodi.quick.15.silo.now),1)</visible>
                         </control>
@@ -1287,6 +1372,11 @@
                     <onclick condition="!String.IsEmpty(ListItem.Property(silo.when)) + !String.IsEqual(ListItem.Property(silo.when),future)">Dialog.Close(pvrosdchannels)</onclick>
                     <onclick condition="!String.IsEmpty(ListItem.Property(silo.when)) + !String.IsEqual(ListItem.Property(silo.when),future)">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_broadcast&amp;id=$INFO[ListItem.Property(silo.broadcastid)]&amp;channel=$INFO[ListItem.Property(silo.channelid)]&amp;when=$INFO[ListItem.Property(silo.when)])</onclick>
                     <itemlayout width="900" height="74">
+                    <control type="image">
+                        <top>3</top><width>900</width><height>68</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(ListItem.Property(silo.header),1) + String.IsEqual(ListItem.Property(silo.now),1)</visible>
+                    </control>
                     <control type="group">
                         <visible>String.IsEqual(ListItem.Property(silo.header),1)</visible>
                         <control type="label">
@@ -1320,7 +1410,7 @@
                             <left>130</left><width>670</width><height>74</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[ListItem.Label]</label>
                             <visible>String.IsEqual(ListItem.Property(silo.now),1)</visible>
                         </control>
@@ -1341,13 +1431,18 @@
                             <left>808</left><width>76</width><height>74</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(ListItem.Property(silo.now),1)</visible>
                         </control>
                     </control>
                     </itemlayout>
                     <focusedlayout width="900" height="74">
+                    <control type="image">
+                        <top>3</top><width>900</width><height>68</height>
+                        <texture border="20" colordiffuse="523A9DFF">silo/card_landscape_mask.png</texture>
+                        <visible>!String.IsEqual(ListItem.Property(silo.header),1) + String.IsEqual(ListItem.Property(silo.now),1) + !Control.HasFocus(14)</visible>
+                    </control>
                     <control type="image">
                         <top>3</top><width>900</width><height>68</height>
                         <texture border="20" colordiffuse="SkylineFocus">silo/card_landscape_mask.png</texture>
@@ -1426,7 +1521,7 @@
                             <left>130</left><width>670</width><height>74</height>
                             <aligny>center</aligny>
                             <font>silo_detail</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>$INFO[ListItem.Label]</label>
                             <visible>String.IsEqual(ListItem.Property(silo.now),1)</visible>
                         </control>
@@ -1447,7 +1542,7 @@
                             <left>808</left><width>76</width><height>74</height>
                             <aligny>center</aligny><align>right</align>
                             <font>silo_badge</font>
-                            <textcolor>FF3A9DFF</textcolor>
+                            <textcolor>FFFFFFFF</textcolor>
                             <label>▶ LIVE</label>
                             <visible>String.IsEqual(ListItem.Property(silo.now),1)</visible>
                         </control>

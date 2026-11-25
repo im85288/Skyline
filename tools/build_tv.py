@@ -1699,7 +1699,7 @@ ROW_Y = 1080 - 88 - TILE_H     # the row's top
 def quick_row(focused):
     """A channel in the quick guide: logo, number and name, what's on now
     with how far through it; the focused row a white bar, dark text; the
-    playing channel's name blue with TiviMate's ▶."""
+    playing channel on a blue tile, its name white with TiviMate's ▶."""
     # Not while KodiConnectForSilo switches the guide's group: Kodi focuses the
     # channels for a moment as it rebuilds, which flashed the highlight.
     lit = '[Control.HasFocus(11) + String.IsEmpty(Window(Home).Property(silokodi.quick.switching))]'
@@ -1736,19 +1736,27 @@ def quick_row(focused):
                             <label>$INFO[ListItem.ChannelNumberLabel,,  ·  ]$INFO[ListItem.ChannelName]</label>
                             {visible}
                         </control>''' % (SAFE_X + 80, QUICK_W - SAFE_X - 150), dim_colour,
-                                                      dim_colour if dim_colour.startswith('B3') else ACCENT, PLAYING),
+                                                      dim_colour if dim_colour.startswith('B3') else 'FFFFFFFF', PLAYING),
                                      'visible': '\n                        <visible>%s</visible>' % visible if visible else ''}
-    mark = playing_mark(QUICK_W - 66, 18, 28)
+    mark = playing_mark(QUICK_W - 66, 18, 28, 'FFFFFFFF')
+    # The playing channel on a blue tile (as the TV guide's), under the focus's white bar.
+    playing_tile = '''
+                    <control type="image">
+                        <left>%d</left><top>4</top><width>%d</width><height>%d</height>
+                        <texture border="20" colordiffuse="%s">silo/card_landscape_mask.png</texture>
+                        <visible>%s%s</visible>
+                    </control>''' % (SAFE_X - 58, QUICK_W - SAFE_X + 40, QUICK_ROW - 8, PLAYING_TILE, PLAYING,
+                                     '' if not focused else ' + !' + lit)
     if not focused:
-        return row('D9EDEDED', DIM, '') + mark
+        return playing_tile + row('D9EDEDED', DIM, '') + mark
     bar = '''
                     <control type="image">
                         <left>%d</left><top>4</top><width>%d</width><height>%d</height>
                         <texture border="20" colordiffuse="%s">silo/card_landscape_mask.png</texture>
                         <visible>%s</visible>
                     </control>''' % (SAFE_X - 58, QUICK_W - SAFE_X + 40, QUICK_ROW - 8, TEXT, lit)
-    return (bar + row('FF000000', 'B3000000', lit) + row('D9EDEDED', DIM, '!' + lit) +
-            playing_mark(QUICK_W - 66, 18, 28, 'FF000000', lit) + playing_mark(QUICK_W - 66, 18, 28, ACCENT, '!' + lit))
+    return (playing_tile + bar + row('FF000000', 'B3000000', lit) + row('D9EDEDED', DIM, '!' + lit) +
+            playing_mark(QUICK_W - 66, 18, 28, 'FF000000', lit) + playing_mark(QUICK_W - 66, 18, 28, 'FFFFFFFF', '!' + lit))
 
 
 SCHEDULE_ID, DAYS_ID = 14, 13
@@ -1771,7 +1779,7 @@ FULL_PANEL = DAYS_X + DAYS_W + 24
 
 def schedule_row(focused=False, width=SCHEDULE_W, height=SCHEDULE_ROW, lit_id=None):
     """A programme in the channel's schedule: its start time and title, the
-    one on now blue with TiviMate's ▶ LIVE, a past one catch-up can play
+    one on now on a blue tile with TiviMate's ▶ LIVE, a past one catch-up can play
     with the history icon; a day header where the day changes (today's
     blue). Focused (lit_id while it has focus), a white bar, dark text."""
     header = 'String.IsEqual(ListItem.Property(silo.header),1)'
@@ -1812,7 +1820,7 @@ def schedule_row(focused=False, width=SCHEDULE_W, height=SCHEDULE_ROW, lit_id=No
                             <label>$INFO[ListItem.Label]</label>
                             {visible}
                         </control>''' % (width - 230, height), title_colour,
-                                                               title_colour if title_colour == 'FF000000' else ACCENT, NOW_ROW), 'mark': mark_colour, 'live': live_colour,
+                                                               title_colour if title_colour == 'FF000000' else 'FFFFFFFF', NOW_ROW), 'mark': mark_colour, 'live': live_colour,
                                       'mx': width - 44, 'my': (height - 24) // 2, 'lx': width - 92}
     head = '''
                     <control type="group">
@@ -1826,16 +1834,24 @@ def schedule_row(focused=False, width=SCHEDULE_W, height=SCHEDULE_ROW, lit_id=No
                             <label>$INFO[ListItem.Label]</label>
                             {visible}
                         </control>''' % (width, height), TEXT, ACCENT, TODAY_ROW)}
-    rest = row(DIM, 'C7EDEDED', DIM, ACCENT, '!' + lit if focused else '')
+    # The one on now on a blue tile (as the TV guide's playing channel), under the focus's white bar.
+    now_tile = '''
+                    <control type="image">
+                        <top>3</top><width>%(w)d</width><height>%(h)d</height>
+                        <texture border="20" colordiffuse="%(tile)s">silo/card_landscape_mask.png</texture>
+                        <visible>!%(header)s + %(now)s%(not_lit)s</visible>
+                    </control>''' % {'w': width, 'h': height - 6, 'tile': PLAYING_TILE, 'header': header, 'now': NOW_ROW,
+                                     'not_lit': ' + !' + lit if focused else ''}
+    rest = row(DIM, 'C7EDEDED', DIM, 'FFFFFFFF', '!' + lit if focused else '')
     if not focused:
-        return head + rest
+        return now_tile + head + rest
     bar = '''
                     <control type="image">
                         <top>3</top><width>%(w)d</width><height>%(h)d</height>
                         <texture border="20" colordiffuse="%(text)s">silo/card_landscape_mask.png</texture>
                         <visible>!%(header)s + %(lit)s</visible>
                     </control>''' % {'w': width, 'h': height - 6, 'text': TEXT, 'header': header, 'lit': lit}
-    return bar + head + row('B3000000', 'FF000000', 'FF000000', 'FF000000', lit) + rest
+    return now_tile + bar + head + row('B3000000', 'FF000000', 'FF000000', 'FF000000', lit) + rest
 
 
 def day_row(focused):
