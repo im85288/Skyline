@@ -1,3 +1,8 @@
+[B]0.24.0[/B]
+• Live TV banner: one wide card, with the channel's logo, name, day and time along its top; a bigger picture, more of the plot, and both next programmes inside the card
+• Live TV: Left/Right with no banner go back to the channel watched before (needs KodiConnectForSilo 0.32.0); held, 5 minutes back or on
+• Catch-up: no Live TV info left over the programme when played from the banner; the player says "Catch up · channel · times" with the channel's logo, and long titles wrap to two lines
+
 [B]0.23.0[/B]
 • Live TV: the banner, the OK screen and the Left/Right programme view stay up until Back (Kodi's own banner as long as its Display channel info allows, 15 s at most); Back hides the banner instead of stopping the channel
 • Live TV: no banner as a channel starts (browse with Up/Down or press Info to see it)
