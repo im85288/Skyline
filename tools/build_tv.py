@@ -89,7 +89,8 @@ def playing_mark(left, top, size=24, colour=ACCENT, also='true'):
 def channel(focused):
     """A channel down the left, as Sky Stream's: its name only (fixed numbers
     aren't needed to find one) on a tile of its own; the playing channel's
-    name in the accent; the focused row's tile lighter, as its programme's,
+    name in the accent with TiviMate's ▶ at the tile's end; the focused row's
+    tile lighter, as its programme's,
     while the timeline has focus."""
     colour = TEXT if focused else 'C7EDEDED'
     tile = '''
@@ -107,11 +108,11 @@ def channel(focused):
                         <selectedcolor>{colour}</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
                         {visible}
-                    </control>''' % (SAFE_X, CHANNEL_W - SAFE_X - 28, ROW_H,
+                    </control>''' % (SAFE_X, CHANNEL_W - SAFE_X - 28 - 36, ROW_H,
                          # No scrolling on the tile, as Sky's: the details above
                          # carry the whole name.
                          ''),
-        colour, ACCENT, PLAYING)
+        colour, ACCENT, PLAYING) + playing_mark(CHANNEL_W - 12 - 44, (ROW_H - 28) // 2, 28)
 
 
 def programme(focused):

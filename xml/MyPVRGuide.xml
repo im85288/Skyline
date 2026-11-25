@@ -1031,7 +1031,7 @@
                         <texture border="8" colordiffuse="1AFFFFFF">silo/guide_cell.png</texture>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>444</width><height>69</height>
+                        <left>88</left><top>0</top><width>408</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FF3A9DFF</textcolor>
@@ -1040,7 +1040,7 @@
                         <visible>ListItem.IsPlaying</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>444</width><height>69</height>
+                        <left>88</left><top>0</top><width>408</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>C7EDEDED</textcolor>
@@ -1048,6 +1048,16 @@
                         <label>$INFO[ListItem.Label]</label>
                         <visible>!ListItem.IsPlaying</visible>
                     </control>
+                        <control type="label">
+                            <left>504</left><top>20</top><width>28</width><height>28</height>
+                            <align>center</align><aligny>center</aligny>
+                            <font>silo_detail</font>
+                            <textcolor>FF3A9DFF</textcolor>
+                            <!-- Kodi marks the playing channel selected: the same colour then. -->
+                            <selectedcolor>FF3A9DFF</selectedcolor>
+                            <label>▶</label>
+                            <visible>ListItem.IsPlaying + true</visible>
+                        </control>
             </channellayout>
             <focusedchannellayout height="69" width="560">
                     <control type="image">
@@ -1055,7 +1065,7 @@
                         <texture border="8" colordiffuse="$VAR[SiloGuideCell]">silo/guide_cell.png</texture>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>444</width><height>69</height>
+                        <left>88</left><top>0</top><width>408</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FF3A9DFF</textcolor>
@@ -1064,7 +1074,7 @@
                         <visible>ListItem.IsPlaying</visible>
                     </control>
                     <control type="label">
-                        <left>88</left><top>0</top><width>444</width><height>69</height>
+                        <left>88</left><top>0</top><width>408</width><height>69</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <textcolor>FFEDEDED</textcolor>
@@ -1072,6 +1082,16 @@
                         <label>$INFO[ListItem.Label]</label>
                         <visible>!ListItem.IsPlaying</visible>
                     </control>
+                        <control type="label">
+                            <left>504</left><top>20</top><width>28</width><height>28</height>
+                            <align>center</align><aligny>center</aligny>
+                            <font>silo_detail</font>
+                            <textcolor>FF3A9DFF</textcolor>
+                            <!-- Kodi marks the playing channel selected: the same colour then. -->
+                            <selectedcolor>FF3A9DFF</selectedcolor>
+                            <label>▶</label>
+                            <visible>ListItem.IsPlaying + true</visible>
+                        </control>
             </focusedchannellayout>
             <itemlayout height="69" width="60">
                     <control type="image" id="2">
