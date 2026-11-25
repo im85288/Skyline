@@ -49,6 +49,9 @@ ACCENT = 'FF3A9DFF'
 # Progress bars white, as the player's (DialogSeekBar's SkylineFocus).
 PROGRESS = 'FFEDEDED'
 PLAYING = 'ListItem.IsPlaying'
+# The guide's playing channel: its tile in the accent, softer as one of the
+# rows, stronger with focus on it (over the lighter focused tile).
+PLAYING_TILE, PLAYING_TILE_LIT = '523A9DFF', '993A9DFF'
 # Kodi's Live TV banner hidden: Back hid it (silo.live.hidden, the channel it
 # hid), or it's the one Kodi shows as a channel starts (KodiConnectForSilo's
 # live.switched; Skyline's timers end it as the viewer browses, or once Kodi's
@@ -89,7 +92,7 @@ def playing_mark(left, top, size=24, colour=ACCENT, also='true'):
 def channel(focused):
     """A channel down the left, as Sky Stream's: its name only (fixed numbers
     aren't needed to find one) on a tile of its own; the playing channel's
-    name in the accent with TiviMate's ▶ at the tile's end; the focused row's
+    tile tinted blue, its name and TiviMate's ▶ white; the focused row's
     tile lighter, as its programme's,
     while the timeline has focus."""
     colour = TEXT if focused else 'C7EDEDED'
@@ -99,6 +102,16 @@ def channel(focused):
                         <texture border="8" colordiffuse="%s">silo/guide_cell.png</texture>
                     </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12,
                          '$VAR[SiloGuideCell]' if focused else TILE)
+    # The playing channel's tile in a soft blue (the accent), a stronger one
+    # with focus on it, over the usual tile: per row, by a visible condition
+    # (Kodi works a $VAR colour out once per list).
+    tile += '''
+                    <control type="image">
+                        <left>%d</left><top>6</top><width>%d</width><height>%d</height>
+                        <texture border="8" colordiffuse="%s">silo/guide_cell.png</texture>
+                        <visible>%s</visible>
+                    </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12,
+                         '$VAR[SiloGuidePlaying]' if focused else PLAYING_TILE, PLAYING)
     return tile + two_tone('''
                     <control type="label">
                         <left>%d</left><top>0</top><width>%d</width><height>%d</height>
@@ -112,7 +125,7 @@ def channel(focused):
                          # No scrolling on the tile, as Sky's: the details above
                          # carry the whole name.
                          ''),
-        colour, ACCENT, PLAYING) + playing_mark(CHANNEL_W - 12 - 44, (ROW_H - 28) // 2, 28)
+        colour, 'FFFFFFFF', PLAYING) + playing_mark(CHANNEL_W - 12 - 44, (ROW_H - 28) // 2, 28, 'FFFFFFFF')
 
 
 def programme(focused):
@@ -142,6 +155,10 @@ def variables():
     lit = 'Control.HasFocus(%d)' % GRID_ID
     return ('    <!-- Silo Skyline TV guide (tools/build_tv.py) -->\n'
             # The theme's names: tools/build_colours.py doesn't reach a variable's values.
+            '    <variable name="SiloGuidePlaying">\n'
+            '        <value condition="%(lit)s">%(playing_lit)s</value>\n'
+            '        <value>%(playing)s</value>\n'
+            '    </variable>\n'
             '    <variable name="SiloGuideCell">\n'
             '        <value condition="%(lit)s">40FFFFFF</value>\n'
             '        <value>%(tile)s</value>\n'
@@ -182,7 +199,7 @@ def variables():
             '        <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>\n'
             '        <value condition="!String.IsEmpty(ListItem.StartTime)">Starts at $INFO[ListItem.StartTime]</value>\n'
             '    </variable>\n'
-            ) % {'lit': lit, 'tile': TILE, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
+            ) % {'lit': lit, 'tile': TILE, 'playing': PLAYING_TILE, 'playing_lit': PLAYING_TILE_LIT, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + quick_variables() + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
 
 
 def add_variables():

@@ -10297,6 +10297,10 @@
     </variable>
     <!-- end Silo Skyline person -->
     <!-- Silo Skyline TV guide (tools/build_tv.py) -->
+    <variable name="SiloGuidePlaying">
+        <value condition="Control.HasFocus(51)">993A9DFF</value>
+        <value>523A9DFF</value>
+    </variable>
     <variable name="SiloGuideCell">
         <value condition="Control.HasFocus(51)">40FFFFFF</value>
         <value>1AFFFFFF</value>
