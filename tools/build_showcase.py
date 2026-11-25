@@ -212,8 +212,10 @@ def ratings(indent='\t\t\t\t\t'):
     return out
 
 
-def logo(left, top, width, height, font):
-    """The clearlogo, or the name in its place."""
+def logo(left, top, width, height, font, name_width=None):
+    """The clearlogo, or the name in its place: up to two lines, from the
+    bottom up (a long catch-up programme's name was cut off on one), as wide
+    as name_width (the clearlogo's box keeps width)."""
     return '''
 			<control type="image">
 				<left>%(x)d</left><top>%(y)d</top><width>%(w)d</width><height>%(h)d</height>
@@ -221,14 +223,21 @@ def logo(left, top, width, height, font):
 				<texture>$VAR[PlayerClearLogoVar]</texture>
 			</control>
 			<control type="label">
-				<left>%(x)d</left><top>%(y)d</top><width>%(w)d</width><height>%(h)d</height>
+				<left>%(x)d</left><top>%(y)d</top><width>%(nw)d</width><height>%(h)d</height>
 				<aligny>bottom</aligny>
+				<wrapmultiline>true</wrapmultiline>
 				<font>%(font)s</font>
 				<textcolor>%(text)s</textcolor>
 				<label>$VAR[SiloShowcaseName]</label>
 				<shadowcolor>99000000</shadowcolor>
 				<visible>String.IsEmpty(Player.Art(clearlogo)) + String.IsEmpty(Player.Art(tvshow.clearlogo))</visible>
-			</control>''' % {'x': left, 'y': top, 'w': width, 'h': height, 'font': font, 'text': TEXT}
+			</control>''' % {'x': left, 'y': top, 'w': width, 'h': height, 'nw': name_width or width, 'font': font,
+                       'text': TEXT}
+
+
+# Catch-up's channel logo (KodiConnectForSilo publishes it while a programme
+# plays from catch-up, else '').
+CATCHUP_LOGO = 'Window(Home).Property(silokodi.tv.catchup_logo)'
 
 
 def overlay():
@@ -242,6 +251,23 @@ def overlay():
 					<textcolor>%(text)s</textcolor>
 					<label>$VAR[SiloShowcaseLine]</label>
 					<shadowcolor>99000000</shadowcolor>
+					<visible>String.IsEmpty(%(chlogo)s)</visible>
+				</control>
+				<!-- Catch-up: the channel's logo first (KodiConnectForSilo's tv.catchup_logo;
+				     Kodi's icon for it is the programme's picture), the line after it. -->
+				<control type="image">
+					<left>96</left><top>714</top><width>120</width><height>56</height>
+					<aspectratio align="left">keep</aspectratio>
+					<texture>$INFO[%(chlogo)s]</texture>
+					<visible>!String.IsEmpty(%(chlogo)s)</visible>
+				</control>
+				<control type="label">
+					<left>236</left><top>720</top><width>1360</width><height>44</height>
+					<font>silo_meta</font>
+					<textcolor>%(text)s</textcolor>
+					<label>$VAR[SiloShowcaseLine]</label>
+					<shadowcolor>99000000</shadowcolor>
+					<visible>!String.IsEmpty(%(chlogo)s)</visible>
 				</control>
 				<control type="grouplist">
 					<left>96</left><top>776</top><width>1728</width><height>40</height>
@@ -258,7 +284,8 @@ def overlay():
 					<shadowcolor>99000000</shadowcolor>
 				</control>
 			</control>''' % {
-        'on': ON, 'text': TEXT, 'logo': logo(96, 588, 720, 120, 'silo_osd_title').replace('\n\t\t\t', '\n\t\t\t\t'),
+        'on': ON, 'text': TEXT, 'chlogo': CATCHUP_LOGO,
+        'logo': logo(96, 588, 720, 120, 'silo_osd_title', 1200).replace('\n\t\t\t', '\n\t\t\t\t'),
         # KodiConnectForSilo's badges for what's playing, else Kodi's player's own.
         'badges': badge('$VAR[SiloShowcaseMpaa]', '[!String.IsEmpty(%s) | !String.IsEmpty(VideoPlayer.mpaa)]' % PLAYING % 'mpaa')
         + ''.join(badge('$VAR[SiloShowcaseBadge%d]' % n, '!String.IsEmpty(%s)' % PLAYING % ('badge%d' % n))

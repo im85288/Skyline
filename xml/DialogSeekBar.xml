@@ -770,6 +770,7 @@
 			<control type="label">
 				<left>120</left><top>196</top><width>900</width><height>190</height>
 				<aligny>bottom</aligny>
+				<wrapmultiline>true</wrapmultiline>
 				<font>silo_osd_title</font>
 				<textcolor>FFEDEDED</textcolor>
 				<label>$VAR[SiloShowcaseName]</label>
@@ -916,8 +917,9 @@
 					<texture>$VAR[PlayerClearLogoVar]</texture>
 				</control>
 				<control type="label">
-					<left>96</left><top>588</top><width>720</width><height>120</height>
+					<left>96</left><top>588</top><width>1200</width><height>120</height>
 					<aligny>bottom</aligny>
+					<wrapmultiline>true</wrapmultiline>
 					<font>silo_osd_title</font>
 					<textcolor>FFEDEDED</textcolor>
 					<label>$VAR[SiloShowcaseName]</label>
@@ -930,6 +932,23 @@
 					<textcolor>FFEDEDED</textcolor>
 					<label>$VAR[SiloShowcaseLine]</label>
 					<shadowcolor>99000000</shadowcolor>
+					<visible>String.IsEmpty(Window(Home).Property(silokodi.tv.catchup_logo))</visible>
+				</control>
+				<!-- Catch-up: the channel's logo first (KodiConnectForSilo's tv.catchup_logo;
+				     Kodi's icon for it is the programme's picture), the line after it. -->
+				<control type="image">
+					<left>96</left><top>714</top><width>120</width><height>56</height>
+					<aspectratio align="left">keep</aspectratio>
+					<texture>$INFO[Window(Home).Property(silokodi.tv.catchup_logo)]</texture>
+					<visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.catchup_logo))</visible>
+				</control>
+				<control type="label">
+					<left>236</left><top>720</top><width>1360</width><height>44</height>
+					<font>silo_meta</font>
+					<textcolor>FFEDEDED</textcolor>
+					<label>$VAR[SiloShowcaseLine]</label>
+					<shadowcolor>99000000</shadowcolor>
+					<visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.catchup_logo))</visible>
 				</control>
 				<control type="grouplist">
 					<left>96</left><top>776</top><width>1728</width><height>40</height>
