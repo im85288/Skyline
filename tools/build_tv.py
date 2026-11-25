@@ -352,11 +352,6 @@ def rail_card(focused):
                         <texture diffuse="silo/card_landscape_mask.png" colordiffuse="E6000000">silo/scrim_bottom.png</texture>
                     </control>
                     <control type="image">
-                        <left>12</left><top>12</top><width>124</width><height>44</height>
-                        <texture border="8" colordiffuse="B3000000">silo/guide_cell.png</texture>
-                        <visible>!String.IsEmpty(ListItem.Property(silo.logo))</visible>
-                    </control>
-                    <control type="image">
                         <left>18</left><top>16</top><width>112</width><height>36</height>
                         <aspectratio>keep</aspectratio>
                         <texture background="true">$INFO[ListItem.Property(silo.logo)]</texture>

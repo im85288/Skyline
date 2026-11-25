@@ -646,10 +646,10 @@
                             <aspectratio>keep</aspectratio>
                             <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
                         </control>
-                        <!-- With a picture, the channel's logo at its bottom left, as Sky OS
-                             2.0's cards: straight on the picture, no tag behind it. -->
+                        <!-- With a picture, the channel's logo at its top left, straight on the
+                             picture with no tag behind it, as Sky OS 2.0's. -->
                         <control type="image">
-                            <left>20</left><top>154</top><width>96</width><height>32</height>
+                            <left>20</left><top>18</top><width>96</width><height>32</height>
                             <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
                             <aspectratio>keep</aspectratio>
                             <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + !String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
@@ -810,10 +810,10 @@
                             <aspectratio>keep</aspectratio>
                             <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>
                         </control>
-                        <!-- With a picture, the channel's logo at its bottom left, as Sky OS
-                             2.0's cards: straight on the picture, no tag behind it. -->
+                        <!-- With a picture, the channel's logo at its top left, straight on the
+                             picture with no tag behind it, as Sky OS 2.0's. -->
                         <control type="image">
-                            <left>20</left><top>154</top><width>96</width><height>32</height>
+                            <left>20</left><top>18</top><width>96</width><height>32</height>
                             <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
                             <aspectratio>keep</aspectratio>
                             <visible>!String.IsEmpty(ListItem.Property(home.tv.logo)) + !String.IsEmpty(ListItem.Property(home.art.landscape)) + $PARAM[near]</visible>

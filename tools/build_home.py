@@ -472,10 +472,10 @@ def tv_logo(card, near=None):
                             <aspectratio>keep</aspectratio>
                             <visible>%(shown)s</visible>
                         </control>
-                        <!-- With a picture, the channel's logo at its bottom left, as Sky OS
-                             2.0's cards: straight on the picture, no tag behind it. -->
+                        <!-- With a picture, the channel's logo at its top left, straight on the
+                             picture with no tag behind it, as Sky OS 2.0's. -->
                         <control type="image">
-                            <left>20</left><top>%(bly)d</top><width>%(blw)d</width><height>%(blh)d</height>
+                            <left>20</left><top>18</top><width>%(blw)d</width><height>%(blh)d</height>
                             <texture background="true">$INFO[ListItem.Property(home.tv.logo)]</texture>
                             <aspectratio>keep</aspectratio>
                             <visible>%(badge)s</visible>
@@ -484,8 +484,6 @@ def tv_logo(card, near=None):
                                         'lw': card['width'] // 2, 'lh': card['height'] * 3 // 5,
 
                                         'blw': card['width'] * 3 // 10 - 12, 'blh': card['height'] // 5 - 8,
-                                        # Above the progress line on the picture's foot.
-                                        'bly': 6 + card['height'] - 18 - card['height'] // 5 + 4,
                                         'badge': badge} + tv_tags(card, near)
 
 
