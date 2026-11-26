@@ -1,3 +1,8 @@
+[B]0.27.0[/B]
+• Live TV: OK shows what's on (the banner's card) with the playback buttons above it; Left/Right open your recent channels with the one watched before selected (OK watches it), in larger tiles level with the banner's bottom
+• Catch-up: the channel logo at a readable size
+• Needs KodiConnectForSilo 0.35.0
+
 [B]0.26.0[/B]
 • TV guide, as Sky OS 2.0: each channel shows its logo (its name without one) in a narrower column, and what's playing shows in a box at the bottom right
 • TV page: Sky's red LIVE and grey UPCOMING tags before a card's time (with KodiConnectForSilo 0.34.0); channel logos on cards and the guide's Restart row without a dark tag behind them
