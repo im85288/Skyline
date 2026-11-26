@@ -1906,11 +1906,19 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
                 <textcolor>%(text)s</textcolor><shadowcolor>CC000000</shadowcolor>
                 <label>$INFO[VideoPlayer.Title]</label>
             </control>
-            <control type="label">
-                <left>%(x)d</left><top>%(my)d</top><width>1400</width><height>40</height>
-                <font>silo_meta</font>
-                <textcolor>CCEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                <label>$INFO[VideoPlayer.ChannelName]$INFO[VideoPlayer.StartTime,  ·  ]$INFO[VideoPlayer.EndTime, – ]</label>
+            <!-- The channel and times, then the stream's badges (option A,
+                 2026-11-26), as the banner's: quality, HDR, sound, frame rate. -->
+            <control type="grouplist">
+                <left>%(x)d</left><top>%(my)d</top><width>1700</width><height>40</height>
+                <orientation>horizontal</orientation>
+                <itemgap>10</itemgap>
+                <usecontrolcoords>true</usecontrolcoords>
+                <control type="label">
+                    <width>auto</width><height>40</height>
+                    <font>silo_meta</font>
+                    <textcolor>CCEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                    <label>$INFO[VideoPlayer.ChannelName]$INFO[VideoPlayer.StartTime,  ·  ]$INFO[VideoPlayer.EndTime, – ,  ]</label>
+                </control>%(badges)s
             </control>
             <!-- The bar, as YouTube's: Up from the buttons; Left / Right seek. -->
             <control type="label">
@@ -2027,6 +2035,18 @@ def neighbour_card(button, prefix, centre_x):
         'text': TEXT, 'live': live_badge('String.IsEqual(%slive),1)' % p, indent='                    ')}
 
 
+def overlay_badges():
+    """The overlay's stream badges after the channel line: the banner's
+    outlined ones (quality, HDR, sound) and the frame rate, each only when
+    Kodi reports it (a rate it doesn't name, as 0, shows none)."""
+    rate = '[%s]' % ' | '.join('String.StartsWith(Player.Process(videofps),%s)' % value for value, _ in FPS)
+    return ''.join(outline_badge(label, condition, top=5) for label, condition in (
+        ('$VAR[SiloLiveQuality]', '!String.IsEmpty(VideoPlayer.VideoResolution)'),
+        ('$VAR[SiloLiveHdr]', '!String.IsEmpty(VideoPlayer.HdrType)'),
+        ('$VAR[SiloLiveAudio]', '!String.IsEmpty(VideoPlayer.AudioChannels)'),
+        ('$VAR[SiloLiveFps] FPS', rate)))
+
+
 def build_ok():
     centre = (1920 - 3 * BUTTON - 2 * 24) // 2
     left_x, right_x = SAFE_X, 1920 - SAFE_X - 2 * PILL - 16 - opened_by('Options')
@@ -2071,7 +2091,7 @@ def build_ok():
                      'rx': 1920 - SAFE_X - 600, 'live': live_badge('true', indent='                '),
                      'by': BAR_Y, 'by2': BAR_Y - 3, 'bfy': BAR_Y - 12, 'bw': 1920 - 2 * SAFE_X, 'bar': SEEK_BAR,
                      'play': PLAY_PAUSE, 'pills': pills, 'transport': transport, 'cy': CHIPS_Y, 'chips': chips,
-                     'rows': rows, 'tint_y': BAR_Y - 200, 'tint_h': 1080 - BAR_Y + 200}
+                     'rows': rows, 'badges': overlay_badges(), 'tint_y': BAR_Y - 200, 'tint_h': 1080 - BAR_Y + 200}
 
 
 # Back in the guide (KodiConnectForSilo's player keymap opens this dialog,
