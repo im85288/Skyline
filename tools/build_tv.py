@@ -1452,9 +1452,12 @@ OK_ID = 1198                 # OK in Live TV: what's on and the playback buttons
 RECENT_LIST = 5600
 CONTROLS = 5610               # the OK screen's playback bar (Up from the tiles)
 # The OK screen's row of channels, as TiviMate's: compact tiles at the bottom.
-TILE_W, TILE_H, TILE_GAP = 234, 180, 18
+TILE_W, TILE_GAP = 290, 20
 TILE_PIC_H = TILE_W * 9 // 16  # the tile's picture, 16:9, with what's on under it
-ROW_Y = 1080 - 88 - TILE_H     # the row's top
+TILE_H = TILE_PIC_H + 49
+# The row's top: what's on under the pictures ends where the banner's and the
+# OK screen's card does (SKY_Y + SKY_H, 36 from the bottom).
+ROW_Y = SKY_Y + SKY_H - (TILE_PIC_H + 40)
 
 
 SCHEDULE_ID, DAYS_ID = 14, 13
@@ -1573,7 +1576,7 @@ def recent_card(focused):
                         <visible>%(has)s</visible>
                     </control>
                     <control type="image">
-                        <left>12</left><top>%(ly)d</top><width>96</width><height>34</height>
+                        <left>12</left><top>%(ly)d</top><width>116</width><height>40</height>
                         <aspectratio align="left" aligny="bottom">keep</aspectratio>
                         <texture>$INFO[ListItem.Icon]</texture>
                         <visible>%(has)s</visible>
@@ -1604,7 +1607,7 @@ def recent_card(focused):
                     </control>
                 </control>''' % {'zoom': focus_zoom(lit, 16) if focused else '', 'w': TILE_W, 'ph': TILE_PIC_H,
                                   'panel': PANEL, 'lw': TILE_W - 44, 'lh': TILE_PIC_H - 32, 'has': has,
-                                  'ly': TILE_PIC_H - 12 - 34, 'bar': TILE_PIC_H - 5, 'bw': TILE_W - 28,
+                                  'ly': TILE_PIC_H - 12 - 40, 'bar': TILE_PIC_H - 5, 'bw': TILE_W - 28,
                                   'tw': TILE_W - 8, 'ty': TILE_PIC_H + 6, 'text': TEXT,
                                   'live': live_badge('String.IsEqual(ListItem.Property(silo.live),1)'),
                                   'sheen': focus_sheen(TILE_W, TILE_PIC_H, 'silo/card_landscape_mask.png',
