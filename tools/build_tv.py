@@ -1887,6 +1887,14 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
         </control>
+        <!-- The playing channel's tint from the bar down (as the old recent row's),
+             so the buttons, chips and card names read over a bright picture. -->
+        <control type="image">
+            <left>0</left><top>%(tint_y)d</top><width>1920</width><height>%(tint_h)d</height>
+            <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
+            <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
+        </control>
         <control type="group">
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
@@ -1994,7 +2002,7 @@ def build_ok():
                      'rx': 1920 - SAFE_X - 600, 'live': live_badge('true', indent='                '),
                      'by': BAR_Y, 'by2': BAR_Y - 3, 'bfy': BAR_Y - 12, 'bw': 1920 - 2 * SAFE_X, 'bar': SEEK_BAR,
                      'play': PLAY_PAUSE, 'pills': pills, 'transport': transport, 'cy': CHIPS_Y, 'chips': chips,
-                     'rows': rows}
+                     'rows': rows, 'tint_y': BAR_Y - 200, 'tint_h': 1080 - BAR_Y + 200}
 
 
 # Back in the guide (KodiConnectForSilo's player keymap opens this dialog,

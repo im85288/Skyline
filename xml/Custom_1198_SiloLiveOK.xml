@@ -23,6 +23,14 @@
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
         </control>
+        <!-- The playing channel's tint from the bar down (as the old recent row's),
+             so the buttons, chips and card names read over a bright picture. -->
+        <control type="image">
+            <left>0</left><top>380</top><width>1920</width><height>700</height>
+            <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
+            <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
+        </control>
         <control type="group">
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
