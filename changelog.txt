@@ -1,3 +1,8 @@
+[B]0.28.0[/B]
+• TV guide: the Restart row has room for 24 programmes, so every channel's fits (Premier Sports and Freeview too)
+• TV page: room for six channel groups, so the Match day row still shows next to Premier Sports and Freeview
+• Needs KodiConnectForSilo 0.36.0
+
 [B]0.27.0[/B]
 • Live TV: OK shows what's on (the banner's card) with the playback buttons above it; Left/Right open your recent channels with the one watched before selected (OK watches it), in larger tiles level with the banner's bottom
 • Catch-up: the channel logo at a readable size
