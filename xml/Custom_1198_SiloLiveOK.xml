@@ -54,8 +54,9 @@
                 <textcolor>FFEDEDED</textcolor>
                 <label>$INFO[PVR.EpgEventElapsedTime]$INFO[PVR.EpgEventDuration,[COLOR 99EDEDED] / ,[/COLOR]]</label>
             </control>
+            <!-- LIVE ends where the bar does (the tag is 60 wide), level with the time. -->
             <control type="group">
-                <left>1742</left><top>538</top><visible>!PVR.IsTimeShift</visible>
+                <left>1772</left><top>541</top><visible>!PVR.IsTimeShift</visible>
                 <control type="image">
                     <width>60</width><height>28</height>
                     <texture border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texture>

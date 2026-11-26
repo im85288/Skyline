@@ -1919,8 +1919,9 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
                 <textcolor>%(text)s</textcolor>
                 <label>$INFO[PVR.EpgEventElapsedTime]$INFO[PVR.EpgEventDuration,[COLOR 99EDEDED] / ,[/COLOR]]</label>
             </control>
+            <!-- LIVE ends where the bar does (the tag is 60 wide), level with the time. -->
             <control type="group">
-                <left>%(lx)d</left><top>%(tly)d</top><visible>!PVR.IsTimeShift</visible>%(live)s
+                <left>%(lx)d</left><top>%(livey)d</top><visible>!PVR.IsTimeShift</visible>%(live)s
             </control>
             <control type="label">
                 <left>%(rx)d</left><top>%(tly)d</top><width>600</width><height>34</height>
@@ -1999,7 +2000,7 @@ def build_ok():
                     for n, (cid, label, key, list_id, _) in enumerate(CHIPS))
     rows = ''.join(card_row(cid, key, list_id, mode) for cid, _, key, list_id, mode in CHIPS)
     return OK_XML % {'window': OK_ID, 'first': OK_FIRST, 'hidden': LIVE_HIDDEN, 'text': TEXT, 'x': SAFE_X,
-                     'ty': TITLE_Y, 'my': TITLE_Y + 76, 'tly': BAR_Y - 42, 'lx': 1920 - SAFE_X - 90,
+                     'ty': TITLE_Y, 'my': TITLE_Y + 76, 'tly': BAR_Y - 42, 'livey': BAR_Y - 42 + 3, 'lx': 1920 - SAFE_X - 60,
                      'rx': 1920 - SAFE_X - 600, 'live': live_badge('true', indent='                '),
                      'by': BAR_Y, 'by2': BAR_Y - 3, 'bfy': BAR_Y - 12, 'bw': 1920 - 2 * SAFE_X, 'bar': SEEK_BAR,
                      'play': PLAY_PAUSE, 'pills': pills, 'transport': transport, 'cy': CHIPS_Y, 'chips': chips,
