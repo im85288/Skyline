@@ -2070,10 +2070,6 @@ def neighbour_card(button, prefix, centre_x):
 PEEK_TITLES = ('Recent channels', 'On now', 'Coming up on $INFO[VideoPlayer.ChannelName]')
 
 
-def in_rows():
-    return '[%s]' % ' | '.join('Control.HasFocus(%d)' % list_id for _, _, _, list_id, _ in CHIPS)
-
-
 PEEK_ROWS = 5640
 
 
