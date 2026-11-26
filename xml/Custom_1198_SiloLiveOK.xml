@@ -378,6 +378,120 @@
                             <visible>Control.HasFocus(5614)</visible>
                         </control>
                     </control>
+            <control type="group">
+                <left>652</left><top>247</top><width>400</width><height>309</height>
+                <visible>Control.HasFocus(5611) + !String.IsEmpty(Window(Home).Property(silokodi.tv.chprev.name))</visible>
+                <animation effect="slide" start="0,24" end="0,0" time="180" tween="cubic" easing="out">Visible</animation>
+                <animation effect="fade" start="0" end="100" time="180">Visible</animation>
+                <animation effect="fade" start="100" end="0" time="120">Hidden</animation>
+                <control type="image">
+                    <width>400</width><height>309</height>
+                    <texture border="20" colordiffuse="SkylineLivePanel">silo/card_landscape_mask.png</texture>
+                </control>
+                <control type="image">
+                    <width>400</width><height>225</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Window(Home).Property(silokodi.tv.chprev.picture)]</texture>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.chprev.picture))</visible>
+                </control>
+                <control type="image">
+                    <left>24</left><top>20</top><width>352</width><height>185</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture>$INFO[Window(Home).Property(silokodi.tv.chprev.logo)]</texture>
+                    <visible>String.IsEmpty(Window(Home).Property(silokodi.tv.chprev.picture))</visible>
+                </control>
+                <control type="image">
+                    <left>12</left><top>173</top><width>116</width><height>40</height>
+                    <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                    <texture>$INFO[Window(Home).Property(silokodi.tv.chprev.logo)]</texture>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.chprev.picture))</visible>
+                </control>
+                <control type="group">
+                    <left>10</left><top>10</top>
+                    <control type="image">
+                        <width>60</width><height>28</height>
+                        <texture border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texture>
+                        <visible>String.IsEqual(Window(Home).Property(silokodi.tv.chprev.live),1)</visible>
+                    </control>
+                    <control type="label">
+                        <width>60</width><height>28</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFFFFFFF</textcolor>
+                        <label>LIVE</label>
+                        <visible>String.IsEqual(Window(Home).Property(silokodi.tv.chprev.live),1)</visible>
+                    </control>
+                </control>
+                <control type="label">
+                    <left>14</left><top>233</top><width>372</width><height>34</height>
+                    <font>silo_card_title</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>$INFO[Window(Home).Property(silokodi.tv.chprev.name)]</label>
+                </control>
+                <control type="label">
+                    <left>14</left><top>267</top><width>372</width><height>30</height>
+                    <font>silo_card_sub</font>
+                    <textcolor>B3EDEDED</textcolor>
+                    <label>$INFO[Window(Home).Property(silokodi.tv.chprev.title)]$INFO[Window(Home).Property(silokodi.tv.chprev.left),  ·  ]</label>
+                </control>
+            </control>
+            <control type="group">
+                <left>868</left><top>247</top><width>400</width><height>309</height>
+                <visible>Control.HasFocus(5614) + !String.IsEmpty(Window(Home).Property(silokodi.tv.chnext.name))</visible>
+                <animation effect="slide" start="0,24" end="0,0" time="180" tween="cubic" easing="out">Visible</animation>
+                <animation effect="fade" start="0" end="100" time="180">Visible</animation>
+                <animation effect="fade" start="100" end="0" time="120">Hidden</animation>
+                <control type="image">
+                    <width>400</width><height>309</height>
+                    <texture border="20" colordiffuse="SkylineLivePanel">silo/card_landscape_mask.png</texture>
+                </control>
+                <control type="image">
+                    <width>400</width><height>225</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[Window(Home).Property(silokodi.tv.chnext.picture)]</texture>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.chnext.picture))</visible>
+                </control>
+                <control type="image">
+                    <left>24</left><top>20</top><width>352</width><height>185</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture>$INFO[Window(Home).Property(silokodi.tv.chnext.logo)]</texture>
+                    <visible>String.IsEmpty(Window(Home).Property(silokodi.tv.chnext.picture))</visible>
+                </control>
+                <control type="image">
+                    <left>12</left><top>173</top><width>116</width><height>40</height>
+                    <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                    <texture>$INFO[Window(Home).Property(silokodi.tv.chnext.logo)]</texture>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.chnext.picture))</visible>
+                </control>
+                <control type="group">
+                    <left>10</left><top>10</top>
+                    <control type="image">
+                        <width>60</width><height>28</height>
+                        <texture border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texture>
+                        <visible>String.IsEqual(Window(Home).Property(silokodi.tv.chnext.live),1)</visible>
+                    </control>
+                    <control type="label">
+                        <width>60</width><height>28</height>
+                        <align>center</align><aligny>center</aligny>
+                        <font>silo_badge</font>
+                        <textcolor>FFFFFFFF</textcolor>
+                        <label>LIVE</label>
+                        <visible>String.IsEqual(Window(Home).Property(silokodi.tv.chnext.live),1)</visible>
+                    </control>
+                </control>
+                <control type="label">
+                    <left>14</left><top>233</top><width>372</width><height>34</height>
+                    <font>silo_card_title</font>
+                    <textcolor>FFEDEDED</textcolor>
+                    <label>$INFO[Window(Home).Property(silokodi.tv.chnext.name)]</label>
+                </control>
+                <control type="label">
+                    <left>14</left><top>267</top><width>372</width><height>30</height>
+                    <font>silo_card_sub</font>
+                    <textcolor>B3EDEDED</textcolor>
+                    <label>$INFO[Window(Home).Property(silokodi.tv.chnext.title)]$INFO[Window(Home).Property(silokodi.tv.chnext.left),  ·  ]</label>
+                </control>
+            </control>
             <!-- The chips and their rows of cards. -->
             <control type="grouplist">
                 <left>88</left><top>764</top><width>800</width><height>48</height>

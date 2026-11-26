@@ -1963,6 +1963,70 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
 """
 
 
+# The previous / next channel buttons' card (option B, 2026-11-26): selecting
+# one pops up the channel it plays above it, as YouTube's "up next": its
+# programme's picture (else its logo), LIVE, its name, and what's on with the
+# time left. KodiConnectForSilo publishes them (tv.chprev.*, tv.chnext.*).
+CARD_W = 400
+CARD_PIC_H = CARD_W * 9 // 16
+NEIGHBOUR_XML = """
+            <control type="group">
+                <left>%(x)d</left><top>%(y)d</top><width>%(w)d</width><height>%(h)d</height>
+                <visible>Control.HasFocus(%(button)d) + !String.IsEmpty(%(p)s(name))</visible>
+                <animation effect="slide" start="0,24" end="0,0" time="180" tween="cubic" easing="out">Visible</animation>
+                <animation effect="fade" start="0" end="100" time="180">Visible</animation>
+                <animation effect="fade" start="100" end="0" time="120">Hidden</animation>
+                <control type="image">
+                    <width>%(w)d</width><height>%(h)d</height>
+                    <texture border="20" colordiffuse="F2%(panel)s">silo/card_landscape_mask.png</texture>
+                </control>
+                <control type="image">
+                    <width>%(w)d</width><height>%(ph)d</height>
+                    <aspectratio>scale</aspectratio>
+                    <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[%(p)s(picture)]</texture>
+                    <visible>!String.IsEmpty(%(p)s(picture))</visible>
+                </control>
+                <control type="image">
+                    <left>24</left><top>20</top><width>%(lw)d</width><height>%(lh)d</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture>$INFO[%(p)s(logo)]</texture>
+                    <visible>String.IsEmpty(%(p)s(picture))</visible>
+                </control>
+                <control type="image">
+                    <left>12</left><top>%(logo_y)d</top><width>116</width><height>40</height>
+                    <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                    <texture>$INFO[%(p)s(logo)]</texture>
+                    <visible>!String.IsEmpty(%(p)s(picture))</visible>
+                </control>
+                <control type="group">
+                    <left>10</left><top>10</top>%(live)s
+                </control>
+                <control type="label">
+                    <left>14</left><top>%(ny)d</top><width>%(tw)d</width><height>34</height>
+                    <font>silo_card_title</font>
+                    <textcolor>%(text)s</textcolor>
+                    <label>$INFO[%(p)s(name)]</label>
+                </control>
+                <control type="label">
+                    <left>14</left><top>%(sy)d</top><width>%(tw)d</width><height>30</height>
+                    <font>silo_card_sub</font>
+                    <textcolor>B3EDEDED</textcolor>
+                    <label>$INFO[%(p)s(title)]$INFO[%(p)s(left),  ·  ]</label>
+                </control>
+            </control>"""
+
+
+def neighbour_card(button, prefix, centre_x):
+    """The card above a previous / next channel button (centre_x: the button's middle)."""
+    p = 'Window(Home).Property(silokodi.tv.%s.' % prefix
+    h = CARD_PIC_H + 84
+    return NEIGHBOUR_XML.replace('%(p)s(', p) % {
+        'x': centre_x - CARD_W // 2, 'y': BAR_Y - 24 - h, 'w': CARD_W, 'h': h, 'ph': CARD_PIC_H,
+        'button': button, 'panel': PANEL, 'lw': CARD_W - 48, 'lh': CARD_PIC_H - 40,
+        'logo_y': CARD_PIC_H - 12 - 40, 'ny': CARD_PIC_H + 8, 'sy': CARD_PIC_H + 42, 'tw': CARD_W - 28,
+        'text': TEXT, 'live': live_badge('String.IsEqual(%slive),1)' % p, indent='                    ')}
+
+
 def build_ok():
     centre = (1920 - 3 * BUTTON - 2 * 24) // 2
     left_x, right_x = SAFE_X, 1920 - SAFE_X - 2 * PILL - 16 - opened_by('Options')
@@ -1995,6 +2059,9 @@ def build_ok():
         button = button.replace('<onup>noop</onup>', '<onup>%d</onup>' % SEEK_BAR, 1)
         button = button.replace('<ondown>noop</ondown>', down.strip(), 1)
         transport += button.replace('<control type="group">', '<control type="group">\n                        <top>%d</top>' % BUTTONS_Y, 1)
+    # The channel each step button plays, above it while it's selected.
+    transport += (neighbour_card(PREV_CHANNEL, 'chprev', centre + BUTTON // 2)
+                  + neighbour_card(NEXT_CHANNEL, 'chnext', centre + 2 * (BUTTON + 24) + BUTTON // 2))
     chips = ''.join(chip(cid, label, key, list_id, CHIPS[n - 1][0] if n else 'noop',
                          CHIPS[n + 1][0] if n + 1 < len(CHIPS) else 'noop')
                     for n, (cid, label, key, list_id, _) in enumerate(CHIPS))
