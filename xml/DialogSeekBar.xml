@@ -11,7 +11,7 @@
 		<!-- Silo Skyline Live TV banner (tools/build_tv.py) -->
 		<control type="group">
 			<!-- Not under the banner window (1183, Left/Right), which draws its own. -->
-			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))] + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(1196) + !Window.IsActive(1183)</visible>
+			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))] + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(1196) + !Window.IsActive(1198) + !Window.IsActive(1183)</visible>
 			<animation effect="slide" start="0,120" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<!-- As Sky's: a light fade under the banner, no black band, nothing at the top. -->

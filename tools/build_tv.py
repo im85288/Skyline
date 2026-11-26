@@ -62,18 +62,6 @@ PILL_BG = 'E6262A33'          # the group pills' dark fill
 ENDED = 'Integer.IsEqual(ListItem.Progress,100)'  # a programme that has finished
 
 
-def two_tone(control, colour, accent, condition, also=''):
-    """A label twice: in the accent where condition holds, else in colour.
-    Kodi works a $VAR colour out once for a whole list, not per row, while
-    a visible condition is per row. control has {colour} and {visible}, and
-    {also} for a part in its own colour (a channel number) that takes the
-    accent too."""
-    control = control.replace('{also}', also)
-    lit = control.replace('[COLOR %s]' % also, '[COLOR %s]' % accent) if also else control
-    return (lit.replace('{colour}', accent).replace('{visible}', '<visible>%s</visible>' % condition) +
-            control.replace('{colour}', colour).replace('{visible}', '<visible>!%s</visible>' % condition))
-
-
 def playing_mark(left, top, size=24, colour=ACCENT, also='true'):
     """TiviMate's ▶ by the playing channel (also: when else it shows)."""
     return '''
@@ -870,13 +858,6 @@ def build_info():
        'buttons': ''.join(info_button(*button) for button in INFO_BUTTONS)}
 
 
-# TiviMate's information block, from its top: the OK screen's (with the
-# full-width bar) and the channel-change banner's (with a line of plot, at
-# the bottom of the screen).
-INFO_H = 176
-LOGO_BOX_W, LOGO_BOX_H = 246, 106
-
-
 # KodiConnectForSilo's picture and live flag for the channel the banner shows,
 # browsed (Up/Down) or playing: Kodi gives only the playing programme's.
 BANNER_PICTURE = '!String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))'
@@ -889,192 +870,6 @@ BANNER_HAS_PICTURE = '[[%s + !String.IsEmpty(%s)] | [!%s + %s]]' % (
     BANNER_STEPPED, STEPPED % 'picture', BANNER_STEPPED, BANNER_PICTURE)
 BANNER_SHOWS_LIVE = '[[%s + String.IsEqual(%s,1)] | [!%s + %s]]' % (
     BANNER_STEPPED, STEPPED % 'live', BANNER_STEPPED, BANNER_LIVE)
-
-
-def infobar(top, plot=False):
-    """What's playing, as TiviMate shows it: the channel's logo on a card at
-    the left; beside it the programme with the guide's LIVE-style tag, then
-    one line with its times, the minutes left, the channel and the stream
-    badges, then what's next; how far through on the picture's foot. The banner (plot) has a line
-    of the programme's plot before what's next, and no bar. Bright text with
-    a soft shadow, so it reads over a bright picture."""
-    left = SAFE_X - 8
-    tx = left + LOGO_BOX_W + 32
-    return '''
-            <control type="group">
-                <top>%(top)d</top>
-                <!-- The programme's picture (Sky's, as Sky's banner), the channel's
-                     logo in its corner, for the channel shown, browsed or playing;
-                     with no picture, the channel's logo alone. -->
-                <control type="image">
-                    <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(ph)d</height>
-                    <aspectratio>scale</aspectratio>
-                    <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerPicture]</texture>
-                    <visible>%(picture)s</visible>
-                </control>
-                <control type="image">
-                    <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(ph)d</height>
-                    <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
-                    <visible>%(picture)s</visible>
-                </control>
-                <!-- How far through, on the picture's foot (as the tiles' and the banner's;
-                     a second bar beside the times and a full-width one repeated it). -->
-                <control type="progress">
-                    <left>%(bar_x)d</left><top>%(pbar_y)d</top><width>%(pbar_w)d</width><height>5</height>
-                    <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
-                    <midtexture colordiffuse="%(progress)s">colors/white.png</midtexture>
-                    <info>PVR.EpgEventProgress</info>
-                    <visible>!String.IsEmpty(VideoPlayer.EndTime) + !%(stepped)s</visible>
-                </control>
-                <control type="image">
-                    <left>%(bx)d</left><top>%(by)d</top><width>110</width><height>40</height>
-                    <aspectratio align="left" aligny="bottom">keep</aspectratio>
-                    <texture>$VAR[SiloBannerLogo]</texture>
-                    <visible>%(picture)s</visible>
-                </control>
-                <control type="image">
-                    <left>%(left)d</left><top>14</top><width>%(bw)d</width><height>%(bh)d</height>
-                    <aspectratio>keep</aspectratio>
-                    <texture>$VAR[SiloBannerLogo]</texture>
-                    <visible>!%(picture_or)s</visible>
-                </control>
-                <control type="label">
-                    <left>%(tx)d</left><width>%(tw)d</width><height>60</height>
-                    <font>silo_osd_title</font>
-                    <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                    <label fallback="19055">$VAR[SiloBannerTitle]</label>
-                </control>
-                <control type="grouplist">
-                    <left>%(tx)d</left><top>66</top><width>%(tw)d</width><height>40</height>
-                    <orientation>horizontal</orientation>
-                    <itemgap>22</itemgap>%(live)s
-                    <control type="label">
-                        <width>auto</width><height>40</height>
-                        <aligny>center</aligny>
-                        <font>silo_meta</font>
-                        <textcolor>%(soft)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                        <label>$VAR[SiloBannerTimes]</label>
-                    </control>
-                    <control type="label">
-                        <width>auto</width><height>40</height>
-                        <aligny>center</aligny>
-                        <font>silo_meta</font>
-                        <textcolor>%(soft)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                        <label>$INFO[PVR.EpgEventRemainingTime(mins),, min]</label>
-                        <visible>!String.IsEmpty(VideoPlayer.EndTime) + !%(stepped)s</visible>
-                    </control>
-                    <control type="label">
-                        <!-- At most CHANNEL_MAX_W, ending in "...": an event channel's name
-                             carries its title and date ("Peacock 12: Goal Rush: Matchweek 11
-                             @ 21 Nov 10:50 AM ET") and pushed the badges off the row. -->
-                        <width max="%(channel_max)d">auto</width><height>40</height>
-                        <aligny>center</aligny>
-                        <font>silo_meta</font>
-                        <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                        <label>$VAR[SiloBannerChannel]</label>
-                    </control>%(badges)s
-                </control>
-%(plot)s
-                <control type="label">
-                    <left>%(tx)d</left><top>%(next_y)d</top><width>%(tw)d</width><height>40</height>
-                    <aligny>center</aligny>
-                    <font>silo_meta</font>
-                    <textcolor>%(accent)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                    <label>$INFO[Window(Home).Property(silokodi.banner.hint)]     ◀ ▶  Earlier, later</label>
-                    <visible>%(stepped)s</visible>
-                </control>
-                <!-- What's next on a line (the OK screen); the banner shows it as a card. -->
-                <control type="grouplist">
-                    <left>%(tx)d</left><top>%(next_y)d</top><width>%(tw)d</width><height>40</height>
-                    <visible>!%(stepped)s%(no_next_line)s</visible>
-                    <orientation>horizontal</orientation>
-                    <itemgap>22</itemgap>
-                    <control type="label">
-                        <width>auto</width><height>40</height>
-                        <aligny>center</aligny>
-                        <font>silo_meta</font>
-                        <textcolor>%(soft)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                        <label>$INFO[VideoPlayer.NextStartTime]$INFO[VideoPlayer.NextEndTime, — ,]</label>
-                    </control>
-                    <control type="label">
-                        <width>auto</width><height>40</height>
-                        <aligny>center</aligny>
-                        <font>silo_meta</font>
-                        <textcolor>%(soft)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                        <label>$INFO[VideoPlayer.NextTitle]</label>
-                    </control>
-                </control>
-%(next_strip)s
-            </control>''' % {'top': top, 'left': left, 'bw': LOGO_BOX_W, 'bh': LOGO_BOX_H,
-                             'tx': tx, 'next_y': 154 if plot else 110,
-                             'plot': '''
-                <control type="label">
-                    <left>%d</left><top>110</top><width>%d</width><height>40</height>
-                    <aligny>center</aligny>
-                    <font>silo_detail</font>
-                    <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                    <label>$VAR[SiloBannerPlot]</label>
-                </control>''' % (tx, 1920 - tx - SAFE_X - NEXT_STRIP_W - 40) if plot else '',
-                             'tw': 1920 - tx - SAFE_X - (NEXT_STRIP_W + 40 if plot else 0), 'text': TEXT,
-                             'next_strip': next_strip() if plot else '', 'no_next_line': ' + false' if plot else '', 'soft': 'D9EDEDED', 'shadow': 'CC000000',
-                             'accent': ACCENT, 'progress': PROGRESS,
-                             'bar_x': left + 12, 'pbar_y': 14 + LOGO_BOX_W * 9 // 16 - 11, 'pbar_w': LOGO_BOX_W - 24,
-                             'badges': stream_badges(), 'channel_max': CHANNEL_MAX_W,
-                             'ph': LOGO_BOX_W * 9 // 16, 'bx': left + 12, 'by': 14 + LOGO_BOX_W * 9 // 16 - 12 - 40,
-                             'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
-                             'live': live_tag(BANNER_SHOWS_LIVE), 'stepped': BANNER_STEPPED}
-
-
-NEXT_CARD_W, NEXT_CARD_H, NEXT_GAP = 248, 140, 20
-NEXT_STRIP_W = 2 * NEXT_CARD_W + NEXT_GAP
-
-
-def next_strip():
-    """Sky Stream's banner: the next two programmes alongside, at the right:
-    each's picture (else a dark card), its start time over the picture's
-    foot, its title under it (KodiConnectForSilo's tv.nextN, or banner.nextN
-    for the programme Left/Right stepped to)."""
-    out = ''
-    for n in (1, 2):
-        x = 1920 - SAFE_X - NEXT_STRIP_W + (n - 1) * (NEXT_CARD_W + NEXT_GAP)
-        shown = ('[[%(s)s + !String.IsEmpty(Window(Home).Property(silokodi.banner.next%(n)d.title))] | '
-                 '[!%(s)s + !String.IsEmpty(Window(Home).Property(silokodi.tv.next%(n)d.title))]]'
-                 % {'s': BANNER_STEPPED, 'n': n})
-        out += '''
-                <control type="group">
-                    <left>%(x)d</left><top>14</top>
-                    <visible>%(shown)s</visible>
-                    <control type="image">
-                        <width>%(w)d</width><height>%(h)d</height>
-                        <texture border="8" colordiffuse="E61A1D24">silo/guide_cell.png</texture>
-                    </control>
-                    <control type="image">
-                        <width>%(w)d</width><height>%(h)d</height>
-                        <aspectratio>scale</aspectratio>
-                        <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerNext%(n)dPicture]</texture>
-                    </control>
-                    <control type="image">
-                        <top>%(shade_y)d</top><width>%(w)d</width><height>60</height>
-                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="D9000000">silo/scrim_bottom.png</texture>
-                    </control>
-                    <control type="label">
-                        <left>12</left><top>%(time_y)d</top><width>%(lw)d</width><height>32</height>
-                        <aligny>center</aligny>
-                        <font>silo_card_sub</font>
-                        <textcolor>%(text)s</textcolor>
-                        <label>$VAR[SiloBannerNext%(n)dTime]</label>
-                    </control>
-                    <control type="label">
-                        <top>%(title_y)d</top><width>%(w)d</width><height>34</height>
-                        <aligny>center</aligny>
-                        <font>silo_card_sub</font>
-                        <textcolor>D9EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                        <label>$VAR[SiloBannerNext%(n)dTitle]</label>
-                    </control>
-                </control>''' % {'x': x, 'shown': shown, 'w': NEXT_CARD_W, 'h': NEXT_CARD_H, 'n': n,
-                                 'shade_y': NEXT_CARD_H - 60, 'time_y': NEXT_CARD_H - 38, 'lw': NEXT_CARD_W - 24,
-                                 'title_y': NEXT_CARD_H + 4, 'text': TEXT}
-    return out
 
 
 # Live TV's banner: one glass card across the screen (Sky Stream's had a
@@ -1331,11 +1126,6 @@ def sky_banner():
         'nexts': sky_next(1, y) + sky_next(2, y)}
 
 
-# The channel name's widest in the banner's info row: what's left of the row
-# (1466 wide) after the times, the progress bar, the minutes left and the four
-# badges (FHD, 60 FPS, HDR10, 5.1) with their gaps.
-CHANNEL_MAX_W = 600
-
 FPS = (('59.9', '60'), ('60', '60'), ('50', '50'), ('48', '48'), ('29.9', '30'), ('30', '30'), ('25', '25'),
        ('23.9', '24'), ('24', '24'))
 
@@ -1406,41 +1196,6 @@ def live_badge(condition, indent='                        '):
 def genre_live(item):
     """An item shown live: the guide's Live category in its genre."""
     return 'String.Contains(%s.Genre,Live)' % item
-
-
-def stream_badges():
-    """What's playing, as TiviMate's badges: resolution, frame rate, HDR and
-    the sound's channels (5.1), as filled light grey tags with dark text."""
-    fps = ' | '.join('String.StartsWith(Player.Process(videofps),%s)' % start for start, _ in FPS)
-    return ''.join('''
-                    <control type="button">
-                        <top>5</top><width>auto</width><height>30</height>
-                        <label>%(label)s</label>
-                        <font>silo_badge</font>
-                        <textoffsetx>9</textoffsetx>
-                        <aligny>center</aligny>
-                        <enable>false</enable>
-                        <disabledcolor>FF141414</disabledcolor>
-                        <texturenofocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturenofocus>
-                        <texturefocus border="8" colordiffuse="FFA3A3A3">silo/badge_solid.png</texturefocus>
-                        <visible>[%(condition)s] + !Player.ChannelPreviewActive + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
-                    </control>''' % {'label': label, 'condition': condition} for label, condition in (
-        ('$VAR[SiloLiveResolution]', '!String.IsEmpty(VideoPlayer.VideoResolution)'),
-        ('$VAR[SiloLiveFps] FPS', fps),
-        ('$VAR[SiloLiveHdr]', '!String.IsEmpty(VideoPlayer.HdrType)'),
-        ('$VAR[SiloLiveAudio]', '!String.IsEmpty(VideoPlayer.AudioChannels)'))) + '''
-                    <control type="button">
-                        <top>2</top><width>auto</width><height>36</height>
-                        <label>OK  to watch</label>
-                        <font>silo_badge</font>
-                        <textoffsetx>14</textoffsetx>
-                        <aligny>center</aligny>
-                        <enable>false</enable>
-                        <disabledcolor>SkylineFocusText</disabledcolor>
-                        <texturenofocus border="18" colordiffuse="FFEDEDED">silo/pill_18.png</texturenofocus>
-                        <texturefocus border="18" colordiffuse="FFEDEDED">silo/pill_18.png</texturefocus>
-                        <visible>Player.ChannelPreviewActive</visible>
-                    </control>'''
 
 
 def banner_variables():
@@ -1549,7 +1304,7 @@ def banner():
     return '''		<!-- Silo Skyline Live TV banner (tools/build_tv.py) -->
 		<control type="group">
 			<!-- Not under the banner window (1183, Left/Right), which draws its own. -->
-			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !%(hidden)s + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d) + !Window.IsActive(%(banner_window)d)</visible>
+			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !%(hidden)s + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(recent)d) + !Window.IsActive(%(ok)d) + !Window.IsActive(%(banner_window)d)</visible>
 			<animation effect="slide" start="0,120" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<!-- As Sky's: a light fade under the banner, no black band, nothing at the top. -->
@@ -1559,7 +1314,7 @@ def banner():
 			</control>%(info)s
 		</control>
 		<!-- end Silo Skyline Live TV banner -->
-''' % {'recent': RECENT_ID, 'banner_window': BANNER_WINDOW, 'info': sky_banner(), 'hidden': LIVE_HIDDEN}
+''' % {'recent': RECENT_ID, 'ok': OK_ID, 'banner_window': BANNER_WINDOW, 'info': sky_banner(), 'hidden': LIVE_HIDDEN}
 
 
 TIMER_START, TIMER_END = '    <!-- Silo Skyline TV (tools/build_tv.py) -->\n', '    <!-- end Silo Skyline TV -->\n'
@@ -1601,6 +1356,13 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <onstart>ClearProperty(silokodi.live.switched,home)</onstart>
         <stop>true</stop>
     </timer>
+    <!-- Recent channels (Left/Right) close after 5 s without a key. -->
+    <timer>
+        <name>silo_recent_idle</name>
+        <start reset="true">Window.IsActive(%(window)d) + System.IdleTime(5)</start>
+        <onstart>Dialog.Close(%(window)d)</onstart>
+        <stop>true</stop>
+    </timer>
     <timer>
         <name>silo_live_unhide</name>
         <start reset="true">!String.IsEmpty(Window(Home).Property(silo.live.hidden)) + !Player.ShowInfo + !Player.ChannelPreviewActive</start>
@@ -1612,6 +1374,7 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
         <onstart condition="!%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=last_channel)</onstart>
+        <onstart condition="!%(banner_up)s">ActivateWindow(%(window)d)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
         <onstart condition="%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
@@ -1622,6 +1385,7 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
         <onstart condition="!%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=last_channel)</onstart>
+        <onstart condition="!%(banner_up)s">ActivateWindow(%(window)d)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
         <onstart condition="%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
@@ -1669,10 +1433,10 @@ def add_banner():
 
 
 PANEL = '272A30'             # the panels' grey: the programme card's (silo/menu_panel.png), as TiviMate's match
-RECENT_ID = 1196
+RECENT_ID = 1196             # recent channels (Left/Right in Live TV)
+OK_ID = 1198                 # OK in Live TV: what's on and the playback buttons
 RECENT_LIST = 5600
 CONTROLS = 5610               # the OK screen's playback bar (Up from the tiles)
-CONTROLS_OPEN = 'ControlGroup(%d).HasFocus()' % CONTROLS
 # The OK screen's row of channels, as TiviMate's: compact tiles at the bottom.
 TILE_W, TILE_H, TILE_GAP = 234, 180, 18
 TILE_PIC_H = TILE_W * 9 // 16  # the tile's picture, 16:9, with what's on under it
@@ -1704,26 +1468,12 @@ def build_quick_guide():
 # peek out below. Positions from TiviMate's screen at 1080p.
 BAND_Y, BAND_H = 885, 108
 BUTTON = 84
-OPEN_INFO_Y = BAND_Y - 24 - INFO_H
-PEEK_Y = 1035
-# (id, icons as (icon, when shown), action). Previous and next jump to the
-# programme's start and to live; rewind and fast forward step 10 s and 30 s.
-# Only Watch from start and Live have TiviMate's hint under them (below).
-TRANSPORT = (
-    (5611, (('osd/fullscreen/buttons/previous.png', ''),), 'PVR.SeekPercentage(0)', ''),
-    (5612, (('osd/fullscreen/buttons/rewind.png', ''),), 'Seek(-10)', ''),
-    (5613, (('osd/fullscreen/buttons/pause.png', '!Player.Paused'),
-            ('osd/fullscreen/buttons/play.png', 'Player.Paused')), 'PlayerControl(Play)', ''),
-    (5614, (('osd/fullscreen/buttons/forward.png', ''),), 'Seek(30)', ''),
-    (5615, (('osd/fullscreen/buttons/next.png', ''),), 'PVR.SeekPercentage(100)', ''),
-)
 RESTART, LIVE_BUTTON = 5617, 5618
-FIRST_FOCUS = 5612            # rewind, as TiviMate's bar opens
 # Back to live also plays again if paused (TiviMate's).
 UNPAUSE = '<onclick condition="Player.Paused">PlayerControl(Play)</onclick>'
 
 
-def round_button(control_id, icons, action, left, right, caption='', x=None, live=False):
+def round_button(control_id, icons, action, left, right, caption='', x=None, live=False, down=None):
     """A round button: a white disc with a dark icon when focused, else the
     icon in white, and its caption, if any, under it while focused (TiviMate's). Its
     neighbours are named (Kodi doesn't step between buttons nested in a
@@ -1776,53 +1526,12 @@ def round_button(control_id, icons, action, left, right, caption='', x=None, liv
                             <onleft>%(left)s</onleft>
                             <onright>%(right)s</onright>
                             <onup>noop</onup>
-                            <ondown>%(list)d</ondown>
+                            <ondown>%(list)s</ondown>
                             <onclick>%(action)s</onclick>%(extra)s
                         </control>%(images)s
                     </control>''' % {'id': control_id, 'action': action, 'text': TEXT, 'images': images, 'b': BUTTON,
-                                     'left': left, 'right': right, 'list': RECENT_LIST, 'extra': extra,
+                                     'left': left, 'right': right, 'list': RECENT_LIST if down is None else down, 'extra': extra,
                                      'pos': '\n                        <left>%d</left>' % x if x is not None else ''}
-
-
-def playback_bar():
-    """TiviMate's playback bar: the time into the programme and its
-    length, previous / rewind / play-pause / fast forward / next, then
-    restart and LIVE. Live TV pauses and seeks through IPTV Simple's
-    catch-up or timeshift."""
-    ids = [button[0] for button in TRANSPORT]
-    order = ids + [RESTART, LIVE_BUTTON]
-    transport = ''.join(round_button(cid, icons, action, order[n - 1] if n else 'noop', order[n + 1], caption)
-                        for n, (cid, icons, action, caption) in enumerate(TRANSPORT))
-    width = len(TRANSPORT) * BUTTON + (len(TRANSPORT) - 1) * 20
-    top = BAND_Y + (BAND_H - BUTTON) // 2
-    return '''
-        <control type="group">
-            <visible>%(open)s</visible>
-            <animation effect="fade" start="0" end="100" time="160">Visible</animation>
-            <control type="label">
-                <left>%(x)d</left><top>%(band_y)d</top><width>420</width><height>%(band_h)d</height>
-                <aligny>center</aligny>
-                <font>silo_tab</font>
-                <textcolor>%(text)s</textcolor>
-                <label>$INFO[PVR.EpgEventElapsedTime]$INFO[PVR.EpgEventDuration,[COLOR 99EDEDED] / ,[/COLOR]]</label>
-            </control>
-        </control>
-        <control type="group" id="%(id)d">
-            <top>%(top)d</top>
-            <visible allowhiddenfocus="true">%(open)s</visible>
-            <animation effect="fade" start="0" end="100" time="160">Visible</animation>
-            <control type="grouplist">
-                <left>%(gx)d</left><width>%(gw)d</width><height>%(b)d</height>
-                <orientation>horizontal</orientation>
-                <itemgap>20</itemgap>%(transport)s
-            </control>%(restart)s%(live_button)s
-        </control>''' % {'open': CONTROLS_OPEN, 'band_y': BAND_Y, 'band_h': BAND_H, 'x': SAFE_X,
-                         'text': TEXT, 'id': CONTROLS, 'top': top, 'b': BUTTON, 'gx': (1920 - width) // 2,
-                         'gw': width, 'transport': transport, 
-                         'restart': round_button(RESTART, (('silo/skip_back.png', ''),), 'PVR.SeekPercentage(0)',
-                                                 ids[-1], LIVE_BUTTON, 'Watch from start', x=1548),
-                         'live_button': round_button(LIVE_BUTTON, (), 'PVR.SeekPercentage(100)', RESTART, 'noop',
-                                                     'Live', x=1660, live=True)}
 
 
 def recent_card(focused):
@@ -1903,8 +1612,8 @@ def live_notes():
     in Kodi's player window (VideoFullScreen.xml), they never showed. On the
     skin's glass (menu_panel.png, themed), as the player's other panels.""" % RECENT_ID
     hidden = ('VideoPlayer.Content(LiveTV) + !Player.ChannelPreviewActive + !Window.IsActive(videoosd) + '
-              '!Window.IsActive(pvrosdchannels) + !Window.IsActive(%d) + !Window.IsActive(%d) + '
-              '!Window.IsActive(tvguide)' % (RECENT_ID, BANNER_WINDOW))
+              '!Window.IsActive(pvrosdchannels) + !Window.IsActive(%d) + !Window.IsActive(%d) + !Window.IsActive(%d) + '
+              '!Window.IsActive(tvguide)' % (RECENT_ID, OK_ID, BANNER_WINDOW))
     return '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated by tools/build_tv.py: edit that, not this. -->
 <!-- Kodi opens and closes this dialog by its visible condition; with nothing
@@ -1972,90 +1681,116 @@ def add_live_notes():
         handle.write(live_notes())
 
 
+# OK in Live TV, as Sky's banner with the player's buttons (option C,
+# 2026-11-26): the banner's card for what's on, the playback buttons above
+# it, play/pause focused; no timer (Back closes it). Browsing channels (Up/
+# Down) OK watches the one shown; on a programme Left/Right stepped to, OK
+# plays it from catch-up or sets its reminder: not this screen.
+OK_BUTTONS = ((5611, (('osd/fullscreen/buttons/previous.png', ''),), 'PVR.SeekPercentage(0)'),
+              (5612, (('osd/fullscreen/buttons/rewind.png', ''),), 'Seek(-10)'),
+              (5613, (('osd/fullscreen/buttons/pause.png', '!Player.Paused'),
+                      ('osd/fullscreen/buttons/play.png', 'Player.Paused')), 'PlayerControl(Play)'),
+              (5614, (('osd/fullscreen/buttons/forward.png', ''),), 'Seek(30)'))
+OK_FIRST = 5613
+
+
+def build_ok():
+    ids = [b[0] for b in OK_BUTTONS] + [LIVE_BUTTON]
+    buttons = ''.join(round_button(cid, icons, action, ids[n - 1] if n else 'noop', ids[n + 1], down='noop')
+                      for n, (cid, icons, action) in enumerate(OK_BUTTONS))
+    buttons += round_button(LIVE_BUTTON, (), 'PVR.SeekPercentage(100)', ids[-2], 'noop', live=True, down='noop')
+    width = len(ids) * BUTTON + (len(ids) - 1) * 20
+    return '''<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated by tools/build_tv.py: edit that, not this. OK in Live TV. -->
+<window id="%(window)d" type="dialog">
+    <defaultcontrol always="true">%(first)d</defaultcontrol>
+    <!-- Browsing channels in the banner (Up/Down, Kodi's Confirm channel switch):
+         OK watches the one shown, as Sky's mini guide, not this screen. -->
+    <onload condition="Player.ChannelPreviewActive + !%(hidden)s">Dialog.Close(%(window)d,true)</onload>
+    <onload condition="Player.ChannelPreviewActive + !%(hidden)s + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">SetProperty(silo.live.hide,1,home)</onload>
+    <onload condition="Player.ChannelPreviewActive + !%(hidden)s + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
+    <!-- On an earlier or later programme the banner stepped to (Left/Right):
+         catch-up or a reminder, not this screen. -->
+    <onload condition="!Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Dialog.Close(%(window)d,true)</onload>
+    <onload condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onload>
+    <controls>
+        <control type="image">
+            <left>0</left><top>480</top><width>1920</width><height>600</height>
+            <texture colordiffuse="B3FFFFFF">silo/scrim_bottom.png</texture>
+        </control>
+        <control type="group">
+            <animation effect="slide" start="0,60" end="0,0" time="200" tween="cubic" easing="out">WindowOpen</animation>
+            <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>%(card)s
+            <!-- The player's buttons above the card, and how far in on the right. -->
+            <control type="grouplist">
+                <left>%(bx)d</left><top>%(by)d</top><width>%(bw)d</width><height>%(b)d</height>
+                <orientation>horizontal</orientation>
+                <itemgap>20</itemgap>%(buttons)s
+            </control>
+            <control type="label">
+                <left>%(tx)d</left><top>%(by)d</top><width>520</width><height>%(b)d</height>
+                <align>right</align><aligny>center</aligny>
+                <font>silo_tab</font>
+                <textcolor>%(text)s</textcolor><shadowcolor>CC000000</shadowcolor>
+                <label>$INFO[PVR.EpgEventElapsedTime]$INFO[PVR.EpgEventDuration,[COLOR 99EDEDED] / ,[/COLOR]]</label>
+            </control>
+        </control>
+    </controls>
+</window>
+''' % {'window': OK_ID, 'first': OK_FIRST, 'hidden': LIVE_HIDDEN, 'card': sky_banner(),
+       'bx': SKY_CARD_X + 12, 'by': SKY_Y - BUTTON - 22, 'bw': width, 'b': BUTTON, 'buttons': buttons,
+       'tx': SKY_CARD_X + SKY_CARD_W - 12 - 520, 'text': TEXT}
+
+
 def build_recent():
-    """While Live TV plays (OK in our keymap), as TiviMate's: what's playing
-    (the information block, with its full-width bar), then the recently
-    watched channels as compact tiles along the bottom. OK switches to one; Back closes it. The shade reaches up behind
-    the infobar, so its text reads over a bright picture."""
+    """Recent channels (Left/Right in Live TV, which switch to the channel
+    watched before as they open it): the recently watched channels as
+    compact tiles along the bottom, the one just left first; OK switches to
+    one, Back or 5 s without a key closes it. The shade reaches up behind
+    the row's title, so it reads over a bright picture."""
     return '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated by tools/build_tv.py: edit that, not this. -->
 <window id="%(window)d" type="dialog">
     <defaultcontrol always="true">%(list)d</defaultcontrol>
-    <!-- Browsing channels in the banner (Up/Down, Kodi's Confirm channel switch):
-         OK watches the one shown, as Sky's mini guide, not this screen. -->
-    <onload condition="Player.ChannelPreviewActive + !%(hidden)s">Dialog.Close(%(window)d,true)</onload>
-    <onload condition="Player.ChannelPreviewActive + !%(hidden)s + String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Action(Select)</onload>
-    <!-- On an earlier or later programme the banner stepped to (Left/Right),
-         browsed or on the playing channel: catch-up or a reminder, not this screen. -->
-    <onload condition="!Player.ChannelPreviewActive + !String.IsEmpty(Window(Home).Property(silokodi.banner.title))">Dialog.Close(%(window)d,true)</onload>
-    <onload condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_play)</onload>
     <controls>
-        <!-- The top's shade and corners fade in place (sliding, the shade crossed the picture). -->
-        <control type="group">
-            <animation effect="fade" start="0" end="100" time="220">WindowOpen</animation>
-            <animation effect="fade" start="100" end="0" time="160">WindowClose</animation>
-            <control type="image">
-                <left>0</left><top>0</top><width>1920</width><height>200</height>
-                <texture flipy="true">silo/scrim_bottom.png</texture>
-            </control>%(corners)s
-        </control>
         <control type="group">
             <animation effect="slide" start="0,320" end="0,0" time="220" tween="cubic" easing="out">WindowOpen</animation>
             <animation effect="slide" start="0,0" end="0,320" time="160" tween="cubic" easing="in">WindowClose</animation>
             <control type="image">
-                <left>0</left><top>160</top><width>1920</width><height>920</height>
+                <left>0</left><top>%(shade_y)d</top><width>1920</width><height>%(shade_h)d</height>
                 <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
             </control>
-            <control type="image">
-                <left>0</left><top>380</top><width>1920</width><height>700</height>
-                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
-            </control>
-            <!-- What's playing: moved down to the playback bar while it's open (TiviMate's). -->
-            <control type="group">
-                <visible>!%(open)s</visible>%(info)s
-            </control>
-            <control type="group">
-                <visible>%(open)s</visible>%(info_open)s
+            <control type="label">
+                <left>%(x)d</left><top>%(title_y)d</top><width>800</width><height>50</height>
+                <aligny>center</aligny>
+                <font>silo_row</font>
+                <textcolor>%(text)s</textcolor><shadowcolor>CC000000</shadowcolor>
+                <label>Recent channels</label>
             </control>
             <control type="list" id="%(list)d">
                 <left>%(lx)d</left><top>%(ly)d</top><width>%(lw)d</width><height>%(ih)d</height>
                 <orientation>horizontal</orientation>
-                <!-- Up: the playback bar (TiviMate's), on rewind as TiviMate's opens. -->
-                <onup>%(first)d</onup>
-                <visible allowhiddenfocus="true">!%(open)s</visible>
-                <animation effect="fade" start="0" end="100" time="160">Visible</animation>
+                <onup>noop</onup><ondown>noop</ondown>
                 <scrolltime tween="cubic" easing="out">200</scrolltime>
                 <!-- KodiConnectForSilo's recent channels: newest first, not the playing one, none
                      the viewer removed (the long-press menu); silokodi.recent_changed reloads it. -->
                 <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=recent_channels&amp;v=$INFO[Window(Home).Property(silokodi.recent_changed)]</content>
                 <onclick>Dialog.Close(%(window)d)</onclick>
+                <onclick>SetProperty(silo.live.hide,1,home)</onclick>
                 <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_channel&amp;id=$INFO[ListItem.Property(silo.channelid)])</onclick>
                 <itemlayout width="%(iw)d" height="%(ih)d">%(card)s
                 </itemlayout>
                 <focusedlayout width="%(iw)d" height="%(ih)d">%(card_focused)s
                 </focusedlayout>
             </control>
-            <!-- The tiles peek out below the playback bar (not focusable: Down goes to the real row). -->
-            <control type="list">
-                <left>%(lx)d</left><top>%(peek)d</top><width>%(lw)d</width><height>%(ih)d</height>
-                <orientation>horizontal</orientation>
-                <visible>%(open)s</visible>
-                <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=recent_channels&amp;v=$INFO[Window(Home).Property(silokodi.recent_changed)]</content>
-                <itemlayout width="%(iw)d" height="%(ih)d">%(card)s
-                </itemlayout>
-                <focusedlayout width="%(iw)d" height="%(ih)d">%(card)s
-                </focusedlayout>
-            </control>
-        </control>%(bar)s
+        </control>
     </controls>
 </window>
-''' % {'window': RECENT_ID, 'hidden': LIVE_HIDDEN, 'list': RECENT_LIST, 
-       'corners': corners(), 'info': infobar(ROW_Y - 32 - INFO_H),
+''' % {'window': RECENT_ID, 'list': RECENT_LIST, 'x': SAFE_X, 'text': TEXT,
+       'shade_y': ROW_Y - 200, 'shade_h': 1080 - ROW_Y + 200, 'title_y': ROW_Y - 64,
        'lx': SAFE_X - 8, 'ly': ROW_Y, 'lw': 1920 - SAFE_X + 8, 'iw': TILE_W + TILE_GAP, 'ih': TILE_H,
-       'card': recent_card(False), 'card_focused': recent_card(True),
-       'first': FIRST_FOCUS, 'open': CONTROLS_OPEN, 'bar': playback_bar(),
-       'info_open': infobar(OPEN_INFO_Y), 'peek': PEEK_Y}
-
+       'card': recent_card(False), 'card_focused': recent_card(True)}
 
 # Back in the guide (KodiConnectForSilo's player keymap opens this dialog,
 # as Back in the video window opens 1188): to what's playing, else Kodi's own
@@ -2129,6 +1864,8 @@ if __name__ == '__main__':
         handle.write(build_quick_guide())
     with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloRecentChannels.xml' % RECENT_ID), 'w', encoding='utf-8') as handle:
         handle.write(build_recent())
+    with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloLiveOK.xml' % OK_ID), 'w', encoding='utf-8') as handle:
+        handle.write(build_ok())
     add_banner()
     add_live_notes()
     add_timers()
