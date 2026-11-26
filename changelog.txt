@@ -1,3 +1,7 @@
+[B]0.30.0[/B]
+• Live TV overlay, as YouTube's: the controls sit low with your recent channels' cards peeking below; Down hides the controls and shows one row at a time in the same place (Recent, then On now, then Coming up), always starting on the first card
+• Bigger cards (three across), and the selected card's outline sits on its picture
+
 [B]0.29.0[/B]
 • Live TV: OK, Left or Right open one overlay, as YouTube's player: what's on with its quality, sound and frame-rate badges, the progress bar (Left/Right on it seek), Restart and Live, previous / play-pause / next channel (with a card showing where they go), Guide and Options, then Recent, On now and Coming up rows
 • Its buttons open into a pill with their name when selected, as the info page's; the channel's colour fades up behind it so everything reads over a bright picture
