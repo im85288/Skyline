@@ -922,14 +922,15 @@
 				</control>
 				<!-- Catch-up: the channel's logo first (KodiConnectForSilo's tv.catchup_logo;
 				     Kodi's icon for it is the programme's picture), the line after it. -->
+				<!-- A wide box: channel logos are strips (600 x 85); 120 px wide drew them 12-17 px tall. -->
 				<control type="image">
-					<left>96</left><top>714</top><width>120</width><height>56</height>
+					<left>96</left><top>720</top><width>340</width><height>44</height>
 					<aspectratio align="left">keep</aspectratio>
 					<texture>$INFO[Window(Home).Property(silokodi.tv.catchup_logo)]</texture>
 					<visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.catchup_logo))</visible>
 				</control>
 				<control type="label">
-					<left>236</left><top>720</top><width>1360</width><height>44</height>
+					<left>456</left><top>720</top><width>1140</width><height>44</height>
 					<font>silo_meta</font>
 					<textcolor>FFEDEDED</textcolor>
 					<label>$VAR[SiloShowcaseLine]</label>

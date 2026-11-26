@@ -238,6 +238,9 @@ def logo(left, top, width, height, font, name_width=None):
 # Catch-up's channel logo (KodiConnectForSilo publishes it while a programme
 # plays from catch-up, else '').
 CATCHUP_LOGO = 'Window(Home).Property(silokodi.tv.catchup_logo)'
+# The catch-up line's text after the logo's box. A logo that doesn't fill the box's width leaves a gap: Kodi can't
+# size an image to its picture.
+CATCHUP_LINE_X = 96 + 340 + 20
 
 
 def overlay():
@@ -255,14 +258,15 @@ def overlay():
 				</control>
 				<!-- Catch-up: the channel's logo first (KodiConnectForSilo's tv.catchup_logo;
 				     Kodi's icon for it is the programme's picture), the line after it. -->
+				<!-- A wide box: channel logos are strips (600 x 85); 120 px wide drew them 12-17 px tall. -->
 				<control type="image">
-					<left>96</left><top>714</top><width>120</width><height>56</height>
+					<left>96</left><top>720</top><width>340</width><height>44</height>
 					<aspectratio align="left">keep</aspectratio>
 					<texture>$INFO[%(chlogo)s]</texture>
 					<visible>!String.IsEmpty(%(chlogo)s)</visible>
 				</control>
 				<control type="label">
-					<left>236</left><top>720</top><width>1360</width><height>44</height>
+					<left>%(after_logo)d</left><top>720</top><width>%(after_logo_w)d</width><height>44</height>
 					<font>silo_meta</font>
 					<textcolor>%(text)s</textcolor>
 					<label>$VAR[SiloShowcaseLine]</label>
@@ -284,7 +288,7 @@ def overlay():
 					<shadowcolor>99000000</shadowcolor>
 				</control>
 			</control>''' % {
-        'on': ON, 'text': TEXT, 'chlogo': CATCHUP_LOGO,
+        'on': ON, 'text': TEXT, 'chlogo': CATCHUP_LOGO, 'after_logo': CATCHUP_LINE_X, 'after_logo_w': 1596 - CATCHUP_LINE_X,
         'logo': logo(96, 588, 720, 120, 'silo_osd_title', 1200).replace('\n\t\t\t', '\n\t\t\t\t'),
         # KodiConnectForSilo's badges for what's playing, else Kodi's player's own.
         'badges': badge('$VAR[SiloShowcaseMpaa]', '[!String.IsEmpty(%s) | !String.IsEmpty(VideoPlayer.mpaa)]' % PLAYING % 'mpaa')
