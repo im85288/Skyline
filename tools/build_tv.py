@@ -1738,7 +1738,7 @@ PILL_XML = """
                     <width>%(p)d</width><height>%(p)d</height>
                     <label />
                     <texturefocus />
-                    <texturenofocus border="30" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <texturenofocus border="32" colordiffuse="33FFFFFF">silo/pill_32.png</texturenofocus>
                     <onleft>%(left)s</onleft><onright>%(right)s</onright>
                     <onup>%(up)s</onup>%(down)s%(clicks)s
                 </control>
@@ -1747,7 +1747,7 @@ PILL_XML = """
                     <animation effect="zoom" start="40,100" end="100,100" center="0,32" time="180" tween="sine" easing="out">Visible</animation>
                     <control type="image">
                         <width>%(open_w)d</width><height>%(p)d</height>
-                        <texture border="30" colordiffuse="%(text)s">silo/pill.png</texture>
+                        <texture border="32" colordiffuse="%(text)s">silo/pill_32.png</texture>
                     </control>
                     <control type="label">
                         <left>62</left><width>%(label_w)d</width><height>%(p)d</height>
@@ -1794,24 +1794,24 @@ def down_to_row():
 
 CHIP_XML = """
             <control type="group">
-                <width>%(w)d</width><height>44</height>
+                <width>%(w)d</width><height>48</height>
                 <control type="image">
-                    <width>%(w)d</width><height>44</height>
-                    <texture border="22" colordiffuse="%(text)s">silo/pill.png</texture>
+                    <width>%(w)d</width><height>48</height>
+                    <texture border="24" colordiffuse="%(text)s">silo/pill_24.png</texture>
                     <visible>Control.HasFocus(%(id)d)</visible>
                 </control>
                 <control type="image">
-                    <width>%(w)d</width><height>44</height>
-                    <texture border="22" colordiffuse="66FFFFFF">silo/pill.png</texture>
+                    <width>%(w)d</width><height>48</height>
+                    <texture border="24" colordiffuse="66FFFFFF">silo/pill_24.png</texture>
                     <visible>!Control.HasFocus(%(id)d) + %(shown)s</visible>
                 </control>
                 <control type="button" id="%(id)d">
-                    <width>%(w)d</width><height>44</height>
+                    <width>%(w)d</width><height>48</height>
                     <label>%(label)s</label>
                     <font>silo_detail</font>
                     <align>center</align><aligny>center</aligny>
                     <textcolor>%(text)s</textcolor><focusedcolor>FF000000</focusedcolor>
-                    <texturefocus /><texturenofocus border="22" colordiffuse="26FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus /><texturenofocus border="24" colordiffuse="26FFFFFF">silo/pill_24.png</texturenofocus>
                     <onfocus>SetProperty(silo.ok.row,%(key)s,home)</onfocus>
                     <onleft>%(left)s</onleft><onright>%(right)s</onright>
                     <onup>%(play)d</onup><ondown>%(list)d</ondown>
@@ -1821,7 +1821,8 @@ CHIP_XML = """
 
 def chip(control_id, label, key, list_id, left, right):
     """A chip, as YouTube's: white when focused, a lighter wash when its row
-    is shown, else glass; focusing it shows its row."""
+    is shown, else glass; focusing it shows its row. 48 high on pill_24.png:
+    pill.png's 30 px ends, cut to a 22 px border, came out pointed."""
     return CHIP_XML % {'id': control_id, 'label': label, 'key': key, 'list': list_id, 'w': 180, 'text': TEXT,
                        'shown': row_shown(key), 'left': left, 'right': right, 'play': PLAY_PAUSE}
 
@@ -1951,7 +1952,7 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
             </control>%(pills)s%(transport)s
             <!-- The chips and their rows of cards. -->
             <control type="grouplist">
-                <left>%(x)d</left><top>%(cy)d</top><width>800</width><height>44</height>
+                <left>%(x)d</left><top>%(cy)d</top><width>800</width><height>48</height>
                 <orientation>horizontal</orientation>
                 <itemgap>16</itemgap>%(chips)s
             </control>%(rows)s

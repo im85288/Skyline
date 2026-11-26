@@ -104,7 +104,7 @@
                     <width>64</width><height>64</height>
                     <label />
                     <texturefocus />
-                    <texturenofocus border="30" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <texturenofocus border="32" colordiffuse="33FFFFFF">silo/pill_32.png</texturenofocus>
                     <onleft>noop</onleft><onright>5616</onright>
                     <onup>5630</onup>
                     <ondown condition="[String.IsEmpty(Window(Home).Property(silo.ok.row)) | String.IsEqual(Window(Home).Property(silo.ok.row),recent)]">5620</ondown>
@@ -117,7 +117,7 @@
                     <animation effect="zoom" start="40,100" end="100,100" center="0,32" time="180" tween="sine" easing="out">Visible</animation>
                     <control type="image">
                         <width>206</width><height>64</height>
-                        <texture border="30" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                        <texture border="32" colordiffuse="SkylineFocus">silo/pill_32.png</texture>
                     </control>
                     <control type="label">
                         <left>62</left><width>138</width><height>64</height>
@@ -145,7 +145,7 @@
                     <width>64</width><height>64</height>
                     <label />
                     <texturefocus />
-                    <texturenofocus border="30" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <texturenofocus border="32" colordiffuse="33FFFFFF">silo/pill_32.png</texturenofocus>
                     <onleft>5615</onleft><onright>5611</onright>
                     <onup>5630</onup>
                     <ondown condition="[String.IsEmpty(Window(Home).Property(silo.ok.row)) | String.IsEqual(Window(Home).Property(silo.ok.row),recent)]">5620</ondown>
@@ -159,7 +159,7 @@
                     <animation effect="zoom" start="40,100" end="100,100" center="0,32" time="180" tween="sine" easing="out">Visible</animation>
                     <control type="image">
                         <width>158</width><height>64</height>
-                        <texture border="30" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                        <texture border="32" colordiffuse="SkylineFocus">silo/pill_32.png</texture>
                     </control>
                     <control type="label">
                         <left>62</left><width>90</width><height>64</height>
@@ -186,7 +186,7 @@
                     <width>64</width><height>64</height>
                     <label />
                     <texturefocus />
-                    <texturenofocus border="30" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <texturenofocus border="32" colordiffuse="33FFFFFF">silo/pill_32.png</texturenofocus>
                     <onleft>5614</onleft><onright>5619</onright>
                     <onup>5630</onup>
                     <ondown condition="[String.IsEmpty(Window(Home).Property(silo.ok.row)) | String.IsEqual(Window(Home).Property(silo.ok.row),recent)]">5620</ondown>
@@ -200,7 +200,7 @@
                     <animation effect="zoom" start="40,100" end="100,100" center="0,32" time="180" tween="sine" easing="out">Visible</animation>
                     <control type="image">
                         <width>174</width><height>64</height>
-                        <texture border="30" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                        <texture border="32" colordiffuse="SkylineFocus">silo/pill_32.png</texture>
                     </control>
                     <control type="label">
                         <left>62</left><width>106</width><height>64</height>
@@ -228,7 +228,7 @@
                     <width>64</width><height>64</height>
                     <label />
                     <texturefocus />
-                    <texturenofocus border="30" colordiffuse="33FFFFFF">silo/pill.png</texturenofocus>
+                    <texturenofocus border="32" colordiffuse="33FFFFFF">silo/pill_32.png</texturenofocus>
                     <onleft>5617</onleft><onright>noop</onright>
                     <onup>5630</onup>
                     <ondown condition="[String.IsEmpty(Window(Home).Property(silo.ok.row)) | String.IsEqual(Window(Home).Property(silo.ok.row),recent)]">5620</ondown>
@@ -241,7 +241,7 @@
                     <animation effect="zoom" start="40,100" end="100,100" center="0,32" time="180" tween="sine" easing="out">Visible</animation>
                     <control type="image">
                         <width>206</width><height>64</height>
-                        <texture border="30" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                        <texture border="32" colordiffuse="SkylineFocus">silo/pill_32.png</texture>
                     </control>
                     <control type="label">
                         <left>62</left><width>138</width><height>64</height>
@@ -379,76 +379,76 @@
                     </control>
             <!-- The chips and their rows of cards. -->
             <control type="grouplist">
-                <left>88</left><top>764</top><width>800</width><height>44</height>
+                <left>88</left><top>764</top><width>800</width><height>48</height>
                 <orientation>horizontal</orientation>
                 <itemgap>16</itemgap>
             <control type="group">
-                <width>180</width><height>44</height>
+                <width>180</width><height>48</height>
                 <control type="image">
-                    <width>180</width><height>44</height>
-                    <texture border="22" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                    <width>180</width><height>48</height>
+                    <texture border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texture>
                     <visible>Control.HasFocus(5620)</visible>
                 </control>
                 <control type="image">
-                    <width>180</width><height>44</height>
-                    <texture border="22" colordiffuse="66FFFFFF">silo/pill.png</texture>
+                    <width>180</width><height>48</height>
+                    <texture border="24" colordiffuse="66FFFFFF">silo/pill_24.png</texture>
                     <visible>!Control.HasFocus(5620) + [String.IsEmpty(Window(Home).Property(silo.ok.row)) | String.IsEqual(Window(Home).Property(silo.ok.row),recent)]</visible>
                 </control>
                 <control type="button" id="5620">
-                    <width>180</width><height>44</height>
+                    <width>180</width><height>48</height>
                     <label>Recent</label>
                     <font>silo_detail</font>
                     <align>center</align><aligny>center</aligny>
                     <textcolor>FFEDEDED</textcolor><focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus /><texturenofocus border="22" colordiffuse="26FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus /><texturenofocus border="24" colordiffuse="26FFFFFF">silo/pill_24.png</texturenofocus>
                     <onfocus>SetProperty(silo.ok.row,recent,home)</onfocus>
                     <onleft>noop</onleft><onright>5621</onright>
                     <onup>5613</onup><ondown>5600</ondown>
                 </control>
             </control>
             <control type="group">
-                <width>180</width><height>44</height>
+                <width>180</width><height>48</height>
                 <control type="image">
-                    <width>180</width><height>44</height>
-                    <texture border="22" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                    <width>180</width><height>48</height>
+                    <texture border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texture>
                     <visible>Control.HasFocus(5621)</visible>
                 </control>
                 <control type="image">
-                    <width>180</width><height>44</height>
-                    <texture border="22" colordiffuse="66FFFFFF">silo/pill.png</texture>
+                    <width>180</width><height>48</height>
+                    <texture border="24" colordiffuse="66FFFFFF">silo/pill_24.png</texture>
                     <visible>!Control.HasFocus(5621) + String.IsEqual(Window(Home).Property(silo.ok.row),now)</visible>
                 </control>
                 <control type="button" id="5621">
-                    <width>180</width><height>44</height>
+                    <width>180</width><height>48</height>
                     <label>On now</label>
                     <font>silo_detail</font>
                     <align>center</align><aligny>center</aligny>
                     <textcolor>FFEDEDED</textcolor><focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus /><texturenofocus border="22" colordiffuse="26FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus /><texturenofocus border="24" colordiffuse="26FFFFFF">silo/pill_24.png</texturenofocus>
                     <onfocus>SetProperty(silo.ok.row,now,home)</onfocus>
                     <onleft>5620</onleft><onright>5622</onright>
                     <onup>5613</onup><ondown>5601</ondown>
                 </control>
             </control>
             <control type="group">
-                <width>180</width><height>44</height>
+                <width>180</width><height>48</height>
                 <control type="image">
-                    <width>180</width><height>44</height>
-                    <texture border="22" colordiffuse="SkylineFocus">silo/pill.png</texture>
+                    <width>180</width><height>48</height>
+                    <texture border="24" colordiffuse="SkylineFocus">silo/pill_24.png</texture>
                     <visible>Control.HasFocus(5622)</visible>
                 </control>
                 <control type="image">
-                    <width>180</width><height>44</height>
-                    <texture border="22" colordiffuse="66FFFFFF">silo/pill.png</texture>
+                    <width>180</width><height>48</height>
+                    <texture border="24" colordiffuse="66FFFFFF">silo/pill_24.png</texture>
                     <visible>!Control.HasFocus(5622) + String.IsEqual(Window(Home).Property(silo.ok.row),next)</visible>
                 </control>
                 <control type="button" id="5622">
-                    <width>180</width><height>44</height>
+                    <width>180</width><height>48</height>
                     <label>Coming up</label>
                     <font>silo_detail</font>
                     <align>center</align><aligny>center</aligny>
                     <textcolor>FFEDEDED</textcolor><focusedcolor>SkylineFocusText</focusedcolor>
-                    <texturefocus /><texturenofocus border="22" colordiffuse="26FFFFFF">silo/pill.png</texturenofocus>
+                    <texturefocus /><texturenofocus border="24" colordiffuse="26FFFFFF">silo/pill_24.png</texturenofocus>
                     <onfocus>SetProperty(silo.ok.row,next,home)</onfocus>
                     <onleft>5621</onleft><onright>noop</onright>
                     <onup>5613</onup><ondown>5602</ondown>
