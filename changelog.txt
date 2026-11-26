@@ -1,3 +1,8 @@
+[B]0.29.0[/B]
+• Live TV: OK, Left or Right open one overlay, as YouTube's player: what's on with its quality, sound and frame-rate badges, the progress bar (Left/Right on it seek), Restart and Live, previous / play-pause / next channel (with a card showing where they go), Guide and Options, then Recent, On now and Coming up rows
+• Its buttons open into a pill with their name when selected, as the info page's; the channel's colour fades up behind it so everything reads over a bright picture
+• Needs KodiConnectForSilo 0.37.0
+
 [B]0.28.0[/B]
 • TV guide: the Restart row has room for 24 programmes, so every channel's fits (Premier Sports and Freeview too)
 • TV page: room for six channel groups, so the Match day row still shows next to Premier Sports and Freeview
