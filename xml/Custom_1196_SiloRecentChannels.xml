@@ -18,6 +18,7 @@
                 <label>Recent channels</label>
             </control>
             <control type="list" id="5600">
+                <animation effect="fade" start="100" end="0" time="0" condition="String.IsEmpty(Window(Home).Property(silo.recent.placed))">Conditional</animation>
                 <left>80</left><top>812</top><width>1840</width><height>180</height>
                 <orientation>horizontal</orientation>
                 <onup>noop</onup><ondown>noop</ondown>

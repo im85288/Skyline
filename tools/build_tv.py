@@ -1321,7 +1321,9 @@ TIMER_START, TIMER_END = '    <!-- Silo Skyline TV (tools/build_tv.py) -->\n', '
 # The OK screen closes after 5 s without a key (TiviMate: 3 s, too quick from the sofa).
 TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets silo.live.step),
          while watching, the recent channels row (window 1196) with the channel
-         watched before selected: OK switches to it; with the banner up (Info or browsing), the banner's
+         watched before selected: OK switches to it (a new silokodi.recent_changed reloads the row,
+         so it starts on the first tile in the current order, whatever switched
+         the channel); with the banner up (Info or browsing), the banner's
          programmes, as Sky Stream's: note the
          channel it shows, open Skyline's banner window (it holds the keys after)
          and step. -->
@@ -1363,6 +1365,16 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <onstart>Dialog.Close(%(window)d)</onstart>
         <stop>true</stop>
     </timer>
+    <!-- Kodi keeps a reloaded list on the item it had, so the row would open on
+         the tile chosen last time: once loaded, the first tile (the channel
+         watched before). The row stays unseen until then (build_recent). -->
+    <timer>
+        <name>silo_recent_first</name>
+        <start reset="true">Window.IsActive(%(window)d) + Integer.IsGreater(Container(%(list)d).NumItems,0) + String.IsEmpty(Window(Home).Property(silo.recent.placed))</start>
+        <onstart>SetFocus(%(list)d,0,absolute)</onstart>
+        <onstart>SetProperty(silo.recent.placed,1,home)</onstart>
+        <stop>true</stop>
+    </timer>
     <timer>
         <name>silo_live_unhide</name>
         <start reset="true">!String.IsEmpty(Window(Home).Property(silo.live.hidden)) + !Player.ShowInfo + !Player.ChannelPreviewActive</start>
@@ -1373,6 +1385,8 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <name>silo_live_left</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
+        <onstart condition="!%(banner_up)s">ClearProperty(silo.recent.placed,home)</onstart>
+        <onstart condition="!%(banner_up)s">SetProperty(silokodi.recent_changed,$INFO[System.Time(hh:mm:ss)],home)</onstart>
         <onstart condition="!%(banner_up)s">ActivateWindow(%(window)d)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
@@ -1383,6 +1397,8 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
+        <onstart condition="!%(banner_up)s">ClearProperty(silo.recent.placed,home)</onstart>
+        <onstart condition="!%(banner_up)s">SetProperty(silokodi.recent_changed,$INFO[System.Time(hh:mm:ss)],home)</onstart>
         <onstart condition="!%(banner_up)s">ActivateWindow(%(window)d)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
@@ -1417,7 +1433,7 @@ def add_timers():
     text = open(path, encoding='utf-8').read()
     if TIMER_START in text:
         text = text[:text.index(TIMER_START)] + text[text.index(TIMER_END) + len(TIMER_END):]
-    text = text.replace('</timers>', TIMER_START + TIMERS % {'grid': GRID_ID, 'banner_up': BANNER_UP, 'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': RECENT_ID, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
+    text = text.replace('</timers>', TIMER_START + TIMERS % {'grid': GRID_ID, 'banner_up': BANNER_UP, 'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': RECENT_ID, 'list': RECENT_LIST, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
                         + TIMER_END + '</timers>')
     open(path, 'w', encoding='utf-8').write(text)
 
@@ -1766,6 +1782,7 @@ def build_recent():
                 <label>Recent channels</label>
             </control>
             <control type="list" id="%(list)d">
+                <animation effect="fade" start="100" end="0" time="0" condition="String.IsEmpty(Window(Home).Property(silo.recent.placed))">Conditional</animation>
                 <left>%(lx)d</left><top>%(ly)d</top><width>%(lw)d</width><height>%(ih)d</height>
                 <orientation>horizontal</orientation>
                 <onup>noop</onup><ondown>noop</ondown>
