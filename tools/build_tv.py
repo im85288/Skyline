@@ -1550,11 +1550,13 @@ def round_button(control_id, icons, action, left, right, caption='', x=None, liv
                                      'pos': '\n                        <left>%d</left>' % x if x is not None else ''}
 
 
-def recent_card(focused, list_id=None):
+def recent_card(focused, list_id=None, w=None):
     """A recently watched channel, as the TV page's cards: the programme's
     picture (Sky's) with the channel's logo in its corner, how far through
     and LIVE; with no picture, the logo on the panel. What's on under it."""
     from build_home import focus_sheen, focus_zoom
+    w = w or TILE_W  # the card's width; its picture is 16:9
+    ph = w * 9 // 16
     lit = 'Control.HasFocus(%d)' % (list_id or RECENT_LIST)
     has = '!String.IsEmpty(ListItem.Property(silo.picture))'
     return '''
@@ -1604,13 +1606,17 @@ def recent_card(focused, list_id=None):
                         <selectedcolor>%(colour)s</selectedcolor>
                         <label>$INFO[ListItem.Property(silo.now)]</label>
                     </control>
-                </control>''' % {'zoom': focus_zoom(lit, 16) if focused else '', 'w': TILE_W, 'ph': TILE_PIC_H,
-                                  'panel': PANEL, 'lw': TILE_W - 44, 'lh': TILE_PIC_H - 32, 'has': has,
-                                  'ly': TILE_PIC_H - 12 - 40, 'bar': TILE_PIC_H - 5, 'bw': TILE_W - 28,
-                                  'tw': TILE_W - 8, 'ty': TILE_PIC_H + 6, 'text': TEXT,
+                </control>''' % {'zoom': focus_zoom(lit, 16) if focused else '', 'w': w, 'ph': ph,
+                                  'panel': PANEL, 'lw': w - 44, 'lh': ph - 32, 'has': has,
+                                  'ly': ph - 12 - 40, 'bar': ph - 5, 'bw': w - 28,
+                                  'tw': w - 8, 'ty': ph + 6, 'text': TEXT,
                                   'live': live_badge('String.IsEqual(ListItem.Property(silo.live),1)'),
-                                  'sheen': focus_sheen(TILE_W, TILE_PIC_H, 'silo/card_landscape_mask.png',
-                                                       'silo/card_landscape_rim.png', lit, 16) if focused else '',
+                                  # Over the picture itself: focus_sheen sits 6 px in, as the
+                                  # home cards' art does, which left its rim hanging below these.
+                                  'sheen': focus_sheen(w, ph, 'silo/card_landscape_mask.png',
+                                                       'silo/card_landscape_rim.png', lit, 16).replace(
+                                      '<left>6</left><top>6</top>', '<left>0</left><top>0</top>', 1)
+                                  if focused else '',
                                   'colour': TEXT if focused else 'D9EDEDED'}
 
 
@@ -1714,8 +1720,26 @@ CHIPS = ((5620, 'Recent', 'recent', 5600, 'recent_channels'),
          (5622, 'Coming up', 'next', 5602, 'next_on'))
 OK_FIRST = PLAY_PAUSE
 ROW_PROP = 'Window(Home).Property(silo.ok.row)'
-TITLE_Y, BAR_Y, BUTTONS_Y, CHIPS_Y = 70, 580, 620, 764
-CARDS_Y = CHIPS_Y + 64
+# chips: the row below switched by chips (Recent / On now / Coming up);
+# peek (YouTube's): Recent only, its cards' tops peeking at the foot under
+# controls that sit low; Down into them slides the controls off the top and
+# the cards up into view, larger (about three and a half across).
+OVERLAY_STYLE = os.environ.get('SILO_OVERLAY', 'peek')  # peek since 2026-11-26 (0.30.0)
+PEEK = OVERLAY_STYLE == 'peek'
+if PEEK:
+    # As YouTube's player at 1080p: the bar at 713, the buttons round 790,
+    # three cards across the margins (552 wide, 36 apart) peeking from 897.
+    TITLE_Y, BAR_Y, BUTTONS_Y, CHIPS_Y = 100, 713, 748, 0
+    PEEK_W, PEEK_GAP = 552, 36
+    CARDS_Y = 897
+    # The rows stack below (Recent, On now, Coming up), PEEK_STEP apart; Down
+    # moves the stack up so the row with focus has its cards' top at PEEK_TOP,
+    # the next row's name peeking at the foot.
+    PEEK_CARD_H = PEEK_W * 9 // 16 + 49
+    PEEK_STEP, PEEK_TOP = PEEK_CARD_H + 90, 600   # one row on screen: the lower half, where the controls were
+else:
+    TITLE_Y, BAR_Y, BUTTONS_Y, CHIPS_Y = 70, 580, 620, 764
+    CARDS_Y = CHIPS_Y + 64
 PILL = 64
 
 
@@ -1787,7 +1811,10 @@ def pill_button(control_id, icon, label, onclick, x, left, right, up, down, afte
 
 
 def down_to_row():
-    """Down from the buttons: the chip of the row shown."""
+    """Down from the buttons: the chip of the row shown (peek: the recent row)."""
+    if PEEK:  # always the first card: the row reloads as the overlay opens, and Kodi
+        # keeps the card it had selected, wherever the new order put it
+        return '\n                    <ondown>SetFocus(%d,0,absolute)</ondown>' % CHIPS[0][3]
     return ''.join('\n                    <ondown condition="%s">%d</ondown>' % (row_shown(key), chip_id)
                    for chip_id, _, key, _, _ in CHIPS)
 
@@ -1832,7 +1859,7 @@ ROW_XML = """
                 <left>%(lx)d</left><top>%(y)d</top><width>%(lw)d</width><height>%(ih)d</height>
                 <visible>%(shown)s</visible>
                 <orientation>horizontal</orientation>
-                <onup>%(chip)d</onup><ondown>noop</ondown>
+                <onup>%(chip)s</onup><ondown>noop</ondown>
                 <scrolltime tween="cubic" easing="out">200</scrolltime>
                 <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=%(mode)s&amp;v=$INFO[Window(Home).Property(silokodi.recent_changed)]</content>%(closes)s
                 <onclick>%(click)s</onclick>
@@ -1843,7 +1870,7 @@ ROW_XML = """
             </control>"""
 
 
-def card_row(chip_id, key, list_id, mode):
+def card_row(chip_id, key, list_id, mode, y=None, up=None, down='noop'):
     """A chip's row of cards (the recent row's), from KodiConnectForSilo; a
     new silokodi.recent_changed reloads it as the overlay opens. OK on a
     channel watches it; on a later programme (Coming up), sets its reminder."""
@@ -1857,10 +1884,16 @@ def card_row(chip_id, key, list_id, mode):
     # The recent row stays unseen until its first card is selected (timer silo_recent_first).
     placed = ('\n                <animation effect="fade" start="100" end="0" time="0" condition="String.IsEmpty('
               'Window(Home).Property(silo.recent.placed))">Conditional</animation>') if key == 'recent' else ''
-    return ROW_XML % {'list': list_id, 'placed': placed, 'lx': SAFE_X - 8, 'y': CARDS_Y, 'lw': 1920 - SAFE_X + 8,
-                      'ih': TILE_H, 'iw': TILE_W + TILE_GAP, 'shown': row_shown(key), 'chip': chip_id,
+    w = PEEK_W if PEEK else TILE_W
+    xml = ROW_XML.replace('<ondown>noop</ondown>', '<ondown>%s</ondown>' % down) if down else \
+        ROW_XML.replace('<ondown>noop</ondown>', '').replace('<onup>%(chip)d</onup>', '')
+    return xml % {'list': list_id, 'placed': placed, 'lx': SAFE_X - 8, 'y': CARDS_Y if y is None else y,
+                      'lw': 1920 - SAFE_X + 8,
+                      'ih': w * 9 // 16 + 49, 'iw': w + (PEEK_GAP if PEEK else TILE_GAP),
+                      'shown': 'true' if PEEK else row_shown(key),
+                      'chip': up if up is not None else chip_id,
                       'mode': mode, 'closes': closes, 'click': click,
-                      'card': recent_card(False, list_id), 'card_focused': recent_card(True, list_id)}
+                      'card': recent_card(False, list_id, w), 'card_focused': recent_card(True, list_id, w)}
 
 
 OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
@@ -1898,7 +1931,7 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
         </control>
         <control type="group">
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
-            <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
+            <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>%(osd_anim)s
             <!-- What's on, as YouTube's title and channel line. -->
             <control type="label">
                 <left>%(x)d</left><top>%(ty)d</top><width>1400</width><height>70</height>
@@ -1959,12 +1992,11 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
                 <onleft>Seek(-10)</onleft><onright>Seek(10)</onright>
                 <onup>noop</onup><ondown>%(play)d</ondown>
             </control>%(pills)s%(transport)s
-            <!-- The chips and their rows of cards. -->
-            <control type="grouplist">
-                <left>%(x)d</left><top>%(cy)d</top><width>800</width><height>48</height>
-                <orientation>horizontal</orientation>
-                <itemgap>16</itemgap>%(chips)s
-            </control>%(rows)s
+%(chips)s
+        </control>
+        <control type="group">
+            <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>%(rows)s
         </control>
     </controls>
 </window>
@@ -2035,6 +2067,71 @@ def neighbour_card(button, prefix, centre_x):
         'text': TEXT, 'live': live_badge('String.IsEqual(%slive),1)' % p, indent='                    ')}
 
 
+PEEK_TITLES = ('Recent channels', 'On now', 'Coming up on $INFO[VideoPlayer.ChannelName]')
+
+
+def in_rows():
+    return '[%s]' % ' | '.join('Control.HasFocus(%d)' % list_id for _, _, _, list_id, _ in CHIPS)
+
+
+PEEK_ROWS = 5640
+
+
+def in_rows():
+    return 'ControlGroup(%d).HasFocus()' % PEEK_ROWS
+
+
+def peek_osd_anim():
+    """Down into the rows: the controls are hidden (a quick fade, no movement)."""
+    return ('\n            <animation effect="fade" start="100" end="0" time="150" '
+            'condition="%s">Conditional</animation>' % in_rows())
+
+
+def peek_rows():
+    """The rows under the controls (YouTube's shelves), one on screen at a
+    time: at rest Recent's cards peek at the foot; Down brings it up to
+    PEEK_TOP; Down again puts On now in its place, then Coming up (Up goes
+    back). The others stay in place, faded out (Kodi can't focus a hidden
+    list); the one that takes focus fades in with a short rise."""
+    lists = [list_id for _, _, _, list_id, _ in CHIPS]
+    out = ''
+    for n, (chip_id, _, key, list_id, mode) in enumerate(CHIPS):
+        lit = 'Control.HasFocus(%d)' % list_id
+        if n == 0:
+            # At rest it peeks at the foot; selected, it rises; another selected, it fades.
+            y = CARDS_Y
+            anims = ('\n                    <animation effect="slide" end="0,-%d" time="300" tween="cubic" easing="out" '
+                     'condition="%s">Conditional</animation>'
+                     '\n                    <animation effect="fade" start="100" end="0" time="150" '
+                     'condition="%s + !%s">Conditional</animation>' % (CARDS_Y - PEEK_TOP, in_rows(), in_rows(), lit))
+        else:
+            y = PEEK_TOP
+            anims = ('\n                    <animation effect="fade" start="100" end="0" time="150" '
+                     'condition="!%s">Conditional</animation>'
+                     '\n                    <animation effect="slide" start="0,40" end="0,0" time="250" tween="cubic" easing="out" '
+                     'condition="%s">Conditional</animation>' % (lit, lit))
+        out += """
+                <control type="group">%(anims)s
+                    <control type="label">
+                        <left>%(x)d</left><top>%(ty)d</top><width>1400</width><height>50</height>
+                        <aligny>center</aligny>
+                        <font>silo_row</font>
+                        <textcolor>%(text)s</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>%(title)s</label>
+                        <visible>%(in)s</visible>
+                    </control>%(row)s
+                </control>""" % {'anims': anims, 'x': SAFE_X, 'ty': y - 60, 'text': TEXT, 'title': PEEK_TITLES[n],
+                                 'in': in_rows(),
+                                 # Into the next row on its first card, as from the buttons.
+                                 'row': card_row(chip_id, key, list_id, mode, y=y,
+                                                 up='SetFocus(%d,0,absolute)' % lists[n - 1] if n else PLAY_PAUSE,
+                                                 down='SetFocus(%d,0,absolute)' % lists[n + 1]
+                                                 if n + 1 < len(lists) else 'noop')}
+    return """
+            <control type="group" id="%d">%s
+            </control>""" % (PEEK_ROWS, out)
+
+
 def overlay_badges():
     """The overlay's stream badges after the channel line: the banner's
     outlined ones (quality, HDR, sound) and the frame rate, each only when
@@ -2082,15 +2179,24 @@ def build_ok():
     # The channel each step button plays, above it while it's selected.
     transport += (neighbour_card(PREV_CHANNEL, 'chprev', centre + BUTTON // 2)
                   + neighbour_card(NEXT_CHANNEL, 'chnext', centre + 2 * (BUTTON + 24) + BUTTON // 2))
-    chips = ''.join(chip(cid, label, key, list_id, CHIPS[n - 1][0] if n else 'noop',
-                         CHIPS[n + 1][0] if n + 1 < len(CHIPS) else 'noop')
-                    for n, (cid, label, key, list_id, _) in enumerate(CHIPS))
+    chips = '''
+            <!-- The chips and their rows of cards. -->
+            <control type="grouplist">
+                <left>%d</left><top>%d</top><width>800</width><height>48</height>
+                <orientation>horizontal</orientation>
+                <itemgap>16</itemgap>%s
+            </control>''' % (SAFE_X, CHIPS_Y, ''.join(chip(cid, label, key, list_id, CHIPS[n - 1][0] if n else 'noop',
+                                                         CHIPS[n + 1][0] if n + 1 < len(CHIPS) else 'noop')
+                                                    for n, (cid, label, key, list_id, _) in enumerate(CHIPS)))
     rows = ''.join(card_row(cid, key, list_id, mode) for cid, _, key, list_id, mode in CHIPS)
+    osd_anim = ''
+    if PEEK:
+        chips, rows, osd_anim = '', peek_rows(), peek_osd_anim()
     return OK_XML % {'window': OK_ID, 'first': OK_FIRST, 'hidden': LIVE_HIDDEN, 'text': TEXT, 'x': SAFE_X,
                      'ty': TITLE_Y, 'my': TITLE_Y + 76, 'tly': BAR_Y - 42, 'livey': BAR_Y - 42 + 3, 'lx': 1920 - SAFE_X - 60,
                      'rx': 1920 - SAFE_X - 600, 'live': live_badge('true', indent='                '),
                      'by': BAR_Y, 'by2': BAR_Y - 3, 'bfy': BAR_Y - 12, 'bw': 1920 - 2 * SAFE_X, 'bar': SEEK_BAR,
-                     'play': PLAY_PAUSE, 'pills': pills, 'transport': transport, 'cy': CHIPS_Y, 'chips': chips,
+                     'play': PLAY_PAUSE, 'pills': pills, 'transport': transport, 'osd_anim': osd_anim, 'chips': chips,
                      'rows': rows, 'badges': overlay_badges(), 'tint_y': BAR_Y - 200, 'tint_h': 1080 - BAR_Y + 200}
 
 
