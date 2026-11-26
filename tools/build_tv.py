@@ -291,7 +291,7 @@ def pill_layouts():
             </focusedlayout>''' % (group_pill(False), group_pill(True))
 
 
-RAIL_CARDS = 12  # KodiConnectForSilo's plugin.RESTART_CARDS
+RAIL_CARDS = 24  # KodiConnectForSilo's plugin.RESTART_CARDS
 
 
 def rail_items():
