@@ -12,8 +12,7 @@
 			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
-			<!-- The glass in the next programme's colour, else the playing one's
-			     (KodiConnectForSilo's next.tint, tv.playing_tint), else the theme's. -->
+			<!-- Live TV's navy glass (LIVE_GLASS), as the banner's and the overlay's. -->
 			<control type="image">
 				<width>640</width><height>150</height>
 				<texture border="28" colordiffuse="$VAR[SiloNoteTint]">silo/menu_panel.png</texture>

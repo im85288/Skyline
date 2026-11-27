@@ -10460,17 +10460,13 @@
         <value>$INFO[VideoPlayer.AudioChannels,, CH]</value>
     </variable>
     <variable name="SiloLiveTint">
-        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">$INFO[Window(Home).Property(silokodi.tv.playing_tint)]</value>
-        <value>F20D0F12</value>
+        <value>F20C1224</value>
     </variable>
     <variable name="SiloNoteTint">
-        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.next.tint))">$INFO[Window(Home).Property(silokodi.next.tint)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">$INFO[Window(Home).Property(silokodi.tv.playing_tint)]</value>
-        <value>SkylineGlass</value>
+        <value>F20C1224</value>
     </variable>
     <variable name="SiloNoteLabel">
-        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.next.tint)) | !String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">FFEDEDED</value>
-        <value>FF3A9DFF</value>
+        <value>FFEDEDED</value>
     </variable>
     <variable name="SiloBannerTitle">
         <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.title)]</value>

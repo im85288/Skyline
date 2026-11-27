@@ -1002,19 +1002,11 @@ def sky_banner():
     times_y = pic_y + SKY_PIC_H + 18
     playing = '!String.IsEmpty(VideoPlayer.EndTime) + !%s' % BANNER_STEPPED
     return """
-            <!-- The card: glass with a faint rim, as Sky's, in the programme's colour
-                 (KodiConnectForSilo's tv.playing_tint, the browsed channel's while
-                 browsing, as the OK screen's shade) at the glass's 65 per cent; else navy. -->
+            <!-- The card: Live TV's navy glass (LIVE_GLASS: the mini TV guide's, the
+                 overlay's and the notes'), with a faint rim, as Sky's. -->
             <control type="image">
                 <left>%(card_x)d</left><top>%(y)d</top><width>%(card_w)d</width><height>%(card_h)d</height>
-                <texture border="8" colordiffuse="A6141820">silo/guide_cell.png</texture>
-                <visible>String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))</visible>
-            </control>
-            <control type="image">
-                <left>%(card_x)d</left><top>%(y)d</top><width>%(card_w)d</width><height>%(card_h)d</height>
-                <texture border="8" colordiffuse="$INFO[Window(Home).Property(silokodi.tv.playing_tint)]">silo/guide_cell.png</texture>
-                <animation effect="fade" start="65" end="65" time="0" condition="true">Conditional</animation>
-                <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))</visible>
+                <texture border="8" colordiffuse="%(glass)s">silo/guide_cell.png</texture>
             </control>
             <control type="image">
                 <left>%(card_x)d</left><top>%(y)d</top><width>%(card_w)d</width><height>%(card_h)d</height>
@@ -1113,7 +1105,7 @@ def sky_banner():
         'bar_y': pic_y + SKY_PIC_H + 8, 'times_y': times_y,
         'tx': tx, 'tw': tw, 'text_h': times_y - pic_y - 8,
         'row_w': SKY_CARD_X + SKY_CARD_W - 24 - tx,
-        'text': TEXT, 'shadow': 'CC000000', 'progress': PROGRESS, 'playing': playing,
+        'text': TEXT, 'shadow': 'CC000000', 'progress': PROGRESS, 'playing': playing, 'glass': LIVE_GLASS,
         'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
         'live': live_tag(BANNER_SHOWS_LIVE, top=4, indent='                '),
         'quality': outline_badge('$VAR[SiloBannerQuality]',
@@ -1203,23 +1195,12 @@ def banner_variables():
     def var(name, stepped, kodi):
         return ('    <variable name="%s">\n        <value condition="%s">$INFO[%s]</value>\n'
                 '        <value>%s</value>\n    </variable>\n' % (name, BANNER_STEPPED, STEPPED % stepped, kodi))
-    # The OK screen's shade: the playing programme's colour (KodiConnectForSilo's
-    # tv.playing_tint, the TV page's tint for its picture), else the page's near-black.
-    tint = ('    <variable name="SiloLiveTint">\n'
-            '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">'
-            '$INFO[Window(Home).Property(silokodi.tv.playing_tint)]</value>\n'
-            '        <value>F2%s</value>\n    </variable>\n' % BACKGROUND[2:] +
-            '    <variable name="SiloNoteTint">\n'
-            '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.next.tint))">'
-            '$INFO[Window(Home).Property(silokodi.next.tint)]</value>\n'
-            '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">'
-            '$INFO[Window(Home).Property(silokodi.tv.playing_tint)]</value>\n'
-            '        <value>SkylineGlass</value>\n    </variable>\n'
-            # Its label: white on a tinted panel (the blue read poorly on a blue one), else the accent.
-            '    <variable name="SiloNoteLabel">\n'
-            '        <value condition="!String.IsEmpty(Window(Home).Property(silokodi.next.tint)) | '
-            '!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))">FFEDEDED</value>\n'
-            '        <value>%s</value>\n    </variable>\n' % ACCENT)
+    # Live TV's backgrounds, the overlay's shade and the notes' panel: one navy
+    # glass (LIVE_GLASS), the mini TV guide's, everywhere while watching (the
+    # programme's tint until 2026-11-27); the notes' label white on it.
+    tint = ('    <variable name="SiloLiveTint">\n        <value>%s</value>\n    </variable>\n' % LIVE_GLASS +
+            '    <variable name="SiloNoteTint">\n        <value>%s</value>\n    </variable>\n' % LIVE_GLASS +
+            '    <variable name="SiloNoteLabel">\n        <value>FFEDEDED</value>\n    </variable>\n')
     return (tint + var('SiloBannerTitle', 'title', '$INFO[VideoPlayer.Title]') +
             var('SiloBannerTimes', 'times', '$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime, — ,]') +
             var('SiloBannerPlot', 'plot', '$INFO[VideoPlayer.Plot]') +
@@ -1626,6 +1607,10 @@ def recent_card(focused, list_id=None, w=None):
                                   'colour': TEXT if focused else 'D9EDEDED'}
 
 
+# Live TV's one background while watching: the mini TV guide's panel, the
+# banner's card, the overlay's shade and the notes' panel (dark navy glass).
+LIVE_GLASS = 'F20C1224'
+
 NEXT_UP = '!String.IsEmpty(Window(Home).Property(silokodi.next.title))'
 NOTES_ID = 1182  # the notes' dialog
 NOTE_W, NOTE_X, NOTE_Y = 640, 88, 120  # under the banner's clock, top right
@@ -1656,8 +1641,7 @@ def live_notes():
 			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
-			<!-- The glass in the next programme's colour, else the playing one's
-			     (KodiConnectForSilo's next.tint, tv.playing_tint), else the theme's. -->
+			<!-- Live TV's navy glass (LIVE_GLASS), as the banner's and the overlay's. -->
 			<control type="image">
 				<width>%(w)d</width><height>150</height>
 				<texture border="28" colordiffuse="$VAR[SiloNoteTint]">silo/menu_panel.png</texture>
@@ -2213,7 +2197,7 @@ MINI_X = 1000                          # the panel's left edge: a straight line,
 MINI_ROW, MINI_CARD, MINI_GAP = 92, 262, 14
 MINI_FOCUS = 4                         # rows above the card
 MINI_TOP = 540 - (MINI_CARD + 2 * MINI_GAP) // 2 - MINI_FOCUS * MINI_ROW
-MINI_PANEL = 'F20C1224'                # the skin's dark navy glass, as the mock-up's
+MINI_PANEL = LIVE_GLASS
 MINI_TX = 230                          # the text's left, after the logo
 
 

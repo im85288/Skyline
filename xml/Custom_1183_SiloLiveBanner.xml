@@ -9,19 +9,11 @@
             <left>0</left><top>560</top><width>1920</width><height>520</height>
             <texture colordiffuse="B3FFFFFF">silo/scrim_bottom.png</texture>
         </control>
-            <!-- The card: glass with a faint rim, as Sky's, in the programme's colour
-                 (KodiConnectForSilo's tv.playing_tint, the browsed channel's while
-                 browsing, as the OK screen's shade) at the glass's 65 per cent; else navy. -->
+            <!-- The card: Live TV's navy glass (LIVE_GLASS: the mini TV guide's, the
+                 overlay's and the notes'), with a faint rim, as Sky's. -->
             <control type="image">
                 <left>48</left><top>684</top><width>1824</width><height>360</height>
-                <texture border="8" colordiffuse="A6141820">silo/guide_cell.png</texture>
-                <visible>String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))</visible>
-            </control>
-            <control type="image">
-                <left>48</left><top>684</top><width>1824</width><height>360</height>
-                <texture border="8" colordiffuse="$INFO[Window(Home).Property(silokodi.tv.playing_tint)]">silo/guide_cell.png</texture>
-                <animation effect="fade" start="65" end="65" time="0" condition="true">Conditional</animation>
-                <visible>!String.IsEmpty(Window(Home).Property(silokodi.tv.playing_tint))</visible>
+                <texture border="8" colordiffuse="F20C1224">silo/guide_cell.png</texture>
             </control>
             <control type="image">
                 <left>48</left><top>684</top><width>1824</width><height>360</height>
