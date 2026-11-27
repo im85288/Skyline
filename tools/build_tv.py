@@ -32,13 +32,17 @@ PILLS_Y = 408               # under the programme's details (Sky Stream's top ha
 GRID_Y = PILLS_Y + 74      # 482: the ruler and 8 rows of 69 end at the screen's foot
 CHANNEL_W = 400             # Sky OS 2.0's: the channel's logo (its name without one); no number (no number keys)
 GUIDE_LOGO_W, GUIDE_LOGO_H = 160, 44
-GUIDE_VIDEO_W, GUIDE_VIDEO_H = 352, 198   # what's playing, bottom right (Sky OS 2.0's)
+# What's playing, bottom right (Sky OS 2.0's). A 4K channel shows stretched here on
+# the Ugoos: its scaler can only shrink 4K to a quarter of its height (960x540 is right).
+GUIDE_VIDEO_W, GUIDE_VIDEO_H = 352, 198
 ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
-BAND = 'B3485A78'           # the glass: Live TV's frost, as the mini guide's panel (70 per cent), on the page's own
+BAND = '1A485A78'           # the glass: Live TV's frost, as the mini guide's panel (70 per cent), on the page's own
                             # dark (GUIDE_BASE), so the rows keep one colour (was the theme's veil over the picture until 2026-11-27)
 CHANNEL_BAND = BAND         # the channels' glass: the programmes' own
 TILE = '1AFFFFFF'           # Sky's: each channel and programme a faint tile of its own, apart from the next
+GUIDE_PAGE = 'FF2A3445'     # the guide's one colour (deep navy: Live TV's frost over the dark), the picture fading into it
+DIVIDER = '26FFFFFF'        # Sky Stream's guide (2026-11-27): no tiles, a faint line between programmes and rows
 PANEL_X = SAFE_X - 16       # the glass starts just left of the channel names (the focus outline's edge)
 RULER_H = 46
 PREVIEW_W, PREVIEW_H = 496, 279
@@ -86,22 +90,12 @@ def channel(focused):
     tile lighter, as its programme's,
     while the timeline has focus."""
     colour = TEXT if focused else 'C7EDEDED'
+    # Sky Stream's guide (2026-11-27): no tile, a faint line along the row's foot.
     tile = '''
                     <control type="image">
-                        <left>%d</left><top>6</top><width>%d</width><height>%d</height>
-                        <texture border="8" colordiffuse="%s">silo/guide_cell.png</texture>
-                    </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12,
-                         '$VAR[SiloGuideCell]' if focused else TILE)
-    # The playing channel's tile in a soft blue (the accent), a stronger one
-    # with focus on it, over the usual tile: per row, by a visible condition
-    # (Kodi works a $VAR colour out once per list).
-    tile += '''
-                    <control type="image">
-                        <left>%d</left><top>6</top><width>%d</width><height>%d</height>
-                        <texture border="8" colordiffuse="%s">silo/guide_cell.png</texture>
-                        <visible>%s</visible>
-                    </control>''' % (SAFE_X - 16, CHANNEL_W - SAFE_X + 4, ROW_H - 12,
-                         '$VAR[SiloGuidePlaying]' if focused else PLAYING_TILE, PLAYING)
+                        <left>%d</left><top>%d</top><width>%d</width><height>1</height>
+                        <texture colordiffuse="%s">colors/white.png</texture>
+                    </control>''' % (SAFE_X - 16, ROW_H - 1, CHANNEL_W - SAFE_X + 16, DIVIDER)
     # The channel's logo (Kodi's channel icon), as Sky OS 2.0's guide; a channel
     # without one (Kodi's default icon) shows its name instead.
     no_logo = '[String.IsEmpty(ListItem.Icon) | String.Contains(ListItem.Icon,DefaultTV)]'
@@ -135,16 +129,20 @@ def programme(focused):
     colours come from variables."""
     return '''
                     <control type="image" id="2">
-                        <left>3</left><top>6</top><width>%(w)d</width><height>%(h)d</height>
-                        <texture border="8" colordiffuse="%(fill)s">silo/guide_cell.png</texture>
+                        <left>0</left><top>0</top><width>%(cw)d</width><height>%(ch)d</height>
+                        <texture border="17" colordiffuse="%(fill)s">%(texture)s</texture>
                     </control>
                     <control type="label" id="1">
                         <left>18</left><top>6</top><width>%(lw)d</width><height>%(h)d</height>
                         <aligny>center</aligny>
                         <font>silo_meta</font>
                         <label>%(label)s</label>
-                    </control>''' % {'w': BLOCK_W - 6, 'lw': BLOCK_W - 30, 'h': ROW_H - 12,
-                                      'fill': '$VAR[SiloGuideCell]' if focused else TILE,
+                    </control>''' % {'lw': BLOCK_W - 30, 'h': ROW_H - 12,
+                                      'cw': BLOCK_W, 'ch': ROW_H,
+                                      # Sky's: no tile, a thin line at its left and foot; the selected
+                                      # one the banner's raised glass (Kodi widens only this image).
+                                      'texture': '$VAR[SiloGuideCellTexture]' if focused else 'silo/guide_divider.png',
+                                      'fill': '$VAR[SiloGuideCell]' if focused else DIVIDER,
                                       'label': '$VAR[SiloGuideTitle]' if focused else '$VAR[SiloGuideTitleRest]'}
 
 
@@ -159,8 +157,12 @@ def variables():
             '        <value>%(playing)s</value>\n'
             '    </variable>\n'
             '    <variable name="SiloGuideCell">\n'
-            '        <value condition="%(lit)s">40FFFFFF</value>\n'
-            '        <value>%(tile)s</value>\n'
+            '        <value condition="%(lit)s">FFFFFFFF</value>\n'
+            '        <value>%(divider)s</value>\n'
+            '    </variable>\n'
+            '    <variable name="SiloGuideCellTexture">\n'
+            '        <value condition="%(lit)s">silo/guide_glass_selected.png</value>\n'
+            '        <value>silo/guide_divider.png</value>\n'
             '    </variable>\n'
             # A channel with no guide data: "No information", as TiviMate. What has
             # finished is dimmed, as Sky's.
@@ -168,13 +170,11 @@ def variables():
             '        <value condition="%(lit)s + String.IsEmpty(ListItem.Label)">[COLOR B3FFFFFF]No information[/COLOR]</value>\n'
             '        <value condition="%(lit)s">[COLOR FFFFFFFF]$INFO[ListItem.Label][/COLOR]</value>\n'
             '        <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>\n'
-            '        <value condition="%(ended)s">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
-            '        <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
+            '        <value>[COLOR E6EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '    </variable>\n'
             '    <variable name="SiloGuideTitleRest">\n'
             '        <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>\n'
-            '        <value condition="%(ended)s">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
-            '        <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
+            '        <value>[COLOR E6EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '    </variable>\n'
             # The picture and plot of what has focus: a restart card's, else the programme's.
             '    <variable name="SiloGuidePicture">\n'
@@ -198,7 +198,7 @@ def variables():
             '        <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>\n'
             '        <value condition="!String.IsEmpty(ListItem.StartTime)">Starts at $INFO[ListItem.StartTime]</value>\n'
             '    </variable>\n'
-            ) % {'lit': lit, 'tile': TILE, 'playing': PLAYING_TILE, 'playing_lit': PLAYING_TILE_LIT, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
+            ) % {'lit': lit, 'divider': DIVIDER, 'playing': PLAYING_TILE, 'playing_lit': PLAYING_TILE_LIT, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
 
 
 def add_variables():
@@ -405,7 +405,7 @@ def build():
         <control type="image">
             <left>%(panel_x)d</left><top>%(ruler_fade_y)d</top><width>%(panel_w)d</width><height>%(ruler_fade_h)d</height>
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
-            <texture colordiffuse="%(background)s">silo/scrim_bottom.png</texture>
+            <texture colordiffuse="%(background)s">silo/scrim_bottom_white.png</texture>
         </control>
         <control type="image">
             <left>%(panel_x)d</left><top>%(grid_y)d</top><width>%(panel_w)d</width><height>%(ruler_h)d</height>
@@ -428,7 +428,7 @@ def build():
         <control type="image">
             <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(panel_w)d</width><height>%(band_h)d</height>
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
-            <texture colordiffuse="SkylineBackground">colors/white.png</texture>
+            <texture colordiffuse="%(background)s">colors/white.png</texture>
         </control>
         <control type="image">
             <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(cw_panel)d</width><height>%(band_h)d</height>
@@ -461,7 +461,7 @@ def build():
         <!-- A dark fade along the top, so the clock reads over a bright picture. -->
         <control type="image">
             <left>0</left><top>0</top><width>1920</width><height>200</height>
-            <texture flipy="true" colordiffuse="%(top_fade)s">silo/scrim_bottom.png</texture>
+            <texture flipy="true" colordiffuse="%(top_fade)s">silo/scrim_bottom_white.png</texture>
         </control>
         <control type="label">
             <right>%(x)d</right><top>40</top><width>400</width><height>48</height>
@@ -713,7 +713,7 @@ def build():
         <control type="label" id="30"><visible>false</visible></control>
     </controls>
 </window>
-''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': BACKGROUND, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
+''' % {'grid': GRID_ID, 'groups': GROUPS_ID, 'background': GUIDE_PAGE, 'x': SAFE_X, 'text': TEXT, 'dim': DIM,
        'logo_shown': '[!String.IsEmpty(Window(Home).Property(silokodi.guide.logo)) + '
                      'String.IsEqual(Window(Home).Property(silokodi.guide.logo_for),ListItem.ChannelName)]',
        # Only a channel with no logo shows its name: until the logo is known, neither.
@@ -729,7 +729,7 @@ def build():
        'rail_live': live_tag('!String.IsEmpty(Container(%d).ListItem.Property(silo.live))' % RAIL_ID, top=2,
                              indent='                '),
        'band': BAND, 'band_y': GRID_Y + RULER_H, 'hair_band_y': GRID_Y + RULER_H - 2, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
-       'ruler_bg': 'D9' + BACKGROUND[2:], 'top_fade': 'B3' + BACKGROUND[2:],
+       'ruler_bg': GUIDE_PAGE, 'top_fade': 'B3' + GUIDE_PAGE[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
        'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X, 'left_y': RAIL_Y - 12, 'left_h': 1080 - RAIL_Y + 12,

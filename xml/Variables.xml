@@ -10384,20 +10384,22 @@
         <value>523A9DFF</value>
     </variable>
     <variable name="SiloGuideCell">
-        <value condition="Control.HasFocus(51)">40FFFFFF</value>
-        <value>1AFFFFFF</value>
+        <value condition="Control.HasFocus(51)">FFFFFFFF</value>
+        <value>26FFFFFF</value>
+    </variable>
+    <variable name="SiloGuideCellTexture">
+        <value condition="Control.HasFocus(51)">silo/guide_glass_selected.png</value>
+        <value>silo/guide_divider.png</value>
     </variable>
     <variable name="SiloGuideTitle">
         <value condition="Control.HasFocus(51) + String.IsEmpty(ListItem.Label)">[COLOR B3FFFFFF]No information[/COLOR]</value>
         <value condition="Control.HasFocus(51)">[COLOR FFFFFFFF]$INFO[ListItem.Label][/COLOR]</value>
         <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>
-        <value condition="Integer.IsEqual(ListItem.Progress,100)">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>
-        <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>
+        <value>[COLOR E6EDEDED]$INFO[ListItem.Label][/COLOR]</value>
     </variable>
     <variable name="SiloGuideTitleRest">
         <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>
-        <value condition="Integer.IsEqual(ListItem.Progress,100)">[COLOR 66EDEDED]$INFO[ListItem.Label][/COLOR]</value>
-        <value>[COLOR D9EDEDED]$INFO[ListItem.Label][/COLOR]</value>
+        <value>[COLOR E6EDEDED]$INFO[ListItem.Label][/COLOR]</value>
     </variable>
     <variable name="SiloGuidePicture">
         <value condition="Control.HasFocus(52)">$INFO[Container(52).ListItem.Art(thumb)]</value>

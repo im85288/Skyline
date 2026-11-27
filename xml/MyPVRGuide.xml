@@ -4,11 +4,11 @@
     <!-- Opens on the restart row, as Sky's (timer silo_guide_rail: the grid if it has no cards). -->
     <defaultcontrol always="true">52</defaultcontrol>
     <views>51</views>
-    <backgroundcolor>SkylineBackground</backgroundcolor>
+    <backgroundcolor>FF2A3445</backgroundcolor>
     <controls>
         <control type="image">
             <left>0</left><top>0</top><width>1920</width><height>1080</height>
-            <texture colordiffuse="SkylineBackground">colors/white.png</texture>
+            <texture colordiffuse="FF2A3445">colors/white.png</texture>
         </control>
 
         <!-- Sky Stream's guide: the focused programme's picture across the top
@@ -29,18 +29,18 @@
         <control type="image">
             <left>72</left><top>392</top><width>1848</width><height>90</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture colordiffuse="SkylineBackground">silo/scrim_bottom.png</texture>
+            <texture colordiffuse="FF2A3445">silo/scrim_bottom_white.png</texture>
         </control>
         <control type="image">
             <left>72</left><top>482</top><width>1848</width><height>46</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture colordiffuse="D90D0F12">colors/white.png</texture>
+            <texture colordiffuse="FF2A3445">colors/white.png</texture>
         </control>
         <!-- Left of the restart row, the time row and the glass, the page: the
              picture's edge showed there. It stays put as the grid slides. -->
         <control type="image">
             <left>0</left><top>434</top><width>72</width><height>646</height>
-            <texture colordiffuse="SkylineBackground">colors/white.png</texture>
+            <texture colordiffuse="FF2A3445">colors/white.png</texture>
         </control>
 
         <!-- Sky's glass under the rows (the day and times above stay on the
@@ -52,18 +52,18 @@
         <control type="image">
             <left>72</left><top>528</top><width>1848</width><height>592</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture colordiffuse="SkylineBackground">colors/white.png</texture>
+            <texture colordiffuse="FF2A3445">colors/white.png</texture>
         </control>
         <control type="image">
             <left>72</left><top>528</top><width>328</width><height>592</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
             <!-- Square: a rounded corner let the picture show through as coloured triangles. -->
-            <texture colordiffuse="B3485A78">colors/white.png</texture>
+            <texture colordiffuse="1A485A78">colors/white.png</texture>
         </control>
         <control type="image">
             <left>400</left><top>528</top><width>1520</width><height>592</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture colordiffuse="B3485A78">colors/white.png</texture>
+            <texture colordiffuse="1A485A78">colors/white.png</texture>
         </control>
         <!-- The banner's raised edge along the top: a soft glow down from it, a
              dark hairline above a bright rim. -->
@@ -85,7 +85,7 @@
         <!-- A dark fade along the top, so the clock reads over a bright picture. -->
         <control type="image">
             <left>0</left><top>0</top><width>1920</width><height>200</height>
-            <texture flipy="true" colordiffuse="B30D0F12">silo/scrim_bottom.png</texture>
+            <texture flipy="true" colordiffuse="B32A3445">silo/scrim_bottom_white.png</texture>
         </control>
         <control type="label">
             <right>88</right><top>40</top><width>400</width><height>48</height>
@@ -1198,13 +1198,8 @@
             </rulerlayout>
             <channellayout height="69" width="400">
                     <control type="image">
-                        <left>72</left><top>6</top><width>316</width><height>57</height>
-                        <texture border="8" colordiffuse="1AFFFFFF">silo/guide_cell.png</texture>
-                    </control>
-                    <control type="image">
-                        <left>72</left><top>6</top><width>316</width><height>57</height>
-                        <texture border="8" colordiffuse="523A9DFF">silo/guide_cell.png</texture>
-                        <visible>ListItem.IsPlaying</visible>
+                        <left>72</left><top>68</top><width>328</width><height>1</height>
+                        <texture colordiffuse="26FFFFFF">colors/white.png</texture>
                     </control>
                     <control type="image">
                         <left>88</left><top>12</top><width>160</width><height>44</height>
@@ -1243,13 +1238,8 @@
             </channellayout>
             <focusedchannellayout height="69" width="400">
                     <control type="image">
-                        <left>72</left><top>6</top><width>316</width><height>57</height>
-                        <texture border="8" colordiffuse="$VAR[SiloGuideCell]">silo/guide_cell.png</texture>
-                    </control>
-                    <control type="image">
-                        <left>72</left><top>6</top><width>316</width><height>57</height>
-                        <texture border="8" colordiffuse="$VAR[SiloGuidePlaying]">silo/guide_cell.png</texture>
-                        <visible>ListItem.IsPlaying</visible>
+                        <left>72</left><top>68</top><width>328</width><height>1</height>
+                        <texture colordiffuse="26FFFFFF">colors/white.png</texture>
                     </control>
                     <control type="image">
                         <left>88</left><top>12</top><width>160</width><height>44</height>
@@ -1288,8 +1278,8 @@
             </focusedchannellayout>
             <itemlayout height="69" width="60">
                     <control type="image" id="2">
-                        <left>3</left><top>6</top><width>54</width><height>57</height>
-                        <texture border="8" colordiffuse="1AFFFFFF">silo/guide_cell.png</texture>
+                        <left>0</left><top>0</top><width>60</width><height>69</height>
+                        <texture border="17" colordiffuse="26FFFFFF">silo/guide_divider.png</texture>
                     </control>
                     <control type="label" id="1">
                         <left>18</left><top>6</top><width>30</width><height>57</height>
@@ -1300,8 +1290,8 @@
             </itemlayout>
             <focusedlayout height="69" width="60">
                     <control type="image" id="2">
-                        <left>3</left><top>6</top><width>54</width><height>57</height>
-                        <texture border="8" colordiffuse="$VAR[SiloGuideCell]">silo/guide_cell.png</texture>
+                        <left>0</left><top>0</top><width>60</width><height>69</height>
+                        <texture border="17" colordiffuse="$VAR[SiloGuideCell]">$VAR[SiloGuideCellTexture]</texture>
                     </control>
                     <control type="label" id="1">
                         <left>18</left><top>6</top><width>30</width><height>57</height>
@@ -1319,7 +1309,7 @@
         <control type="image">
             <left>400</left><top>482</top><width>56</width><height>46</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture colordiffuse="SkylineBackground">silo/scrim_side.png</texture>
+            <texture colordiffuse="FF2A3445">silo/scrim_side.png</texture>
         </control>
 
         <!-- What's playing, in a box at the bottom right over the grid, as Sky
