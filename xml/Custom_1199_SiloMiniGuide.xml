@@ -742,7 +742,7 @@
                 </content>
                 <itemlayout height="92" width="920">
                 <control type="image">
-                    <left>40</left><top>24</top><width>150</width><height>44</height>
+                    <left>50</left><top>24</top><width>150</width><height>44</height>
                     <aspectratio align="left">keep</aspectratio>
                     <texture>$INFO[ListItem.Icon]</texture>
                 </control>

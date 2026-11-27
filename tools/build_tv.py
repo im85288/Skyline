@@ -2215,10 +2215,11 @@ MINI_INSET = 26                        # its logo's and text's space from its si
 
 
 def mini_row():
-    """A channel's row: its logo and what's on."""
+    """A channel's row: its logo and what's on, the logo where the selected
+    card's starts (MINI_MARGIN + MINI_INSET), so it doesn't step in and out."""
     return """
                 <control type="image">
-                    <left>40</left><top>%(ly)d</top><width>150</width><height>44</height>
+                    <left>%(lx)d</left><top>%(ly)d</top><width>150</width><height>44</height>
                     <aspectratio align="left">keep</aspectratio>
                     <texture>$INFO[ListItem.Icon]</texture>
                 </control>
@@ -2228,7 +2229,7 @@ def mini_row():
                     <font>silo_meta</font>
                     <textcolor>C8EDEDED</textcolor>
                     <label>$INFO[ListItem.Property(silo.now)]</label>
-                </control>""" % {'ly': (MINI_ROW - 44) // 2, 'tx': MINI_TX, 'tw': 1920 - MINI_X - MINI_TX - 90,
+                </control>""" % {'ly': (MINI_ROW - 44) // 2, 'lx': MINI_MARGIN + MINI_INSET, 'tx': MINI_TX, 'tw': 1920 - MINI_X - MINI_TX - 90,
                                  'h': MINI_ROW}
 
 
