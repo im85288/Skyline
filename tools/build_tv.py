@@ -640,7 +640,7 @@ def build():
                  are the times (the only cells with a colon). -->
             <rulerlayout height="%(ruler_h)d" width="1400">
                 <control type="label">
-                    <left>14</left><width>%(half_hour)d</width><height>%(ruler_h)d</height>
+                    <left>18</left><width>%(half_hour)d</width><height>%(ruler_h)d</height>
                     <aligny>center</aligny>
                     <font>silo_detail</font>
                     <textcolor>%(dim)s</textcolor>
@@ -680,11 +680,12 @@ def build():
         </control>
 
         <!-- The time row's first, cut-off time (")0" of 22:00) faded into the
-             row's dark backing: Kodi clips a half-hour that began before the
-             grid's left edge; 56 px, the most a cut-off label reaches in (wider, it faded
-             a whole time sitting near the edge). -->
+             row's backing: Kodi clips a half-hour that began before the grid's
+             left edge. The grid scrolls by 5 minutes (60 px), so a time sits at
+             the edge or 60 px before it, when only its last few pixels show:
+             18 px, where a time at the edge starts (56 px faded its first digit). -->
         <control type="image">
-            <left>%(cw)d</left><top>%(grid_y)d</top><width>56</width><height>%(ruler_h)d</height>
+            <left>%(cw)d</left><top>%(grid_y)d</top><width>18</width><height>%(ruler_h)d</height>
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
             <texture colordiffuse="%(background)s">silo/scrim_side.png</texture>
         </control>
