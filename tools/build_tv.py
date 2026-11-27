@@ -2165,8 +2165,8 @@ def peek_osd_anim():
 
 
 def peek_rows():
-    """The row under the controls (YouTube's shelf): Recent channels only, no
-    title. At rest its cards peek at the foot; Down brings it up to PEEK_TOP
+    """The row under the controls (YouTube's shelf): Recent channels only, its
+    title shown once risen. At rest its cards peek at the foot; Down brings it up to PEEK_TOP
     (the controls fade); Up goes back to them."""
     rows = CHIPS[:1]  # Recent only (2026-11-27): On now and Coming up live in the mini guide and TV page
     lists = [list_id for _, _, _, list_id, _ in rows]
@@ -2186,9 +2186,21 @@ def peek_rows():
                      'condition="!%s">Conditional</animation>'
                      '\n                    <animation effect="slide" start="0,40" end="0,0" time="250" tween="cubic" easing="out" '
                      'condition="%s">Conditional</animation>' % (lit, lit))
+        # The row's title, halfway between the glass's edge (BAR_Y - 60) and the
+        # selected card's top once risen; it rises with the cards, shown only then.
+        title = """
+                    <control type="label">
+                        <left>%d</left><top>%d</top><width>1000</width><height>46</height>
+                        <aligny>center</aligny>
+                        <font>silo_row</font>
+                        <textcolor>%s</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>Recent channels</label>
+                        <animation effect="fade" time="150">VisibleChange</animation>
+                        <visible>%s</visible>
+                    </control>""" % (SAFE_X, y - (PEEK_TOP - (BAR_Y - 60 + 9)), TEXT, in_rows()) if n == 0 else ''
         out += """
-                <control type="group">%(anims)s%(row)s
-                </control>""" % {'anims': anims,
+                <control type="group">%(anims)s%(title)s%(row)s
+                </control>""" % {'anims': anims, 'title': title,
                                  # Into the next row on its first card, as from the buttons.
                                  'row': card_row(chip_id, key, list_id, mode, y=y,
                                                  up='SetFocus(%d,0,absolute)' % lists[n - 1] if n else PLAY_PAUSE,

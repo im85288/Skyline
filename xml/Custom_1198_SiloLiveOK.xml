@@ -557,6 +557,15 @@
                 <control type="group">
                     <animation effect="slide" end="0,-163" time="300" tween="cubic" easing="out" condition="ControlGroup(5640).HasFocus()">Conditional</animation>
                     <animation effect="fade" start="100" end="0" time="150" condition="ControlGroup(5640).HasFocus() + !Control.HasFocus(5600)">Conditional</animation>
+                    <control type="label">
+                        <left>88</left><top>825</top><width>1000</width><height>46</height>
+                        <aligny>center</aligny>
+                        <font>silo_row</font>
+                        <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>Recent channels</label>
+                        <animation effect="fade" time="150">VisibleChange</animation>
+                        <visible>ControlGroup(5640).HasFocus()</visible>
+                    </control>
             <control type="list" id="5600">
                 <animation effect="fade" start="100" end="0" time="0" condition="String.IsEmpty(Window(Home).Property(silo.recent.placed))">Conditional</animation>
                 <left>80</left><top>897</top><width>1840</width><height>359</height>
