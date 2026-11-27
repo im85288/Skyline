@@ -66,6 +66,8 @@ LIVE_HIDDEN = '[String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlay
 PILL_BG = 'E6262A33'          # the group pills' dark fill
 ENDED = 'Integer.IsEqual(ListItem.Progress,100)'  # a programme that has finished
 NO_CATCHUP = ENDED + ' + !ListItem.IsPlayable'  # finished, and no catch-up to watch it back
+# More than a minute behind live: catch-up, or live TV paused or rewound (PVR.TimeShiftOffset is m:ss under an hour).
+BEHIND_LIVE = '[!String.IsEmpty(PVR.TimeShiftOffset) + !String.StartsWith(PVR.TimeShiftOffset,00:)]'
 
 
 def playing_mark(left, top, size=24, colour=ACCENT, also='true'):
@@ -1391,6 +1393,10 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
          programmes, as Sky Stream's: note the
          channel it shows, open Skyline's banner window (it holds the keys after)
          and step. -->
+    <!-- More than a minute behind live (catch-up, or live TV paused or rewound;
+         PVR.TimeShiftOffset is m:ss under an hour, so "00:" is under a minute):
+         Left / Right go 10 seconds back or 30 on, as Sky's, rather than the
+         overlay and the mini guide. -->
     <!-- Held Left / Right (silo.live.step -2 / 2): skip 5 minutes back or on, as Sky's. -->
     <timer>
         <name>silo_live_skip_back</name>
@@ -1458,8 +1464,9 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <name>silo_live_left</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="!%(banner_up)s">SetProperty(silo.ok.from,row,home)</onstart>
-        <onstart condition="!%(banner_up)s">ActivateWindow(%(window)d)</onstart>
+        <onstart condition="!%(banner_up)s + !%(behind)s">SetProperty(silo.ok.from,row,home)</onstart>
+        <onstart condition="!%(banner_up)s + !%(behind)s">ActivateWindow(%(window)d)</onstart>
+        <onstart condition="!%(banner_up)s + %(behind)s + !Window.IsActive(%(window)d)">Seek(-10)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
         <onstart condition="%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
@@ -1469,7 +1476,8 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="!%(banner_up)s">ActivateWindow(%(mini)d)</onstart>
+        <onstart condition="!%(banner_up)s + !%(behind)s">ActivateWindow(%(mini)d)</onstart>
+        <onstart condition="!%(banner_up)s + %(behind)s + !Window.IsActive(%(mini)d)">Seek(30)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
         <onstart condition="%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
@@ -1503,7 +1511,7 @@ def add_timers():
     text = open(path, encoding='utf-8').read()
     if TIMER_START in text:
         text = text[:text.index(TIMER_START)] + text[text.index(TIMER_END) + len(TIMER_END):]
-    text = text.replace('</timers>', TIMER_START + TIMERS % {'grid': GRID_ID, 'banner_up': BANNER_UP, 'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': OK_ID, 'list': RECENT_LIST, 'idle': OVERLAY_IDLE, 'play': PLAY_PAUSE, 'mini': MINI_ID, 'mini_list': MINI_LIST, 'mini_idle': MINI_IDLE, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
+    text = text.replace('</timers>', TIMER_START + TIMERS % {'grid': GRID_ID, 'banner_up': BANNER_UP, 'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': OK_ID, 'list': RECENT_LIST, 'idle': OVERLAY_IDLE, 'play': PLAY_PAUSE, 'mini': MINI_ID, 'mini_list': MINI_LIST, 'mini_idle': MINI_IDLE, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS, 'behind': BEHIND_LIVE}
                         + TIMER_END + '</timers>')
     open(path, 'w', encoding='utf-8').write(text)
 

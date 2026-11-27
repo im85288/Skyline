@@ -387,6 +387,10 @@
          programmes, as Sky Stream's: note the
          channel it shows, open Skyline's banner window (it holds the keys after)
          and step. -->
+    <!-- More than a minute behind live (catch-up, or live TV paused or rewound;
+         PVR.TimeShiftOffset is m:ss under an hour, so "00:" is under a minute):
+         Left / Right go 10 seconds back or 30 on, as Sky's, rather than the
+         overlay and the mini guide. -->
     <!-- Held Left / Right (silo.live.step -2 / 2): skip 5 minutes back or on, as Sky's. -->
     <timer>
         <name>silo_live_skip_back</name>
@@ -454,8 +458,9 @@
         <name>silo_live_left</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),-1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]]">SetProperty(silo.ok.from,row,home)</onstart>
-        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]]">ActivateWindow(1198)</onstart>
+        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + ![!String.IsEmpty(PVR.TimeShiftOffset) + !String.StartsWith(PVR.TimeShiftOffset,00:)]">SetProperty(silo.ok.from,row,home)</onstart>
+        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + ![!String.IsEmpty(PVR.TimeShiftOffset) + !String.StartsWith(PVR.TimeShiftOffset,00:)]">ActivateWindow(1198)</onstart>
+        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + [!String.IsEmpty(PVR.TimeShiftOffset) + !String.StartsWith(PVR.TimeShiftOffset,00:)] + !Window.IsActive(1198)">Seek(-10)</onstart>
         <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
         <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=-1)</onstart>
@@ -465,7 +470,8 @@
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]]">ActivateWindow(1199)</onstart>
+        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + ![!String.IsEmpty(PVR.TimeShiftOffset) + !String.StartsWith(PVR.TimeShiftOffset,00:)]">ActivateWindow(1199)</onstart>
+        <onstart condition="![Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + [!String.IsEmpty(PVR.TimeShiftOffset) + !String.StartsWith(PVR.TimeShiftOffset,00:)] + !Window.IsActive(1199)">Seek(30)</onstart>
         <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + !Window.IsActive(1183)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]] + !Window.IsActive(1183)">ActivateWindow(1183)</onstart>
         <onstart condition="[Window.IsActive(1183) | [[Player.ShowInfo | Player.ChannelPreviewActive | Window.IsActive(fullscreeninfo)] + ![String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlayer.ChannelName) | !String.IsEmpty(Window(Home).Property(silokodi.live.switched))]]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
