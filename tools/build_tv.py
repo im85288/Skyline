@@ -1586,9 +1586,10 @@ def round_button(control_id, icons, action, left, right, caption='', x=None, liv
 
 
 def recent_card(focused, list_id=None, w=None):
-    """A recently watched channel, as the TV page's cards: the programme's
-    picture (Sky's) with the channel's logo in its corner, how far through
-    and LIVE; with no picture, the logo on the panel. What's on under it."""
+    """A recently watched channel: the programme's picture (Sky's) with the
+    channel's logo at the top left, LIVE at the top right, and what's on over
+    a dark foot shade above how far through; with no picture, the logo on
+    the panel."""
     from build_home import focus_sheen, focus_zoom
     w = w or TILE_W  # the card's width; its picture is 16:9
     LOGO_H = 52 if w >= 500 else 40  # the channel's logo, larger on the overlay's big cards
@@ -1607,14 +1608,19 @@ def recent_card(focused, list_id=None, w=None):
                         <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Property(silo.picture)]</texture>
                         <visible>%(has)s</visible>
                     </control>
+                    <!-- Shades for what's on the picture: the logo at the top, the title at the foot. -->
                     <control type="image">
-                        <width>%(w)d</width><height>%(ph)d</height>
-                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                        <width>%(w)d</width><height>%(top_h)d</height>
+                        <texture flipy="true" diffuse="silo/card_landscape_mask.png" colordiffuse="80FFFFFF">silo/scrim_bottom.png</texture>
                         <visible>%(has)s</visible>
                     </control>
                     <control type="image">
-                        <left>14</left><top>%(ly)d</top><width>%(logo_w)d</width><height>%(logo_h)d</height>
-                        <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                        <top>%(foot_y)d</top><width>%(w)d</width><height>%(foot_h)d</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/scrim_bottom.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>16</left><top>14</top><width>%(logo_w)d</width><height>%(logo_h)d</height>
+                        <aspectratio align="left" aligny="top">keep</aspectratio>
                         <texture>$INFO[ListItem.Icon]</texture>
                         <visible>%(has)s</visible>
                     </control>
@@ -1625,7 +1631,7 @@ def recent_card(focused, list_id=None, w=None):
                         <visible>!%(has)s</visible>
                     </control>
                     <control type="group">
-                        <left>10</left><top>10</top>%(live)s
+                        <left>%(live_x)d</left><top>14</top>%(live)s
                     </control>
                     <control type="progress">
                         <left>14</left><top>%(bar)d</top><width>%(bw)d</width><height>5</height>
@@ -1635,17 +1641,20 @@ def recent_card(focused, list_id=None, w=None):
                         <visible>Integer.IsGreater(ListItem.Property(silo.progress),0)</visible>
                     </control>%(sheen)s
                     <control type="label">
-                        <left>4</left><top>%(ty)d</top><width>%(tw)d</width><height>34</height>
+                        <left>16</left><top>%(ty)d</top><width>%(tw)d</width><height>34</height>
                         <aligny>center</aligny>
-                        <font>silo_detail</font>
+                        <font>silo_card_title</font>
                         <textcolor>%(colour)s</textcolor>
                         <selectedcolor>%(colour)s</selectedcolor>
+                        <shadowcolor>CC000000</shadowcolor>
                         <label>$INFO[ListItem.Property(silo.now)]</label>
                     </control>
                 </control>''' % {'zoom': focus_zoom(lit, 16) if focused else '', 'w': w, 'ph': ph,
-                                  'panel': PANEL, 'lw': w - 44, 'lh': ph - 32, 'has': has,
-                                  'ly': ph - 14 - LOGO_H, 'logo_w': LOGO_H * 29 // 10, 'logo_h': LOGO_H, 'bar': ph - 5, 'bw': w - 28,
-                                  'tw': w - 8, 'ty': ph + 6, 'text': TEXT,
+                                  'panel': PANEL, 'lw': w - 44, 'lh': ph - 90, 'has': has,
+                                  'logo_w': LOGO_H * 29 // 10, 'logo_h': LOGO_H, 'bar': ph - 5, 'bw': w - 28,
+                                  'tw': w - 32, 'ty': ph - 5 - 14 - 34, 'text': TEXT,
+                                  'top_h': ph * 2 // 5, 'foot_y': ph - ph * 9 // 20, 'foot_h': ph * 9 // 20,
+                                  'live_x': w - 14 - 60,
                                   'live': live_badge('String.IsEqual(ListItem.Property(silo.live),1)'),
                                   # Over the picture itself: focus_sheen sits 6 px in, as the
                                   # home cards' art does, which left its rim hanging below these.
@@ -1653,7 +1662,7 @@ def recent_card(focused, list_id=None, w=None):
                                                        'silo/card_landscape_rim.png', lit, 16).replace(
                                       '<left>6</left><top>6</top>', '<left>0</left><top>0</top>', 1)
                                   if focused else '',
-                                  'colour': TEXT if focused else 'D9EDEDED'}
+                                  'colour': 'FFFFFFFF' if focused else 'E6FFFFFF'}
 
 
 # Live TV's one background while watching: the mini TV guide's panel, the
@@ -2036,7 +2045,7 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
             <control type="progress">
                 <left>%(x)d</left><top>%(by2)d</top><width>%(bw)d</width><height>12</height>
                 <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
-                <midtexture colordiffuse="FFE53935">colors/white.png</midtexture>
+                <midtexture colordiffuse="FFFFFFFF">colors/white.png</midtexture>
                 <info>PVR.EpgEventProgress</info>
                 <visible>Control.HasFocus(%(bar)d)</visible>
             </control>

@@ -156,7 +156,7 @@
             <control type="progress">
                 <left>88</left><top>710</top><width>1744</width><height>12</height>
                 <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
-                <midtexture colordiffuse="FFE53935">colors/white.png</midtexture>
+                <midtexture colordiffuse="FFFFFFFF">colors/white.png</midtexture>
                 <info>PVR.EpgEventProgress</info>
                 <visible>Control.HasFocus(5630)</visible>
             </control>
@@ -577,25 +577,30 @@
                         <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Property(silo.picture)]</texture>
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
+                    <!-- Shades for what's on the picture: the logo at the top, the title at the foot. -->
                     <control type="image">
-                        <width>552</width><height>310</height>
-                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                        <width>552</width><height>124</height>
+                        <texture flipy="true" diffuse="silo/card_landscape_mask.png" colordiffuse="80FFFFFF">silo/scrim_bottom.png</texture>
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <control type="image">
-                        <left>14</left><top>244</top><width>150</width><height>52</height>
-                        <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                        <top>171</top><width>552</width><height>139</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/scrim_bottom.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>16</left><top>14</top><width>150</width><height>52</height>
+                        <aspectratio align="left" aligny="top">keep</aspectratio>
                         <texture>$INFO[ListItem.Icon]</texture>
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <control type="image">
-                        <left>22</left><top>16</top><width>508</width><height>278</height>
+                        <left>22</left><top>16</top><width>508</width><height>220</height>
                         <aspectratio>keep</aspectratio>
                         <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
                         <visible>String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <control type="group">
-                        <left>10</left><top>10</top>
+                        <left>478</left><top>14</top>
                         <control type="image">
                             <width>60</width><height>28</height>
                             <texture border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texture>
@@ -618,11 +623,12 @@
                         <visible>Integer.IsGreater(ListItem.Property(silo.progress),0)</visible>
                     </control>
                     <control type="label">
-                        <left>4</left><top>316</top><width>544</width><height>34</height>
+                        <left>16</left><top>257</top><width>520</width><height>34</height>
                         <aligny>center</aligny>
-                        <font>silo_detail</font>
-                        <textcolor>D9EDEDED</textcolor>
-                        <selectedcolor>D9EDEDED</selectedcolor>
+                        <font>silo_card_title</font>
+                        <textcolor>E6FFFFFF</textcolor>
+                        <selectedcolor>E6FFFFFF</selectedcolor>
+                        <shadowcolor>CC000000</shadowcolor>
                         <label>$INFO[ListItem.Property(silo.now)]</label>
                     </control>
                 </control>
@@ -640,25 +646,30 @@
                         <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Property(silo.picture)]</texture>
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
+                    <!-- Shades for what's on the picture: the logo at the top, the title at the foot. -->
                     <control type="image">
-                        <width>552</width><height>310</height>
-                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                        <width>552</width><height>124</height>
+                        <texture flipy="true" diffuse="silo/card_landscape_mask.png" colordiffuse="80FFFFFF">silo/scrim_bottom.png</texture>
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <control type="image">
-                        <left>14</left><top>244</top><width>150</width><height>52</height>
-                        <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                        <top>171</top><width>552</width><height>139</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/scrim_bottom.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>16</left><top>14</top><width>150</width><height>52</height>
+                        <aspectratio align="left" aligny="top">keep</aspectratio>
                         <texture>$INFO[ListItem.Icon]</texture>
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <control type="image">
-                        <left>22</left><top>16</top><width>508</width><height>278</height>
+                        <left>22</left><top>16</top><width>508</width><height>220</height>
                         <aspectratio>keep</aspectratio>
                         <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
                         <visible>String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <control type="group">
-                        <left>10</left><top>10</top>
+                        <left>478</left><top>14</top>
                         <control type="image">
                             <width>60</width><height>28</height>
                             <texture border="8" colordiffuse="FFE0262F">silo/badge_solid.png</texture>
@@ -693,11 +704,12 @@
                     </control>
                 </control>
                     <control type="label">
-                        <left>4</left><top>316</top><width>544</width><height>34</height>
+                        <left>16</left><top>257</top><width>520</width><height>34</height>
                         <aligny>center</aligny>
-                        <font>silo_detail</font>
-                        <textcolor>FFEDEDED</textcolor>
-                        <selectedcolor>FFEDEDED</selectedcolor>
+                        <font>silo_card_title</font>
+                        <textcolor>FFFFFFFF</textcolor>
+                        <selectedcolor>FFFFFFFF</selectedcolor>
+                        <shadowcolor>CC000000</shadowcolor>
                         <label>$INFO[ListItem.Property(silo.now)]</label>
                     </control>
                 </control>
