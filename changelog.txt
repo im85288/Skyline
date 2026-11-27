@@ -1,3 +1,9 @@
+[B]0.32.0[/B]
+• Live TV banner in Sky Stream's layout: the channel with the ones above and below on the left, the programme's card with its picture, and what's next on the right
+• Sky's frosted glass with a raised edge on the banner, the overlay, the mini guide (its selected card too), the options panel, channel number entry and notices while watching live TV; films and series keep their usual panels
+• The overlay shows only your recent channels (On now and Coming up are in the mini guide and the TV page); the cards show the title on the picture, with a bigger channel logo at the top left
+• The progress bar is white, not red, when selected
+
 [B]0.31.0[/B]
 • Live TV: Right opens a mini TV guide, as Sky's: every channel on a panel at the right, opening on the one you're watching, its card showing what's on, LIVE, the quality and sound, how far in and what's next; OK watches, Left closes (Left still opens the overlay)
 • One navy background everywhere while watching (the banner, the overlay, the mini guide and the Coming up note); the overlay no longer dims the whole picture
