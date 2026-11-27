@@ -62,7 +62,7 @@
                  line along its foot; no picture, the logo alone. -->
             <control type="image">
                 <left>506</left><top>788</top><width>380</width><height>214</height>
-                <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
+                <texture diffuse="silo/card_landscape_mask.png" colordiffuse="CC1A1D24">colors/white.png</texture>
             </control>
             <control type="image">
                 <left>506</left><top>788</top><width>380</width><height>214</height>
@@ -270,7 +270,7 @@
                 </control>
                 <control type="image">
                     <top>52</top><width>240</width><height>135</height>
-                    <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
+                    <texture diffuse="silo/card_landscape_mask.png" colordiffuse="CC1A1D24">colors/white.png</texture>
                 </control>
                 <control type="image">
                     <top>52</top><width>240</width><height>135</height>
@@ -303,7 +303,7 @@
                 </control>
                 <control type="image">
                     <top>52</top><width>240</width><height>135</height>
-                    <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
+                    <texture diffuse="silo/card_landscape_mask.png" colordiffuse="CC1A1D24">colors/white.png</texture>
                 </control>
                 <control type="image">
                     <top>52</top><width>240</width><height>135</height>

@@ -836,7 +836,7 @@ def build_info():
                 <left>%(px)d</left><top>120</top>
                 <control type="image">
                     <width>%(pw)d</width><height>%(ph)d</height>
-                    <texture border="20" colordiffuse="FF000000">silo/card_landscape_mask.png</texture>
+                    <texture diffuse="silo/card_landscape_mask.png" colordiffuse="FF000000">colors/white.png</texture>
                 </control>
                 <control type="image">
                     <width>%(pw)d</width><height>%(ph)d</height>
@@ -929,7 +929,7 @@ def sky_next(n, y):
                 </control>
                 <control type="image">
                     <top>52</top><width>%(w)d</width><height>%(h)d</height>
-                    <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
+                    <texture diffuse="silo/card_landscape_mask.png" colordiffuse="CC1A1D24">colors/white.png</texture>
                 </control>
                 <control type="image">
                     <top>52</top><width>%(w)d</width><height>%(h)d</height>
@@ -1063,7 +1063,7 @@ def sky_banner():
                  line along its foot; no picture, the logo alone. -->
             <control type="image">
                 <left>%(px)d</left><top>%(pic_y)d</top><width>%(pw)d</width><height>%(ph)d</height>
-                <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
+                <texture diffuse="silo/card_landscape_mask.png" colordiffuse="CC1A1D24">colors/white.png</texture>
             </control>
             <control type="image">
                 <left>%(px)d</left><top>%(pic_y)d</top><width>%(pw)d</width><height>%(ph)d</height>
@@ -1600,7 +1600,7 @@ def recent_card(focused, list_id=None, w=None):
                 <control type="group">%(zoom)s
                     <control type="image">
                         <width>%(w)d</width><height>%(ph)d</height>
-                        <texture border="20" colordiffuse="E6%(panel)s">silo/card_landscape_mask.png</texture>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="E6%(panel)s">colors/white.png</texture>
                     </control>
                     <control type="image">
                         <width>%(w)d</width><height>%(ph)d</height>
@@ -1609,14 +1609,19 @@ def recent_card(focused, list_id=None, w=None):
                         <visible>%(has)s</visible>
                     </control>
                     <!-- Shades for what's on the picture: the logo at the top, the title at the foot. -->
+                    <!-- Each the picture's own size and mask, so their corners are its corners. -->
                     <control type="image">
-                        <width>%(w)d</width><height>%(top_h)d</height>
-                        <texture flipy="true" diffuse="silo/card_landscape_mask.png" colordiffuse="80FFFFFF">silo/scrim_bottom.png</texture>
+                        <width>%(w)d</width><height>%(ph)d</height>
+                        <texture flipy="true" diffuse="silo/card_landscape_mask.png" colordiffuse="99FFFFFF">silo/card_scrim.png</texture>
                         <visible>%(has)s</visible>
                     </control>
                     <control type="image">
-                        <top>%(foot_y)d</top><width>%(w)d</width><height>%(foot_h)d</height>
-                        <texture diffuse="silo/card_landscape_mask.png">silo/scrim_bottom.png</texture>
+                        <width>%(w)d</width><height>%(ph)d</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>%(w)d</width><height>%(ph)d</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
                     </control>
                     <control type="image">
                         <left>16</left><top>14</top><width>%(logo_w)d</width><height>%(logo_h)d</height>
@@ -1653,7 +1658,6 @@ def recent_card(focused, list_id=None, w=None):
                                   'panel': PANEL, 'lw': w - 44, 'lh': ph - 90, 'has': has,
                                   'logo_w': LOGO_H * 29 // 10, 'logo_h': LOGO_H, 'bar': ph - 5, 'bw': w - 28,
                                   'tw': w - 32, 'ty': ph - 5 - 14 - 34, 'text': TEXT,
-                                  'top_h': ph * 2 // 5, 'foot_y': ph - ph * 9 // 20, 'foot_h': ph * 9 // 20,
                                   'live_x': w - 14 - 60,
                                   'live': live_badge('String.IsEqual(ListItem.Property(silo.live),1)'),
                                   # Over the picture itself: focus_sheen sits 6 px in, as the
@@ -1789,7 +1793,8 @@ if PEEK:
     # moves the stack up so the row with focus has its cards' top at PEEK_TOP,
     # the next row's name peeking at the foot.
     PEEK_CARD_H = PEEK_W * 9 // 16 + 49
-    PEEK_STEP, PEEK_TOP = PEEK_CARD_H + 90, 600   # one row on screen: the lower half, where the controls were
+    # The row's pictures end where the banner's card does (36 from the bottom).
+    PEEK_STEP, PEEK_TOP = PEEK_CARD_H + 90, SKY_Y + SKY_H - PEEK_W * 9 // 16
 else:
     TITLE_Y, BAR_Y, BUTTONS_Y, CHIPS_Y = 70, 580, 620, 764
     CARDS_Y = CHIPS_Y + 64
@@ -2081,7 +2086,7 @@ NEIGHBOUR_XML = """
                 <animation effect="fade" start="100" end="0" time="120">Hidden</animation>
                 <control type="image">
                     <width>%(w)d</width><height>%(h)d</height>
-                    <texture border="20" colordiffuse="F2%(panel)s">silo/card_landscape_mask.png</texture>
+                    <texture diffuse="silo/card_landscape_mask.png" colordiffuse="F2%(panel)s">colors/white.png</texture>
                 </control>
                 <control type="image">
                     <width>%(w)d</width><height>%(ph)d</height>

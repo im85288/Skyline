@@ -439,7 +439,7 @@
                 <animation effect="fade" start="100" end="0" time="120">Hidden</animation>
                 <control type="image">
                     <width>400</width><height>309</height>
-                    <texture border="20" colordiffuse="SkylineLivePanel">silo/card_landscape_mask.png</texture>
+                    <texture diffuse="silo/card_landscape_mask.png" colordiffuse="SkylineLivePanel">colors/white.png</texture>
                 </control>
                 <control type="image">
                     <width>400</width><height>225</height>
@@ -496,7 +496,7 @@
                 <animation effect="fade" start="100" end="0" time="120">Hidden</animation>
                 <control type="image">
                     <width>400</width><height>309</height>
-                    <texture border="20" colordiffuse="SkylineLivePanel">silo/card_landscape_mask.png</texture>
+                    <texture diffuse="silo/card_landscape_mask.png" colordiffuse="SkylineLivePanel">colors/white.png</texture>
                 </control>
                 <control type="image">
                     <width>400</width><height>225</height>
@@ -552,7 +552,7 @@
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
             <control type="group" id="5640">
                 <control type="group">
-                    <animation effect="slide" end="0,-297" time="300" tween="cubic" easing="out" condition="ControlGroup(5640).HasFocus()">Conditional</animation>
+                    <animation effect="slide" end="0,-163" time="300" tween="cubic" easing="out" condition="ControlGroup(5640).HasFocus()">Conditional</animation>
                     <animation effect="fade" start="100" end="0" time="150" condition="ControlGroup(5640).HasFocus() + !Control.HasFocus(5600)">Conditional</animation>
             <control type="list" id="5600">
                 <animation effect="fade" start="100" end="0" time="0" condition="String.IsEmpty(Window(Home).Property(silo.recent.placed))">Conditional</animation>
@@ -569,7 +569,7 @@
                 <control type="group">
                     <control type="image">
                         <width>552</width><height>310</height>
-                        <texture border="20" colordiffuse="SkylineLiveCard">silo/card_landscape_mask.png</texture>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="SkylineLiveCard">colors/white.png</texture>
                     </control>
                     <control type="image">
                         <width>552</width><height>310</height>
@@ -578,14 +578,19 @@
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <!-- Shades for what's on the picture: the logo at the top, the title at the foot. -->
+                    <!-- Each the picture's own size and mask, so their corners are its corners. -->
                     <control type="image">
-                        <width>552</width><height>124</height>
-                        <texture flipy="true" diffuse="silo/card_landscape_mask.png" colordiffuse="80FFFFFF">silo/scrim_bottom.png</texture>
+                        <width>552</width><height>310</height>
+                        <texture flipy="true" diffuse="silo/card_landscape_mask.png" colordiffuse="99FFFFFF">silo/card_scrim.png</texture>
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <control type="image">
-                        <top>171</top><width>552</width><height>139</height>
-                        <texture diffuse="silo/card_landscape_mask.png">silo/scrim_bottom.png</texture>
+                        <width>552</width><height>310</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>552</width><height>310</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
                     </control>
                     <control type="image">
                         <left>16</left><top>14</top><width>150</width><height>52</height>
@@ -638,7 +643,7 @@
                 <animation effect="zoom" start="100" end="110" time="180" tween="sine" easing="out" center="auto" condition="Control.HasFocus(5600)">Conditional</animation>
                     <control type="image">
                         <width>552</width><height>310</height>
-                        <texture border="20" colordiffuse="SkylineLiveCard">silo/card_landscape_mask.png</texture>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="SkylineLiveCard">colors/white.png</texture>
                     </control>
                     <control type="image">
                         <width>552</width><height>310</height>
@@ -647,14 +652,19 @@
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <!-- Shades for what's on the picture: the logo at the top, the title at the foot. -->
+                    <!-- Each the picture's own size and mask, so their corners are its corners. -->
                     <control type="image">
-                        <width>552</width><height>124</height>
-                        <texture flipy="true" diffuse="silo/card_landscape_mask.png" colordiffuse="80FFFFFF">silo/scrim_bottom.png</texture>
+                        <width>552</width><height>310</height>
+                        <texture flipy="true" diffuse="silo/card_landscape_mask.png" colordiffuse="99FFFFFF">silo/card_scrim.png</texture>
                         <visible>!String.IsEmpty(ListItem.Property(silo.picture))</visible>
                     </control>
                     <control type="image">
-                        <top>171</top><width>552</width><height>139</height>
-                        <texture diffuse="silo/card_landscape_mask.png">silo/scrim_bottom.png</texture>
+                        <width>552</width><height>310</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>552</width><height>310</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
                     </control>
                     <control type="image">
                         <left>16</left><top>14</top><width>150</width><height>52</height>
