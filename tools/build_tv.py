@@ -403,12 +403,6 @@ def build():
         <!-- The day and times sit on the page itself: the picture fades out
              (guide_mask) from under the details to the rows' top, so no band
              of their own (a flat one read as a grey bar, 2026-11-27). -->
-        <!-- Left of the restart row, the time row and the glass, the page: the
-             picture's edge showed there. It stays put as the grid slides. -->
-        <control type="image">
-            <left>0</left><top>%(left_y)d</top><width>%(panel_x)d</width><height>%(left_h)d</height>
-            <texture colordiffuse="%(background)s">colors/white.png</texture>
-        </control>
 
         <!-- Sky's glass under the rows (the day and times above stay on the
              picture): the programmes on see-through navy, the channels on the
@@ -727,7 +721,7 @@ def build():
        'top_fade': '80' + GUIDE_PAGE[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
-       'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X, 'left_y': RAIL_Y - 12, 'left_h': 1080 - RAIL_Y + 12,
+       'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X,
 
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
        'guide_quality': quality_badge('String.Contains(Window(Home).Property(silokodi.tv.uhd),ListItem.ChannelName)',

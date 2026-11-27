@@ -27,12 +27,6 @@
         <!-- The day and times sit on the page itself: the picture fades out
              (guide_mask) from under the details to the rows' top, so no band
              of their own (a flat one read as a grey bar, 2026-11-27). -->
-        <!-- Left of the restart row, the time row and the glass, the page: the
-             picture's edge showed there. It stays put as the grid slides. -->
-        <control type="image">
-            <left>0</left><top>434</top><width>72</width><height>646</height>
-            <texture colordiffuse="FF2A3445">colors/white.png</texture>
-        </control>
 
         <!-- Sky's glass under the rows (the day and times above stay on the
              picture): the programmes on see-through navy, the channels on the
