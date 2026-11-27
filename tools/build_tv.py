@@ -2214,7 +2214,8 @@ def build_ok():
     down = down_to_row()
     pills = (pill_button(RESTART_PILL, 'silo/skip_back.png', 'Restart',
                          [('PVR.SeekPercentage(0)', '')], left_x, 'noop', LIVE_PILL, SEEK_BAR, down)
-             + pill_button(LIVE_PILL, 'osd/fullscreen/buttons/record-white.png', 'Live',
+             + pill_button(LIVE_PILL, 'silo/go_live.png', 'Live',  # skip to the live edge (was Kodi's record dot)
+                          
                            [('PVR.SeekPercentage(100)', ''), ('PlayerControl(Play)', 'Player.Paused')],
                            left_x + PILL + 16, RESTART_PILL, PREV_CHANNEL, SEEK_BAR, down,
                            after=((RESTART_PILL, 'Restart'),))
@@ -2229,7 +2230,7 @@ def build_ok():
         (PREV_CHANNEL, (('osd/fullscreen/buttons/previous.png', ''),),
          'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=channel_step&amp;dir=-1)', 'Previous channel'),
         (PLAY_PAUSE, (('osd/fullscreen/buttons/pause.png', '!Player.Paused'),
-                      ('osd/fullscreen/buttons/play.png', 'Player.Paused')), 'PlayerControl(Play)', 'Play / pause'),
+                      ('osd/fullscreen/buttons/play.png', 'Player.Paused')), 'PlayerControl(Play)', ''),  # no caption: the icon says it
         (NEXT_CHANNEL, (('osd/fullscreen/buttons/next.png', ''),),
          'RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=channel_step&amp;dir=1)', 'Next channel'))
     neighbours = ((LIVE_PILL, PLAY_PAUSE), (PREV_CHANNEL, NEXT_CHANNEL), (PLAY_PAUSE, GUIDE_PILL))
