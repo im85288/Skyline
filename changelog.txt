@@ -1,3 +1,7 @@
+[B]0.33.0[/B]
+• Info page: Also in, the library collections a film or series is in (as Silo's title page); OK opens the collection
+• Needs KodiConnectForSilo 0.39.0
+
 [B]0.32.0[/B]
 • Live TV banner in Sky Stream's layout: the channel with the ones above and below on the left, the programme's card with its picture, and what's next on the right
 • Sky's frosted glass with a raised edge on the banner, the overlay, the mini guide (its selected card too), the options panel, channel number entry and notices while watching live TV; films and series keep their usual panels
