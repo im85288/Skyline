@@ -642,7 +642,8 @@ def build():
                 <control type="label">
                     <left>18</left><width>%(half_hour)d</width><height>%(ruler_h)d</height>
                     <aligny>center</aligny>
-                    <font>silo_detail</font>
+                    <!-- 56-58 px wide, under a 60.8 px step (5 minutes): see the edge mask below. -->
+                    <font>silo_badge</font>
                     <textcolor>%(dim)s</textcolor>
                     <selectedcolor>%(dim)s</selectedcolor>
                     <label>$INFO[ListItem.Label]</label>
@@ -682,12 +683,14 @@ def build():
         <!-- The time row's first, cut-off time (")0" of 22:00) faded into the
              row's backing: Kodi clips a half-hour that began before the grid's
              left edge. The grid scrolls by 5 minutes (60 px), so a time sits at
-             the edge or 60 px before it, when only its last few pixels show:
-             18 px, where a time at the edge starts (56 px faded its first digit). -->
+             the edge or a step (60.8 px: 1520 px over 25 blocks) before it.
+             The times (silo_badge, 56-58 px) start 18 px in, so a cut-off one
+             ends by 15 px: a solid 16 px hides it, and a time at the edge
+             starts clear of it. -->
         <control type="image">
-            <left>%(cw)d</left><top>%(grid_y)d</top><width>18</width><height>%(ruler_h)d</height>
+            <left>%(cw)d</left><top>%(grid_y)d</top><width>16</width><height>%(ruler_h)d</height>
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
-            <texture colordiffuse="%(background)s">silo/scrim_side.png</texture>
+            <texture colordiffuse="%(background)s">colors/white.png</texture>
         </control>
 
         <!-- What's playing, in a box at the bottom right over the grid, as Sky
@@ -730,7 +733,7 @@ def build():
        'rail_live': live_tag('!String.IsEmpty(Container(%d).ListItem.Property(silo.live))' % RAIL_ID, top=2,
                              indent='                '),
        'band': BAND, 'band_y': GRID_Y + RULER_H, 'hair_band_y': GRID_Y + RULER_H - 2, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
-       'ruler_bg': GUIDE_PAGE, 'top_fade': 'B3' + GUIDE_PAGE[2:],
+       'ruler_bg': GUIDE_PAGE, 'top_fade': '80' + GUIDE_PAGE[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
        'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X, 'left_y': RAIL_Y - 12, 'left_h': 1080 - RAIL_Y + 12,
