@@ -1,3 +1,6 @@
+[B]0.35.1[/B]
+• TV guide: the first time on the time row (22:00 at the grid's edge) is no longer half hidden
+
 [B]0.35.0[/B]
 • TV guide, as Sky Stream's: no tiles (programmes and channels on the glass with faint dividers), the selected programme in the banner's raised glass, channel logos alone, past programmes no longer dimmed, and one deep navy for the whole page with the programme's picture fading into it
 • TV guide: the Restart row's picture corners are clean
