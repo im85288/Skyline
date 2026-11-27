@@ -1105,6 +1105,7 @@ def sky_banner():
             <control type="grouplist">
                 <left>%(px)d</left><top>%(times_y)d</top><width>%(pw)d</width><height>36</height>
                 <orientation>horizontal</orientation><align>right</align>
+                <usecontrolcoords>true</usecontrolcoords>  <!-- the badge's top (3) centres it on the 36-high times -->
                 <itemgap>8</itemgap>%(quality)s
             </control>
             <!-- The title (a long one on two lines, as no scrolling) and the plot
@@ -1132,6 +1133,8 @@ def sky_banner():
             <control type="grouplist">
                 <left>%(tx)d</left><top>%(times_y)d</top><width>%(tw)d</width><height>38</height>
                 <orientation>horizontal</orientation>
+                <!-- Each tag's own top (4) applies, so it sits level with the 38-high text. -->
+                <usecontrolcoords>true</usecontrolcoords>
                 <itemgap>16</itemgap>%(live)s
                 <control type="label">
                     <width>auto</width><height>38</height>
@@ -1156,10 +1159,10 @@ def sky_banner():
         'tx': tx, 'tw': tw, 'text_h': times_y - pic_y - 8,
         'text': TEXT, 'shadow': 'CC000000', 'progress': PROGRESS, 'playing': playing, 'glass': BANNER_GLASS,
         'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
-        'live': live_tag(BANNER_SHOWS_LIVE, top=4, indent='                '),
+        'live': live_tag(BANNER_SHOWS_LIVE, top=4, indent='                ', height=30),  # as the badges beside it
         'quality': outline_badge('$VAR[SiloBannerQuality]',
                                  '[Player.ChannelPreviewActive | !String.IsEmpty(VideoPlayer.VideoResolution)] + !%s'
-                                 % BANNER_STEPPED),
+                                 % BANNER_STEPPED, top=3),
         'badges': ''.join(outline_badge(label, '%s + !%s + !Player.ChannelPreviewActive' % (cond, BANNER_STEPPED))
                           for label, cond in (('$VAR[SiloLiveHdr]', '!String.IsEmpty(VideoPlayer.HdrType)'),
                                               ('$VAR[SiloLiveAudio]', '!String.IsEmpty(VideoPlayer.AudioChannels)'))),
@@ -1195,13 +1198,13 @@ def quality_badge(uhd, shown):
 LIVE_RED = 'FFE0262F'  # Sky's red for a live event
 
 
-def live_tag(condition, top=4, indent='                    '):
+def live_tag(condition, top=4, indent='                    ', height=32):
     """Sky's LIVE tag: white on red, a rounded tag for a programme shown as it
     happens (the guide's Live category: Kodi's genre, with IPTV Simple's
     useEpgGenreText), a disabled button so it fits any row of facts."""
     return '''
 %(p)s<control type="button">
-%(p)s    <top>%(top)d</top><width>auto</width><height>32</height>
+%(p)s    <top>%(top)d</top><width>auto</width><height>%(h)d</height>
 %(p)s    <label>LIVE</label>
 %(p)s    <font>silo_badge</font>
 %(p)s    <textoffsetx>10</textoffsetx>
@@ -1211,7 +1214,7 @@ def live_tag(condition, top=4, indent='                    '):
 %(p)s    <texturenofocus border="8" colordiffuse="%(red)s">silo/badge_solid.png</texturenofocus>
 %(p)s    <texturefocus border="8" colordiffuse="%(red)s">silo/badge_solid.png</texturefocus>
 %(p)s    <visible>%(condition)s</visible>
-%(p)s</control>''' % {'p': indent, 'top': top, 'red': LIVE_RED, 'condition': condition}
+%(p)s</control>''' % {'p': indent, 'top': top, 'h': height, 'red': LIVE_RED, 'condition': condition}
 
 
 def live_badge(condition, indent='                        '):

@@ -104,9 +104,10 @@
             <control type="grouplist">
                 <left>506</left><top>1008</top><width>380</width><height>36</height>
                 <orientation>horizontal</orientation><align>right</align>
+                <usecontrolcoords>true</usecontrolcoords>  <!-- the badge's top (3) centres it on the 36-high times -->
                 <itemgap>8</itemgap>
                     <control type="button">
-                        <top>4</top><width>auto</width><height>30</height>
+                        <top>3</top><width>auto</width><height>30</height>
                         <label>$VAR[SiloBannerQuality]</label>
                         <font>silo_badge</font>
                         <textoffsetx>8</textoffsetx>
@@ -143,9 +144,11 @@
             <control type="grouplist">
                 <left>910</left><top>1008</top><width>644</width><height>38</height>
                 <orientation>horizontal</orientation>
+                <!-- Each tag's own top (4) applies, so it sits level with the 38-high text. -->
+                <usecontrolcoords>true</usecontrolcoords>
                 <itemgap>16</itemgap>
                 <control type="button">
-                    <top>4</top><width>auto</width><height>32</height>
+                    <top>4</top><width>auto</width><height>30</height>
                     <label>LIVE</label>
                     <font>silo_badge</font>
                     <textoffsetx>10</textoffsetx>
