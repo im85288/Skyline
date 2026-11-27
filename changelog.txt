@@ -1,3 +1,9 @@
+[B]0.34.0[/B]
+• Live TV overlay: the Recent cards sit as low as the banner's card; the frost rises as a sheet with the banner's glass edge
+• Programme pictures' corners are clean (no dark corners past the rounded picture) on the banner and the overlay, whose progress line now sits inside the picture
+• The Live button has a skip-to-live icon (it showed a record dot); no caption under play / pause
+• Banner: the badges, LIVE and the key outlines (OK, ◀ ▶) sit level with their text
+
 [B]0.33.0[/B]
 • Info page: Also in, the library collections a film or series is in (as Silo's title page); OK opens the collection
 • Needs KodiConnectForSilo 0.39.0
