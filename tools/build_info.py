@@ -654,6 +654,7 @@ def build():
                     <scrolltime tween="cubic" easing="out">280</scrolltime>
                     <ondown condition="%(has_videos)s">71</ondown>
                     <ondown condition="!%(has_videos)s + %(has_similar)s">63</ondown>
+                    <ondown condition="!%(has_videos)s + !%(has_similar)s + %(has_also)s">72</ondown>
                     <itemlayout width="220" height="280">%(person)s
                     </itemlayout>
                     <focusedlayout width="220" height="280">%(person_focused)s
@@ -682,7 +683,8 @@ def build():
                     <onup condition="!Integer.IsGreater(Container(70).NumItems,0) + %(show)s">61</onup>
                     <onup condition="!Integer.IsGreater(Container(70).NumItems,0) + %(box_row)s">66</onup>
                     <onup condition="!Integer.IsGreater(Container(70).NumItems,0) + !%(show)s + !%(box_row)s">5000</onup>
-                    <ondown condition="%(has_similar)s">63</ondown>%(video_play)s
+                    <ondown condition="%(has_similar)s">63</ondown>
+                    <ondown condition="!%(has_similar)s + %(has_also)s">72</ondown>%(video_play)s
                     <itemlayout width="%(video_item_w)d" height="%(video_item_h)d">%(video_card)s
                     </itemlayout>
                     <focusedlayout width="%(video_item_w)d" height="%(video_item_h)d">%(video_card_focused)s
@@ -712,6 +714,7 @@ def build():
                     <onup condition="!%(has_videos)s + !Integer.IsGreater(Container(70).NumItems,0) + %(show)s">61</onup>
                     <onup condition="!%(has_videos)s + !Integer.IsGreater(Container(70).NumItems,0) + %(box_row)s">66</onup>
                     <onup condition="!%(has_videos)s + !Integer.IsGreater(Container(70).NumItems,0) + !%(show)s + !%(box_row)s">5000</onup>
+                    <ondown condition="%(has_also)s">72</ondown>
                     <!-- Kodi can't open an info page from inside one: close this one and
                          have KodiConnectForSilo open the chosen title's. That page opens with
                          the column below still scrolled to this rail; silo.from_rail has
@@ -724,6 +727,38 @@ def build():
                     <itemlayout width="%(similar_item_w)d" height="%(similar_item_h)d">%(similar_card)s
                     </itemlayout>
                     <focusedlayout width="%(similar_item_w)d" height="%(similar_item_h)d">%(similar_card_focused)s
+                    </focusedlayout>
+                </control>
+            </control>
+            <!-- Also in: the library collections a film or series is in, as Silo's
+                 title page lists them (KodiConnectForSilo's also_in); one opens
+                 the collection's titles. -->
+            <control type="group">
+                <height>%(similar_h)d</height>
+                <visible>%(has_also)s | Container(72).IsUpdating</visible>
+                <control type="label">
+                    <left>%(x)d</left>
+                    <width>1000</width><height>46</height>
+                    <font>silo_row</font>
+                    <textcolor>%(text)s</textcolor>
+                    <label>Also in</label>
+                </control>
+                <control type="list" id="72">
+                    <visible>%(has_also)s | Container(72).IsUpdating</visible>
+                    <left>%(lx)d</left><top>56</top>
+                    <width>%(lw)d</width><height>%(similar_item_h)d</height>
+                    <orientation>horizontal</orientation>
+                    <scrolltime tween="cubic" easing="out">280</scrolltime>
+                    <onup condition="%(has_similar)s">63</onup>
+                    <onup condition="!%(has_similar)s + %(has_videos)s">71</onup>
+                    <onup condition="!%(has_similar)s + !%(has_videos)s + Integer.IsGreater(Container(70).NumItems,0)">70</onup>
+                    <onup condition="!%(has_similar)s + !%(has_videos)s + !Integer.IsGreater(Container(70).NumItems,0)">5000</onup>
+                    <onclick>Dialog.Close(movieinformation)</onclick>
+                    <onclick>ActivateWindow(Videos,$ESCINFO[ListItem.FolderPath],return)</onclick>
+                    <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=also_in&amp;id=$INFO[Window(movieinformation).Property(silo.content_id)]</content>
+                    <itemlayout width="%(similar_item_w)d" height="%(similar_item_h)d">%(also_card)s
+                    </itemlayout>
+                    <focusedlayout width="%(similar_item_w)d" height="%(similar_item_h)d">%(also_card_focused)s
                     </focusedlayout>
                 </control>
             </control>
@@ -809,6 +844,8 @@ def build():
        'video_card': video_card(False), 'video_card_focused': video_card(True),
        'similar_item_w': POSTER['width'] + POSTER['gap'], 'similar_item_h': POSTER['height'] + 12 + 76,
        'similar_card': card_layout(POSTER, False), 'similar_card_focused': card_layout(POSTER, True, 63),
+       'also_card': card_layout(POSTER, False), 'also_card_focused': card_layout(POSTER, True, 72),
+       'has_also': 'Integer.IsGreater(Container(72).NumItems,0)',
        'show_play_face': play_face(300, '$VAR[SiloDetailNextLabel]').replace('%(text)s', TEXT),
        'box_card': box_card(False), 'box_card_focused': box_card(True), 'box_set': BOX_SET, 'box_row': BOX_ROW,
        'box_set_page': 'String.IsEqual(Window(movieinformation).Property(silo.page_type),set)',
