@@ -19,62 +19,100 @@
 				<left>0</left><top>560</top><width>1920</width><height>520</height>
 				<texture colordiffuse="B3FFFFFF">silo/scrim_bottom.png</texture>
 			</control>
-            <!-- The card: Live TV's navy glass (LIVE_GLASS: the mini TV guide's, the
-                 overlay's and the notes'), with a faint rim, as Sky's. -->
-            <control type="image">
-                <left>48</left><top>684</top><width>1824</width><height>360</height>
-                <texture border="8" colordiffuse="CC0C1224">silo/guide_cell.png</texture>
-            </control>
-            <control type="image">
-                <left>48</left><top>684</top><width>1824</width><height>360</height>
-                <texture border="8" colordiffuse="66FFFFFF">silo/guide_rim.png</texture>
-            </control>
-            <!-- The channel's row: its logo, then its name, the day and the time. -->
-            <control type="image">
-                <left>72</left><top>698</top><width>120</width><height>44</height>
-                <aspectratio align="left">keep</aspectratio>
-                <texture>$VAR[SiloBannerLogo]</texture>
+            <!-- The channel's column: up, the channel, down; the day and time. -->
+            <control type="label">
+                <left>88</left><top>784</top><width>380</width><height>40</height>
+                <align>center</align><aligny>center</aligny>
+                <font>silo_tab</font>
+                <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                <label>↑</label>
             </control>
             <control type="label">
-                <left>208</left><top>698</top><width>1640</width><height>44</height>
+                <left>88</left><top>836</top><width>380</width><height>60</height>
+                <align>center</align><aligny>center</aligny>
+                <font>silo_tab</font>
+                <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                <label>$VAR[SiloBannerChannelName]</label>
+            </control>
+            <control type="label">
+                <left>88</left><top>908</top><width>380</width><height>40</height>
+                <align>center</align><aligny>center</aligny>
+                <font>silo_tab</font>
+                <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                <label>↓</label>
+            </control>
+            <control type="label">
+                <left>88</left><top>1000</top><width>380</width><height>36</height>
                 <aligny>center</aligny>
                 <font>silo_card_sub</font>
                 <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                <label>[B]$VAR[SiloBannerChannelName][/B]$INFO[System.Date(dddd),     ,]$INFO[System.Time,  ·  ,]</label>
+                <label>$INFO[System.Date(dddd)]$INFO[System.Time,  ·  ,]</label>
             </control>
-            <!-- The picture; no picture, the channel's logo alone. -->
+            <!-- The card, as Sky Stream's (measured from its banner): frosted glass
+                 that lightens the picture a little (BANNER_GLASS), a dark hairline
+                 just outside it, a bright rim, and a soft glow down from its top
+                 edge, which together read as raised glass. -->
             <control type="image">
-                <left>72</left><top>756</top><width>400</width><height>225</height>
+                <left>490</left><top>772</top><width>1090</width><height>274</height>
+                <texture border="8" colordiffuse="8C000000">silo/guide_rim.png</texture>
+            </control>
+            <control type="image">
+                <left>492</left><top>774</top><width>1086</width><height>270</height>
+                <texture border="8" colordiffuse="80485A78">silo/guide_cell.png</texture>
+            </control>
+            <control type="image">
+                <left>495</left><top>777</top><width>1080</width><height>40</height>
+                <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
+            </control>
+            <control type="image">
+                <left>492</left><top>774</top><width>1086</width><height>270</height>
+                <texture border="8" colordiffuse="B3E6EEFF">silo/guide_rim.png</texture>
+            </control>
+            <!-- The picture, the channel's logo on its corner and the progress
+                 line along its foot; no picture, the logo alone. -->
+            <control type="image">
+                <left>506</left><top>788</top><width>380</width><height>214</height>
                 <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
             </control>
             <control type="image">
-                <left>72</left><top>756</top><width>400</width><height>225</height>
+                <left>506</left><top>788</top><width>380</width><height>214</height>
                 <aspectratio>scale</aspectratio>
                 <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerPicture]</texture>
                 <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
             </control>
             <control type="image">
-                <left>112</left><top>786</top><width>320</width><height>165</height>
+                <left>506</left><top>788</top><width>380</width><height>214</height>
+                <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
+            </control>
+            <control type="image">
+                <left>518</left><top>942</top><width>130</width><height>40</height>
+                <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                <texture>$VAR[SiloBannerLogo]</texture>
+                <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]</visible>
+            </control>
+            <control type="image">
+                <left>546</left><top>818</top><width>300</width><height>154</height>
                 <aspectratio>keep</aspectratio>
                 <texture>$VAR[SiloBannerLogo]</texture>
                 <visible>![[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.banner_picture))]]]</visible>
             </control>
             <control type="progress">
-                <left>72</left><top>989</top><width>400</width><height>4</height>
+                <left>518</left><top>990</top><width>356</width><height>4</height>
                 <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
                 <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                 <info>PVR.EpgEventProgress</info>
                 <visible>!String.IsEmpty(VideoPlayer.EndTime) + String.IsEmpty(Window(Home).Property(silokodi.banner.title))</visible>
             </control>
             <control type="label">
-                <left>72</left><top>999</top><width>400</width><height>36</height>
+                <left>506</left><top>1008</top><width>380</width><height>36</height>
                 <aligny>center</aligny>
                 <font>silo_card_sub</font>
                 <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                 <label>$VAR[SiloBannerTimes]</label>
             </control>
             <control type="grouplist">
-                <left>72</left><top>999</top><width>400</width><height>36</height>
+                <left>506</left><top>1008</top><width>380</width><height>36</height>
                 <orientation>horizontal</orientation><align>right</align>
                 <itemgap>8</itemgap>
                     <control type="button">
@@ -93,19 +131,19 @@
             <!-- The title (a long one on two lines, as no scrolling) and the plot
                  under it, as much as fits; then the row. -->
             <control type="grouplist">
-                <left>504</left><top>756</top><width>832</width><height>235</height>
+                <left>910</left><top>788</top><width>644</width><height>212</height>
                 <orientation>vertical</orientation>
                 <itemgap>8</itemgap>
                 <usecontrolcoords>false</usecontrolcoords>
                 <control type="textbox">
-                    <width>832</width><height max="88">auto</height>
+                    <width>644</width><height max="88">auto</height>
                     <font>silo_row</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$VAR[SiloBannerTitle]</label>
                     <autoscroll>false</autoscroll>
                 </control>
                 <control type="textbox">
-                    <width>832</width><height max="144">auto</height>
+                    <width>644</width><height max="110">auto</height>
                     <font>silo_plot</font>
                     <textcolor>E6EDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$VAR[SiloBannerPlot]</label>
@@ -113,7 +151,7 @@
                 </control>
             </control>
             <control type="grouplist">
-                <left>504</left><top>999</top><width>1344</width><height>38</height>
+                <left>910</left><top>1008</top><width>644</width><height>38</height>
                 <orientation>horizontal</orientation>
                 <itemgap>16</itemgap>
                 <control type="button">
@@ -231,32 +269,32 @@
                 </control>
             </control>
             <control type="group">
-                <left>1368</left><top>752</top>
+                <left>1594</left><top>764</top>
                 <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.next1.title))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.next1.title))]]</visible>
                 <control type="label">
-                    <top>4</top><width>230</width><height>40</height>
+                    <top>4</top><width>240</width><height>40</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$VAR[SiloBannerNext1Title]</label>
                 </control>
                 <control type="image">
-                    <top>52</top><width>230</width><height>129</height>
+                    <top>52</top><width>240</width><height>135</height>
                     <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
                 </control>
                 <control type="image">
-                    <top>52</top><width>230</width><height>129</height>
+                    <top>52</top><width>240</width><height>135</height>
                     <aspectratio>scale</aspectratio>
                     <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerNext1Picture]</texture>
                 </control>
                 <control type="image">
-                    <left>40</left><top>82</top><width>150</width><height>69</height>
+                    <left>40</left><top>82</top><width>160</width><height>75</height>
                     <aspectratio>keep</aspectratio>
                     <texture>$VAR[SiloBannerLogo]</texture>
                     <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEmpty(Window(Home).Property(silokodi.banner.next1.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEmpty(Window(Home).Property(silokodi.tv.next1.picture))]]</visible>
                 </control>
                 <control type="label">
-                    <top>191</top><width>230</width><height>40</height>
+                    <top>197</top><width>240</width><height>40</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
@@ -264,32 +302,32 @@
                 </control>
             </control>
             <control type="group">
-                <left>1618</left><top>752</top>
+                <left>1850</left><top>764</top>
                 <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.banner.next2.title))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + !String.IsEmpty(Window(Home).Property(silokodi.tv.next2.title))]]</visible>
                 <control type="label">
-                    <top>4</top><width>230</width><height>40</height>
+                    <top>4</top><width>240</width><height>40</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$VAR[SiloBannerNext2Title]</label>
                 </control>
                 <control type="image">
-                    <top>52</top><width>230</width><height>129</height>
+                    <top>52</top><width>240</width><height>135</height>
                     <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
                 </control>
                 <control type="image">
-                    <top>52</top><width>230</width><height>129</height>
+                    <top>52</top><width>240</width><height>135</height>
                     <aspectratio>scale</aspectratio>
                     <texture background="true" diffuse="silo/card_landscape_mask.png">$VAR[SiloBannerNext2Picture]</texture>
                 </control>
                 <control type="image">
-                    <left>40</left><top>82</top><width>150</width><height>69</height>
+                    <left>40</left><top>82</top><width>160</width><height>75</height>
                     <aspectratio>keep</aspectratio>
                     <texture>$VAR[SiloBannerLogo]</texture>
                     <visible>[[!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEmpty(Window(Home).Property(silokodi.banner.next2.picture))] | [String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + String.IsEmpty(Window(Home).Property(silokodi.tv.next2.picture))]]</visible>
                 </control>
                 <control type="label">
-                    <top>191</top><width>230</width><height>40</height>
+                    <top>197</top><width>240</width><height>40</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>

@@ -25,15 +25,15 @@
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
         </control>
-        <!-- Live TV's navy (LIVE_GLASS), solid from just above the bar down, as the
-             banner's and the mini TV guide's panels, with a short fade above it
-             (overlapping the solid, so there's no seam); a fade alone over the
-             whole lower half read as a faint shadow in the navy. -->
+        <!-- Live TV's glass (LIVE_GLASS), solid from just above the bar down, as the
+             banner's and the mini TV guide's panels, with a short fade ending where
+             the solid starts (overlapping it, the doubled frost showed as a pale
+             bar across the screen). -->
         <control type="group">
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
             <control type="image">
-                <left>0</left><top>453</top><width>1920</width><height>240</height>
+                <left>0</left><top>453</top><width>1920</width><height>200</height>
                 <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
             </control>
             <control type="image">

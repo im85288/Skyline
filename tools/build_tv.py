@@ -876,14 +876,21 @@ BANNER_SHOWS_LIVE = '[[%s + String.IsEqual(%s,1)] | [!%s + %s]]' % (
 # channel column at the left and its next programmes off the screen's edge):
 # the channel's logo, name, day and time along its top; the programme's
 # picture, title and plot; the next two programmes inside its right end.
-SKY_H = 360
+# As Sky Stream's banner (2026-11-27): the channel in a column at the left
+# (up / down arrows, its name, the day and time), the card in the middle (the
+# picture with the logo on it, its times and quality under it; the title and
+# plot beside it), and the next programmes as a strip past the card's right
+# end, the second cut by the screen's edge.
+SKY_H = 270
 SKY_Y = 1080 - 36 - SKY_H                     # the card
-SKY_CARD_X, SKY_CARD_W = SAFE_X - 40, 1920 - 2 * (SAFE_X - 40)
-SKY_HEAD_H = 56                               # the channel's row, at the card's top
-SKY_PIC_W, SKY_PIC_H = 400, 225
-SKY_NEXT_W, SKY_NEXT_GAP = 230, 20
+SKY_COL_X, SKY_COL_W = SAFE_X, 380            # the channel's column
+SKY_NEXT_W, SKY_NEXT_GAP = 240, 16
 SKY_NEXT_H = SKY_NEXT_W * 9 // 16
-SKY_NEXT_X = SKY_CARD_X + SKY_CARD_W - 24 - 2 * SKY_NEXT_W - SKY_NEXT_GAP
+SKY_NEXT_X = 1920 - SAFE_X - SKY_NEXT_W + 2   # the strip's first; the second peeks past the screen's edge
+SKY_CARD_X = SKY_COL_X + SKY_COL_W + 24
+SKY_CARD_W = SKY_NEXT_X - SKY_NEXT_GAP - SKY_CARD_X
+SKY_HEAD_H = 0                                # (no channel row in the card now)
+SKY_PIC_W, SKY_PIC_H = 380, 214
 
 
 def outline_badge(label, condition, top=4):
@@ -904,7 +911,7 @@ def outline_badge(label, condition, top=4):
 
 
 def sky_next(n, y):
-    """A next programme inside the banner's right end, as Sky's: title above, picture, time below."""
+    """A next programme in the strip past the card's right end, as Sky's: title above, picture, time below."""
     x = SKY_NEXT_X + (n - 1) * (SKY_NEXT_W + SKY_NEXT_GAP)
     shown = ('[[%(s)s + !String.IsEmpty(Window(Home).Property(silokodi.banner.next%(n)d.title))] | '
              '[!%(s)s + !String.IsEmpty(Window(Home).Property(silokodi.tv.next%(n)d.title))]]'
@@ -942,7 +949,7 @@ def sky_next(n, y):
                     <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
                     <label>$VAR[SiloBannerNext%(n)dTime]</label>
                 </control>
-            </control>""" % {'x': x, 'y': y + SKY_HEAD_H + 12, 'shown': shown, 'n': n, 'w': SKY_NEXT_W, 'h': SKY_NEXT_H,
+            </control>""" % {'x': x, 'y': y - 10, 'shown': shown, 'n': n, 'w': SKY_NEXT_W, 'h': SKY_NEXT_H,
                              'lw': SKY_NEXT_W - 80, 'lh': SKY_NEXT_H - 60,
                              'no_picture': ('[[%(s)s + String.IsEmpty(Window(Home).Property(silokodi.banner.next%(n)d.picture))] | '
                                             '[!%(s)s + String.IsEmpty(Window(Home).Property(silokodi.tv.next%(n)d.picture))]]'
@@ -988,44 +995,72 @@ def sky_keys():
 
 
 def sky_banner():
-    """Live TV's banner: one glass card across the screen, in the programme's
-    colour. Along its top the channel's logo, its name, the day and the time;
-    under them the programme's picture (the progress line, its times and HD/UHD
-    under it), its title (two lines at most), its plot and a row of LIVE, the
-    time left and the sound and HDR badges; the next two programmes in the
-    card's right end. Left/Right's stepped programme (silokodi.banner.*) shows
-    in the card, with its hint on the row."""
-    y, px = SKY_Y, SKY_CARD_X + 24
-    pic_y = y + SKY_HEAD_H + 16
-    tx = px + SKY_PIC_W + 32
-    tw = SKY_NEXT_X - 32 - tx
-    times_y = pic_y + SKY_PIC_H + 18
+    """Live TV's banner, as Sky Stream's: the channel's column at the left (an
+    up arrow, its name, a down arrow: Up / Down browse; the day and time under
+    them), a navy glass card in the middle (the programme's picture with the
+    channel's logo on it and the progress line along its foot, its times and
+    HD / UHD under it; the title, two lines at most, the plot and a row of
+    LIVE, the time left and the sound and HDR badges beside it), and the next
+    two programmes as a strip past the card's right end. Left/Right's stepped
+    programme (silokodi.banner.*) shows in the card, with its hint on the row."""
+    y = SKY_Y
+    px, pic_y = SKY_CARD_X + 14, y + 14
+    tx = px + SKY_PIC_W + 24
+    tw = SKY_CARD_X + SKY_CARD_W - 24 - tx
+    times_y = pic_y + SKY_PIC_H + 6
     playing = '!String.IsEmpty(VideoPlayer.EndTime) + !%s' % BANNER_STEPPED
     return """
-            <!-- The card: Live TV's navy glass (LIVE_GLASS: the mini TV guide's, the
-                 overlay's and the notes'), with a faint rim, as Sky's. -->
+            <!-- The channel's column: up, the channel, down; the day and time. -->
+            <control type="label">
+                <left>%(col_x)d</left><top>%(up_y)d</top><width>%(col_w)d</width><height>40</height>
+                <align>center</align><aligny>center</aligny>
+                <font>silo_tab</font>
+                <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                <label>↑</label>
+            </control>
+            <control type="label">
+                <left>%(col_x)d</left><top>%(name_y)d</top><width>%(col_w)d</width><height>60</height>
+                <align>center</align><aligny>center</aligny>
+                <font>silo_tab</font>
+                <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                <label>$VAR[SiloBannerChannelName]</label>
+            </control>
+            <control type="label">
+                <left>%(col_x)d</left><top>%(down_y)d</top><width>%(col_w)d</width><height>40</height>
+                <align>center</align><aligny>center</aligny>
+                <font>silo_tab</font>
+                <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                <label>↓</label>
+            </control>
+            <control type="label">
+                <left>%(col_x)d</left><top>%(clock_y)d</top><width>%(col_w)d</width><height>36</height>
+                <aligny>center</aligny>
+                <font>silo_card_sub</font>
+                <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
+                <label>$INFO[System.Date(dddd)]$INFO[System.Time,  ·  ,]</label>
+            </control>
+            <!-- The card, as Sky Stream's (measured from its banner): frosted glass
+                 that lightens the picture a little (BANNER_GLASS), a dark hairline
+                 just outside it, a bright rim, and a soft glow down from its top
+                 edge, which together read as raised glass. -->
+            <control type="image">
+                <left>%(shadow_x)d</left><top>%(shadow_y)d</top><width>%(shadow_w)d</width><height>%(shadow_h)d</height>
+                <texture border="8" colordiffuse="8C000000">silo/guide_rim.png</texture>
+            </control>
             <control type="image">
                 <left>%(card_x)d</left><top>%(y)d</top><width>%(card_w)d</width><height>%(card_h)d</height>
                 <texture border="8" colordiffuse="%(glass)s">silo/guide_cell.png</texture>
             </control>
             <control type="image">
-                <left>%(card_x)d</left><top>%(y)d</top><width>%(card_w)d</width><height>%(card_h)d</height>
-                <texture border="8" colordiffuse="66FFFFFF">silo/guide_rim.png</texture>
+                <left>%(glow_x)d</left><top>%(glow_y)d</top><width>%(glow_w)d</width><height>40</height>
+                <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
             </control>
-            <!-- The channel's row: its logo, then its name, the day and the time. -->
             <control type="image">
-                <left>%(px)d</left><top>%(head_y)d</top><width>120</width><height>44</height>
-                <aspectratio align="left">keep</aspectratio>
-                <texture>$VAR[SiloBannerLogo]</texture>
+                <left>%(card_x)d</left><top>%(y)d</top><width>%(card_w)d</width><height>%(card_h)d</height>
+                <texture border="8" colordiffuse="B3E6EEFF">silo/guide_rim.png</texture>
             </control>
-            <control type="label">
-                <left>%(head_x)d</left><top>%(head_y)d</top><width>%(head_w)d</width><height>44</height>
-                <aligny>center</aligny>
-                <font>silo_card_sub</font>
-                <textcolor>%(text)s</textcolor><shadowcolor>%(shadow)s</shadowcolor>
-                <label>[B]$VAR[SiloBannerChannelName][/B]$INFO[System.Date(dddd),     ,]$INFO[System.Time,  ·  ,]</label>
-            </control>
-            <!-- The picture; no picture, the channel's logo alone. -->
+            <!-- The picture, the channel's logo on its corner and the progress
+                 line along its foot; no picture, the logo alone. -->
             <control type="image">
                 <left>%(px)d</left><top>%(pic_y)d</top><width>%(pw)d</width><height>%(ph)d</height>
                 <texture border="8" colordiffuse="CC1A1D24">silo/guide_cell.png</texture>
@@ -1037,13 +1072,24 @@ def sky_banner():
                 <visible>%(picture)s</visible>
             </control>
             <control type="image">
+                <left>%(px)d</left><top>%(pic_y)d</top><width>%(pw)d</width><height>%(ph)d</height>
+                <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                <visible>%(picture)s</visible>
+            </control>
+            <control type="image">
+                <left>%(logo_x)d</left><top>%(logo_y)d</top><width>130</width><height>40</height>
+                <aspectratio align="left" aligny="bottom">keep</aspectratio>
+                <texture>$VAR[SiloBannerLogo]</texture>
+                <visible>%(picture)s</visible>
+            </control>
+            <control type="image">
                 <left>%(logo_alone_x)d</left><top>%(logo_alone_y)d</top><width>%(logo_alone_w)d</width><height>%(logo_alone_h)d</height>
                 <aspectratio>keep</aspectratio>
                 <texture>$VAR[SiloBannerLogo]</texture>
                 <visible>!%(picture_or)s</visible>
             </control>
             <control type="progress">
-                <left>%(px)d</left><top>%(bar_y)d</top><width>%(pw)d</width><height>4</height>
+                <left>%(bar_x)d</left><top>%(bar_y)d</top><width>%(bar_w)d</width><height>4</height>
                 <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
                 <midtexture colordiffuse="%(progress)s">colors/white.png</midtexture>
                 <info>PVR.EpgEventProgress</info>
@@ -1076,7 +1122,7 @@ def sky_banner():
                     <autoscroll>false</autoscroll>
                 </control>
                 <control type="textbox">
-                    <width>%(tw)d</width><height max="144">auto</height>
+                    <width>%(tw)d</width><height max="110">auto</height>
                     <font>silo_plot</font>
                     <textcolor>E6EDEDED</textcolor><shadowcolor>%(shadow)s</shadowcolor>
                     <label>$VAR[SiloBannerPlot]</label>
@@ -1084,7 +1130,7 @@ def sky_banner():
                 </control>
             </control>
             <control type="grouplist">
-                <left>%(tx)d</left><top>%(times_y)d</top><width>%(row_w)d</width><height>38</height>
+                <left>%(tx)d</left><top>%(times_y)d</top><width>%(tw)d</width><height>38</height>
                 <orientation>horizontal</orientation>
                 <itemgap>16</itemgap>%(live)s
                 <control type="label">
@@ -1098,14 +1144,17 @@ def sky_banner():
 %(keys)s
             </control>%(nexts)s""" % {
         'y': y, 'card_x': SKY_CARD_X, 'card_w': SKY_CARD_W, 'card_h': SKY_H,
-        'head_y': y + 14, 'head_x': px + 136, 'head_w': SKY_CARD_W - 48 - 136,
+        'shadow_x': SKY_CARD_X - 2, 'shadow_y': y - 2, 'shadow_w': SKY_CARD_W + 4, 'shadow_h': SKY_H + 4,
+        'glow_x': SKY_CARD_X + 3, 'glow_y': y + 3, 'glow_w': SKY_CARD_W - 6,
+        'col_x': SKY_COL_X, 'col_w': SKY_COL_W, 'up_y': y + 10, 'name_y': y + 62, 'down_y': y + 134,
+        'clock_y': y + SKY_H - 44,
         'px': px, 'pic_y': pic_y, 'pw': SKY_PIC_W, 'ph': SKY_PIC_H,
+        'logo_x': px + 12, 'logo_y': pic_y + SKY_PIC_H - 12 - 40 - 8,
         'logo_alone_x': px + 40, 'logo_alone_y': pic_y + 30, 'logo_alone_w': SKY_PIC_W - 80,
         'logo_alone_h': SKY_PIC_H - 60,
-        'bar_y': pic_y + SKY_PIC_H + 8, 'times_y': times_y,
+        'bar_x': px + 12, 'bar_y': pic_y + SKY_PIC_H - 12, 'bar_w': SKY_PIC_W - 24, 'times_y': times_y,
         'tx': tx, 'tw': tw, 'text_h': times_y - pic_y - 8,
-        'row_w': SKY_CARD_X + SKY_CARD_W - 24 - tx,
-        'text': TEXT, 'shadow': 'CC000000', 'progress': PROGRESS, 'playing': playing, 'glass': LIVE_GLASS,
+        'text': TEXT, 'shadow': 'CC000000', 'progress': PROGRESS, 'playing': playing, 'glass': BANNER_GLASS,
         'picture': BANNER_HAS_PICTURE, 'picture_or': '[%s]' % BANNER_HAS_PICTURE,
         'live': live_tag(BANNER_SHOWS_LIVE, top=4, indent='                '),
         'quality': outline_badge('$VAR[SiloBannerQuality]',
@@ -1116,7 +1165,6 @@ def sky_banner():
                                               ('$VAR[SiloLiveAudio]', '!String.IsEmpty(VideoPlayer.AudioChannels)'))),
         'keys': sky_keys(),
         'nexts': sky_next(1, y) + sky_next(2, y)}
-
 
 FPS = (('59.9', '60'), ('60', '60'), ('50', '50'), ('48', '48'), ('29.9', '30'), ('30', '30'), ('25', '25'),
        ('23.9', '24'), ('24', '24'))
@@ -1608,8 +1656,13 @@ def recent_card(focused, list_id=None, w=None):
 
 
 # Live TV's one background while watching: the mini TV guide's panel, the
-# banner's card, the overlay's shade and the notes' panel (dark navy glass).
-LIVE_GLASS = 'CC0C1224'  # 80 per cent (95 per cent, F2, until 2026-11-27)
+# banner's card, the overlay's shade and the notes' panel (the banner's
+# frosted blue-grey glass).
+# The banner's card, as Sky Stream's: a frosted blue-grey glass (Sky's lifts
+# a calm picture at about a quarter; at that, a busy one showed through the
+# text, so a darker blue-grey at half), over the window's dark fade.
+BANNER_GLASS = '80485A78'
+LIVE_GLASS = BANNER_GLASS  # the banner's frosted blue-grey everywhere (80 per cent navy until 2026-11-27)
 
 NEXT_UP = '!String.IsEmpty(Window(Home).Property(silokodi.next.title))'
 NOTES_ID = 1182  # the notes' dialog
@@ -1913,10 +1966,10 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
         </control>
-        <!-- Live TV's navy (LIVE_GLASS), solid from just above the bar down, as the
-             banner's and the mini TV guide's panels, with a short fade above it
-             (overlapping the solid, so there's no seam); a fade alone over the
-             whole lower half read as a faint shadow in the navy. -->
+        <!-- Live TV's glass (LIVE_GLASS), solid from just above the bar down, as the
+             banner's and the mini TV guide's panels, with a short fade ending where
+             the solid starts (overlapping it, the doubled frost showed as a pale
+             bar across the screen). -->
         <control type="group">
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
@@ -2193,7 +2246,7 @@ def build_ok():
                      'rx': 1920 - SAFE_X - 600, 'live': live_badge('true', indent='                '),
                      'by': BAR_Y, 'by2': BAR_Y - 3, 'bfy': BAR_Y - 12, 'bw': 1920 - 2 * SAFE_X, 'bar': SEEK_BAR,
                      'play': PLAY_PAUSE, 'pills': pills, 'transport': transport, 'osd_anim': osd_anim, 'chips': chips,
-                     'rows': rows, 'badges': overlay_badges(), 'top_h': TITLE_Y + 76 + 40 + 140, 'fade_y': BAR_Y - 60 - 200, 'fade_h': 240, 'solid_y': BAR_Y - 60,
+                     'rows': rows, 'badges': overlay_badges(), 'top_h': TITLE_Y + 76 + 40 + 140, 'fade_y': BAR_Y - 60 - 200, 'fade_h': 200, 'solid_y': BAR_Y - 60,
                      'solid_h': 1080 - (BAR_Y - 60)}
 
 
@@ -2208,7 +2261,7 @@ MINI_X = 1000                          # the panel's left edge: a straight line,
 MINI_ROW, MINI_CARD, MINI_GAP = 92, 262, 14
 MINI_FOCUS = 4                         # rows above the card
 MINI_TOP = 540 - (MINI_CARD + 2 * MINI_GAP) // 2 - MINI_FOCUS * MINI_ROW
-MINI_PANEL = LIVE_GLASS
+MINI_PANEL = 'B3' + LIVE_GLASS[2:]      # Live TV's glass, less see-through (70 per cent): a panel of text
 MINI_TX = 230                          # the text's left, after the logo
 MINI_MARGIN = 24                       # the selected card's space from the panel's sides
 MINI_INSET = 26                        # its logo's and text's space from its sides
