@@ -1,3 +1,8 @@
+[B]0.35.0[/B]
+• TV guide, as Sky Stream's: no tiles (programmes and channels on the glass with faint dividers), the selected programme in the banner's raised glass, channel logos alone, past programmes no longer dimmed, and one deep navy for the whole page with the programme's picture fading into it
+• TV guide: the Restart row's picture corners are clean
+• Live TV overlay: a "Recent channels" title above the row once you go into it
+
 [B]0.34.0[/B]
 • Live TV overlay: the Recent cards sit as low as the banner's card; the frost rises as a sheet with the banner's glass edge
 • Programme pictures' corners are clean (no dark corners past the rounded picture) on the banner and the overlay, whose progress line now sits inside the picture
