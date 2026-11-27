@@ -1988,13 +1988,24 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
         <control type="group">
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
-            <control type="image">
-                <left>0</left><top>%(fade_y)d</top><width>1920</width><height>%(fade_h)d</height>
-                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
-            </control>
+            <!-- A sheet of the banner's raised glass rising from the foot (2026-11-27):
+                 its top edge as the banner card's, a dark hairline above a bright
+                 rim with a soft glow down from it; no fade above. -->
             <control type="image">
                 <left>0</left><top>%(solid_y)d</top><width>1920</width><height>%(solid_h)d</height>
                 <texture colordiffuse="$VAR[SiloLiveTint]">colors/white.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>%(solid_y)d</top><width>1920</width><height>40</height>
+                <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>%(hair_y)d</top><width>1920</width><height>2</height>
+                <texture colordiffuse="8C000000">colors/white.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>%(solid_y)d</top><width>1920</width><height>2</height>
+                <texture colordiffuse="B3E6EEFF">colors/white.png</texture>
             </control>
         </control>
         <control type="group">
@@ -2250,7 +2261,7 @@ def build_ok():
                      'rx': 1920 - SAFE_X - 600, 'live': live_badge('true', indent='                '),
                      'by': BAR_Y, 'by2': BAR_Y - 3, 'bfy': BAR_Y - 12, 'bw': 1920 - 2 * SAFE_X, 'bar': SEEK_BAR,
                      'play': PLAY_PAUSE, 'pills': pills, 'transport': transport, 'osd_anim': osd_anim, 'chips': chips,
-                     'rows': rows, 'badges': overlay_badges(), 'top_h': TITLE_Y + 76 + 40 + 140, 'fade_y': BAR_Y - 60 - 200, 'fade_h': 200, 'solid_y': BAR_Y - 60,
+                     'rows': rows, 'badges': overlay_badges(), 'top_h': TITLE_Y + 76 + 40 + 140, 'hair_y': BAR_Y - 62, 'solid_y': BAR_Y - 60,
                      'solid_h': 1080 - (BAR_Y - 60)}
 
 

@@ -32,13 +32,24 @@
         <control type="group">
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
-            <control type="image">
-                <left>0</left><top>453</top><width>1920</width><height>200</height>
-                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
-            </control>
+            <!-- A sheet of the banner's raised glass rising from the foot (2026-11-27):
+                 its top edge as the banner card's, a dark hairline above a bright
+                 rim with a soft glow down from it; no fade above. -->
             <control type="image">
                 <left>0</left><top>653</top><width>1920</width><height>427</height>
                 <texture colordiffuse="$VAR[SiloLiveTint]">colors/white.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>653</top><width>1920</width><height>40</height>
+                <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>651</top><width>1920</width><height>2</height>
+                <texture colordiffuse="8C000000">colors/white.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>653</top><width>1920</width><height>2</height>
+                <texture colordiffuse="B3E6EEFF">colors/white.png</texture>
             </control>
         </control>
         <control type="group">
