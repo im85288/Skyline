@@ -552,16 +552,51 @@
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
             <control type="group" id="5640">
                 <control type="group">
-                    <animation effect="slide" end="0,-297" time="300" tween="cubic" easing="out" condition="ControlGroup(5640).HasFocus()">Conditional</animation>
-                    <animation effect="fade" start="100" end="0" time="150" condition="ControlGroup(5640).HasFocus() + !Control.HasFocus(5600)">Conditional</animation>
+                    <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                    <visible>ControlGroup(5640).HasFocus()</visible>
                     <control type="label">
-                        <left>88</left><top>837</top><width>1400</width><height>50</height>
+                        <left>88</left><top>512</top><width>294</width><height>50</height>
                         <aligny>center</aligny>
                         <font>silo_row</font>
-                        <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <textcolor>$VAR[SiloPeekTab5600]</textcolor><shadowcolor>CC000000</shadowcolor>
                         <label>Recent channels</label>
-                        <visible>ControlGroup(5640).HasFocus()</visible>
                     </control>
+                    <control type="image">
+                        <left>88</left><top>564</top><width>274</width><height>4</height>
+                        <texture colordiffuse="FFEDEDED">colors/white.png</texture>
+                        <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                        <visible>Control.HasFocus(5600)</visible>
+                    </control>
+                    <control type="label">
+                        <left>406</left><top>512</top><width>146</width><height>50</height>
+                        <aligny>center</aligny>
+                        <font>silo_row</font>
+                        <textcolor>$VAR[SiloPeekTab5601]</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>On now</label>
+                    </control>
+                    <control type="image">
+                        <left>406</left><top>564</top><width>126</width><height>4</height>
+                        <texture colordiffuse="FFEDEDED">colors/white.png</texture>
+                        <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                        <visible>Control.HasFocus(5601)</visible>
+                    </control>
+                    <control type="label">
+                        <left>576</left><top>512</top><width>198</width><height>50</height>
+                        <aligny>center</aligny>
+                        <font>silo_row</font>
+                        <textcolor>$VAR[SiloPeekTab5602]</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>Coming up</label>
+                    </control>
+                    <control type="image">
+                        <left>576</left><top>564</top><width>178</width><height>4</height>
+                        <texture colordiffuse="FFEDEDED">colors/white.png</texture>
+                        <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                        <visible>Control.HasFocus(5602)</visible>
+                    </control>
+                </control>
+                <control type="group">
+                    <animation effect="slide" end="0,-297" time="300" tween="cubic" easing="out" condition="ControlGroup(5640).HasFocus()">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="150" condition="ControlGroup(5640).HasFocus() + !Control.HasFocus(5600)">Conditional</animation>
             <control type="list" id="5600">
                 <animation effect="fade" start="100" end="0" time="0" condition="String.IsEmpty(Window(Home).Property(silo.recent.placed))">Conditional</animation>
                 <left>80</left><top>897</top><width>1840</width><height>359</height>
@@ -715,14 +750,6 @@
                 <control type="group">
                     <animation effect="fade" start="100" end="0" time="150" condition="!Control.HasFocus(5601)">Conditional</animation>
                     <animation effect="slide" start="0,40" end="0,0" time="250" tween="cubic" easing="out" condition="Control.HasFocus(5601)">Conditional</animation>
-                    <control type="label">
-                        <left>88</left><top>540</top><width>1400</width><height>50</height>
-                        <aligny>center</aligny>
-                        <font>silo_row</font>
-                        <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                        <label>On now</label>
-                        <visible>ControlGroup(5640).HasFocus()</visible>
-                    </control>
             <control type="list" id="5601">
                 <left>80</left><top>600</top><width>1840</width><height>359</height>
                 <visible>true</visible>
@@ -875,14 +902,6 @@
                 <control type="group">
                     <animation effect="fade" start="100" end="0" time="150" condition="!Control.HasFocus(5602)">Conditional</animation>
                     <animation effect="slide" start="0,40" end="0,0" time="250" tween="cubic" easing="out" condition="Control.HasFocus(5602)">Conditional</animation>
-                    <control type="label">
-                        <left>88</left><top>540</top><width>1400</width><height>50</height>
-                        <aligny>center</aligny>
-                        <font>silo_row</font>
-                        <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
-                        <label>Coming up on $INFO[VideoPlayer.ChannelName]</label>
-                        <visible>ControlGroup(5640).HasFocus()</visible>
-                    </control>
             <control type="list" id="5602">
                 <left>80</left><top>600</top><width>1840</width><height>359</height>
                 <visible>true</visible>

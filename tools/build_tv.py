@@ -197,7 +197,7 @@ def variables():
             '        <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>\n'
             '        <value condition="!String.IsEmpty(ListItem.StartTime)">Starts at $INFO[ListItem.StartTime]</value>\n'
             '    </variable>\n'
-            ) % {'lit': lit, 'tile': TILE, 'playing': PLAYING_TILE, 'playing_lit': PLAYING_TILE_LIT, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
+            ) % {'lit': lit, 'tile': TILE, 'playing': PLAYING_TILE, 'playing_lit': PLAYING_TILE_LIT, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + stream_variables() + banner_variables() + peek_tab_vars([list_id for _, _, _, list_id, _ in CHIPS]) + '\n    <!-- end Silo Skyline TV guide -->\n'
 
 
 def add_variables():
@@ -2120,7 +2120,10 @@ def neighbour_card(button, prefix, centre_x):
         'text': TEXT, 'live': live_badge('String.IsEqual(%slive),1)' % p, indent='                    ')}
 
 
-PEEK_TITLES = ('Recent channels', 'On now', 'Coming up on $INFO[VideoPlayer.ChannelName]')
+# The rows' tabs over the one row on screen, with their text widths in
+# silo_row (Inter Bold 34) for the underline; the row with focus is lit.
+PEEK_TABS = (('Recent channels', 274), ('On now', 126), ('Coming up', 178))
+PEEK_TAB_GAP = 44
 
 
 PEEK_ROWS = 5640
@@ -2160,25 +2163,55 @@ def peek_rows():
                      '\n                    <animation effect="slide" start="0,40" end="0,0" time="250" tween="cubic" easing="out" '
                      'condition="%s">Conditional</animation>' % (lit, lit))
         out += """
-                <control type="group">%(anims)s
-                    <control type="label">
-                        <left>%(x)d</left><top>%(ty)d</top><width>1400</width><height>50</height>
-                        <aligny>center</aligny>
-                        <font>silo_row</font>
-                        <textcolor>%(text)s</textcolor><shadowcolor>CC000000</shadowcolor>
-                        <label>%(title)s</label>
-                        <visible>%(in)s</visible>
-                    </control>%(row)s
-                </control>""" % {'anims': anims, 'x': SAFE_X, 'ty': y - 60, 'text': TEXT, 'title': PEEK_TITLES[n],
-                                 'in': in_rows(),
+                <control type="group">%(anims)s%(row)s
+                </control>""" % {'anims': anims,
                                  # Into the next row on its first card, as from the buttons.
                                  'row': card_row(chip_id, key, list_id, mode, y=y,
                                                  up='SetFocus(%d,0,absolute)' % lists[n - 1] if n else PLAY_PAUSE,
                                                  down='SetFocus(%d,0,absolute)' % lists[n + 1]
                                                  if n + 1 < len(lists) else 'noop')}
     return """
-            <control type="group" id="%d">%s
-            </control>""" % (PEEK_ROWS, out)
+            <control type="group" id="%d">%s%s
+            </control>""" % (PEEK_ROWS, peek_tabs(lists), out)
+
+
+def peek_tabs(lists):
+    """Recent channels · On now · Coming up over the row on screen, the one
+    with focus bright and underlined, the others faded: you see which rows
+    are above and below. Shown only while in the rows."""
+    out, x = '', SAFE_X
+    for (title, w), list_id in zip(PEEK_TABS, lists):
+        lit = 'Control.HasFocus(%d)' % list_id
+        out += """
+                    <control type="label">
+                        <left>%(x)d</left><top>%(ty)d</top><width>%(lw)d</width><height>50</height>
+                        <aligny>center</aligny>
+                        <font>silo_row</font>
+                        <textcolor>$VAR[SiloPeekTab%(n)d]</textcolor><shadowcolor>CC000000</shadowcolor>
+                        <label>%(title)s</label>
+                    </control>
+                    <control type="image">
+                        <left>%(x)d</left><top>%(uy)d</top><width>%(w)d</width><height>4</height>
+                        <texture colordiffuse="%(text)s">colors/white.png</texture>
+                        <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                        <visible>%(lit)s</visible>
+                    </control>""" % {'x': x, 'ty': PEEK_TOP - 88, 'lw': w + 20, 'title': title, 'n': list_id,
+                                     'uy': PEEK_TOP - 36, 'w': w, 'text': TEXT, 'lit': lit}
+        x += w + PEEK_TAB_GAP
+    return """
+                <control type="group">
+                    <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                    <visible>%s</visible>%s
+                </control>""" % (in_rows(), out)
+
+
+def peek_tab_vars(lists):
+    """A text colour per tab: bright when its row has focus, else faded."""
+    return ''.join("""
+    <variable name="SiloPeekTab%(n)d">
+        <value condition="Control.HasFocus(%(n)d)">%(text)s</value>
+        <value>%(dim)s</value>
+    </variable>""" % {'n': n, 'text': TEXT, 'dim': '80EDEDED'} for n in lists)
 
 
 def overlay_badges():
