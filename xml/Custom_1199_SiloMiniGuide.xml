@@ -756,11 +756,11 @@
                 </itemlayout>
                 <focusedlayout height="290" width="920">
                 <control type="image">
-                    <left>20</left><top>14</top><width>850</width><height>262</height>
+                    <left>24</left><top>14</top><width>872</width><height>262</height>
                     <texture border="20" colordiffuse="1EFFFFFF">silo/card_landscape_mask.png</texture>
                 </control>
                 <control type="image">
-                    <left>20</left><top>14</top><width>850</width><height>262</height>
+                    <left>24</left><top>14</top><width>872</width><height>262</height>
                     <texture border="20" colordiffuse="50FFFFFF">silo/card_landscape_rim.png</texture>
                 </control>
                 <control type="image">
@@ -769,14 +769,14 @@
                     <texture>$INFO[ListItem.Icon]</texture>
                 </control>
                 <control type="label">
-                    <left>230</left><top>36</top><width>580</width><height>50</height>
+                    <left>230</left><top>36</top><width>640</width><height>50</height>
                     <font>silo_row</font>
                     <textcolor>FFEDEDED</textcolor>
                     <label>$INFO[ListItem.Property(silo.now)]</label>
                     <visible>!String.IsEqual(ListItem.Property(silo.live),1)</visible>
                 </control>
                 <control type="label">
-                    <left>306</left><top>36</top><width>504</width><height>50</height>
+                    <left>306</left><top>36</top><width>564</width><height>50</height>
                     <font>silo_row</font>
                     <textcolor>FFEDEDED</textcolor>
                     <label>$INFO[ListItem.Property(silo.now)]</label>
@@ -799,13 +799,13 @@
                     </control>
                 </control>
                 <control type="label">
-                    <left>230</left><top>92</top><width>580</width><height>34</height>
+                    <left>230</left><top>92</top><width>640</width><height>34</height>
                     <font>silo_detail</font>
                     <textcolor>CCEDEDED</textcolor>
                     <label>$INFO[ListItem.Property(silo.channel)]</label>
                 </control>
                 <control type="label">
-                    <left>230</left><top>128</top><width>580</width><height>34</height>
+                    <left>230</left><top>128</top><width>640</width><height>34</height>
                     <font>silo_detail</font>
                     <textcolor>CCEDEDED</textcolor>
                     <label>$INFO[ListItem.Property(silo.started),Started at ]</label>
@@ -850,19 +850,19 @@
                     <visible>String.IsEqual(ListItem.Property(silo.playing),1) + !String.IsEmpty(VideoPlayer.AudioChannels)</visible>
                 </control>
                 <control type="progress">
-                    <left>230</left><top>180</top><width>580</width><height>6</height>
+                    <left>230</left><top>180</top><width>640</width><height>6</height>
                     <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
                     <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                     <info>ListItem.Property(silo.progress)</info>
                 </control>
                 <control type="label">
-                    <left>230</left><top>204</top><width>580</width><height>34</height>
+                    <left>230</left><top>204</top><width>640</width><height>34</height>
                     <font>silo_detail</font>
                     <textcolor>FFEDEDED</textcolor>
                     <label>$INFO[ListItem.Property(silo.next),[COLOR BEEDEDED]Next:[/COLOR]  ]</label>
                 </control>
                 <control type="label">
-                    <left>230</left><top>204</top><width>580</width><height>34</height>
+                    <left>230</left><top>204</top><width>640</width><height>34</height>
                     <align>right</align>
                     <font>silo_detail</font>
                     <textcolor>BEEDEDED</textcolor>

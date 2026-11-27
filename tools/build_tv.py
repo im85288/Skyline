@@ -2210,6 +2210,8 @@ MINI_FOCUS = 4                         # rows above the card
 MINI_TOP = 540 - (MINI_CARD + 2 * MINI_GAP) // 2 - MINI_FOCUS * MINI_ROW
 MINI_PANEL = LIVE_GLASS
 MINI_TX = 230                          # the text's left, after the logo
+MINI_MARGIN = 24                       # the selected card's space from the panel's sides
+MINI_INSET = 26                        # its logo's and text's space from its sides
 
 
 def mini_row():
@@ -2232,10 +2234,12 @@ def mini_row():
 
 def mini_card():
     """The selected channel's card."""
-    g, w = MINI_GAP, 1920 - MINI_X - 70
+    # The card MINI_MARGIN in from both sides of the panel; its text ends as far
+    # inside its right edge as the logo starts inside its left.
+    g, w = MINI_GAP, 1920 - MINI_X - 2 * MINI_MARGIN
     live = 'String.IsEqual(ListItem.Property(silo.live),1)'
     playing = 'String.IsEqual(ListItem.Property(silo.playing),1)'
-    tw = 1920 - MINI_X - MINI_TX - 110
+    tw = MINI_MARGIN + w - MINI_INSET - MINI_TX
     title = """
                 <control type="label">
                     <left>%%d</left><top>%(ty)d</top><width>%%d</width><height>50</height>
@@ -2269,15 +2273,15 @@ def mini_card():
                          (1, '$VAR[SiloLiveAudio]', '%s + !String.IsEmpty(VideoPlayer.AudioChannels)' % playing)))
     return """
                 <control type="image">
-                    <left>20</left><top>%(g)d</top><width>%(w)d</width><height>%(ch)d</height>
+                    <left>%(m)d</left><top>%(g)d</top><width>%(w)d</width><height>%(ch)d</height>
                     <texture border="20" colordiffuse="1EFFFFFF">silo/card_landscape_mask.png</texture>
                 </control>
                 <control type="image">
-                    <left>20</left><top>%(g)d</top><width>%(w)d</width><height>%(ch)d</height>
+                    <left>%(m)d</left><top>%(g)d</top><width>%(w)d</width><height>%(ch)d</height>
                     <texture border="20" colordiffuse="50FFFFFF">silo/card_landscape_rim.png</texture>
                 </control>
                 <control type="image">
-                    <left>50</left><top>%(ly)d</top><width>160</width><height>56</height>
+                    <left>%(lx)d</left><top>%(ly)d</top><width>160</width><height>56</height>
                     <aspectratio align="left">keep</aspectratio>
                     <texture>$INFO[ListItem.Icon]</texture>
                 </control>%(title_plain)s%(title_live)s
@@ -2315,7 +2319,7 @@ def mini_card():
                     <textcolor>BEEDEDED</textcolor>
                     <label>$INFO[ListItem.Property(silo.next_time)]</label>
                 </control>""" % {
-        'g': g, 'w': w, 'ch': MINI_CARD, 'ly': g + 34, 'tx': MINI_TX, 'tw': tw, 'text': TEXT,
+        'g': g, 'w': w, 'm': MINI_MARGIN, 'lx': MINI_MARGIN + MINI_INSET, 'ch': MINI_CARD, 'ly': g + 34, 'tx': MINI_TX, 'tw': tw, 'text': TEXT,
         'title_plain': title % (MINI_TX, tw, '!' + live), 'title_live': title % (MINI_TX + 76, tw - 76, live),
         'lvy': g + 34, 'live_tag': live_badge(live, indent='                    '),
         'cy': g + 78, 'sy': g + 114, 'badges': badges, 'py': g + 166, 'ny': g + 190}
