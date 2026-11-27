@@ -65,6 +65,7 @@ LIVE_HIDDEN = '[String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlay
 
 PILL_BG = 'E6262A33'          # the group pills' dark fill
 ENDED = 'Integer.IsEqual(ListItem.Progress,100)'  # a programme that has finished
+NO_CATCHUP = ENDED + ' + !ListItem.IsPlayable'  # finished, and no catch-up to watch it back
 
 
 def playing_mark(left, top, size=24, colour=ACCENT, also='true'):
@@ -170,10 +171,14 @@ def variables():
             '        <value condition="%(lit)s + String.IsEmpty(ListItem.Label)">[COLOR B3FFFFFF]No information[/COLOR]</value>\n'
             '        <value condition="%(lit)s">[COLOR FFFFFFFF]$INFO[ListItem.Label][/COLOR]</value>\n'
             '        <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>\n'
+            # Finished with no catch-up to watch it back (Kodi: not playable): greyed out.
+            '        <value condition="%(no_catchup)s">[COLOR 59EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '        <value>[COLOR E6EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '    </variable>\n'
             '    <variable name="SiloGuideTitleRest">\n'
             '        <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>\n'
+            # Finished with no catch-up to watch it back (Kodi: not playable): greyed out.
+            '        <value condition="%(no_catchup)s">[COLOR 59EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '        <value>[COLOR E6EDEDED]$INFO[ListItem.Label][/COLOR]</value>\n'
             '    </variable>\n'
             # The picture and plot of what has focus: a restart card's, else the programme's.
@@ -198,7 +203,7 @@ def variables():
             '        <value condition="Integer.IsGreater(ListItem.Progress,0)">Started at $INFO[ListItem.StartTime]</value>\n'
             '        <value condition="!String.IsEmpty(ListItem.StartTime)">Starts at $INFO[ListItem.StartTime]</value>\n'
             '    </variable>\n'
-            ) % {'lit': lit, 'divider': DIVIDER, 'playing': PLAYING_TILE, 'playing_lit': PLAYING_TILE_LIT, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
+            ) % {'lit': lit, 'divider': DIVIDER, 'no_catchup': NO_CATCHUP, 'playing': PLAYING_TILE, 'playing_lit': PLAYING_TILE_LIT, 'ended': ENDED, 'on_rail': ON_RAIL, 'rail': RAIL_ID} + stream_variables() + banner_variables() + '    <!-- end Silo Skyline TV guide -->\n'
 
 
 def add_variables():

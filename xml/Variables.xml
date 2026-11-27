@@ -10395,10 +10395,12 @@
         <value condition="Control.HasFocus(51) + String.IsEmpty(ListItem.Label)">[COLOR B3FFFFFF]No information[/COLOR]</value>
         <value condition="Control.HasFocus(51)">[COLOR FFFFFFFF]$INFO[ListItem.Label][/COLOR]</value>
         <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>
+        <value condition="Integer.IsEqual(ListItem.Progress,100) + !ListItem.IsPlayable">[COLOR 59EDEDED]$INFO[ListItem.Label][/COLOR]</value>
         <value>[COLOR E6EDEDED]$INFO[ListItem.Label][/COLOR]</value>
     </variable>
     <variable name="SiloGuideTitleRest">
         <value condition="String.IsEmpty(ListItem.Label)">[COLOR 80EDEDED]No information[/COLOR]</value>
+        <value condition="Integer.IsEqual(ListItem.Progress,100) + !ListItem.IsPlayable">[COLOR 59EDEDED]$INFO[ListItem.Label][/COLOR]</value>
         <value>[COLOR E6EDEDED]$INFO[ListItem.Label][/COLOR]</value>
     </variable>
     <variable name="SiloGuidePicture">
