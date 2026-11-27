@@ -24,18 +24,9 @@
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/guide_mask.png">$VAR[SiloGuidePicture]</texture>
         </control>
-        <!-- The day and times on a dark backing (a little see-through), faded in
-             from above, so they read over the picture. -->
-        <control type="image">
-            <left>72</left><top>392</top><width>1848</width><height>90</height>
-            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture colordiffuse="FF2A3445">silo/scrim_bottom_white.png</texture>
-        </control>
-        <control type="image">
-            <left>72</left><top>482</top><width>1848</width><height>46</height>
-            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture colordiffuse="FF2A3445">colors/white.png</texture>
-        </control>
+        <!-- The day and times sit on the page itself: the picture fades out
+             (guide_mask) from under the details to the rows' top, so no band
+             of their own (a flat one read as a grey bar, 2026-11-27). -->
         <!-- Left of the restart row, the time row and the glass, the page: the
              picture's edge showed there. It stays put as the grid slides. -->
         <control type="image">

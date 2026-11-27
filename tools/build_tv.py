@@ -400,18 +400,9 @@ def build():
             <fadetime>200</fadetime>
             <texture background="true" diffuse="silo/guide_mask.png">$VAR[SiloGuidePicture]</texture>
         </control>
-        <!-- The day and times on a dark backing (a little see-through), faded in
-             from above, so they read over the picture. -->
-        <control type="image">
-            <left>%(panel_x)d</left><top>%(ruler_fade_y)d</top><width>%(panel_w)d</width><height>%(ruler_fade_h)d</height>
-            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
-            <texture colordiffuse="%(background)s">silo/scrim_bottom_white.png</texture>
-        </control>
-        <control type="image">
-            <left>%(panel_x)d</left><top>%(grid_y)d</top><width>%(panel_w)d</width><height>%(ruler_h)d</height>
-            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
-            <texture colordiffuse="%(ruler_bg)s">colors/white.png</texture>
-        </control>
+        <!-- The day and times sit on the page itself: the picture fades out
+             (guide_mask) from under the details to the rows' top, so no band
+             of their own (a flat one read as a grey bar, 2026-11-27). -->
         <!-- Left of the restart row, the time row and the glass, the page: the
              picture's edge showed there. It stays put as the grid slides. -->
         <control type="image">
@@ -732,8 +723,8 @@ def build():
        'rail_card': rail_card(False), 'rail_card_focused': rail_card(True), 'rail_items': rail_items(),
        'rail_live': live_tag('!String.IsEmpty(Container(%d).ListItem.Property(silo.live))' % RAIL_ID, top=2,
                              indent='                '),
-       'band': BAND, 'band_y': GRID_Y + RULER_H, 'hair_band_y': GRID_Y + RULER_H - 2, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
-       'ruler_bg': GUIDE_PAGE, 'top_fade': '80' + GUIDE_PAGE[2:],
+       'band': BAND, 'band_y': GRID_Y + RULER_H, 'hair_band_y': GRID_Y + RULER_H - 2,
+       'top_fade': '80' + GUIDE_PAGE[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
        'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X, 'left_y': RAIL_Y - 12, 'left_h': 1080 - RAIL_Y + 12,
