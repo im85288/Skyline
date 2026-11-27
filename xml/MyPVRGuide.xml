@@ -48,26 +48,39 @@
              same a little less see-through, from just left of their names (a
              rounded corner there); a sheen and a fine light edge along the top.
              Kodi can't blur what's behind, so the glass is this. -->
+        <!-- The page's own dark under the glass: the picture stops at the rows. -->
+        <control type="image">
+            <left>72</left><top>528</top><width>1848</width><height>592</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
+            <texture colordiffuse="SkylineBackground">colors/white.png</texture>
+        </control>
         <control type="image">
             <left>72</left><top>528</top><width>328</width><height>592</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
             <!-- Square: a rounded corner let the picture show through as coloured triangles. -->
-            <texture colordiffuse="SkylineLiveVeil">colors/white.png</texture>
+            <texture colordiffuse="B3485A78">colors/white.png</texture>
         </control>
         <control type="image">
             <left>400</left><top>528</top><width>1520</width><height>592</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture colordiffuse="SkylineLiveVeil">colors/white.png</texture>
+            <texture colordiffuse="B3485A78">colors/white.png</texture>
+        </control>
+        <!-- The banner's raised edge along the top: a soft glow down from it, a
+             dark hairline above a bright rim. -->
+        <control type="image">
+            <left>72</left><top>528</top><width>1848</width><height>40</height>
+            <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
+            <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
         </control>
         <control type="image">
-            <left>72</left><top>528</top><width>1848</width><height>180</height>
+            <left>72</left><top>526</top><width>1848</width><height>2</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
+            <texture colordiffuse="8C000000">colors/white.png</texture>
         </control>
         <control type="image">
             <left>72</left><top>528</top><width>1848</width><height>2</height>
             <animation effect="slide" end="0,222" time="240" tween="cubic" easing="out" condition="!Control.HasFocus(51)">Conditional</animation>
-            <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
+            <texture colordiffuse="B3E6EEFF">colors/white.png</texture>
         </control>
         <!-- A dark fade along the top, so the clock reads over a bright picture. -->
         <control type="image">
@@ -610,9 +623,11 @@
             <itemlayout width="408" height="240">
                 <control type="group">
                     <left>12</left><top>12</top>
+                    <!-- The backing and the shades are the picture's own size and mask,
+                         so their corners are its corners (no dark corner past it). -->
                     <control type="image">
                         <width>384</width><height>216</height>
-                        <texture border="8" colordiffuse="FF1A1D24">silo/guide_cell.png</texture>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="FF1A1D24">colors/white.png</texture>
                     </control>
                     <control type="image">
                         <width>384</width><height>216</height>
@@ -620,8 +635,12 @@
                         <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Art(thumb)]</texture>
                     </control>
                     <control type="image">
-                        <top>106</top><width>384</width><height>110</height>
-                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="E6000000">silo/scrim_bottom.png</texture>
+                        <width>384</width><height>216</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>384</width><height>216</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
                     </control>
                     <control type="image">
                         <left>18</left><top>16</top><width>112</width><height>36</height>
@@ -648,9 +667,11 @@
                 <control type="group">
                     <left>12</left><top>12</top>
                     <animation effect="zoom" start="100" end="110" time="180" tween="sine" easing="out" center="auto" condition="Control.HasFocus(52)">Conditional</animation>
+                    <!-- The backing and the shades are the picture's own size and mask,
+                         so their corners are its corners (no dark corner past it). -->
                     <control type="image">
                         <width>384</width><height>216</height>
-                        <texture border="8" colordiffuse="FF1A1D24">silo/guide_cell.png</texture>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="FF1A1D24">colors/white.png</texture>
                     </control>
                     <control type="image">
                         <width>384</width><height>216</height>
@@ -658,8 +679,12 @@
                         <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Art(thumb)]</texture>
                     </control>
                     <control type="image">
-                        <top>106</top><width>384</width><height>110</height>
-                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="E6000000">silo/scrim_bottom.png</texture>
+                        <width>384</width><height>216</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>384</width><height>216</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
                     </control>
                     <control type="image">
                         <left>18</left><top>16</top><width>112</width><height>36</height>

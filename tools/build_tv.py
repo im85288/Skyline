@@ -35,7 +35,8 @@ GUIDE_LOGO_W, GUIDE_LOGO_H = 160, 44
 GUIDE_VIDEO_W, GUIDE_VIDEO_H = 352, 198   # what's playing, bottom right (Sky OS 2.0's)
 ROW_H = 69                  # 8 channels on screen
 GRID_ROWS = 8
-BAND = 'CC272A30'           # the glass: the skin's Live TV veil (themed: SkylineLiveVeil), the picture faint behind
+BAND = 'B3485A78'           # the glass: Live TV's frost, as the mini guide's panel (70 per cent), on the page's own
+                            # dark (GUIDE_BASE), so the rows keep one colour (was the theme's veil over the picture until 2026-11-27)
 CHANNEL_BAND = BAND         # the channels' glass: the programmes' own
 TILE = '1AFFFFFF'           # Sky's: each channel and programme a faint tile of its own, apart from the next
 PANEL_X = SAFE_X - 16       # the glass starts just left of the channel names (the focus outline's edge)
@@ -326,9 +327,11 @@ def rail_card(focused):
     return '''
                 <control type="group">
                     <left>12</left><top>12</top>%(zoom)s
+                    <!-- The backing and the shades are the picture's own size and mask,
+                         so their corners are its corners (no dark corner past it). -->
                     <control type="image">
                         <width>%(w)d</width><height>%(h)d</height>
-                        <texture border="8" colordiffuse="FF1A1D24">silo/guide_cell.png</texture>
+                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="FF1A1D24">colors/white.png</texture>
                     </control>
                     <control type="image">
                         <width>%(w)d</width><height>%(h)d</height>
@@ -336,8 +339,12 @@ def rail_card(focused):
                         <texture background="true" diffuse="silo/card_landscape_mask.png">$INFO[ListItem.Art(thumb)]</texture>
                     </control>
                     <control type="image">
-                        <top>%(shade_y)d</top><width>%(w)d</width><height>%(shade_h)d</height>
-                        <texture diffuse="silo/card_landscape_mask.png" colordiffuse="E6000000">silo/scrim_bottom.png</texture>
+                        <width>%(w)d</width><height>%(h)d</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>%(w)d</width><height>%(h)d</height>
+                        <texture diffuse="silo/card_landscape_mask.png">silo/card_scrim.png</texture>
                     </control>
                     <control type="image">
                         <left>18</left><top>16</top><width>112</width><height>36</height>
@@ -358,8 +365,7 @@ def rail_card(focused):
                         <textcolor>D9EDEDED</textcolor>
                         <label>$INFO[ListItem.Property(silo.started)]</label>
                     </control>
-                </control>''' % {'zoom': zoom, 'w': RAIL_CARD_W, 'h': RAIL_CARD_H, 'shade_y': RAIL_CARD_H - 110, 'shade_h': 110,
-                                         'title_y': RAIL_CARD_H - 82, 'sub_y': RAIL_CARD_H - 44, 'tw': RAIL_CARD_W - 32,
+                </control>''' % {'zoom': zoom, 'w': RAIL_CARD_W, 'h': RAIL_CARD_H,                                          'title_y': RAIL_CARD_H - 82, 'sub_y': RAIL_CARD_H - 44, 'tw': RAIL_CARD_W - 32,
                                          'text': TEXT}
 
 
@@ -418,6 +424,12 @@ def build():
              same a little less see-through, from just left of their names (a
              rounded corner there); a sheen and a fine light edge along the top.
              Kodi can't blur what's behind, so the glass is this. -->
+        <!-- The page's own dark under the glass: the picture stops at the rows. -->
+        <control type="image">
+            <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(panel_w)d</width><height>%(band_h)d</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
+            <texture colordiffuse="SkylineBackground">colors/white.png</texture>
+        </control>
         <control type="image">
             <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(cw_panel)d</width><height>%(band_h)d</height>
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
@@ -429,15 +441,22 @@ def build():
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
             <texture colordiffuse="%(band)s">colors/white.png</texture>
         </control>
+        <!-- The banner's raised edge along the top: a soft glow down from it, a
+             dark hairline above a bright rim. -->
         <control type="image">
-            <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(panel_w)d</width><height>180</height>
+            <left>%(panel_x)d</left><top>%(band_y)d</top><width>%(panel_w)d</width><height>40</height>
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
-            <texture flipy="true" colordiffuse="17FFFFFF">silo/scrim_bottom.png</texture>
+            <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
+        </control>
+        <control type="image">
+            <left>%(edge_x)d</left><top>%(hair_band_y)d</top><width>%(edge_w)d</width><height>2</height>
+            <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
+            <texture colordiffuse="8C000000">colors/white.png</texture>
         </control>
         <control type="image">
             <left>%(edge_x)d</left><top>%(band_y)d</top><width>%(edge_w)d</width><height>2</height>
             <animation effect="slide" end="0,%(shift)d" time="240" tween="cubic" easing="out" condition="%(off_grid)s">Conditional</animation>
-            <texture colordiffuse="2EFFFFFF">colors/white.png</texture>
+            <texture colordiffuse="B3E6EEFF">colors/white.png</texture>
         </control>
         <!-- A dark fade along the top, so the clock reads over a bright picture. -->
         <control type="image">
@@ -709,7 +728,7 @@ def build():
        'rail_card': rail_card(False), 'rail_card_focused': rail_card(True), 'rail_items': rail_items(),
        'rail_live': live_tag('!String.IsEmpty(Container(%d).ListItem.Property(silo.live))' % RAIL_ID, top=2,
                              indent='                '),
-       'band': BAND, 'band_y': GRID_Y + RULER_H, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
+       'band': BAND, 'band_y': GRID_Y + RULER_H, 'hair_band_y': GRID_Y + RULER_H - 2, 'ruler_fade_y': GRID_Y - 90, 'ruler_fade_h': 90,
        'ruler_bg': 'D9' + BACKGROUND[2:], 'top_fade': 'B3' + BACKGROUND[2:],
        'band_h': 1080 - GRID_Y - RULER_H + 40, 'pw_band': 1920 - CHANNEL_W, 'channel_band': CHANNEL_BAND,
        'panel_x': PANEL_X, 'cw_panel': CHANNEL_W - PANEL_X, 'panel_w': 1920 - PANEL_X,
