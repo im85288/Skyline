@@ -1,3 +1,7 @@
+[B]0.35.2[/B]
+• TV guide: no cut-off time at the left of the time row (the times are a little smaller)
+• TV guide: the programme's picture shows faintly behind the details and fades evenly down to the rows, with no grey band or block behind the times
+
 [B]0.35.1[/B]
 • TV guide: the first time on the time row (22:00 at the grid's edge) is no longer half hidden
 
