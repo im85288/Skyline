@@ -539,6 +539,7 @@ def build():
                 <top>164</top><width>%(dw)d</width><height>36</height>
                 <orientation>horizontal</orientation>
                 <itemgap>20</itemgap>
+                <usecontrolcoords>true</usecontrolcoords>
                 <visible>!%(on_rail)s</visible>%(guide_live)s
                 <control type="label">
                     <width>auto</width><height>36</height>
@@ -553,7 +554,7 @@ def build():
                     <font>silo_meta</font>
                     <textcolor>%(text)s</textcolor>
                     <label>$VAR[SiloGuideWhen]</label>
-                </control>
+                </control>%(guide_catchup)s
             </control>
             <control type="textbox">
                 <top>214</top><width>%(dw)d</width><height>%(plot_h)d</height>
@@ -729,6 +730,24 @@ def build():
        'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X,
 
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
+       # A finished programme: watch it back (as the banner's OK key), or "Not on catch-up".
+       'guide_catchup': outline_badge('OK', ENDED + ' + ListItem.IsPlayable', top=3) + '''
+                <control type="label">
+                    <width>auto</width><height>36</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>%s</textcolor>
+                    <label>Watch from the start</label>
+                    <visible>%s + ListItem.IsPlayable</visible>
+                </control>
+                <control type="label">
+                    <width>auto</width><height>36</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>B3EDEDED</textcolor>
+                    <label>Not on catch-up</label>
+                    <visible>%s</visible>
+                </control>''' % (TEXT, ENDED, NO_CATCHUP),
        'guide_quality': quality_badge('String.Contains(Window(Home).Property(silokodi.tv.uhd),ListItem.ChannelName)',
                                       '!String.IsEmpty(ListItem.ChannelName)'),
        'rail_quality': quality_badge('String.IsEqual(Container(%d).ListItem.Property(silo.quality),UHD)' % RAIL_ID,
