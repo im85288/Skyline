@@ -755,13 +755,23 @@
                 </control>
                 </itemlayout>
                 <focusedlayout height="290" width="920">
+                <!-- The banner's raised glass (sky_banner): a dark hairline outside, a
+                     frosted fill, a soft glow down from the top edge, a bright rim. -->
                 <control type="image">
-                    <left>24</left><top>14</top><width>872</width><height>262</height>
-                    <texture border="20" colordiffuse="1EFFFFFF">silo/card_landscape_mask.png</texture>
+                    <left>22</left><top>12</top><width>876</width><height>266</height>
+                    <texture border="8" colordiffuse="8C000000">silo/guide_rim.png</texture>
                 </control>
                 <control type="image">
                     <left>24</left><top>14</top><width>872</width><height>262</height>
-                    <texture border="20" colordiffuse="50FFFFFF">silo/card_landscape_rim.png</texture>
+                    <texture border="8" colordiffuse="80485A78">silo/guide_cell.png</texture>
+                </control>
+                <control type="image">
+                    <left>27</left><top>17</top><width>866</width><height>40</height>
+                    <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
+                </control>
+                <control type="image">
+                    <left>24</left><top>14</top><width>872</width><height>262</height>
+                    <texture border="8" colordiffuse="B3E6EEFF">silo/guide_rim.png</texture>
                 </control>
                 <control type="image">
                     <left>50</left><top>48</top><width>160</width><height>56</height>

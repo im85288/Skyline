@@ -2326,13 +2326,23 @@ def mini_card():
                          (0, '$INFO[ListItem.Property(silo.quality)]', '!%s + !String.IsEmpty(ListItem.Property(silo.quality))' % playing),
                          (1, '$VAR[SiloLiveAudio]', '%s + !String.IsEmpty(VideoPlayer.AudioChannels)' % playing)))
     return """
+                <!-- The banner's raised glass (sky_banner): a dark hairline outside, a
+                     frosted fill, a soft glow down from the top edge, a bright rim. -->
                 <control type="image">
-                    <left>%(m)d</left><top>%(g)d</top><width>%(w)d</width><height>%(ch)d</height>
-                    <texture border="20" colordiffuse="1EFFFFFF">silo/card_landscape_mask.png</texture>
+                    <left>%(hair_x)d</left><top>%(hair_y)d</top><width>%(hair_w)d</width><height>%(hair_h)d</height>
+                    <texture border="8" colordiffuse="8C000000">silo/guide_rim.png</texture>
                 </control>
                 <control type="image">
                     <left>%(m)d</left><top>%(g)d</top><width>%(w)d</width><height>%(ch)d</height>
-                    <texture border="20" colordiffuse="50FFFFFF">silo/card_landscape_rim.png</texture>
+                    <texture border="8" colordiffuse="%(glass)s">silo/guide_cell.png</texture>
+                </control>
+                <control type="image">
+                    <left>%(gx)d</left><top>%(gy)d</top><width>%(gw)d</width><height>40</height>
+                    <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
+                </control>
+                <control type="image">
+                    <left>%(m)d</left><top>%(g)d</top><width>%(w)d</width><height>%(ch)d</height>
+                    <texture border="8" colordiffuse="B3E6EEFF">silo/guide_rim.png</texture>
                 </control>
                 <control type="image">
                     <left>%(lx)d</left><top>%(ly)d</top><width>160</width><height>56</height>
@@ -2373,7 +2383,9 @@ def mini_card():
                     <textcolor>BEEDEDED</textcolor>
                     <label>$INFO[ListItem.Property(silo.next_time)]</label>
                 </control>""" % {
-        'g': g, 'w': w, 'm': MINI_MARGIN, 'lx': MINI_MARGIN + MINI_INSET, 'ch': MINI_CARD, 'ly': g + 34, 'tx': MINI_TX, 'tw': tw, 'text': TEXT,
+        'g': g, 'w': w, 'm': MINI_MARGIN, 'lx': MINI_MARGIN + MINI_INSET, 'ch': MINI_CARD,
+        'hair_x': MINI_MARGIN - 2, 'hair_y': g - 2, 'hair_w': w + 4, 'hair_h': MINI_CARD + 4,
+        'gx': MINI_MARGIN + 3, 'gy': g + 3, 'gw': w - 6, 'glass': BANNER_GLASS, 'ly': g + 34, 'tx': MINI_TX, 'tw': tw, 'text': TEXT,
         'title_plain': title % (MINI_TX, tw, '!' + live), 'title_live': title % (MINI_TX + 76, tw - 76, live),
         'lvy': g + 34, 'live_tag': live_badge(live, indent='                    '),
         'cy': g + 78, 'sy': g + 114, 'badges': badges, 'py': g + 166, 'ny': g + 190}
