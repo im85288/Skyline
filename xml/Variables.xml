@@ -10531,19 +10531,6 @@
         <value condition="!String.IsEmpty(Window(Home).Property(silokodi.banner.title))">$INFO[Window(Home).Property(silokodi.banner.number),,  ]$INFO[Window(Home).Property(silokodi.banner.channel)]</value>
         <value>$INFO[VideoPlayer.ChannelNumberLabel,,  ]$INFO[VideoPlayer.ChannelName]</value>
     </variable>
-
-    <variable name="SiloPeekTab5600">
-        <value condition="Control.HasFocus(5600)">FFEDEDED</value>
-        <value>80EDEDED</value>
-    </variable>
-    <variable name="SiloPeekTab5601">
-        <value condition="Control.HasFocus(5601)">FFEDEDED</value>
-        <value>80EDEDED</value>
-    </variable>
-    <variable name="SiloPeekTab5602">
-        <value condition="Control.HasFocus(5602)">FFEDEDED</value>
-        <value>80EDEDED</value>
-    </variable>
     <!-- end Silo Skyline TV guide -->
     <!-- Silo Skyline request browse (tools/build_requests.py) -->
     <variable name="SiloRequestPillMovies">
