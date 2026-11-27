@@ -2265,8 +2265,9 @@ def mini_card():
                 </control>"""
     # Quality on every card (the playlist's UHD channels; the playing one's own
     # stream), and the sound on the playing one's (Kodi knows only its stream).
-    badges = ''.join(badge % {'x': MINI_TX + 210 + n * 76, 'y': g + 116, 'w': 66, 'text': TEXT, 'label': label,
-                              'when': cond}
+    # The sound badge is wider: STEREO didn't fit a 66 px one.
+    badges = ''.join(badge % {'x': MINI_TX + 210 + n * 76, 'y': g + 116, 'w': 66 if n == 0 else 104, 'text': TEXT,
+                              'label': label, 'when': cond}
                      for n, label, cond in (
                          (0, '$VAR[SiloLiveQuality]', '%s + !String.IsEmpty(VideoPlayer.VideoResolution)' % playing),
                          (0, '$INFO[ListItem.Property(silo.quality)]', '!%s + !String.IsEmpty(ListItem.Property(silo.quality))' % playing),

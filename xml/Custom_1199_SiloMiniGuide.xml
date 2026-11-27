@@ -837,12 +837,12 @@
                     <visible>!String.IsEqual(ListItem.Property(silo.playing),1) + !String.IsEmpty(ListItem.Property(silo.quality))</visible>
                 </control>
                 <control type="image">
-                    <left>516</left><top>130</top><width>66</width><height>30</height>
+                    <left>516</left><top>130</top><width>104</width><height>30</height>
                     <texture border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texture>
                     <visible>String.IsEqual(ListItem.Property(silo.playing),1) + !String.IsEmpty(VideoPlayer.AudioChannels)</visible>
                 </control>
                 <control type="label">
-                    <left>516</left><top>130</top><width>66</width><height>30</height>
+                    <left>516</left><top>130</top><width>104</width><height>30</height>
                     <align>center</align><aligny>center</aligny>
                     <font>silo_badge</font>
                     <textcolor>FFEDEDED</textcolor>
