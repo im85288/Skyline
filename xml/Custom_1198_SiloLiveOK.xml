@@ -23,13 +23,21 @@
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
         </control>
-        <!-- The playing channel's tint from the bar down (as the old recent row's),
-             so the buttons, chips and card names read over a bright picture. -->
-        <control type="image">
-            <left>0</left><top>513</top><width>1920</width><height>567</height>
-            <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
+        <!-- Live TV's navy (LIVE_GLASS), solid from just above the bar down, as the
+             banner's and the mini TV guide's panels, with a short fade above it
+             (overlapping the solid, so there's no seam); a fade alone over the
+             whole lower half read as a faint shadow in the navy. -->
+        <control type="group">
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
+            <control type="image">
+                <left>0</left><top>453</top><width>1920</width><height>240</height>
+                <texture colordiffuse="$VAR[SiloLiveTint]">silo/scrim_bottom_white.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left><top>653</top><width>1920</width><height>427</height>
+                <texture colordiffuse="$VAR[SiloLiveTint]">colors/white.png</texture>
+            </control>
         </control>
         <control type="group">
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
