@@ -19,7 +19,30 @@
 				<width>640</width>
 				<height>128</height>
 				<texture border="28" colordiffuse="SkylineGlass">silo/menu_panel.png</texture>
+				<visible>![VideoPlayer.Content(LiveTV) + Window.IsActive(fullscreenvideo)]</visible>
 			</control>
+			<!-- Silo glass: notice -->
+			<control type="group">
+			    <visible>VideoPlayer.Content(LiveTV) + Window.IsActive(fullscreenvideo)</visible>
+			    <left>0</left><top>0</top>
+			    <control type="image">
+			        <left>-2</left><top>-2</top><width>644</width><height>132</height>
+			        <texture border="8" colordiffuse="8C000000">silo/guide_rim.png</texture>
+			    </control>
+			    <control type="image">
+			        <width>640</width><height>128</height>
+			        <texture border="8" colordiffuse="B3485A78">silo/guide_cell.png</texture>
+			    </control>
+			    <control type="image">
+			        <left>3</left><top>3</top><width>634</width><height>40</height>
+			        <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
+			    </control>
+			    <control type="image">
+			        <width>640</width><height>128</height>
+			        <texture border="8" colordiffuse="B3E6EEFF">silo/guide_rim.png</texture>
+			    </control>
+			</control>
+			<!-- end Silo glass: notice -->
 			<control type="image">
 				<left>24</left>
 				<top>24</top>

@@ -513,6 +513,28 @@
 		</control>
 	</include>
 	<include name="PVRChannelNumberInput">
+		<!-- Silo glass: number -->
+		<control type="group">
+		    <visible>!String.IsEmpty(PVR.ChannelNumberInput)</visible>
+		    <left>810</left><top>450</top>
+		    <control type="image">
+		        <left>-2</left><top>-2</top><width>304</width><height>184</height>
+		        <texture border="8" colordiffuse="8C000000">silo/guide_rim.png</texture>
+		    </control>
+		    <control type="image">
+		        <width>300</width><height>180</height>
+		        <texture border="8" colordiffuse="80485A78">silo/guide_cell.png</texture>
+		    </control>
+		    <control type="image">
+		        <left>3</left><top>3</top><width>294</width><height>40</height>
+		        <texture flipy="true" colordiffuse="1AFFFFFF">silo/scrim_bottom_white.png</texture>
+		    </control>
+		    <control type="image">
+		        <width>300</width><height>180</height>
+		        <texture border="8" colordiffuse="B3E6EEFF">silo/guide_rim.png</texture>
+		    </control>
+		</control>
+		<!-- end Silo glass: number -->
 		<control type="label">
 			<left>0</left>
 			<top>0</top>

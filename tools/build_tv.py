@@ -1671,7 +1671,7 @@ def recent_card(focused, list_id=None, w=None):
 # The banner's card, as Sky Stream's: a frosted blue-grey glass (Sky's lifts
 # a calm picture at about a quarter; at that, a busy one showed through the
 # text, so a darker blue-grey at half), over the window's dark fade.
-BANNER_GLASS = '80485A78'
+from glass import GLASS as BANNER_GLASS  # noqa: E402 (tools/glass.py: the one recipe)
 LIVE_GLASS = BANNER_GLASS  # the banner's frosted blue-grey everywhere (80 per cent navy until 2026-11-27)
 
 NEXT_UP = '!String.IsEmpty(Window(Home).Property(silokodi.next.title))'

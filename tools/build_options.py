@@ -15,6 +15,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from build_home import ROOT, TEXT, TEXT_DIM  # noqa: E402
+from glass import GLASS_TEXT, LIVE, raised_glass  # noqa: E402
 
 WINDOW_ID = 1180
 TAB = 'Window(Home).Property(silo.options.tab)'
@@ -319,12 +320,15 @@ def build():
         <control type="image">
             <left>%(px)d</left><top>%(pt)d</top><width>%(pw)d</width><height>%(ph)d</height>
             <texture border="28">silo/menu_panel.png</texture>
-        </control>%(panels)s
+            <visible>![%(live)s]</visible>
+        </control>
+        <!-- Over live TV, the banner's raised glass (tools/glass.py). -->%(glass)s%(panels)s
     </controls>
 </window>
 ''' % {'window': WINDOW_ID, 'tabs': tabs, 'panels': panels, 'px': PANEL_X, 'pt': PANEL_TOP,
        'pw': PANEL_W, 'ph': PANEL_H, 'tabs_top': TABS_TOP, 'tabs_inner': TABS_TOP + 8,
-       'track_x': (1920 - 900) // 2, 'track_w': 900}
+       'track_x': (1920 - 900) // 2, 'track_w': 900,
+       'live': LIVE, 'glass': raised_glass(PANEL_X, PANEL_TOP, PANEL_W, PANEL_H, GLASS_TEXT, LIVE)}
 
 
 VARIABLES = '''
