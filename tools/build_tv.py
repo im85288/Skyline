@@ -1304,7 +1304,7 @@ def banner():
     return '''		<!-- Silo Skyline Live TV banner (tools/build_tv.py) -->
 		<control type="group">
 			<!-- Not under the banner window (1183, Left/Right), which draws its own. -->
-			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !%(hidden)s + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(ok)d) + !Window.IsActive(%(banner_window)d)</visible>
+			<visible>VideoPlayer.Content(LiveTV) + [Player.ShowInfo | Window.IsActive(fullscreeninfo) | Player.ChannelPreviewActive] + !%(hidden)s + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(%(ok)d) + !Window.IsActive(%(mini)d) + !Window.IsActive(%(banner_window)d)</visible>
 			<animation effect="slide" start="0,120" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
 			<!-- As Sky's: a light fade under the banner, no black band, nothing at the top. -->
@@ -1314,7 +1314,7 @@ def banner():
 			</control>%(info)s
 		</control>
 		<!-- end Silo Skyline Live TV banner -->
-''' % {'ok': OK_ID, 'banner_window': BANNER_WINDOW, 'info': sky_banner(), 'hidden': LIVE_HIDDEN}
+''' % {'ok': OK_ID, 'mini': MINI_ID, 'banner_window': BANNER_WINDOW, 'info': sky_banner(), 'hidden': LIVE_HIDDEN}
 
 
 TIMER_START, TIMER_END = '    <!-- Silo Skyline TV (tools/build_tv.py) -->\n', '    <!-- end Silo Skyline TV -->\n'
@@ -1377,6 +1377,22 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <onstart>SetProperty(silo.recent.placed,1,home)</onstart>
         <stop>true</stop>
     </timer>
+    <!-- The mini TV guide (Right) opens on the playing channel, the list's first
+         (KodiConnectForSilo's mini_guide starts there; Kodi keeps a reloaded
+         list's place), unseen until then; it closes after %(mini_idle)d s without a key. -->
+    <timer>
+        <name>silo_mini_first</name>
+        <start reset="true">Window.IsActive(%(mini)d) + Integer.IsGreater(Container(%(mini_list)d).NumItems,0) + String.IsEmpty(Window(Home).Property(silo.mini.placed))</start>
+        <onstart>SetFocus(%(mini_list)d,0,absolute)</onstart>
+        <onstart>SetProperty(silo.mini.placed,1,home)</onstart>
+        <stop>true</stop>
+    </timer>
+    <timer>
+        <name>silo_mini_idle</name>
+        <start reset="true">Window.IsActive(%(mini)d) + System.IdleTime(%(mini_idle)d)</start>
+        <onstart>Dialog.Close(%(mini)d)</onstart>
+        <stop>true</stop>
+    </timer>
     <timer>
         <name>silo_live_unhide</name>
         <start reset="true">!String.IsEmpty(Window(Home).Property(silo.live.hidden)) + !Player.ShowInfo + !Player.ChannelPreviewActive</start>
@@ -1398,8 +1414,7 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
         <name>silo_live_right</name>
         <start reset="true">String.IsEqual(Window(Home).Property(silo.live.step),1)</start>
         <onstart>ClearProperty(silo.live.step,home)</onstart>
-        <onstart condition="!%(banner_up)s">SetProperty(silo.ok.from,row,home)</onstart>
-        <onstart condition="!%(banner_up)s">ActivateWindow(%(window)d)</onstart>
+        <onstart condition="!%(banner_up)s">ActivateWindow(%(mini)d)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">SetProperty(silo.live.for,$INFO[VideoPlayer.ChannelName],home)</onstart>
         <onstart condition="%(banner_up)s + !Window.IsActive(%(banner_window)d)">ActivateWindow(%(banner_window)d)</onstart>
         <onstart condition="%(banner_up)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=banner_step&amp;dir=1)</onstart>
@@ -1433,7 +1448,7 @@ def add_timers():
     text = open(path, encoding='utf-8').read()
     if TIMER_START in text:
         text = text[:text.index(TIMER_START)] + text[text.index(TIMER_END) + len(TIMER_END):]
-    text = text.replace('</timers>', TIMER_START + TIMERS % {'grid': GRID_ID, 'banner_up': BANNER_UP, 'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': OK_ID, 'list': RECENT_LIST, 'idle': OVERLAY_IDLE, 'play': PLAY_PAUSE, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
+    text = text.replace('</timers>', TIMER_START + TIMERS % {'grid': GRID_ID, 'banner_up': BANNER_UP, 'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': OK_ID, 'list': RECENT_LIST, 'idle': OVERLAY_IDLE, 'play': PLAY_PAUSE, 'mini': MINI_ID, 'mini_list': MINI_LIST, 'mini_idle': MINI_IDLE, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS}
                         + TIMER_END + '</timers>')
     open(path, 'w', encoding='utf-8').write(text)
 
@@ -1634,8 +1649,8 @@ def live_notes():
     in Kodi's player window (VideoFullScreen.xml), they never showed. On the
     skin's glass (menu_panel.png, themed), as the player's other panels.""" % OK_ID
     hidden = ('VideoPlayer.Content(LiveTV) + !Player.ChannelPreviewActive + !Window.IsActive(videoosd) + '
-              '!Window.IsActive(pvrosdchannels) + !Window.IsActive(%d) + !Window.IsActive(%d) + '
-              '!Window.IsActive(tvguide)' % (OK_ID, BANNER_WINDOW))
+              '!Window.IsActive(pvrosdchannels) + !Window.IsActive(%d) + !Window.IsActive(%d) + !Window.IsActive(%d) + '
+              '!Window.IsActive(tvguide)' % (OK_ID, MINI_ID, BANNER_WINDOW))
     return '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated by tools/build_tv.py: edit that, not this. -->
 <!-- Kodi opens and closes this dialog by its visible condition; with nothing
@@ -2196,6 +2211,175 @@ def build_ok():
                      'rows': rows, 'badges': overlay_badges(), 'tint_y': BAR_Y - 200, 'tint_h': 1080 - BAR_Y + 200}
 
 
+# Right in Live TV (2026-11-27), as Sky OS 2's Mini TV Guide: a panel on the right
+# of every channel by number, opening on the playing one (its row raised into a
+# card: what's on, LIVE, the channel, when it started with the stream's badges,
+# how far in, and what's next); Up / Down move through the channels (wrapping),
+# OK watches, Left closes, as does MINI_IDLE s without a key.
+MINI_ID, MINI_LIST = 1199, 5650
+MINI_IDLE = 10
+MINI_X = 1000                          # the panel's left edge (it fades in over MINI_FADE before it)
+MINI_FADE = 220
+MINI_ROW, MINI_CARD, MINI_GAP = 92, 262, 14
+MINI_FOCUS = 4                         # rows above the card
+MINI_TOP = 540 - (MINI_CARD + 2 * MINI_GAP) // 2 - MINI_FOCUS * MINI_ROW
+MINI_PANEL = 'F20C1224'                # the skin's dark navy glass, as the mock-up's
+MINI_TX = 230                          # the text's left, after the logo
+
+
+def mini_row():
+    """A channel's row: its logo and what's on."""
+    return """
+                <control type="image">
+                    <left>40</left><top>%(ly)d</top><width>150</width><height>44</height>
+                    <aspectratio align="left">keep</aspectratio>
+                    <texture>$INFO[ListItem.Icon]</texture>
+                </control>
+                <control type="label">
+                    <left>%(tx)d</left><top>0</top><width>%(tw)d</width><height>%(h)d</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
+                    <textcolor>C8EDEDED</textcolor>
+                    <label>$INFO[ListItem.Property(silo.now)]</label>
+                </control>""" % {'ly': (MINI_ROW - 44) // 2, 'tx': MINI_TX, 'tw': 1920 - MINI_X - MINI_TX - 90,
+                                 'h': MINI_ROW}
+
+
+def mini_card():
+    """The selected channel's card."""
+    g, w = MINI_GAP, 1920 - MINI_X - 70
+    live = 'String.IsEqual(ListItem.Property(silo.live),1)'
+    playing = 'String.IsEqual(ListItem.Property(silo.playing),1)'
+    tw = 1920 - MINI_X - MINI_TX - 110
+    title = """
+                <control type="label">
+                    <left>%%d</left><top>%(ty)d</top><width>%%d</width><height>50</height>
+                    <font>silo_row</font>
+                    <textcolor>%(text)s</textcolor>
+                    <label>$INFO[ListItem.Property(silo.now)]</label>
+                    <visible>%%s</visible>
+                </control>""" % {'ty': g + 22, 'text': TEXT}
+    badge = """
+                <control type="image">
+                    <left>%(x)d</left><top>%(y)d</top><width>%(w)d</width><height>30</height>
+                    <texture border="8" colordiffuse="%(text)s">silo/badge_outline.png</texture>
+                    <visible>%(when)s</visible>
+                </control>
+                <control type="label">
+                    <left>%(x)d</left><top>%(y)d</top><width>%(w)d</width><height>30</height>
+                    <align>center</align><aligny>center</aligny>
+                    <font>silo_badge</font>
+                    <textcolor>%(text)s</textcolor>
+                    <label>%(label)s</label>
+                    <visible>%(when)s</visible>
+                </control>"""
+    badges = ''.join(badge % {'x': MINI_TX + 210 + n * 76, 'y': g + 116, 'w': 66, 'text': TEXT, 'label': label,
+                              'when': '%s + %s' % (playing, cond)}
+                     for n, (label, cond) in enumerate((('$VAR[SiloLiveQuality]', '!String.IsEmpty(VideoPlayer.VideoResolution)'),
+                                                        ('$VAR[SiloLiveAudio]', '!String.IsEmpty(VideoPlayer.AudioChannels)'))))
+    return """
+                <control type="image">
+                    <left>20</left><top>%(g)d</top><width>%(w)d</width><height>%(ch)d</height>
+                    <texture border="20" colordiffuse="1EFFFFFF">silo/card_landscape_mask.png</texture>
+                </control>
+                <control type="image">
+                    <left>20</left><top>%(g)d</top><width>%(w)d</width><height>%(ch)d</height>
+                    <texture border="20" colordiffuse="50FFFFFF">silo/card_landscape_rim.png</texture>
+                </control>
+                <control type="image">
+                    <left>50</left><top>%(ly)d</top><width>160</width><height>56</height>
+                    <aspectratio align="left">keep</aspectratio>
+                    <texture>$INFO[ListItem.Icon]</texture>
+                </control>%(title_plain)s%(title_live)s
+                <control type="group">
+                    <left>%(tx)d</left><top>%(lvy)d</top>%(live_tag)s
+                </control>
+                <control type="label">
+                    <left>%(tx)d</left><top>%(cy)d</top><width>%(tw)d</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>CCEDEDED</textcolor>
+                    <label>$INFO[ListItem.Property(silo.channel)]</label>
+                </control>
+                <control type="label">
+                    <left>%(tx)d</left><top>%(sy)d</top><width>%(tw)d</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>CCEDEDED</textcolor>
+                    <label>$INFO[ListItem.Property(silo.started),Started at ]</label>
+                </control>%(badges)s
+                <control type="progress">
+                    <left>%(tx)d</left><top>%(py)d</top><width>%(tw)d</width><height>6</height>
+                    <texturebg colordiffuse="40FFFFFF">colors/white.png</texturebg>
+                    <midtexture colordiffuse="%(text)s">colors/white.png</midtexture>
+                    <info>ListItem.Property(silo.progress)</info>
+                </control>
+                <control type="label">
+                    <left>%(tx)d</left><top>%(ny)d</top><width>%(tw)d</width><height>34</height>
+                    <font>silo_detail</font>
+                    <textcolor>%(text)s</textcolor>
+                    <label>$INFO[ListItem.Property(silo.next),[COLOR BEEDEDED]Next:[/COLOR]  ]</label>
+                </control>
+                <control type="label">
+                    <left>%(tx)d</left><top>%(ny)d</top><width>%(tw)d</width><height>34</height>
+                    <align>right</align>
+                    <font>silo_detail</font>
+                    <textcolor>BEEDEDED</textcolor>
+                    <label>$INFO[ListItem.Property(silo.next_time)]</label>
+                </control>""" % {
+        'g': g, 'w': w, 'ch': MINI_CARD, 'ly': g + 34, 'tx': MINI_TX, 'tw': tw, 'text': TEXT,
+        'title_plain': title % (MINI_TX, tw, '!' + live), 'title_live': title % (MINI_TX + 76, tw - 76, live),
+        'lvy': g + 34, 'live_tag': live_badge(live, indent='                    '),
+        'cy': g + 78, 'sy': g + 114, 'badges': badges, 'py': g + 166, 'ny': g + 190}
+
+
+MINI_XML = """<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated by tools/build_tv.py: edit that, not this. Right in Live TV: the mini TV guide. -->
+<window id="%(id)d" type="dialog">
+    <defaultcontrol always="true">%(list)d</defaultcontrol>
+    <!-- The list reloads as it opens (timer silo_mini_first puts it on the playing channel). -->
+    <onload>ClearProperty(silo.mini.placed,home)</onload>
+    <onload>SetProperty(silokodi.recent_changed,$INFO[System.Time(hh:mm:ss)],home)</onload>
+    <controls>
+        <control type="group">
+            <animation effect="slide" start="%(slide)d,0" end="0,0" time="260" tween="cubic" easing="out">WindowOpen</animation>
+            <animation effect="slide" start="0,0" end="%(slide)d,0" time="200" tween="cubic" easing="in">WindowClose</animation>
+            <control type="image">
+                <left>%(fx)d</left><top>0</top><width>%(fw)d</width><height>1080</height>
+                <texture flipx="true" colordiffuse="%(panel)s">silo/scrim_side.png</texture>
+            </control>
+            <control type="image">
+                <left>%(x)d</left><top>0</top><width>%(w)d</width><height>1080</height>
+                <texture colordiffuse="%(panel)s">colors/white.png</texture>
+            </control>
+            <control type="wraplist" id="%(list)d">
+                <left>%(x)d</left><top>%(top)d</top><width>%(w)d</width><height>%(lh)d</height>
+                <orientation>vertical</orientation>
+                <focusposition>%(focus)d</focusposition>
+                <scrolltime tween="cubic" easing="out">220</scrolltime>
+                <onleft>Dialog.Close(%(id)d)</onleft><onright>noop</onright>
+                <content target="videos">plugin://plugin.video.kodiconnectforsilo/?mode=mini_guide&amp;v=$INFO[Window(Home).Property(silokodi.recent_changed)]</content>
+                <onclick>Dialog.Close(%(id)d)</onclick>
+                <onclick>SetProperty(silo.live.hide,1,home)</onclick>
+                <onclick>RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=play_channel&amp;id=$INFO[ListItem.Property(silo.channelid)])</onclick>
+                <animation effect="fade" start="100" end="0" time="0" condition="String.IsEmpty(Window(Home).Property(silo.mini.placed))">Conditional</animation>
+                <itemlayout height="%(row)d" width="%(w)d">%(row_xml)s
+                </itemlayout>
+                <focusedlayout height="%(card_h)d" width="%(w)d">%(card_xml)s
+                </focusedlayout>
+            </control>
+        </control>
+    </controls>
+</window>
+"""
+
+
+def build_mini():
+    return MINI_XML % {'id': MINI_ID, 'list': MINI_LIST, 'slide': 1920 - MINI_X + MINI_FADE,
+                       'fx': MINI_X - MINI_FADE, 'fw': MINI_FADE, 'x': MINI_X, 'w': 1920 - MINI_X,
+                       'panel': MINI_PANEL, 'top': MINI_TOP, 'lh': 1080 - MINI_TOP, 'focus': MINI_FOCUS,
+                       'row': MINI_ROW, 'card_h': MINI_CARD + 2 * MINI_GAP, 'row_xml': mini_row(),
+                       'card_xml': mini_card()}
+
+
 # Back in the guide (KodiConnectForSilo's player keymap opens this dialog,
 # as Back in the video window opens 1188): to what's playing, else Kodi's own
 # Back (leave the guide). Kodi's guide window takes Back before any control's
@@ -2268,6 +2452,8 @@ if __name__ == '__main__':
         handle.write(build_quick_guide())
     with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloLiveOK.xml' % OK_ID), 'w', encoding='utf-8') as handle:
         handle.write(build_ok())
+    with open(os.path.join(ROOT, 'xml', 'Custom_%d_SiloMiniGuide.xml' % MINI_ID), 'w', encoding='utf-8') as handle:
+        handle.write(build_mini())
     add_banner()
     add_live_notes()
     add_timers()

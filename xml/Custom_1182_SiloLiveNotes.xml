@@ -8,7 +8,7 @@
 	<controls>
 		<control type="group">
 			<left>1192</left><top>120</top><width>640</width><height>150</height>
-			<visible>VideoPlayer.Content(LiveTV) + !Player.ChannelPreviewActive + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(1198) + !Window.IsActive(1183) + !Window.IsActive(tvguide) + !String.IsEmpty(Window(Home).Property(silokodi.next.title))</visible>
+			<visible>VideoPlayer.Content(LiveTV) + !Player.ChannelPreviewActive + !Window.IsActive(videoosd) + !Window.IsActive(pvrosdchannels) + !Window.IsActive(1198) + !Window.IsActive(1199) + !Window.IsActive(1183) + !Window.IsActive(tvguide) + !String.IsEmpty(Window(Home).Property(silokodi.next.title))</visible>
 			<animation effect="slide" start="0,-40" end="0,0" time="220" tween="cubic" easing="out">Visible</animation>
 			<animation effect="fade" start="0" end="100" time="220">Visible</animation>
 			<animation effect="fade" start="100" end="0" time="160">Hidden</animation>
