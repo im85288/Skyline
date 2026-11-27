@@ -1639,7 +1639,7 @@ def recent_card(focused, list_id=None, w=None):
                         <left>%(live_x)d</left><top>14</top>%(live)s
                     </control>
                     <control type="progress">
-                        <left>14</left><top>%(bar)d</top><width>%(bw)d</width><height>5</height>
+                        <left>16</left><top>%(bar)d</top><width>%(bw)d</width><height>5</height>
                         <texturebg colordiffuse="33FFFFFF">colors/white.png</texturebg>
                         <midtexture colordiffuse="%(text)s">colors/white.png</midtexture>
                         <info>ListItem.Property(silo.progress)</info>
@@ -1656,8 +1656,8 @@ def recent_card(focused, list_id=None, w=None):
                     </control>
                 </control>''' % {'zoom': focus_zoom(lit, 16) if focused else '', 'w': w, 'ph': ph,
                                   'panel': PANEL, 'lw': w - 44, 'lh': ph - 90, 'has': has,
-                                  'logo_w': LOGO_H * 29 // 10, 'logo_h': LOGO_H, 'bar': ph - 5, 'bw': w - 28,
-                                  'tw': w - 32, 'ty': ph - 5 - 14 - 34, 'text': TEXT,
+                                  'logo_w': LOGO_H * 29 // 10, 'logo_h': LOGO_H, 'bar': ph - 16, 'bw': w - 32,
+                                  'tw': w - 32, 'ty': ph - 16 - 10 - 34, 'text': TEXT,
                                   'live_x': w - 14 - 60,
                                   'live': live_badge('String.IsEqual(ListItem.Property(silo.live),1)'),
                                   # Over the picture itself: focus_sheen sits 6 px in, as the

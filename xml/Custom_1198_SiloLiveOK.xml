@@ -621,14 +621,14 @@
                         </control>
                     </control>
                     <control type="progress">
-                        <left>14</left><top>305</top><width>524</width><height>5</height>
+                        <left>16</left><top>294</top><width>520</width><height>5</height>
                         <texturebg colordiffuse="33FFFFFF">colors/white.png</texturebg>
                         <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                         <info>ListItem.Property(silo.progress)</info>
                         <visible>Integer.IsGreater(ListItem.Property(silo.progress),0)</visible>
                     </control>
                     <control type="label">
-                        <left>16</left><top>257</top><width>520</width><height>34</height>
+                        <left>16</left><top>250</top><width>520</width><height>34</height>
                         <aligny>center</aligny>
                         <font>silo_card_title</font>
                         <textcolor>E6FFFFFF</textcolor>
@@ -695,7 +695,7 @@
                         </control>
                     </control>
                     <control type="progress">
-                        <left>14</left><top>305</top><width>524</width><height>5</height>
+                        <left>16</left><top>294</top><width>520</width><height>5</height>
                         <texturebg colordiffuse="33FFFFFF">colors/white.png</texturebg>
                         <midtexture colordiffuse="FFEDEDED">colors/white.png</midtexture>
                         <info>ListItem.Property(silo.progress)</info>
@@ -714,7 +714,7 @@
                     </control>
                 </control>
                     <control type="label">
-                        <left>16</left><top>257</top><width>520</width><height>34</height>
+                        <left>16</left><top>250</top><width>520</width><height>34</height>
                         <aligny>center</aligny>
                         <font>silo_card_title</font>
                         <textcolor>FFFFFFFF</textcolor>
