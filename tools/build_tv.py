@@ -1609,7 +1609,7 @@ def recent_card(focused, list_id=None, w=None):
 
 # Live TV's one background while watching: the mini TV guide's panel, the
 # banner's card, the overlay's shade and the notes' panel (dark navy glass).
-LIVE_GLASS = 'F20C1224'
+LIVE_GLASS = 'CC0C1224'  # 80 per cent (95 per cent, F2, until 2026-11-27)
 
 NEXT_UP = '!String.IsEmpty(Window(Home).Property(silokodi.next.title))'
 NOTES_ID = 1182  # the notes' dialog
@@ -1905,9 +1905,11 @@ OK_XML = """<?xml version="1.0" encoding="UTF-8"?>
     <onload>SetProperty(silokodi.recent_changed,$INFO[System.Time(hh:mm:ss)],home)</onload>
     <onunload>ClearProperty(silo.ok.from,home)</onunload>
     <controls>
+        <!-- A shade behind the title at the top only, as YouTube's (a 55 per cent black
+             over the whole screen dimmed the picture everywhere); the navy covers the foot. -->
         <control type="image">
-            <left>0</left><top>0</top><width>1920</width><height>1080</height>
-            <texture colordiffuse="8C000000">colors/white.png</texture>
+            <left>0</left><top>0</top><width>1920</width><height>%(top_h)d</height>
+            <texture flipy="true" colordiffuse="B3000000">silo/scrim_bottom.png</texture>
             <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="140">WindowClose</animation>
         </control>
@@ -2191,7 +2193,7 @@ def build_ok():
                      'rx': 1920 - SAFE_X - 600, 'live': live_badge('true', indent='                '),
                      'by': BAR_Y, 'by2': BAR_Y - 3, 'bfy': BAR_Y - 12, 'bw': 1920 - 2 * SAFE_X, 'bar': SEEK_BAR,
                      'play': PLAY_PAUSE, 'pills': pills, 'transport': transport, 'osd_anim': osd_anim, 'chips': chips,
-                     'rows': rows, 'badges': overlay_badges(), 'fade_y': BAR_Y - 60 - 200, 'fade_h': 240, 'solid_y': BAR_Y - 60,
+                     'rows': rows, 'badges': overlay_badges(), 'top_h': TITLE_Y + 76 + 40 + 140, 'fade_y': BAR_Y - 60 - 200, 'fade_h': 240, 'solid_y': BAR_Y - 60,
                      'solid_h': 1080 - (BAR_Y - 60)}
 
 

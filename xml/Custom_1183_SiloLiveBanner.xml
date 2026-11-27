@@ -13,7 +13,7 @@
                  overlay's and the notes'), with a faint rim, as Sky's. -->
             <control type="image">
                 <left>48</left><top>684</top><width>1824</width><height>360</height>
-                <texture border="8" colordiffuse="F20C1224">silo/guide_cell.png</texture>
+                <texture border="8" colordiffuse="CC0C1224">silo/guide_cell.png</texture>
             </control>
             <control type="image">
                 <left>48</left><top>684</top><width>1824</width><height>360</height>

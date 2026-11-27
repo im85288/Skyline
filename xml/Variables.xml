@@ -10460,10 +10460,10 @@
         <value>$INFO[VideoPlayer.AudioChannels,, CH]</value>
     </variable>
     <variable name="SiloLiveTint">
-        <value>F20C1224</value>
+        <value>CC0C1224</value>
     </variable>
     <variable name="SiloNoteTint">
-        <value>F20C1224</value>
+        <value>CC0C1224</value>
     </variable>
     <variable name="SiloNoteLabel">
         <value>FFEDEDED</value>
