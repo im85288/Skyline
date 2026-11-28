@@ -73,7 +73,7 @@ PAGE_FIELDS = {
 # Silo's libraries have 6 rows each: fewer slots keep Home.xml quick to load.
 # TV: KodiConnectForSilo's Recent channels, up to six guide groups (Freeview and Match day
 # both fit on a match day), Coming up live, Catch up and My teams.
-PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 10, 'custom': WIDGETS}
+PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 13, 'custom': WIDGETS}
 
 
 def published(page, slot):

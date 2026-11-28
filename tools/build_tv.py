@@ -65,7 +65,13 @@ LIVE_HIDDEN = '[String.IsEqual(Window(Home).Property(silo.live.hidden),VideoPlay
 
 PILL_BG = 'E6262A33'          # the group pills' dark fill
 ENDED = 'Integer.IsEqual(ListItem.Progress,100)'  # a programme that has finished
-NO_CATCHUP = ENDED + ' + !ListItem.IsPlayable'  # finished, and no catch-up to watch it back
+# A BBC channel's programme can be played from BBC iPlayer instead (KodiConnectForSilo's iplayer.py,
+# played by iPlayer WWW): finished, no catch-up, on one of the BBC's channels.
+IPLAYER_CHANNELS = ('BBC One', 'BBC Two', 'BBC News', 'BBC Three', 'BBC Four')
+ON_IPLAYER = ('[System.AddonIsEnabled(plugin.video.iplayerwww) + [%s]]'
+              % ' | '.join('String.IsEqual(ListItem.ChannelName,%s)' % c for c in IPLAYER_CHANNELS))
+NO_CATCHUP = ENDED + ' + !ListItem.IsPlayable + !' + ON_IPLAYER  # finished, and nothing to watch it back from
+IPLAYER_ONLY = ENDED + ' + !ListItem.IsPlayable + ' + ON_IPLAYER  # finished, no catch-up, but on iPlayer
 # More than a minute behind live: catch-up, or live TV paused or rewound (PVR.TimeShiftOffset is m:ss under an hour).
 BEHIND_LIVE = '[!String.IsEmpty(PVR.TimeShiftOffset) + !String.StartsWith(PVR.TimeShiftOffset,00:)]'
 
@@ -624,6 +630,9 @@ def build():
             <timeblocks>%(blocks)d</timeblocks>
             <rulerunit>6</rulerunit>
             <onup>SetFocus(%(rail)d)</onup>
+            <!-- A finished BBC programme with no catch-up: OK plays it from BBC iPlayer
+                 (KodiConnectForSilo's iplayer.py, by channel and start; iPlayer WWW plays it). -->
+            <onclick condition="%(iplayer_only)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=iplayer_epg&amp;channel=$INFO[ListItem.ChannelName]&amp;date=$INFO[ListItem.Date])</onclick>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
             <!-- Now: a white line at the current time from the rows down (clear over
                  the time row), its dot at the rows' top; what has aired isn't shaded
@@ -732,8 +741,9 @@ def build():
        'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X,
 
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
+       'iplayer_only': IPLAYER_ONLY,
        # A finished programme: watch it back (as the banner's OK key), or "Not on catch-up".
-       'guide_catchup': outline_badge('OK', ENDED + ' + ListItem.IsPlayable', top=3) + '''
+       'guide_catchup': outline_badge('OK', '[%s + ListItem.IsPlayable] | [%s]' % (ENDED, IPLAYER_ONLY), top=3) + '''
                 <control type="label">
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
@@ -746,10 +756,18 @@ def build():
                     <width>auto</width><height>36</height>
                     <aligny>center</aligny>
                     <font>silo_meta</font>
+                    <textcolor>%s</textcolor>
+                    <label>Watch on iPlayer</label>
+                    <visible>%s</visible>
+                </control>
+                <control type="label">
+                    <width>auto</width><height>36</height>
+                    <aligny>center</aligny>
+                    <font>silo_meta</font>
                     <textcolor>B3EDEDED</textcolor>
                     <label>Not on catch-up</label>
                     <visible>%s</visible>
-                </control>''' % (TEXT, ENDED, NO_CATCHUP),
+                </control>''' % (TEXT, ENDED, TEXT, IPLAYER_ONLY, NO_CATCHUP),
        'guide_quality': quality_badge('String.Contains(Window(Home).Property(silokodi.tv.uhd),ListItem.ChannelName)',
                                       '!String.IsEmpty(ListItem.ChannelName)'),
        'rail_quality': quality_badge('String.IsEqual(Container(%d).ListItem.Property(silo.quality),UHD)' % RAIL_ID,
@@ -995,7 +1013,8 @@ HINT = 'Window(Home).Property(silokodi.banner.hint)'
 # KodiConnectForSilo's hints (banner.py hint()) as Sky shows a key: the key
 # in an outline, then what it does, in white.
 HINT_ACTIONS = (('OK  Watch from the start', 'Watch from the start'), ('OK  Remind me', 'Remind me'),
-                ('OK  Watch', 'Watch'), ('Reminder set  ·  OK to remove', 'Remove reminder'))
+                ('OK  Watch', 'Watch'), ('Reminder set  ·  OK to remove', 'Remove reminder'),
+                ('OK  Watch on iPlayer', 'Watch on iPlayer'))
 
 
 def sky_key(key, text, condition):

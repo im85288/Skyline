@@ -212,7 +212,7 @@
                         <disabledcolor>FFEDEDED</disabledcolor>
                         <texturenofocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturenofocus>
                         <texturefocus border="8" colordiffuse="FFEDEDED">silo/badge_outline.png</texturefocus>
-                        <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + [String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch from the start) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Remind me) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),Reminder set  ·  OK to remove)]</visible>
+                        <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + [String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch from the start) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Remind me) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),Reminder set  ·  OK to remove) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch on iPlayer)]</visible>
                     </control>
                 <control type="label">
                     <width>auto</width><height>38</height>
@@ -220,7 +220,7 @@
                     <font>silo_card_sub</font>
                     <textcolor>FFEDEDED</textcolor><shadowcolor>CC000000</shadowcolor>
                     <label>$VAR[SiloBannerAction]</label>
-                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + [String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch from the start) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Remind me) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),Reminder set  ·  OK to remove)]</visible>
+                    <visible>!String.IsEmpty(Window(Home).Property(silokodi.banner.title)) + [String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch from the start) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Remind me) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),Reminder set  ·  OK to remove) | String.IsEqual(Window(Home).Property(silokodi.banner.hint),OK  Watch on iPlayer)]</visible>
                 </control>
                     <control type="button">
                         <top>4</top><width>auto</width><height>30</height>
