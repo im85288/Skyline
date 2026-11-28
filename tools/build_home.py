@@ -75,7 +75,7 @@ PAGE_FIELDS = {
 # Silo's libraries have 6 rows each: fewer slots keep Home.xml quick to load.
 # TV: KodiConnectForSilo's Recent channels, up to six guide groups (Freeview and Match day
 # both fit on a match day), Coming up live, Catch up and My teams.
-PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 14, 'custom': WIDGETS}
+PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 15, 'custom': WIDGETS}
 
 
 def published(page, slot):
@@ -2551,7 +2551,11 @@ HERO_STATIC = {'SiloHeroType': 'home.type', 'SiloHeroDbid': 'home.dbid', 'SiloHe
 HERO = [
     # The TV page's channel logo above its title: the focused card's channel
     # (KodiConnectForSilo's tv.logo), or the playing channel's (TV_HERO).
-    ('SiloTvLogo', [(None, '$INFO[LI.Property(home.tv.logo)]')]),
+    # An iPlayer card (KodiConnectForSilo's iplayer.py, hero line "BBC iPlayer") has
+    # no channel: the BBC iPlayer logo.
+    ('SiloTvLogo', [('String.IsEmpty(LI.Property(home.tv.logo)) + String.IsEqual(LI.Property(home.hero.meta),BBC iPlayer)',
+                     'silo/iplayer_logo.png'),
+                    (None, '$INFO[LI.Property(home.tv.logo)]')]),
     # The hero's title for its Play and More info buttons (a library title's).
     ('SiloHeroType', [(None, '$INFO[LI.DBType]')]),
     ('SiloHeroDbid', [(None, '$INFO[LI.DBID]')]),
