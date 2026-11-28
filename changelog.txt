@@ -1,3 +1,8 @@
+[B]0.36.0[/B]
+• TV guide: finished programmes with no catch-up are greyed out; the selected one shows "OK Watch from the start" or "Not on catch-up", as the banner
+• Live TV: when you're more than a minute behind live (catch-up, or live TV paused or rewound), Left goes 10 seconds back and Right 30 on; held, 5 minutes
+• Catch-up rewinding needs IPTV Simple's "Play catch-up as live" on
+
 [B]0.35.2[/B]
 • TV guide: no cut-off time at the left of the time row (the times are a little smaller)
 • TV guide: the programme's picture shows faintly behind the details and fades evenly down to the rows, with no grey band or block behind the times
