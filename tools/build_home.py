@@ -66,14 +66,16 @@ PAGE_FIELDS = {
     # picture's tint (the playlist server's), for the backdrop's wash.
     'tv': ('type', 'card.title', 'card.sub', 'card.wide_sub', 'hero.title', 'hero.meta', 'hero.facts', 'hero.detail', 'plot',
            'percent', 'left', 'tint',
-           'art.landscape', 'art.fanart', 'tv.play', 'tv.logo', 'tv.recent', 'tv.tag'),
+           'art.landscape', 'art.fanart', 'tv.play', 'tv.logo', 'tv.recent', 'tv.tag',
+           # an iPlayer Continue watching card's programme: its menu's Remove (KodiConnectForSilo)
+           'tv.iplayer'),
 }
 # Rows a page can show; Requests has Silo's Discover rows (six title rows,
 # then Studios, Networks and Genres), and every slot costs Home.xml size.
 # Silo's libraries have 6 rows each: fewer slots keep Home.xml quick to load.
 # TV: KodiConnectForSilo's Recent channels, up to six guide groups (Freeview and Match day
 # both fit on a match day), Coming up live, Catch up and My teams.
-PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 13, 'custom': WIDGETS}
+PAGE_ROWS = {'home': HOME_ROWS, 'movies': 8, 'series': 8, 'requests': 12, 'tv': 14, 'custom': WIDGETS}
 
 
 def published(page, slot):
