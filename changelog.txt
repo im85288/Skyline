@@ -1,3 +1,8 @@
+[B]0.38.0[/B]
+• TV page: an Ultra HD on iPlayer row (with the iPlayer WWW add-on)
+• TV page: the BBC iPlayer logo above an iPlayer programme's title
+• Needs KodiConnectForSilo 0.41.0
+
 [B]0.37.0[/B]
 • TV page: BBC iPlayer rows (with the iPlayer WWW add-on): Premier League highlights (your teams' first), Match of the Day, Continue watching on iPlayer (long OK: Remove) and Most popular
 • TV guide and banner: a finished BBC programme with no catch-up says "OK Watch on iPlayer" and plays from iPlayer
