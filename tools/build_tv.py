@@ -2567,9 +2567,10 @@ GUIDE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
 <!-- focus lands in MyPVRGuide.xml -->
 <window type="dialog" id="%(id)d">
     <onload>Dialog.Close(%(id)d,true)</onload>
-    <onload condition="Player.HasVideo + !PVR.IsPlayingEpgTag">Action(FullScreen)</onload>
-    <!-- A catch-up programme playing behind: stop it (back to it was a loop). -->
-    <onload condition="Player.HasVideo + PVR.IsPlayingEpgTag">PlayerControl(Stop)</onload>
+    <onload condition="Player.HasVideo + PVR.IsPlayingTV + !PVR.IsPlayingEpgTag">Action(FullScreen)</onload>
+    <!-- A catch-up programme, or one from BBC iPlayer (not TV), playing behind: stop it
+         (back to it was a loop: its Back comes here, and here sent it back). -->
+    <onload condition="Player.HasVideo + [PVR.IsPlayingEpgTag | !PVR.IsPlayingTV]">PlayerControl(Stop)</onload>
     <!-- Nothing playing: Kodi's own Back (leave the guide); its groups no longer show. -->
     <onload condition="!Player.HasVideo">Action(Back)</onload>
     <controls />
