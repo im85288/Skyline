@@ -517,11 +517,11 @@ PAUSE_BACK_WINDOW = '''<?xml version="1.0" encoding="UTF-8"?>
      Kodi's can only time out, after Display channel info's seconds). -->
 <window type="dialog" id="%(id)d">
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown)">Dialog.Close(%(id)d,true)</onload>
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !VideoPlayer.Content(LiveTV) + !PVR.IsPlayingEpgTag">Action(Back)</onload>
-    <!-- A programme from catch-up (the guide's Restart what's on now, the TV page's
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !VideoPlayer.Content(LiveTV) + !PVR.IsPlayingEpgTag + !String.StartsWith(Player.FilenameAndPath,plugin://plugin.video.iplayerwww)">Action(Back)</onload>
+    <!-- A programme from catch-up or BBC iPlayer (iPlayer WWW; the guide's Restart what's on now, the TV page's
          Catch up): stopped, as Live TV is; Kodi's Back went to the guide with it
          still playing, and the guide's Back went back to it. -->
-    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !VideoPlayer.Content(LiveTV) + PVR.IsPlayingEpgTag">PlayerControl(Stop)</onload>
+    <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + !VideoPlayer.Content(LiveTV) + [PVR.IsPlayingEpgTag | String.StartsWith(Player.FilenameAndPath,plugin://plugin.video.iplayerwww)]">PlayerControl(Stop)</onload>
     <onload condition="!Skin.TimerIsRunning(silo_pause_shown) + VideoPlayer.Content(LiveTV) + !%(note)s + !%(banner)s">PlayerControl(Stop)</onload>
     <onload condition="VideoPlayer.Content(LiveTV) + %(note)s">ClearProperty(silokodi.next.title,home)</onload>
     <onload condition="VideoPlayer.Content(LiveTV) + !%(note)s + %(banner)s">SetProperty(silo.live.hidden,$INFO[VideoPlayer.ChannelName],home)</onload>
