@@ -391,6 +391,17 @@
          PVR.TimeShiftOffset is m:ss under an hour, so "00:" is under a minute):
          Left / Right go 10 seconds back or 30 on, as Sky's, rather than the
          overlay and the mini guide. -->
+    <!-- OK in the TV guide (KodiConnectForSilo's keymap sets silo.guide.ok): a finished
+         BBC programme with no catch-up plays from BBC iPlayer (iplayer.py, by channel and
+         start; iPlayer WWW plays it), anything else Kodi's own OK. -->
+    <timer>
+        <name>silo_guide_ok</name>
+        <start reset="true">String.IsEqual(Window(Home).Property(silo.guide.ok),1)</start>
+        <onstart>ClearProperty(silo.guide.ok,home)</onstart>
+        <onstart condition="[Control.HasFocus(51) + Integer.IsEqual(ListItem.Progress,100) + !ListItem.IsPlayable + [System.AddonIsEnabled(plugin.video.iplayerwww) + [String.IsEqual(ListItem.ChannelName,BBC One) | String.IsEqual(ListItem.ChannelName,BBC Two) | String.IsEqual(ListItem.ChannelName,BBC News) | String.IsEqual(ListItem.ChannelName,BBC Three) | String.IsEqual(ListItem.ChannelName,BBC Four)]]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=iplayer_epg&amp;channel=$INFO[ListItem.ChannelName]&amp;date=$INFO[ListItem.Date])</onstart>
+        <onstart condition="![Control.HasFocus(51) + Integer.IsEqual(ListItem.Progress,100) + !ListItem.IsPlayable + [System.AddonIsEnabled(plugin.video.iplayerwww) + [String.IsEqual(ListItem.ChannelName,BBC One) | String.IsEqual(ListItem.ChannelName,BBC Two) | String.IsEqual(ListItem.ChannelName,BBC News) | String.IsEqual(ListItem.ChannelName,BBC Three) | String.IsEqual(ListItem.ChannelName,BBC Four)]]]">Action(Select)</onstart>
+        <stop>true</stop>
+    </timer>
     <!-- Held Left / Right (silo.live.step -2 / 2): skip 5 minutes back or on, as Sky's. -->
     <timer>
         <name>silo_live_skip_back</name>

@@ -630,9 +630,6 @@ def build():
             <timeblocks>%(blocks)d</timeblocks>
             <rulerunit>6</rulerunit>
             <onup>SetFocus(%(rail)d)</onup>
-            <!-- A finished BBC programme with no catch-up: OK plays it from BBC iPlayer
-                 (KodiConnectForSilo's iplayer.py, by channel and start; iPlayer WWW plays it). -->
-            <onclick condition="%(iplayer_only)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=iplayer_epg&amp;channel=$INFO[ListItem.ChannelName]&amp;date=$INFO[ListItem.Date])</onclick>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
             <!-- Now: a white line at the current time from the rows down (clear over
                  the time row), its dot at the rows' top; what has aired isn't shaded
@@ -741,7 +738,6 @@ def build():
        'edge_x': PANEL_X, 'edge_w': 1920 - PANEL_X,
 
        'guide_live': live_tag(genre_live('ListItem'), top=2, indent='                '),
-       'iplayer_only': IPLAYER_ONLY,
        # A finished programme: watch it back (as the banner's OK key), or "Not on catch-up".
        'guide_catchup': outline_badge('OK', '[%s + ListItem.IsPlayable] | [%s]' % (ENDED, IPLAYER_ONLY), top=3) + '''
                 <control type="label">
@@ -1416,6 +1412,17 @@ TIMERS = '''    <!-- Left and Right in Live TV (KodiConnectForSilo's keymap sets
          PVR.TimeShiftOffset is m:ss under an hour, so "00:" is under a minute):
          Left / Right go 10 seconds back or 30 on, as Sky's, rather than the
          overlay and the mini guide. -->
+    <!-- OK in the TV guide (KodiConnectForSilo's keymap sets silo.guide.ok): a finished
+         BBC programme with no catch-up plays from BBC iPlayer (iplayer.py, by channel and
+         start; iPlayer WWW plays it), anything else Kodi's own OK. -->
+    <timer>
+        <name>silo_guide_ok</name>
+        <start reset="true">String.IsEqual(Window(Home).Property(silo.guide.ok),1)</start>
+        <onstart>ClearProperty(silo.guide.ok,home)</onstart>
+        <onstart condition="%(grid_iplayer)s">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=iplayer_epg&amp;channel=$INFO[ListItem.ChannelName]&amp;date=$INFO[ListItem.Date])</onstart>
+        <onstart condition="!%(grid_iplayer)s">Action(Select)</onstart>
+        <stop>true</stop>
+    </timer>
     <!-- Held Left / Right (silo.live.step -2 / 2): skip 5 minutes back or on, as Sky's. -->
     <timer>
         <name>silo_live_skip_back</name>
@@ -1530,7 +1537,10 @@ def add_timers():
     text = open(path, encoding='utf-8').read()
     if TIMER_START in text:
         text = text[:text.index(TIMER_START)] + text[text.index(TIMER_END) + len(TIMER_END):]
-    text = text.replace('</timers>', TIMER_START + TIMERS % {'grid': GRID_ID, 'banner_up': BANNER_UP, 'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': OK_ID, 'list': RECENT_LIST, 'idle': OVERLAY_IDLE, 'play': PLAY_PAUSE, 'mini': MINI_ID, 'mini_list': MINI_LIST, 'mini_idle': MINI_IDLE, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS, 'behind': BEHIND_LIVE}
+    text = text.replace('</timers>', TIMER_START + TIMERS % {'grid': GRID_ID, 'banner_up': BANNER_UP, 'rail': RAIL_ID, 'banner_window': BANNER_WINDOW, 'window': OK_ID, 'list': RECENT_LIST, 'idle': OVERLAY_IDLE, 'play': PLAY_PAUSE, 'mini': MINI_ID, 'mini_list': MINI_LIST, 'mini_idle': MINI_IDLE, 'sched': SCHEDULE_ID, 'days': DAYS_ID, 'controls': CONTROLS, 'behind': BEHIND_LIVE,
+        # The selected programme is ListItem: in the guide's grid Container(51).ListItem is the
+        # channel's programme on now, not the one selected.
+        'grid_iplayer': '[Control.HasFocus(%d) + %s]' % (GRID_ID, IPLAYER_ONLY)}
                         + TIMER_END + '</timers>')
     open(path, 'w', encoding='utf-8').write(text)
 

@@ -1180,9 +1180,6 @@
             <timeblocks>25</timeblocks>
             <rulerunit>6</rulerunit>
             <onup>SetFocus(52)</onup>
-            <!-- A finished BBC programme with no catch-up: OK plays it from BBC iPlayer
-                 (KodiConnectForSilo's iplayer.py, by channel and start; iPlayer WWW plays it). -->
-            <onclick condition="Integer.IsEqual(ListItem.Progress,100) + !ListItem.IsPlayable + [System.AddonIsEnabled(plugin.video.iplayerwww) + [String.IsEqual(ListItem.ChannelName,BBC One) | String.IsEqual(ListItem.ChannelName,BBC Two) | String.IsEqual(ListItem.ChannelName,BBC News) | String.IsEqual(ListItem.ChannelName,BBC Three) | String.IsEqual(ListItem.ChannelName,BBC Four)]]">RunPlugin(plugin://plugin.video.kodiconnectforsilo/?mode=iplayer_epg&amp;channel=$INFO[ListItem.ChannelName]&amp;date=$INFO[ListItem.Date])</onclick>
             <scrolltime tween="cubic" easing="out">240</scrolltime>
             <!-- Now: a white line at the current time from the rows down (clear over
                  the time row), its dot at the rows' top; what has aired isn't shaded
