@@ -1,3 +1,9 @@
+[B]0.37.0[/B]
+• TV page: BBC iPlayer rows (with the iPlayer WWW add-on): Premier League highlights (your teams' first), Match of the Day, Continue watching on iPlayer (long OK: Remove) and Most popular
+• TV guide and banner: a finished BBC programme with no catch-up says "OK Watch on iPlayer" and plays from iPlayer
+• Back once stops an iPlayer programme (as catch-up); Back from the guide no longer loops back to it
+• Needs KodiConnectForSilo 0.40.0
+
 [B]0.36.0[/B]
 • TV guide: finished programmes with no catch-up are greyed out; the selected one shows "OK Watch from the start" or "Not on catch-up", as the banner
 • Live TV: when you're more than a minute behind live (catch-up, or live TV paused or rewound), Left goes 10 seconds back and Right 30 on; held, 5 minutes
